@@ -1,0 +1,39 @@
+= Retrieving documents
+:page-topic-type: concept
+
+[abstract]
+You can retrieve documents by using regular reads or replica reads.
+
+== Regular reads
+
+You perform regular reads by using the `get()` method.
+Regular reads enable you to retrieve a previously stored document from your active data set.
+
+The following example shows a regular read:
+
+[source,javascript]
+----
+var myBucket = myCluster.openBucket();
+myBucket.get(‘document_name’, function(err, res) {
+  if (err) {
+    console.log(‘operation failed’, err);
+    /*
+    operation failed { [Error: The key already exists in the server.] code: 12 }
+    */
+    return;
+  }
+  console.log(‘success!’, res);
+});
+----
+
+Sample output from the example:
+
+----
+success! { cas: { '0': 2565341184, '1': 3756057754 } }
+----
+
+== Replica reads
+
+You perform replica reads by using the `getReplica()` method.
+Replica reads enable you to retrieve a previously stored document by querying the replica copies of this document rather than the active one.
+This is not guaranteed to be consistent, but does permit a level of recovery in case the primary server is not reachable.

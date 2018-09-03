@@ -1,0 +1,341 @@
+= Release notes
+:page-topic-type: concept
+
+[abstract]
+Release notes for the 2.0 and 2.1 versions of the Node.js SDK.
+
+== Version 2.1.8 (June 13, 2016)
+
+Version 2.1.8 is the 8th release in the 2.1 series.
+
+*Fixed issues*
+
+* JSCBC-305: The use of `N1qlQuery.consistency` did not behave as expected and indicated that `N1qlQuery.consistentWith` was used in spite of it never having been called.
+
+== Version 2.1.7 (June 7, 2016)
+
+Version 2.1.7 is the 7th release in the 2.1 series.
+
+*Enhancements and behavioral changes*
+
+* JSCBC-275: Added experimental support for Full-Text Search querying (requires Couchbase Server 4.5.0).
+* JSCBC-304: Don't cache N1QL rows if nobody is listening for them.
+* JSCBC-291: Send an accurate client name to server for logging.
+* JSCBC-272: Added support for cluster level N1QL querying.
+* JSCBC-277: Added support for cluster level authentication.
+* JSCBC-300: Updated to latest libcouchbase release (2.6.0)
+
+*Known issues*
+
+* JSCBC-305: The use of `N1qlQuery.consistency` does not behave as expected and will indicate that `N1qlQuery.consistentWith` was used in spite of it never having been called.
+
+== Version 2.1.6 (May 3, 2016)
+
+Version 2.1.6 is the 6th release in the 2.1 series.
+
+*Enhancements and behavioral changes*
+
+* JSCBC-299: Properly send the bootstrap error to emitted based ops.
+* JSCBC-298: Corrected issue with sub-doc `contentByIndex`.
+* JSCBC-296: Improve handling of incorrectly formatted JSON from query.
+* JSCBC-281: Index management.
+* Updated to the latest dependant module versions.
+* Various minor bug fixes.
+
+*Known issues*
+
+* None
+
+== Version 2.1.5 (April 5, 2016)
+
+Version 2.1.5 is the 5th release in the 2.1 series.
+
+*Enhancements and behavioral changes*
+
+* JSCBC-290: Implement support for `n1qlTimeout` property.
+* Updated to the latest dependant module versions.
+
+*Known issues*
+
+* None
+
+== Version 2.1.4 (March 2016)
+
+Version 2.1.4 is the fourth release in the 2.1 series.
+
+Enhancements and behavioral changes:
+
+* JSCBC-274: Added experimental support for sub-document lookups and mutations.
+* JSCBC-283: Added experimental support for retrieving a MutationToken.
+* JSCBC-285: Don't error on invalid N1QL service replies.
+* JSCBC-287: Improved handling of custom transcoders.
+* JSCBC-284: Updated to libcouchbase 2.5.6.
+* Various minor bug fixes.
+
+Known issues
+
+* None
+
+== Version 2.1.3 (January 2016)
+
+Version 2.1.3 is the third release in the 2.1 series.
+
+Enhancements and behavioral changes:
+
+* CRUD APIs now return errors when unexpectedly large expiry dates are passed.
+* Fixed minor bug with durability polling behavior.
+* Added handling for unexpected N1QL server errors.
+* Updated to libcouchbase 2.5.4.
+* Various minor bug fixes.
+
+Known issues
+
+* None
+
+== Version 2.1.2 (October 2015)
+
+Version 2.1.2 is the second release in the 2.1 series.
+
+Enhancements and behavioral changes
+
+* Implemented the `prebuild` support for managing module binaries.
+* Fixed the `enableN1ql` bug that was causing crashes.
+* Updated `AUTHORS` file.
+* Fixed Mock view sorting and validated skip/limit values.
+* Fixed incorrect handling of `id_range` in Mock.
+* Added the `dateToArray` method to the Mock view query engine.
+* Fixed the incorrect error code usage in Mock.
+* Added environmental admin credential support to test harness.
+* Corrected `_makeExpiryDate` that was generating dates in Mock incorrectly.
+* Corrected minor build warnings on Windows.
+* Minor fixes to code documentation.
+
+Known issues
+
+* None
+
+== Version 2.1.0 (2 September 2015)
+
+Version 2.1.0 is the first release in the 2.1 series.
+
+Enhancements and behavioral changes
+
+* Added support for N1QL prepared statements
+* Added support for multidimensional scaling (MDS)
+* Added improved support for newest io.js versions
+* Updated all dependencies to latest stable releases
+* Updated internal libcouchbase version to 2.5.3
+
+Known issues
+
+* None
+
+== Version 2.0.12 (4 August 2015)
+
+Version 2.0.12 is an alias of 2.0.11 due to a publication failure.
+
+== Version 2.0.11 (4 August 2015)
+
+Version 2.0.11 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* Updated internal libcouchbase version to 2.5.2.
+
+Known issues
+
+* None
+
+== Version 2.0.10 (7 July 2015)
+
+Version 2.0.10 is an alias of 2.0.9 due to a publication failure.
+
+== Version 2.0.9 (7 July 2015)
+
+Version 2.0.9 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* No longer cache query rows when streaming.
+* Updated all dependencies to latest stable releases.
+* Updated internal libcouchbase version to 2.5.0.
+* Various minor bug fixes.
+
+Known issues
+
+* None
+
+== Version 2.0.8 (22 April 2015)
+
+Version 2.0.8 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* JSCBC-226: Add support for using N1QL with CB Server 4.0.0.
+* Added support for dumping the data in a mock bucket.
+* Updated internal libcouchbase version to 2.4.9.
+* Various minor bug fixes.
+
+Known issues
+
+* None
+
+== Version 2.0.7 (7 April 2015)
+
+Version 2.0.7 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* Added support for parameterized N1QL queries.
+* Added no-compiler support for Node 0.12.
+* Minor utility and bug fixes to internal mock engine.
+* Updated all dependencies to latest stable releases.
+* Updated internal libcouchbase version to 2.4.8 (with additional fixes).
+
+Known issues
+
+* None
+
+== Version 2.0.6 (3 March 2015)
+
+Version 2.0.6 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* Added support for marshalling CAS values to strings and JSON.
+* Added support for N1QL `scan_consistency`.
+* Corrected issue with Node.js 0.12 builds.
+* Updated internal libcouchbase version to 2.4.7.
+
+Known issues
+
+* None
+
+== Version 2.0.5 (3 February 2015)
+
+Version 2.0.5 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* Added support for [.api]`io.js` through nan@1.5.1.
+* Updated N1QL querying to support the N1QL DP4 release.
+* Corrected numerous incongruities in the mock testing interface.
+* Fix various documentation issues.
+
+Known issues
+
+* None
+
+== Version 2.0.4
+
+Version 2.0.4 is an emergency bug fix to correct build errors on OS X with the 2.0.3 release.
+
+== Version 2.0.3
+
+Version 2.0.3 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* JSCBC-175: Corrected behavior of group method.
+* Cluster constructor now accepts options to be encoded.
+* JSCBC-165: Added various missing ViewQuery methods.
+* JSCBC-167, JSCBC-168, JSCBC-169: Fixed various mock issues.
+* Updated internal libcouchbase version to 2.4.5.
+
+Known issues
+
+* None
+
+== Version 2.0.2
+
+Version 2.0.2 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* JSCBC-159: Prevent segfault when bucket connection fails.
+* Updated internal libcouchbase version to 2.4.4.
+
+Known issues
+
+* The querying interface for N1QL is currently not capable of streaming rows individually and instead only emits a single callback after all results have been aggregated.
+This is scheduled to be corrected shortly after the release of DP4 of the N1QL Query Engine.
+
+== Version 2.0.1
+
+Version 2.0.1 is a minor patch update to the 2.0 SDK.
+
+Enhancements and behavioral changes
+
+* Implement performance enhancement by delaying network flush till end of node frame.
+* Fixed issue with performing management operations prior to connection success.
+* Updated all library dependencies to latest versions.
+* Updated internal libcouchbase version to 2.4.3.
+* Fixed issue with N1QL query instantiation.
+* Made binding loader more resilient.
+* Removed references to expiry in append and prepend methods because they are not supported.
+* Clarified querying class documentation.
+* Added further documentation for management operations.
+
+Known issues
+
+* The querying interface for N1QL is currently not capable of streaming rows individually and instead only emits a single callback after all results have been aggregated.
+This is scheduled to be corrected shortly after the release of DP4 of the N1QL Query Engine.
+
+== Version 2.0.0
+
+Version 2.0.0 is the first GA release of the Node.js SDK version 2.0.
+
+Enhancements and behavioral changes
+
+* No changes since Beta 4.
+
+Known issues
+
+* Due to issues with OpenSSL, SSL support is currently disabled.
+* The querying interface for N1QL is currently not capable of streaming rows individually and instead only emits a single callback after all results have been aggregated.
+This is scheduled to be corrected shortly after the release of DP4 of the N1QL Query Engine.
+
+== Version 2.0 Beta 4
+
+Version 2.0 Beta 4 is the second beta release of the Node.js SDK version 2.0.
+This release includes only minor changes and bug fixes from the previous beta release.
+
+Enhancements and behavioral changes
+
+* Added support for cross-SDK data storage and retrieval.
+* Minor alterations to management API method names.
+* Fixed numerous minor bugs since beta.
+
+Known issues
+
+* Due to issues with OpenSSL, SSL support is currently disabled.
+* The querying interface for N1QL is currently not capable of streaming rows individually and instead only emits a single callback after all results have been aggregated.
+This is scheduled to be corrected shortly after the release of DP4 of the N1QL Query Engine.
+
+== Version 2.0 Beta 1
+
+Version 2.0 Beta 1 is the first beta release of the Node.js SDK version 2.0.
+This release includes new documentation, new API reference, and a tested interface that represents all committed features.
+Various uncommitted and experimental features might change prior to the final release of version 2.0.0.
+
+Enhancements and behavioral changes
+
+* A new API has been developed for this new release.
+This includes a more developer-friendly CRUD operation interface, improvements regarding view and N1QL queries, and an enhanced cluster and bucket management interface.
+See the documentation and API Reference for further details.
+* The view querying interface has been rewritten to permit streaming of rows as they are available rather than waiting for the whole result set before dispatching.
+* Many of the bulk operation methods have been removed (except for getMulti).
+These operations were previously available primarily for performance reasons, however this performance benefit has now been integrated into all operations.
+* The API Reference has been revamped to provide many more details regarding all events, classes and their methods.
+* Numerous performance enhancements have been made within the underlying library, libcouchbase, which powers the Node.js SDK.
+
+Known issues
+
+* Due to changes in the handling of document metadata, it is imperative that in mixed-version environments, all Node.js clients must be upgraded to a minimum of version 1.2.4 prior to deploying any 2.0.0 clients.
+* The built-in Mock testing interface has been updated to match the new API changes, however, the view mocking engine has not yet been ported.
+This means attempts to execute view queries against Mock will currently fail with a "not supported" exception.
+This will be ported prior to the GA release of 2.0.0.
+* The querying interface for N1QL is currently not capable of streaming rows individually and instead only emits a single callback after all results have been aggregated.
+This is scheduled to be corrected shortly after the release of DP4 of the N1QL Query Engine.
+* Specifying an incorrect number of servers for replica read or durability requirements will cause the operation to time out rather than emitting an error as intended.
+This is expected to be fixed following the libcouchbase 2.4.1 release.

@@ -1,0 +1,13 @@
+= Handling errors
+:page-topic-type: concept
+
+[abstract]
+All asynchronous methods within the SDK utilize the Node.js standard of the end-user.
+
+These mathods provide a callback function where the first parameter is an `Error` object to hold any exceptions that occur while the operation is being performed.
+No functions within the SDK should throw `Error` objects at any time.
+In addition, all `Error` objects produced by the Node.js SDK include a `code` property that can be used to quickly match and handle the error.
+
+The most common errors that occur are errors relating to keys existing when they shouldn't or not existing when they should.
+In addition to these common errors, connection or timeout related errors might occur.
+For more information about these, see xref:handling-timeouts.adoc[Handling timeouts] .

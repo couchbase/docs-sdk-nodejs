@@ -1,0 +1,32 @@
+= Updating documents
+:page-topic-type: concept
+
+[abstract]
+You can update a document by using the `upsert()` or `replace()` methods.
+
+The `replace()` method replaces a document that already exists with new contents.
+The `upsert()` method creates the document if it does not already exist.
+
+The following example shows how to update a document by using the `replace()` method:
+
+[source,javascript]
+----
+var myBucket = myCluster.openBucket();
+myBucket.replace('document_name', {some: 'value'}, function(err, res) {
+  if (err) {
+    console.log('operation failed', err);
+    /*
+    operation failed { [Error: The key does not exist on the server] code: 13 }
+    */
+    return;
+  }
+
+  console.log('success!', res);
+});
+----
+
+Sample output from the example:
+
+----
+success! { cas: { '0': 3085434880, '1': 1662465098 } }
+----

@@ -1,0 +1,63 @@
+= Quick start
+:page-topic-type: concept
+
+[abstract]
+Follow these instructions to download and install the tutorial application.
+
+This quick start will help you to set up the code and just follow along as you read through the rest of the tutorial.
+
+. Download http://www.couchbase.com/download[Couchbase Server^] and install it.
+Make sure to install the beer-sample bucket when you run the wizard because this tutorial application works with it.
+. Clone the repository and install dependencies (http://expressjs.com[Express^] and http://jade-lang.com[Jade^]):
++
+[source,bash]
+----
+$ git clone git://github.com/couchbaselabs/beersample-node
+Cloning into 'beersample-node' #...
+$ cd beersample-node
+$ npm install
+----
+
+. Set up the views.
++
+You can set up the views manually by using the Couchbase Server administration console or by invoking the [.path]_beer.js_ script located in the [.path]_beersample-node_ directory.
++
+To set up the views with the script, enter the following command:
+
+ $ node beer.js --setup
++
+To set up the views manually, open the Couchbase Server administration console.
+In the `beer` design document, create a development view called `by_name`, then promote it to a production view.
+(The beer-sample bucket might already have a production design document named beer with a by_name view.
+If it does, you can skip this step.) Here's the JavaScript map function for the view:
++
+[source,javascript]
+----
+function (doc, meta) {
+    if (doc.type && doc.type == "beer") {
+        emit(doc.name, null);
+    }
+}
+----
++
+Create another design document called `brewery`, add a view called `by_name`, and publish it to a production view.
+Here's the JavaScript map function for the view:
++
+[source,javascript]
+----
+function (doc, meta) {
+    if (doc.type && doc.type == "brewery") {
+        emit(doc.name, null);
+    }
+}
+----
+
+. Invoke the [.path]_beer.js_ script:
++
+[source,bash]
+----
+$ node beer.js
+Server running at http://127.0.0.1:1337/
+----
+
+. In your web browser, navigate to http://localhost:1337/welcome[^], and enjoy the application!
