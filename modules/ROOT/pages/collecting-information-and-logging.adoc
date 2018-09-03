@@ -1,0 +1,6 @@
+= Collecting Information and Logging in the Node.js SDK with Couchbase Server
+:navtitle: Collecting Information
+
+You may enable logging through the underlying C SDK:
+
+include::2.6@c-sdk::page$collecting-information-and-logging.adoc[tag=group]

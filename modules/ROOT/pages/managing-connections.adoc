@@ -1,56 +1,52 @@
-= Managing server connections
+= Managing Connections Using the Node.js SDK with Couchbase Server
+:navtitle: Managing Connections
 :page-topic-type: concept
 
 [abstract]
-To manage the server connections, you need to configure the client, connect to a bucket, and configure SSL.
+This section describes how to connect the Node.JS SDK to a Couchbase cluster and bucket.
+It contains best practices as well as information on the connection string,  SSL and other advanced connection options.
 
-== Configuring the client
+You can specify additional options when connecting to the cluster by using the _connection string_.
+The connection string indicates to the client where cluster nodes may be found and how to connect to them.
+The _connection string_ is common to other Couchbase SDKs as well as the xref:webui-cli-access.adoc[command-line client].
+The _connection string_ uses a URI-like format and is similar to a _DSN_ used in other database systems.
 
-To configure the client, instantiate a new `Cluster` object:
+== Creating a Cluster Object
 
-[source,javascript]
-----
-var couchbase = require('couchbase');
-var myCluster = new couchbase.Cluster('couchbase://10.4.4.1');
-----
-
-In addition to the connection string passed to the `Cluster` object, you can include a user name and password.
-The user name and password are required to perform management operations against your cluster.
-If you do not use the cluster management aspects of the SDK, the user name and password parameters are optional.
-Keep in mind that these credentials are the same ones you use to log in to the Couchbase administrator console, not those specified for the bucket itself.
-
-== Connecting to a bucket
-
-To connect to a bucket, call the `openBucket()` method against your `Cluster` instance, passing in the name of the bucket that you want to connect to.
-If no bucket name is specified, the default bucket is opened.
-The following example shows how to connect to a bucket:
+The [.api]`Cluster` object serves as an organizational unit for any [.api]`Bucket` objects created.
+As on the server each bucket is a member of a cluster, likewise in the SDK each [.api]`Bucket` object is a child of a [.api]`Cluster`.
+To create a cluster, construct it using a _connection string_, specifying the scheme and host(s) to connect to:
 
 [source,javascript]
 ----
 var couchbase = require('couchbase');
-var myCluster = new couchbase.Cluster();
-var myBucket = myCluster.openBucket('default');
+var cluster = new couchbase.Cluster('couchbase://10.0.0.1');
 ----
 
-In addition to the bucket name, you can optionally include the bucket password if one has been defined, as shown in the following example:
+== Connecting to a Bucket
+
+To connect to a bucket, invoke the [.api]`Cluster` object's [.api]`openBucket` call.
+The [.api]`openBucket` method takes a bucket name as an argument.
+If your bucket is protected by a password, pass it as the second parameter to [.api]`openBucket`.
+[.api]`openBucket` also accepts a function as its final argument which reports any connection errors which may happen between the creation of the [.api]`Bucket` object and the actual connection.
 
 [source,javascript]
 ----
-var couchbase = require('couchbase');
-var myCluster = new couchbase.Cluster();
-var myBucket = myCluster.openBucket('default', 'password');
+var bucket = cluster.openBucket('protectedBucket', 's3cr3t', function(err) {
+  if (err) {
+    console.error('Got error: %j', err);
+  }
+});
 ----
 
-To close the connection to a bucket, call its `disconnect()` method.
-This method queues the disconnection of all open connections and causes any pending operations to fail.
+== Disconnecting from a Bucket
 
-== Configuring SSL
+If the [.api]`Bucket` object is no longer needed, you should call the [.api]`Bucket.disconnect()` function.
+This will disconnect any existing TCP connections between the object and the server.
 
-To configure SSL, pass an SSL scheme with your connection string when creating your cluster object.
+== Scalability and Concurrency
 
-[source,javascript]
-----
-var couchbase = require('couchbase');
-var myCluster = new couchbase.Cluster('couchbases://10.1.1.1');
-var myBucket = myCluster.openBucket();
-----
+Creating a new [.api]`Bucket` object is relatively expensive, and keeping many idle [.api]`Bucket` objects will negatively impact server performance (if done at a large scale).
+Typically your application will require only one [.api]`Bucket` instance per Couchbase bucket
+
+include::2.6@c-sdk::page$managing-connections.adoc[tag=group]

@@ -1,0 +1,29 @@
+= Handling Exceptions and Other Errors with the Node.js SDK in Couchbase
+:navtitle: Handling Errors
+
+When an operation fails, its callback will be invoked with a non-empty error argument.
+
+== Anatomy of an Error object
+
+When an operation fails, its callback will be invoked with a non-empty error argument.
+An [.api]`Error` object contains a [.var]`message` property which provides a textual description of the message as well as a [.var]`code` property which contains the actual error code.
+
+The [.api]`couchbase.errors` package contains the possible errors which may be found in the [.var]`code` property.
+
+[source,javascript]
+----
+var errors = couchbase.errors;
+cb.get('docid', function(err, result) {
+  if (err) {
+    if (err.code == errors.keyNotFound) {
+      httpError(404);
+    } else if (err.code == errors.temporaryError) {
+      httpError(503);
+    } else {
+      httpError(500, err.message);
+    }
+  }
+});
+----
+
+include::4.5@sdk:shared:partial$couchbase-errors.adoc[tag=group]
