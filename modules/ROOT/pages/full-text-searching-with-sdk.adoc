@@ -5,10 +5,8 @@
 Using the Node.js SDK, you can use the Couchbase Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 
 Couchbase offers Full-text search support, allowing you to search for documents that contain certain words or phrases.
-A general introduction to FTS, with pointers to detailed descriptions of its principal features, is provided in xref:4.6@server:fts:full-text-intro.adoc[Full Text Search: Fundamentals].
+A general introduction to FTS, with pointers to detailed descriptions of its principal features, is provided in xref:5.1@server:fts:full-text-intro.adoc[Full Text Search: Fundamentals].
 In the Node.js SDK you can search full-text indexes by using the [.api]`SearchQuery` object and executing it with the [.api]`Bucket.query()` API.
-
-include::4.6@sdk:shared:partial$experimental-pars.adoc[tag=fts]
 
 The following example shows how to send a simple Search query:
 
@@ -40,7 +38,7 @@ bucket.query(…, function(err, res, meta) {
 == Query Types
 
 Query types may be found within the `SearchQuery` class.
-The package contains query classes corresponding to those enumerated in xref:4.6@server:fts:fts-query-types.adoc[Types of Queries].
+The package contains query classes corresponding to those enumerated in xref:5.1@server:fts:fts-query-types.adoc[Query Types].
 The query object should be instantiated by using the associated function matching the type of query you wish to create (i.e.: `SearchQuery.term()` for a TermQuery), passing the search term (usually a string) as the first argument, followed by some query modifiers.
 
 It is important to distinguish between _query options_ and general _search options_.
@@ -66,8 +64,8 @@ bucket.query(query, function(err, res, meta) {
 The code example below demonstrates the Node.js SDK Full Text Search API.
 The example assumes that Couchbase Server is running, and that the username `Administrator` and the password `password` provide authorization for performing the searches.
 It also assumes that the `travel-sample` bucket has been installed.
-For information on creating users and managing roles, see xref:4.6@server:security:security-authorisation.adoc[Authorization].
-For information on installing sample buckets, see xref:4.6@server:settings:settings.adoc[Settings].
+For information on creating users and managing roles, see xref:5.1@server:security:security-authorization.adoc[Authorization].
+For information on installing sample buckets, see xref:5.1@server:settings:settings.adoc[Settings].
 
 The example also assumes the existence of three specific Full Text Indexes, defined on the `travel-sample` bucket.
 These are:
@@ -77,7 +75,8 @@ These are:
 * `travel-sample-index-hotel-description`: Indexes only the `description` fields of `hotel` documents, and disables the `default` type mapping.
 The index has a custom analyzer named `myUnicodeAnalyzer` defined on it: the analyzer's main characteristic is that it uses the *unicode* tokenizer.
 
-See xref:4.6@server:fts:fts-creating-indexes.adoc[Creating Indexes] for details on how to create these indexes: they can be created interactively, by means of the Couchbase Web Console; however, there may be greater efficiency in using the Couchbase REST API, as described in the section xref:4.6@server:fts:fts-creating-indexes.adoc#index-creation-with-the-rest-api[Index Creation with the REST API].
+See xref:5.1@server:fts:fts-creating-indexes.adoc[Creating Indexes] for details on how to create these indexes: they can be created interactively, by means of the Couchbase Web Console; however, there may be greater efficiency in using the Couchbase REST API, as described in the section xref:5.1@server:fts:fts-creating-indexes.adoc#index-creation-with-the-rest-api[Index Creation with the REST API].
+The JSON objects that constitute index-definitions (for inclusion as bodies to the index-creation REST calls), are provided in xref:5.1@server:fts:fts-demonstration-indexes.adoc[Demonstration Indexes].
 
 The example features the following Full Text Searches on the `travel-sample` bucket, within Couchbase Server:
 

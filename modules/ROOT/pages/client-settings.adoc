@@ -14,4 +14,4 @@ The unsupported [.api]`Bucket._cntl` and [.api]`Bucket._cntlstring` may be used 
 
 Below follows the C settings section:
 
-include::2.7@c-sdk::page$client-settings.adoc[tag=group]
+include::2.8@c-sdk::page$client-settings.adoc[tag=group]

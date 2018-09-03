@@ -34,7 +34,7 @@ bucket.query(query, ['Monty Python'], function(err, rows) {
 ----
 
 In the above, the second argument passed is the parameter list for the placeholders.
-Placeholders can either be specified as `$1`, `$2`, `$3`, etc for positional parameters, which must be passed in an array; or they can be specified as `$name`, `$email`, etc for named parameters, which must be passed as an object.
+Placeholders can either be specified as `$1`, `$2`, `$3`, etc for positional parameters which must be passed in an array or they can be specified as `$name`, `$email`, etc for named parameters which must be passed as an object.
 A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
 
 == Streaming rows

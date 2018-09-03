@@ -23,6 +23,16 @@ var couchbase = require('couchbase');
 var cluster = new couchbase.Cluster('couchbase://10.0.0.1');
 ----
 
+== Authenticating
+
+From Couchbase Server 5.0, you will need to authenticate the user, rather than against the bucket, as part of xref:5.1@server:security:security-authorization.adoc[Role-Based Access Control].
+You will need to use `cluster.authenticate`:
+
+[source,nodejs]
+----
+cluster.authenticate('USERNAME', 'PASSWORD');
+----
+
 == Connecting to a Bucket
 
 To connect to a bucket, invoke the [.api]`Cluster` object's [.api]`openBucket` call.
@@ -32,7 +42,7 @@ If your bucket is protected by a password, pass it as the second parameter to [.
 
 [source,javascript]
 ----
-var bucket = cluster.openBucket('protectedBucket', 's3cr3t', function(err) {
+var bucket = cluster.openBucket('protectedBucket', function(err) {
   if (err) {
     console.error('Got error: %j', err);
   }
@@ -49,4 +59,4 @@ This will disconnect any existing TCP connections between the object and the ser
 Creating a new [.api]`Bucket` object is relatively expensive, and keeping many idle [.api]`Bucket` objects will negatively impact server performance (if done at a large scale).
 Typically your application will require only one [.api]`Bucket` instance per Couchbase bucket
 
-include::2.7@c-sdk::page$managing-connections.adoc[tag=group]
+include::2.8@c-sdk::page$managing-connections.adoc[tag=group]

@@ -1,7 +1,7 @@
 = Managing Clusters using the Node SDK with Couchbase Server
 :navtitle: Managing Clusters
 
-include::4.6@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Node SDK also comes with some convenience functionality for common Couchbase management requests.
 
@@ -70,7 +70,7 @@ manager.removeBucket("hello", function(err) {
 [#node-flushing]
 == Flushing Buckets
 
-include::4.6@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
 You may flush a bucket in the Node SDK by using the [.api]``BucketManager``'s [.api]`flush()` method:
 
@@ -91,7 +91,7 @@ The [.api]`flush` operation may notably fail if the bucket does not have flush e
 [#node-view-management]
 == View Management
 
-include::4.6@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
 
 To create a view, you can use the `manager()` method of your bucket instance to retrieve a `BucketManager` instance.
 After you have a `BucketManager` instance, invoke the `upsertDesignDocument` method to store the design document for later querying.
@@ -154,7 +154,7 @@ var ddocdata = {
 };
 ----
 
-include::4.6@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
 
 Here is an example of deleting a view from an existing document, which follows the same principle:
 
