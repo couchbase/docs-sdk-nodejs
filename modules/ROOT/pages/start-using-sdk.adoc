@@ -4,7 +4,7 @@
 == Installing the Server
 
 Install Couchbase Server first, if you haven't done so already.
-Refer to the xref:4.5@server:getting-started:installing.adoc[quick installation guide] for server installation instructions.
+Refer to the xref:4.6@server:getting-started:installing.adoc[quick installation guide] for server installation instructions.
 
 [#install-node]
 == Installing the SDK
@@ -66,7 +66,7 @@ The returned [.api]`Bucket` object is then used to perform document operations, 
 
 == Additional Resources
 
-* An API reference is generated for each release and can be found at http://docs.couchbase.com/sdk-api/couchbase-node-client-2.2.1[^]
+* An API reference is generated for each release and can be found at http://docs.couchbase.com/sdk-api/couchbase-node-client-2.5.0[^]
 * The source code repsitory is at https://github.com/couchbase/couchnode[^] where you can see all the latest development.
 You can also contribute to the project - follow instructions in the source repository
 

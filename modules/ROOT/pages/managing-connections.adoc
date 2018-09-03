@@ -49,4 +49,4 @@ This will disconnect any existing TCP connections between the object and the ser
 Creating a new [.api]`Bucket` object is relatively expensive, and keeping many idle [.api]`Bucket` objects will negatively impact server performance (if done at a large scale).
 Typically your application will require only one [.api]`Bucket` instance per Couchbase bucket
 
-include::2.6@c-sdk::page$managing-connections.adoc[tag=group]
+include::2.7@c-sdk::page$managing-connections.adoc[tag=group]
