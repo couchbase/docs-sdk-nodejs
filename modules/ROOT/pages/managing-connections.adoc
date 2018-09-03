@@ -25,7 +25,7 @@ var cluster = new couchbase.Cluster('couchbase://10.0.0.1');
 
 == Authenticating
 
-From Couchbase Server 5.0, you will need to authenticate the user, rather than against the bucket, as part of xref:5.1@server:security:security-authorization.adoc[Role-Based Access Control].
+From Couchbase Server 5.0, you will need to authenticate the user, rather than against the bucket, as part of xref:6.0@server:security:security-authorization.adoc[Role-Based Access Control].
 You will need to use `cluster.authenticate`:
 
 [source,nodejs]

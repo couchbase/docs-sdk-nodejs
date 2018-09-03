@@ -4,7 +4,7 @@
 == Installing the Server
 
 Install Couchbase Server first, if you haven't done so already.
-Refer to the xref:5.1@server:install:install-intro.adoc[installation guide] for server installation instructions.
+Refer to the xref:6.0@server:install:install-intro.adoc[installation guide] for server installation instructions.
 
 [#install-node]
 == Installing the SDK

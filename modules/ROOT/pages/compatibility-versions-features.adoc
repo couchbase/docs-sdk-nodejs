@@ -106,4 +106,4 @@ Version 1.0 of the Couchbase Node.js SDK is no longer supported.
 It is recommended if you are still using this version to upgrade as soon as possible to the latest version of the SDK.
 See the http://www.couchbase.com/support-policy[Couchbase Support Policy^] for details.
 
-include::5.1@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+include::6.0@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]

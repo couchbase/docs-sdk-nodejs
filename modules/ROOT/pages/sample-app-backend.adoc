@@ -29,8 +29,8 @@ To get set up for the tutorial proper, follow these steps:
 This tutorial focuses on querying through N1QL and FTS rather than map-reduce views.
 If you want information about using views, see the following resources:
 
-* General Information about views: xref:5.1@server:architecture:incremental-map-reduce-views.adoc[Incremental MapReduce Views]
-* Querying views: xref:5.1@server:indexes:querying-using-map-reduce-views.adoc[Querying using MapReduce views]
+* General Information about views: xref:6.0@server:architecture:incremental-map-reduce-views.adoc[Incremental MapReduce Views]
+* Querying views: xref:6.0@server:indexes:querying-using-map-reduce-views.adoc[Querying using MapReduce views]
 ====
 
 == Walking Through the API
