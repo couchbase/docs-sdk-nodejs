@@ -20,7 +20,7 @@ npm install couchbase
 On the Windows platform using Node.js versions prior to 6.0, manual installation of OpenSSL and the <<standalone-lcb,C SDK (libcouchbase)>> is required.
 It is recommended to use Node.js 6.0 and later.
 
-Information on new features, fixes, known issues as well as information on how to install older release versions is link:/server/other-products/release-notes-archives/nodejs-sdk[in the release notes].
+Information on new features, fixes, known issues as well as information on how to install older release versions is xref:relnotes-nodejs-sdk.adoc[in the release notes].
 
 [#using-node]
 == Hello Couchbase
