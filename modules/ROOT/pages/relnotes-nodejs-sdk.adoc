@@ -357,7 +357,7 @@ RBAC user management with new API endpoints.
 Implemented method to allow flushing of the query cache.
 * http://issues.couchbase.com/browse/JSCBC-375[JSCBC-375]: Exposed
 all libcouchbase error codes to Node.js.
-* http://issues.couchbase.com/browse/JSCBC-358[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-371[71]:
+* http://issues.couchbase.com/browse/JSCBC-371[JSCBC-371]:
 Update to libcouchbase v2.7.4.
 * Various minor bug fixes
 
@@ -374,9 +374,9 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client-2.3.2/[API Reference]
 
 === Fixed Issues
 
-* http://issues.couchbase.com/browse/JSCBC-352[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-361[61]:
+* http://issues.couchbase.com/browse/JSCBC-361[JSCBC-361]:
 Implement experimental role-based user management.
-* http://issues.couchbase.com/browse/JSCBC-358[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-363[63]:
+* http://issues.couchbase.com/browse/JSCBC-363[JSCBC-363]:
 Update to libcouchbase v2.7.3.
 * Various minor bug fixes
 
