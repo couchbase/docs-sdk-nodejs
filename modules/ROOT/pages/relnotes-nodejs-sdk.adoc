@@ -302,13 +302,13 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client-2.3.5/[API Reference]
 
 === Fixed Issues
 
-* http://issues.couchbase.com/browse/JSCBC-342[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-395[95]:
+* http://issues.couchbase.com/browse/JSCBC-395[JSCBC-395]:
 Fixed issue causing buildDeferredIndexes to error.
-* http://issues.couchbase.com/browse/JSCBC-365[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-396[96]:
+* http://issues.couchbase.com/browse/JSCBC-396[JSCBC-396]:
 Fixed issue where getIndexes returned unexpected indexes.
-* http://issues.couchbase.com/browse/JSCBC-381[JSCBC-38]http://issues.couchbase.com/browse/JSCBC-384[4]:
+* http://issues.couchbase.com/browse/JSCBC-384[JSCBC-384]:
 Implemented experimental 5.0.0 user management API.
-* http://issues.couchbase.com/browse/JSCBC-382[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-386[86]:
+* http://issues.couchbase.com/browse/JSCBC-386[JSCBC-386]:
 Fixed issue with subdoc legacy createParents.
 * Various minor bug fixes
 
@@ -433,7 +433,7 @@ $ npm install couchbase@2.2.5
 
 === Fixed Issues
 
-* http://issues.couchbase.com/browse/JSCBC-339[JSCBC-3]http://issues.couchbase.com/browse/JSCBC-340[40]:
+* http://issues.couchbase.com/browse/JSCBC-340[JSCBC-340]:
 Added queue data-structure support.
 * http://issues.couchbase.com/browse/JSCBC-328[JSCBC-328]: Fix bug
 with cluster management error handling.
