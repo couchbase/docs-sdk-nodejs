@@ -31,7 +31,10 @@ npm install couchbase --couchbase-root=/opt/libcouchbase-2.9.3
 == Version 2.6.0 (27 July 2018)
 
 Version 2.6.0 is the first general availability release of the
-2.6 series. It adds support for the upcoming Couchbase Server 6.0.
+2.6 series. It adds support for the upcoming Couchbase Server 6.0's
+features such as the new Analytics Service, improvements to
+Full Text Search, support for more complex network configurations
+along with many small improvements and fixes.
 
 [source,bash]
 ----
@@ -43,9 +46,13 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.0/[API Reference]
 === New Features
 
 * http://issues.couchbase.com/browse/JSCBC-497[JSCBC-497]:
-Added expanded support for Couchbase Analytics.
+Added expanded support for Couchbase Analytics, including parameterized
+queries, support for rebalancing your analytics nodes and improved
+customization of your analytics query performance.
 * http://issues.couchbase.com/browse/JSCBC-508[JSCBC-508]:
-Added helper for specifying custom N1QL query options.
+Added ability to specify custom N1QL query options via a new
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.0/N1qlStringQuery.html#rawParam[rawParam]
+options.
 
 === Fixed Issues
 
