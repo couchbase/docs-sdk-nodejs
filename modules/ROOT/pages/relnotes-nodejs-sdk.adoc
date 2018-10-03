@@ -28,7 +28,7 @@ specify the path to the install root on the command line:
 npm install couchbase --couchbase-root=/opt/libcouchbase-2.9.3
 ----
 
-== Version 2.6.0 (27 July 2018)
+== Version 2.6.0 (2 October 2018)
 
 Version 2.6.0 is the first general availability release of the
 2.6 series. It adds support for the upcoming Couchbase Server 6.0's
