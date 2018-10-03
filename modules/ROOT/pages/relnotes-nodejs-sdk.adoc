@@ -28,6 +28,51 @@ specify the path to the install root on the command line:
 npm install couchbase --couchbase-root=/opt/libcouchbase-2.9.3
 ----
 
+== Version 2.6.0 (27 July 2018)
+
+Version 2.6.0 is the first general availability release of the
+2.6 series. It adds support for the upcoming Couchbase Server 6.0's
+features such as the new Analytics Service, improvements to
+Full Text Search, support for more complex network configurations
+along with many small improvements and fixes.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.0/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-497[JSCBC-497]:
+Added expanded support for Couchbase Analytics, including parameterized
+queries, support for rebalancing your analytics nodes and improved
+customization of your analytics query performance.
+* http://issues.couchbase.com/browse/JSCBC-508[JSCBC-508]:
+Added ability to specify custom N1QL query options via a new
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.0/N1qlStringQuery.html#rawParam[rawParam]
+option.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-506[JSCBC-506]:
+Fixed gets showing as stores in traces.
+* http://issues.couchbase.com/browse/JSCBC-505[JSCBC-505]:
+Fixed issue where Node.js event loop could get stuck running.
+* http://issues.couchbase.com/browse/JSCBC-502[JSCBC-502]:
+Fixed touch operations doing getAndTouch instead.
+* http://issues.couchbase.com/browse/JSCBC-510[JSCBC-510]:
+Fixed dropPrimaryIndex throwing exceptions.
+* http://issues.couchbase.com/browse/JSCBC-509[JSCBC-509]:
+Exposed some internal builders for promisification.
+* http://issues.couchbase.com/browse/JSCBC-500[JSCBC-500]:
+Added additional documentation to Bucket.mutateIn method.
+* http://issues.couchbase.com/browse/JSCBC-499[JSCBC-499]:
+Clarified options for Bucket.lookupIn method.
+* http://issues.couchbase.com/browse/JSCBC-507[JSCBC-507]:
+Updated to latest libcouchbase (2.9.5).
+
 == Version 2.5.1 (27 July 2018)
 
 Version 2.5.1 is the first maintenance release of the 2.5 series.
