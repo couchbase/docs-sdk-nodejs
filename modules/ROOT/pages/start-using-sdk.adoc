@@ -15,7 +15,7 @@ The installation process will build `libcouchbase` (LCB) and other dependencies 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 6.x, 8.x, and 10.x.
 On the Windows platform, it may be necessary to https://developercommunity.visualstudio.com/content/problem/249011/update-nodeexe-at-least-from-541-to-6x-version.html[update the version of Node.js that Visual Studio points to].
 
-The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], and Nodesource provides https://github.com/nodesource/distributions/blob/master/README.md[instructions for each Linux distribution].
+The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], and Nodesource provides https://github.com/nodesource/distributions/blob/master/README.md[instructions for each Linux distribution] that Couchbase supports.
 
 // end::prep[]
 
