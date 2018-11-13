@@ -12,14 +12,8 @@ Refer to the xref:6.0@server:install:install-intro.adoc[installation guide] for 
 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 6.x, 8.x, and 10.x.
 On the Windows platform, it may be necessary to https://developercommunity.visualstudio.com/content/problem/249011/update-nodeexe-at-least-from-541-to-6x-version.html[update the version of Node.js that Visual Studio points to].
-On non-windows platforms you will also need to install https://github.com/nodejs/node-gyp[node-gyp^]. This can be installed with `npm`, and should also be available in your distribution's package manager:
 
-[source,bash]
-----
-npm install -g node-gyp
-----
-
-Older versions of Ubuntu, for example Ubuntu 14.04, will not have a new enough version of Node.js. Updating or installing any software via a shell script from the Internet with CURL is not recommended. To install newer versions of Node.js follow these steps:
+The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], but if you're running Debian or Ubuntu, and wish to update from a distro repository, add the nodesource repo:
 
 [source,bash]
 ----
@@ -28,6 +22,8 @@ sudo apt-add-repository "deb https://deb.nodesource.com/node_8.x $(lsb_release -
 sudo apt-get update
 sudo apt-get install nodejs
 ----
+
+The installation process will build `libcouchbase` and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
 
 // end::prep[]
 
