@@ -1,40 +1,23 @@
-= Couchbase Node.js Release Notes and Archives
+= Couchbase Node.js Release Notes and Download Archives
 
-== Installation
 
-Installing the Couchbase Node.js SDK is similar to installing most other
-Node.js modules. Use npm to install the couchbase module:
+include::start-using-sdk.adoc[tag=prep]
 
-[source,bash]
-----
-npm install couchbase
-----
+include::start-using-sdk.adoc[tag=install]
 
-To install an older version, specify the version directly with npm.  For
-example, to install version 2.5.0:
+To install an older version, specify the version directly with npm. 
+For example, to install version 2.4.5:
 
 [source,bash]
 ----
-npm install couchbase@2.5.0
+npm install couchbase@2.4.5
 ----
 
-When using SSL or to select a custom version of libcouchbase you must
-link:/server/other-products/release-notes-archives/c-sdk[install the libcouchbase
-library] and
-specify the path to the install root on the command line:
-
-[source,bash]
-----
-npm install couchbase --couchbase-root=/opt/libcouchbase-2.9.3
-----
 
 == Version 2.6.0 (2 October 2018)
 
-Version 2.6.0 is the first general availability release of the
-2.6 series. It adds support for the upcoming Couchbase Server 6.0's
-features such as the new Analytics Service, improvements to
-Full Text Search, support for more complex network configurations
-along with many small improvements and fixes.
+Version 2.6.0 is the first general availability release of the 2.6 series. 
+It adds support for the upcoming Couchbase Server 6.0's features such as the new Analytics Service, improvements to Full Text Search, support for more complex network configurations along with many small improvements and fixes.
 
 [source,bash]
 ----

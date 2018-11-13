@@ -1,26 +1,38 @@
 = Install and Start Using the Node.js SDK with Couchbase Server
 :navtitle: Start Using the SDK
 
-== Installing the Server
+[#install-node]
+
+// tag::prep[]
+
+== Preparing for Installation
 
 Install Couchbase Server first, if you haven't done so already.
 Refer to the xref:6.0@server:install:install-intro.adoc[installation guide] for server installation instructions.
 
-[#install-node]
+The installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
+
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 6.x, 8.x, and 10.x.
+On the Windows platform, it may be necessary to https://developercommunity.visualstudio.com/content/problem/249011/update-nodeexe-at-least-from-541-to-6x-version.html[update the version of Node.js that Visual Studio points to].
+
+The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], and Nodesource provides https://github.com/nodesource/distributions/blob/master/README.md[instructions for each Linux distribution] that Couchbase supports.
+
+// end::prep[]
+
+// tag::install[]
+
 == Installing the SDK
 
-To install the SDK, simply use `npm`.
-On non-windows platforms you will also need to install https://github.com/nodejs/node-gyp[node-gyp^]:
+To install the SDK, simply use `npm`:
 
 [source,bash]
 ----
 npm install couchbase
 ----
 
-On the Windows platform using Node.js versions prior to 6.0, manual installation of OpenSSL and the <<standalone-lcb,C SDK (libcouchbase)>> is required.
-It is recommended to use Node.js 6.0 and later.
+// end::install[]
 
-Information on new features, fixes, known issues as well as information on how to install older release versions is xref:relnotes-nodejs-sdk.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:relnotes-nodejs-sdk.adoc[in the release notes].
 
 [#using-node]
 == Hello Couchbase
