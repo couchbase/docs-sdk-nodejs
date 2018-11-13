@@ -10,20 +10,12 @@
 Install Couchbase Server first, if you haven't done so already.
 Refer to the xref:6.0@server:install:install-intro.adoc[installation guide] for server installation instructions.
 
+The installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
+
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 6.x, 8.x, and 10.x.
 On the Windows platform, it may be necessary to https://developercommunity.visualstudio.com/content/problem/249011/update-nodeexe-at-least-from-541-to-6x-version.html[update the version of Node.js that Visual Studio points to].
 
-The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], but if you're running Debian or Ubuntu, and wish to update from a distro repository, add the nodesource repo:
-
-[source,bash]
-----
-curl https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -
-sudo apt-add-repository "deb https://deb.nodesource.com/node_8.x $(lsb_release -sc) main"
-sudo apt-get update
-sudo apt-get install nodejs
-----
-
-The installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
+The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], and Nodesource provides https://github.com/nodesource/distributions/blob/master/README.md[instructions for each Linux distribution].
 
 // end::prep[]
 
