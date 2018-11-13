@@ -23,7 +23,7 @@ sudo apt-get update
 sudo apt-get install nodejs
 ----
 
-The installation process will build `libcouchbase` and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
+The installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
 
 // end::prep[]
 
