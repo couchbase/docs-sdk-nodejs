@@ -30,7 +30,7 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.1/[API Reference]
 * http://issues.couchbase.com/browse/JSCBC-515[JSCBC-515]:
 Fixed issue with special characters causing errors with Node 11.x.
 * http://issues.couchbase.com/browse/JSCBC-517[JSCBC-517]:
-Updated all third-party dependancies to their latest versions.
+Updated all third-party dependencies to their latest versions.
 * Various minor changes.
 
 == Version 2.6.0 (2 October 2018)
