@@ -10,7 +10,7 @@
 Install Couchbase Server first, if you haven't done so already.
 Refer to the xref:6.0@server:install:install-intro.adoc[installation guide] for server installation instructions.
 
-The installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
+The SDK installation process will build `libcouchbase` (LCB) and other dependencies for you, so you will need the build tools for your platform, such as Visual Studio or GCC (more details in the xref:c-sdk::start-using-sdk.adoc[LCB installation pages]).
 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 6.x, 8.x, and 10.x.
 On the Windows platform, it may be necessary to https://developercommunity.visualstudio.com/content/problem/249011/update-nodeexe-at-least-from-541-to-6x-version.html[update the version of Node.js that Visual Studio points to].
