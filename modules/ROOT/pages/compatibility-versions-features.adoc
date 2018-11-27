@@ -82,7 +82,7 @@ The following matrix shows which versions of the Couchbase Node.js SDK support t
 4+| All Versions
 
 | Bulk Operations
-4+| All Versions
+4+| NOT SUPPORTED IN NODEJS, except for Bulk "Get" Since Node.js SDK 2.0	
 
 | N1QL Querying
 4+| All Versions
