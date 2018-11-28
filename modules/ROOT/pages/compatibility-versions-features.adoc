@@ -51,7 +51,7 @@ See the notes there for Support details.
 
 == Couchbase Feature Availability Matrix
 
-To take advantage of all features offered by Couchbase Server, you need to know what version of the Java SDK provides compatibility for the features you want to use.
+To take advantage of all features offered by Couchbase Server, you need to know what version of the Node.js SDK provides compatibility for the features you want to use.
 The following matrix shows which versions of the Couchbase Node.js SDK support the major features of each version of Couchbase Server.
 
 .Couchbase Server and SDK Supported Version Matrix
@@ -82,7 +82,7 @@ The following matrix shows which versions of the Couchbase Node.js SDK support t
 4+| All Versions
 
 | Bulk Operations
-4+| NOT SUPPORTED IN NODEJS, except for Bulk "Get" Since Node.js SDK 2.0	
+4+| __Not supported in Node.js__, except for Bulk "Get" Since Node.js SDK 2.0	
 
 | N1QL Querying
 4+| All Versions
