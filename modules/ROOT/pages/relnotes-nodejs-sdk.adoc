@@ -14,6 +14,22 @@ npm install couchbase@2.4.5
 ----
 
 
+== Version 2.6.2 (4 December 2018)
+
+Version 2.6.2 is a minor maintenance release of the 2.6 series.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.2/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-520[JSCBC-520]:
+Added name property to Bucket objects for easier access.
+
 == Version 2.6.1 (13 November 2018)
 
 Version 2.6.1 is the first maintenance release of the 2.6 series.
