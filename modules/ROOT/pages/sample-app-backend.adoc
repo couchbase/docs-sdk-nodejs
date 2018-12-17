@@ -24,14 +24,8 @@ To get set up for the tutorial proper, follow these steps:
 * If you don't want to connect to Couchbase on localhost, change the configuration in `index.js`.
 * Press CONTROL+C to stop the application when finished.
 
-[TIP]
-====
-This tutorial focuses on querying through N1QL and FTS rather than map-reduce views.
-If you want information about using views, see the following resources:
-
-* General Information about views: xref:6.0@server:architecture:incremental-map-reduce-views.adoc[Incremental MapReduce Views]
-* Querying views: xref:6.0@server:indexes:querying-using-map-reduce-views.adoc[Querying using MapReduce views]
-====
+TIP: This tutorial focuses on querying through N1QL and FTS rather than views.
+If you want information about using views, see xref:6.0@server:learn:views/views-intro.adoc[Views].
 
 == Walking Through the API
 
