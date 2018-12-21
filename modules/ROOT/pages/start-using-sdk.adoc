@@ -17,6 +17,9 @@ On the Windows platform, it may be necessary to https://developercommunity.visua
 
 The latest versions of Node.js can be downloaded from the https://nodejs.org/en/download/[Node.js website], and Nodesource provides https://github.com/nodesource/distributions/blob/master/README.md[instructions for each Linux distribution] that Couchbase supports.
 
+NOTE: CentOS 6 does not have a recent enough GCC to build libcouchbase and couchnode (the Node.js Couchbase client).
+Installing https://www.softwarecollections.org/en/scls/rhscl/devtoolset-7/[the Developer Toolset 7] will give you the build environemnt that you need.
+
 // end::prep[]
 
 // tag::install[]
