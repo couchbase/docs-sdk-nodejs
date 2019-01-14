@@ -59,38 +59,45 @@ You have a choice of actually retrieving the document path using the _subdoc-get
 The latter saves even more bandwidth by not retrieving the contents of the path if it is not needed.
 
 .Retrieve Sub-Document value
-[source,python]
+[source,javascript]
 ----
-import couchbase.subdocument as SD  # Use SD alias for brevity
-rv = bucket.lookup_in('customer123', SD.get('addresses.delivery.country'))
-country = rv[0] # => 'United Kingdom'
+bucket
+  .lookupIn('customer123')
+  .get('addresses.delivery.country')
+  .execute(function(err, res) {
+    var country = res.content('addresses.delivery.country');
+    // => 'United Kingdom'
+  });
 ----
 
 .Check existence of Sub-Document path
 [source,javascript]
 ----
-bucket.lookupIn('customer123').exists('purchases.pending[-1]').execute(
-    function(err, result) {
-        console.log('Path exists? %j', result.exists('purchases.pending[-1]'));
-    }
-);
-# Path exists? false
+bucket
+  .lookupIn('customer123')
+  .exists('purchases.pending[-1]')
+  .execute(function(err, result) {
+    console.log('Path exists? %j', result.exists('purchases.pending[-1]'));
+    // => Path exists? false
+  });
 ----
 
 Multiple operations can be combined as well:
 
 .Combine multiple lookup operations
-[source,php]
+[source,javascript]
 ----
-$frags = $bucket->lookupIn('customer123')
-    ->get('addresses.delivery.country')
-    ->exists('purchases.pending[-1]')
-    ->execute();
-
-echo $frags->value[0]['value'] . ", Code=" . $frags->value[0]['code'] . "\n";
-echo $frags->value[1]['value'] . ", Code=" . $frags->value[1]['code'] . "\n";
-# United Kingdom, 0 (No error)
-# , 63 (COUCHBASE_SUBDOC_PATH_ENOENT)
+bucket
+  .lookupIn('customer123')
+  .get('addresses.delivery.country')
+  .exists('purchases.pending[-1]')
+  .execute(function(err, res) {
+    var country = res.content('addresses.delivery.country');
+    // => 'United Kingdom'
+    
+    console.log('Path exists? %j', result.exists('purchases.pending[-1]'));
+    // => Path exists? false
+  });
 ----
 
 == Mutating
@@ -99,28 +106,41 @@ Mutation operations modify one or more paths in the document.
 The simplest of these operations is _subdoc-upsert_, which, just like the fulldoc-level _upsert_, this will either modify the value of an existing path or create it if it does not exist:
 
 .Upserting a new Sub-Document
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.upsert('fax', '311-555-0151'))
+bucket
+  .mutateIn('customer123')
+  .upsert('fax', '311-555-0151')
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 Likewise, the _subdoc-insert_ operation will only add the new value to the path if it does not exist:
 
 .Inserting a Sub-Document
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.insert('purchases.complete', [42, True, None]))
-# SubdocPathExistsError
+bucket
+  .mutateIn('customer123')
+  .insert('purchases.completed', [42, true, null])
+  .execute(function(err, res) {
+    // err.code => errors.SubdocPathExistsError
+  });
 ----
 
 Dictionary values can also be replaced or removed, and you may combine any number of mutation operations within the same general _mutate-in_ API.
 Here's an example of one which replaces one path and removes another.
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123',
-                 SD.remove('addresses.billing'),
-                 SD.replace('email', 'dougr96@hotmail.com'))
+bucket
+  .mutateIn('customer123')
+  .remove('addresses.billing')
+  .replace('email', 'dougr96@hotmail.com')
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 == Array append and prepend
@@ -128,64 +148,77 @@ bucket.mutate_in('customer123',
 The _subdoc-array-prepend_ and _subdoc-array-append_ operations are true array prepend and append operations.
 Unlike fulldoc _append_/_prepend_ operations (which simply concatenate bytes to the existing value), _subdoc-array-append_ and _subdoc-array-prepend_ are JSON-aware:
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.array_append('purchases.complete', 777))
-# purchases.complete is now [339, 976, 442, 666, 777]
+bucket
+  .mutateIn('customer123')
+  .arrayAppend('purchases.complete', 777)
+  .execute(function(err, res) {
+    // purchases.complete is now [339, 976, 442, 666, 777]
+  });
 ----
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.array_prepend('purchases.abandoned', 18))
-# purchases.abandoned in now [18, 157, 49, 999]
+bucket
+  .mutateIn('customer123')
+  .arrayPrepend('purchases.abandoned', 18)
+  .execute(function(err, res) {
+    // purchases.abandoned in now [18, 157, 49, 999]
+  });
 ----
 
 If your document only needs to contain an array, you do not have to create a top-level object wrapper to contain it.
 Simply initialize the document with an empty array and then use the empty path for subsequent Sub-Document array operations:
 
 .Creating and populating an array document
-[source,python]
+[source,javascript]
 ----
-bucket.upsert('my_array', [])
-bucket.mutate_in('my_array', SD.array_append('', 'some element'))
-# the document my_array is now ["some element"]
+bucket.upsert('my_array', [], function(err, res) {
+  bucket
+    .mutateIn('my_array')
+    .arrayAppend('', 'some element')
+    .execute(function(err, res) {
+      // the document my_array is now ["some element"]
+    });
+});
 ----
 
 If you wish to add multiple values to an array, you may do so by passing multiple values to the _array-append_, _array-prepend_, or _array-insert_ operations.
 Be sure to know the difference between passing a collection of multiple elements (in which case the collection is inserted as a single element in the array, as a sub-array) and passing multiple elements (in which case the elements are appended individually to the array):
 
 .Add multiple elements to an array
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('my_array', SD.array_append('', 'elem1', 'elem2', 'elem3')
-# the document my_array is now ["some_element", "elem1", "elem2", "elem3"]
+bucket
+  .mutateIn('my_array')
+  .arrayAppendAll('', ['elem1', 'elem2', 'elem3'])
+  .execute(function(err, res) {
+    // the document my_array is now ["some_element", "elem1", "elem2", "elem3"]
+  });
 ----
 
 .Add single array as element to existing array
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('my_array', SD.array_append('', ['elem1', 'elem2', 'elem3'])
-# the document my_array is now ["some_element", ["elem1", "elem2", "elem3"]]
-----
-
-Note that passing multiple values to a single _array-append_ operation results in greater performance increase and bandwidth savings than simply specifying a single _array-append_ for each element.
-
-.Adding multiple elements to array (slow)
-[source,python]
-----
-bucket.mutate_in('my_array',
-                  SD.array_append('', 'elem1'),
-                  SD.array_append('', 'elem2'),
-                  SD.array_append('', 'elem3'))
+bucket
+  .mutateIn('my_array')
+  .arrayAppend('', ['elem1', 'elem2', 'elem3'])
+  .execute(function(err, res) {
+    // the document my_array is now ["some_element", ["elem1", "elem2", "elem3"]]
+  });
 ----
 
 If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the<< subdoc-create-parents,_create-parents_>> option:
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('some_doc',
-                  SD.array_append('some.array', 'Hello', 'World',
-                                  create_parents=True))
+bucket
+  .mutateIn('some_doc')
+  .arrayAppend('some.array', 'Hello', {createParents: true})
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 == Arrays as unique sets
@@ -193,12 +226,20 @@ bucket.mutate_in('some_doc',
 Limited support also exists for treating arrays like unique sets, using the _subdoc-array-addunique_ command.
 This will do a check to determine if the given value exists or not before actually adding the item to the array:
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.push_unique('purchases.complete', 95))
-# => Success
-bucket.mutate_in('customer123', SD.push_unique('purchases.abandoned', 42))
-# => SubdocPathExists exception!
+bucket
+  .mutateIn('customer123')
+  .arrayAddUnique('purchases.complete', 95)
+  .execute(function(err, res) {
+    // success
+  });
+bucket
+  .mutateIn('customer123')
+  .arrayAddUnique('purchases.abandoned', 42)
+  .execute(function(err, res) {
+    // err.code => errors.SubdocPathExistsError
+  });
 ----
 
 Note that currently the _addunique_ will fail with a _Path Mismatch_ error if the array contains JSON _floats_, _objects_, or _arrays_.
@@ -213,9 +254,14 @@ While _append_ will place a new item at the _end_ of an array and _prepend_ will
 The position is indicated by the last path component, which should be an array index.
 For example, to insert `"cruel"` as the second element in the array `["Hello", "world"]`, the code would look like:
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('array', SD.arrayinsert('[1]', 'cruel'))
+bucket
+  .mutateIn('array')
+  .arrayInsert('[1]', 'cruel')
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 Note that the array must already exist and that the index must be valid (i.e.
@@ -226,20 +272,31 @@ it must not point to an element which is out of bounds).
 Counter operations allow the manipulation of a _numeric_ value inside a document.
 These operations are logically similar to the _counter_ operation on an entire document:
 
-[source,python]
+[source,javascript]
 ----
-rv = bucket.mutate_in('customer123', SD.counter('logins', 1))
-cur_count = rv[0] # => 1
+bucket
+  .mutateIn('customer123')
+  .counter('logins', 1)
+  .execute(function(err, res) {
+    var cur_count = res.content('logins');
+    // cur_count => 1
+  });
 ----
 
 The _subdoc-counter_ operation peforms simple arithmetic against a numeric value, either incrementing or decrementing the existing value.
 
-[source,python]
+[source,javascript]
 ----
-bucket.upsert('player432', {'gold': 1000})
-rv = bucket.mutate_in('player432', SD.counter('gold', -150))
-print('player432 now has {0} gold remaining'.format(rv[0]))
-# => player 432 now has 850 gold remaining
+bucket.upsert('player432', {gold: 1000}, function(err, res) {
+  bucket
+    .mutateIn('player432')
+    .counter('gold', -150)
+    .execute(function(err, res) {
+      // player 432 now has 850 gold
+      var gold_remaining = res.content('gold');
+      // gold_remaining => 850
+    });
+});
 ----
 
 The existing value for _subdoc-counter_ operations must be within range of a 64 bit signed integer.
