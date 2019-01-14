@@ -355,12 +355,14 @@ By default the automatic creation of parents is disabled, as a simple typo in ap
 Sometimes it is necessary to have the server create the hierarchy however.
 In this case, the _create-parents_ or _create-intermediates_ option may be used.
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123',
-                 SD.upsert('level_0.level_1.foo.bar.phone',
-                           {'num': '311-555-0101', 'ext': 16},
-                           create_parents=True))
+bucket
+  .mutateIn('customer123')
+  .upsert('level_0.level_1.foo.bar.phone', {num: '311-555-0101', ext: 16}, {createParents: true})
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 == CAS Semantics
@@ -369,14 +371,23 @@ Subdoc mostly eliminates the need for tracking the xref:concurrent-mutations-clu
 Subdoc operations are atomic and therefore if two different threads access two different Sub-Documents then no conflict will arise.
 For example the following two blocks can execute concurrently without any risk of conflict:
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.array_append('purchases.complete', 999))
+bucket
+  .mutateIn('customer123')
+  .arrayAppend('purchases.complete', 999)
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
-[source,python]
+[source,javascript]
 ----
-bucket.mutate_in('customer123', SD.array_append('purchases.abandoned', 998))
+  .mutateIn('customer123')
+  .arrayAppend('purchases.abandoned', 998)
+  .execute(function(err, res) {
+    // ...
+  });
 ----
 
 Even when modifying the _same_ part of the document, operations will not necessarily conflict.
@@ -454,16 +465,16 @@ If you need to combine both JSON _and_ path-syntax literals you can do so by esc
 a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 Here is such an example in Python:
 
-[source,python]
+[source,javascript]
 ----
-import json
-def escape_component(component):
-    component = json.dumps(component)[1:-1]
-    return '`' + component + '`'
-
-print escape_component("Hello!") # `Hello!`
-print escape_component("backtick[]") # `backtick[]`
-print escape_component("[\"mixed\\") # `[\"mixed\\`
+function escape_component(component) {
+  var componentJson = JSON.stringify(component);
+  var component = componentJson.substr(1, componentJson.length - 2);
+  return '`' + component + '`';
+}
+console.log(escape_component('Hello!')) // `Hello!`
+console.log(escape_component('backtick[]')) // `backtick[]`
+console.log(escape_component('["mixed\\') // `[\"mixed\\`
 ----
 
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
