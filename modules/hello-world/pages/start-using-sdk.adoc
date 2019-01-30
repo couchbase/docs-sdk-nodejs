@@ -1,9 +1,9 @@
-= Install and Start Using the C SDK with Couchbase Server
+= Install and Start Using the Node.js SDK with Couchbase Server
 :navtitle: Start Using the SDK
 
 [abstract]
-The Couchbase C SDK (libcouchbase - LCB) enables you to interact with a Couchbase Server cluster from the C language.
-It is also used by the Node.js, PHP, and Python SDKs to communicate with the Couchbase Server.
+The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the Node.js language.
+
 
 == Installing the SDK
 
