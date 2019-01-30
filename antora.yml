@@ -1,7 +1,7 @@
 name: nodejs-sdk
-version: '2.6'
+version: '3.0dp1'
 title: Node.js SDK
 start_page: start-using-sdk.adoc
 nav:
 - modules/ROOT/nav.adoc
-server_version: '6.0'
+server_version: '6.5'
