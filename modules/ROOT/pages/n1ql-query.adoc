@@ -8,7 +8,7 @@ Querying can solve typical programming tasks such as finding a user profile by e
 
 == Query Execution
 
-You can issue N1QL queries using either a Couchbase SDK, the _cbq_ shell, the _cbc_ command line tool, the REST API, or the xref:{version-server}@server:tools:query-workbench.adoc[Query workbench].
+You can issue N1QL queries using either a Couchbase SDK, the _cbq_ shell, the _cbc_ command line tool, the REST API, or the xref:6.0@server:tools:query-workbench.adoc[Query workbench].
 
 A N1QL query is a string parsed by the query service.
 The result for each query is JSON and as a result queries will function the same regardless whether they are executed using the [.cmd]`cbq` shell, an SDK, or using the REST API directly.
@@ -16,8 +16,8 @@ Nevertheless, the result format received using an SDK may be a bit different tha
 
 == Running cbq
 
-The interactive shell xref:{version-server}@server:tools:cbq-shell.adoc[[.cmd]`cbq`] for executing N1QL queries is shipped with Couchbase Server and designed to be run on a cluster node.
-It is xref:{version-server}@server:cli:cli-intro.adoc[located alongside the other Couchbase tools] (by default, `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows).
+The interactive shell xref:6.0@server:tools:cbq-shell.adoc[[.cmd]`cbq`] for executing N1QL queries is shipped with Couchbase Server and designed to be run on a cluster node.
+It is xref:6.0@server:cli:cli-intro.adoc[located alongside the other Couchbase tools] (by default, `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows).
 
 == Issuing Queries
 
