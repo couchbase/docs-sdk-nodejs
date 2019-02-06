@@ -25,18 +25,20 @@ Queries are issued in the SDK using the _query_ operation.
 This API accepts a string which is the statement to execute, and returns the rows (or an iterable object which returns rows) representing the query’s result.
 Here is an example of a query executed in Node.js:
 
-....
+[source,javascript]
+----
 var q = couchbase.N1qlQuery.fromString('SELECT type FROM `travel-sample` LIMIT 4');
 bucket.query(q, (err, rows) => rows.forEach((row) => console.log(row)));
 // {'type': 'airline'}
 // {'type': 'airline'}
 // {'type': 'airline'}
 // {'type': 'airport'}
-....
+----
 
 The above query using _cbq_ (some output truncated for clarity):
 
-....
+[source,n1ql]
+----
 cbq> SELECT type FROM `travel-sample` LIMIT 4;
 {
     ...
@@ -59,7 +61,7 @@ cbq> SELECT type FROM `travel-sample` LIMIT 4;
     ...
     }
 }
-....
+----
 
 The result is a JSON object.
 The important field within the object is the `results` property, which contains an array of results (a result set).
@@ -91,7 +93,8 @@ Specify multiple predicates using the `AND` or `OR` keywords.
 
 The following example selects all documents that have a `type` of _airport_ and a `city` of _Reno_.
 
-....
+[source,n1ql]
+----
 cbq> SELECT airportname, city, country FROM `travel-sample` WHERE type="airport" AND city="Reno";
 {
     ...
@@ -107,7 +110,7 @@ cbq> SELECT airportname, city, country FROM `travel-sample` WHERE type="airport"
     ...
     }
 }
-....
+----
 
 Note that you should use <<topic_kgx_xdp_1w/devguide-named-placeholders,query placeholders>>, as it is not only more secure, but also allows your query to be prepared and optimized for reuse.
 
@@ -122,7 +125,8 @@ See xref:{version-server}@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Que
 IMPORTANT: N1QL sub-document queries are not related to _Key-Value_ sub-document operations.
 (Key-Value sub-document operations are explained in the section xref:subdocument-operations.adoc[Sub-Document Operations]).
 
-....
+[source,n1ql]
+----
 cbq> SELECT airportname, city, country, geo.alt FROM `travel-sample` WHERE type="airport" AND geo.alt > 4000 AND country="United States" LIMIT 3;
 {
     ...
@@ -151,7 +155,7 @@ cbq> SELECT airportname, city, country, geo.alt FROM `travel-sample` WHERE type=
     ...
     }
 }
-....
+----
 
 The actual airport document looks like this.
 Note that the `geo` field itself contains a JSON object.
@@ -282,14 +286,14 @@ You can define a _primary index_ on a bucket.
 When a _primary_ index is defined you can issue non-covered queries on the bucket as well.
 This includes using the `META` function in the queries.
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE PRIMARY INDEX ON `users`
 ----
 
 You can also define indexes over given document fields and then use those fields in the query:
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE INDEX ix_name ON `users`(name);
 CREATE INDEX ix_email ON `users`(email);
@@ -297,7 +301,7 @@ CREATE INDEX ix_email ON `users`(email);
 
 Would allow you to query the _users_ bucket regarding a document's `name` or `email` properties, so e.g.
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT name, email FROM `users` WHERE name="Monty Python" OR email="monty@python.org";
 ----
@@ -323,7 +327,7 @@ Creating indexes can take a long time on buckets with lots of existing documents
 You can build indexes in the background, creating _deferred_ indexes and then building all deferred indexes at once.
 This allows multiple indexes to be built at once rather than having to re-scan the entire bucket for each index.
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE PRIMARY INDEX ON `users` WITH {"defer_build": true};
 CREATE INDEX ix_name ON `users`(name) WITH {"defer_build": true};
@@ -387,7 +391,7 @@ The query is issued immediately after document creation, and in this case the qu
 
 If the above code is modified to use _request_plus_ (currently mapped to the [.api]`CONSISTENT_REQUEST` constant in the Python SDK), query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
 
-[source,python]
+[source,javascript]
 ----
 var RANDOM_NUMBER = Math.rand();
 
