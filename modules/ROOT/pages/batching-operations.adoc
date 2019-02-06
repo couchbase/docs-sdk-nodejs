@@ -1,1 +1,15 @@
-include::6.0@sdk:pages:partial$batching-operations.adoc[]
+= Batching Operations
+:page-topic-type: concept
+include::partial$attributes.adoc[]
+
+// tag::intro[]
+[abstract]
+Batching operations allows you to make better utilization of your network and speed up your application by increasing network throughput and reducing latency.
+Batched operations work by _pipelining_ requests over the network.
+When requests are pipelined, they are sent in one large group to the cluster.
+The cluster in turn _pipelines_ responses back to the client.
+When operations are batched, there are fewer IP packets to be sent over the network (since there are fewer individual TCP segments).
+
+You can batch operations via the other Couchbase SDKs (see the dropdown menu above to access their docs).
+Batching operations -- done either via explicit _multi_ methods, or by scheduling multiple operations in sequence -- are an alternative in many of the other SDKs, but Node.js is an asynchronous language. 
+Since the user is free to dispatch as many operations as they wish, which will be in parallel implicitly, there is no need to batch operations.
