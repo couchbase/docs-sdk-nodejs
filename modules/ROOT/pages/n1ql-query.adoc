@@ -389,7 +389,7 @@ bucket.upsert('user:' + RANDOM_NUMBER, {
 The above query may not return the newly inserted document because it has not yet been indexed.
 The query is issued immediately after document creation, and in this case the query engine may process the query before the index has been updated.
 
-If the above code is modified to use _request_plus_ (currently mapped to the [.api]`CONSISTENT_REQUEST` constant in the Python SDK), query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
+If the above code is modified to use _request_plus_, query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
 
 [source,javascript]
 ----
