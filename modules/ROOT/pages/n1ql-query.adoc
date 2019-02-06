@@ -23,21 +23,22 @@ It is xref:6.0@server:cli:cli-intro.adoc[located alongside the other Couchbase t
 
 Queries are issued in the SDK using the _query_ operation.
 This API accepts a string which is the statement to execute, and returns the rows (or an iterable object which returns rows) representing the query’s result.
-Here is an example of a query executed in Python:
+Here is an example of a query executed in Node.js:
 
-....
->>> for row in cb.n1ql_query('SELECT type FROM `travel-sample` LIMIT 4'):
-...   print(row)
-...
-{'type': 'airline'}
-{'type': 'airline'}
-{'type': 'airline'}
-{'type': 'airport'}
-....
+[source,javascript]
+----
+var q = couchbase.N1qlQuery.fromString('SELECT type FROM `travel-sample` LIMIT 4');
+bucket.query(q, (err, rows) => rows.forEach((row) => console.log(row)));
+// {'type': 'airline'}
+// {'type': 'airline'}
+// {'type': 'airline'}
+// {'type': 'airport'}
+----
 
 The above query using _cbq_ (some output truncated for clarity):
 
-....
+[source,n1ql]
+----
 cbq> SELECT type FROM `travel-sample` LIMIT 4;
 {
     ...
@@ -60,7 +61,7 @@ cbq> SELECT type FROM `travel-sample` LIMIT 4;
     ...
     }
 }
-....
+----
 
 The result is a JSON object.
 The important field within the object is the `results` property, which contains an array of results (a result set).
@@ -73,15 +74,15 @@ Internally, however, the response looks like the _cbq_ output above.
 If you use aliases in your query, then the returned rows contain the aliased name rather than the original one.
 For example:
 
-[source,python]
+[source,javascript]
 ----
->>> for row in cb.n1ql_query('SELECT airportname as n FROM `travel-sample` where type="airport" LIMIT 4'):
-...   print(row)
-...
-{'n': 'Calais Dunkerque'}
-{'n': 'Peronne St Quentin'}
-{'n': 'Les Loges'}
-{'n': 'Couterne'}
+var q = couchbase.N1qlQuery.fromString('SELECT airportname as n FROM `travel-sample` where type="airport" LIMIT 4');
+bucket.query(q, (err, rows) => rows.forEach((row) => console.log(row)));
+
+// {'n': 'Calais Dunkerque'}
+// {'n': 'Peronne St Quentin'}
+// {'n': 'Les Loges'}
+// {'n': 'Couterne'}
 ----
 
 == Specifying Query Criteria
@@ -92,7 +93,8 @@ Specify multiple predicates using the `AND` or `OR` keywords.
 
 The following example selects all documents that have a `type` of _airport_ and a `city` of _Reno_.
 
-....
+[source,n1ql]
+----
 cbq> SELECT airportname, city, country FROM `travel-sample` WHERE type="airport" AND city="Reno";
 {
     ...
@@ -108,7 +110,7 @@ cbq> SELECT airportname, city, country FROM `travel-sample` WHERE type="airport"
     ...
     }
 }
-....
+----
 
 Note that you should use <<topic_kgx_xdp_1w/devguide-named-placeholders,query placeholders>>, as it is not only more secure, but also allows your query to be prepared and optimized for reuse.
 
@@ -123,7 +125,8 @@ See xref:{version-server}@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Que
 IMPORTANT: N1QL sub-document queries are not related to _Key-Value_ sub-document operations.
 (Key-Value sub-document operations are explained in the section xref:subdocument-operations.adoc[Sub-Document Operations]).
 
-....
+[source,n1ql]
+----
 cbq> SELECT airportname, city, country, geo.alt FROM `travel-sample` WHERE type="airport" AND geo.alt > 4000 AND country="United States" LIMIT 3;
 {
     ...
@@ -152,7 +155,7 @@ cbq> SELECT airportname, city, country, geo.alt FROM `travel-sample` WHERE type=
     ...
     }
 }
-....
+----
 
 The actual airport document looks like this.
 Note that the `geo` field itself contains a JSON object.
@@ -188,12 +191,13 @@ The query may be divided into a _fixed_ or _static_ part (select all airports in
 
 A naive implementation of this function might look something like this:
 
-[source,python]
+[source,javascript]
 ----
-def airports_in_city(city):
-  query_string = "SELECT airportname FROM `travel-sample` WHERE city="
-  query_string += '"' + city + '"'
-  return cb.n1ql_query(query_string)
+function airports_in_city_query(city, callback) {
+    var query_string = 'SELECT airportname FROM `travel-sample` WHERE city=';
+    query_string += '"' + city + '"';
+    bucket.query(couchbase.N1qlQuery.fromString(query_string), callback);
+}
 ----
 
 The approach above is both unwieldy and insecure (subject to SQL injection attacks).
@@ -201,12 +205,12 @@ The approach above is both unwieldy and insecure (subject to SQL injection attac
 N1QL allows the use of placeholders to declare dynamic query parameters.
 Here's a version of the above using placeholders:
 
-[source,python]
+[source,javascript]
 ----
-def airports_in_city(city):
-  query_string = "SELECT airportname FROM `travel-sample` WHERE city=$1"
-  query = N1QLQuery(query_string, city)
-  return cb.n1ql_query(query)
+function airports_in_city_query(city, callback) {
+    var query_string = 'SELECT airportname FROM `travel-sample` WHERE city=$1';
+    bucket.query(couchbase.N1qlQuery.fromString(query_string), [city], callback);
+}
 ----
 
 The `$1` is a positional placeholder.
@@ -217,25 +221,30 @@ Placeholders may also be _named_.
 This is particularly useful when there are many query parameters and ensuring that they are all in the correct order may be cumbersome.
 Name query placeholders take the form of `$name`.
 
-[source,python]
+[source,javascript]
 ----
-query_string = (
-"SELECT airportname FROM `travel-sample`"
-"WHERE country=$country "
-"AND geo.alt > $altitude "
-"AND (geo.lat BETWEEN $min_lat AND $max_lat) "
-"AND (geo.lon BETWEEN $min_lon AND $max_lon "
+var query_string =
+    'SELECT airportname FROM `travel-sample`'
+    'WHERE country=$country '
+    'AND geo.alt > $altitude '
+    'AND (geo.lat BETWEEN $min_lat AND $max_lat) '
+    'AND (geo.lon BETWEEN $min_lon AND $max_lon '
 )
 ----
 
 Then to issue the actual query:
 
-[source,python]
+[source,javascript]
 ----
-query = N1QLQuery(
-    query_string,
-    country="United States",
-    altitude=500, min_lat=-50, max_lat=50, min_lon=-180, max_lon=0)
+var params = {
+    country: 'United States',
+    altitude: 500,
+    min_lat: -50,
+    max_lat: 50,
+    min_lon: -180,
+    max_lon: 0,
+};
+bucket.query(couchbase.N1qlQuery.fromString(query_string), params, callback);
 ----
 
 [#prepare-stmts]
@@ -256,10 +265,10 @@ To indicate that an SDK should optimize a query, the [.param]`adhoc` parameter s
 When a query is not _ad-hoc_, the SDK will fetch the plan (if it does not already have it).
 Do not turn off the _adhoc_ flag for each query since only a finite number of query plans (currently 5000) can be stored in the SDK.
 
-[source,python]
+[source,javascript]
 ----
-query = N1QLQuery("SELECT airportname FROM `travel-sample` WHERE country=$1", "USA")
-q.adhoc = False
+var query_string = 'SELECT airportname FROM `travel-sample` WHERE country=$1';
+var query = couchbase.N1qlQuery.fromString(query_string).adhoc(false);
 ----
 
 NOTE: Parameterized queries are considered the same query for caching and planning purposes, even if the supplied parameters are different.
@@ -277,14 +286,14 @@ You can define a _primary index_ on a bucket.
 When a _primary_ index is defined you can issue non-covered queries on the bucket as well.
 This includes using the `META` function in the queries.
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE PRIMARY INDEX ON `users`
 ----
 
 You can also define indexes over given document fields and then use those fields in the query:
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE INDEX ix_name ON `users`(name);
 CREATE INDEX ix_email ON `users`(email);
@@ -292,7 +301,7 @@ CREATE INDEX ix_email ON `users`(email);
 
 Would allow you to query the _users_ bucket regarding a document's `name` or `email` properties, so e.g.
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT name, email FROM `users` WHERE name="Monty Python" OR email="monty@python.org";
 ----
@@ -304,11 +313,12 @@ For more information, see xref:{version-server}@server:indexes:covering-indexes.
 
 You can also create and define indexes in the SDK using
 
-[source,python]
+[source,javascript]
 ----
-cb.bucket_manager().create_n1ql_primary_index(ignore_exists=True)
-cb.bucket_manager().create_n1ql_index('index_name', fields['name'])
-cb.bucket_manager().create_n1ql_index('index_email', fields['email'])
+var bktmanager = bucket.manager();
+bktmanager.createPrimaryIndex({ignoreExists: true}, callback);
+bktmanager.createIndex('index_name', ['name'], callback);
+bktmanager.createIndex('index_name', ['email'], callback);
 ----
 
 == Index Building
@@ -317,7 +327,7 @@ Creating indexes can take a long time on buckets with lots of existing documents
 You can build indexes in the background, creating _deferred_ indexes and then building all deferred indexes at once.
 This allows multiple indexes to be built at once rather than having to re-scan the entire bucket for each index.
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE PRIMARY INDEX ON `users` WITH {"defer_build": true};
 CREATE INDEX ix_name ON `users`(name) WITH {"defer_build": true};
@@ -331,13 +341,14 @@ if it has a `name` or `email`) field.
 
 Building deferred indexes can also be done via the SDK:
 
-[source,python]
+[source,javascript]
 ----
-mgr.create_n1ql_primary_index(ignore_exists=True, defer=True)
-mgr.create_n1ql_index('ix_name', fields=['name'], defer=True)
-mgr.create_n1ql_index('ix_email', fields=['email'], defer=True)
-mgr.build_n1ql_deferred_indexes()
-mgr.watch_n1ql_indexes(('ix_name', 'ix_email', '#primary'), timeout=120)
+var bktmanager = bucket.manager();
+bktmanager.createPrimaryIndex({ignoreExists: true, defer: true}, callback);
+bktmanager.createIndex('ix_name', ['name'], {defer: true}, callback);
+bktmanager.createIndex('ix_name', ['email'], {defer: true}, callback);
+bktmanager.buildDeferredIndexes(callback);
+bktmanager.watchIndexes(['ix_name', 'ix_email', '#primary'], callback);
 ----
 
 == Index Consistency
@@ -358,37 +369,47 @@ When using this consistency mode, the query service will ensure that the indexes
 
 Consider the following snippet:
 
-[source,python]
+[source,javascript]
 ----
-from couchbase.n1ql import N1QLQuery, CONSISTENCY_REQUEST
+var RANDOM_NUMBER = Math.rand();
 
-# Ensure there is a primary index on the default bucket!
-RANDOM_NUMBER = random.randint(0, 10000000)
-
-cb = Bucket('couchbase://10.0.0.31/default')
-cb.upsert('user:{}'.format(RANDOM_NUMBER), {
+bucket.upsert('user:' + RANDOM_NUMBER, {
     'name': ['Brass', 'Doorknob'],
-    'email': ['brass.doorknob@juno.com'],
+    'emails': ['brass.doorknob@juno.com'],
     'random': RANDOM_NUMBER
-})
-
-query = N1QLQuery(
-    'SELECT name, email, random, META(default).id FROM default WHERE $1 IN name', 'Brass')
-row = cb.n1ql_query(query).get_single_result()
+}, (err, res) => {
+    var q = couchbase.N1qlQuery.fromString(
+        'SELECT name, email, random, META(default).id FROM default WHERE $1 IN name');
+    bucket.query(q, ['Brass'], (err, rows) => {
+        console.log(rows);
+    });
+});
 ----
 
 The above query may not return the newly inserted document because it has not yet been indexed.
 The query is issued immediately after document creation, and in this case the query engine may process the query before the index has been updated.
 
-If the above code is modified to use _request_plus_ (currently mapped to the [.api]`CONSISTENT_REQUEST` constant in the Python SDK), query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
+If the above code is modified to use _request_plus_, query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
 
-[source,python]
+[source,javascript]
 ----
-query = N1QLQuery(
-    'SELECT name, email, random, META(default).id FROM default WHERE $1 IN name', 'Brass')
-# If this line is removed, the latest 'random' field might not be present
-query.consistency = CONSISTENCY_REQUEST
-row = cb.n1ql_query(query).get_single_result()
+var RANDOM_NUMBER = Math.rand();
+
+bucket.upsert('user:' + RANDOM_NUMBER, {
+    'name': ['Brass', 'Doorknob'],
+    'emails': ['brass.doorknob@juno.com'],
+    'random': RANDOM_NUMBER
+}, (err, res) => {
+    var q = couchbase.N1qlQuery.fromString(
+        'SELECT name, email, random, META(default).id FROM default WHERE $1 IN name');
+    
+    // If this line is removed, the latest 'random' field might not be present
+    q = q.consistency(couchbase.N1qlQuery.Consistency.REQUEST_PLUS);
+    
+    bucket.query(q, ['Brass'], (err, rows) => {
+        console.log(rows);
+    });
+});
 ----
 
 This gives you as an application developer more control over the balance between performance and consistency with respect to other actions on your distributed database.
