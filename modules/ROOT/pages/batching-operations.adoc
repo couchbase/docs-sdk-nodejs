@@ -12,4 +12,5 @@ When operations are batched, there are fewer IP packets to be sent over the netw
 
 You can batch operations via the other Couchbase SDKs (see the dropdown menu above to access their docs).
 Batching operations -- done either via explicit _multi_ methods, or by scheduling multiple operations in sequence -- are an alternative in many of the other SDKs, but Node.js is an asynchronous language. 
-Since the user is free to dispatch as many operations as they wish, which will be in parallel implicitly, there is no need to batch operations. In fact, if you schedule several asynchronous operations at the same time, then they will be performed at the same time, as the SDK effectively batches them internally.
+Since the user is free to dispatch as many operations as they wish, which will be in parallel implicitly, there is no need to batch operations. 
+In fact, if you schedule several asynchronous operations at the same time, then they will be performed at the same time, as the SDK effectively batches them internally.
