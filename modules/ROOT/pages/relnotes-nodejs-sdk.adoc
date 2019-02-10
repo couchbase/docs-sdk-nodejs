@@ -33,23 +33,23 @@ Added support for async contexts.
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-526[JSCBC-526]:
-Fix configuration changes failing before connect.
+Setting configuration changes on a bucket before connecting to it will no longer fail.
 * http://issues.couchbase.com/browse/JSCBC-528[JSCBC-528]:
-Fixed inline documentation for bucket querying.
+Fixed missing inline AnalyticsQuery documentation for bucket querying.
 * http://issues.couchbase.com/browse/JSCBC-527[JSCBC-527]:
-Improve error message for unknown HTTP errors. 
+Improved error message for unknown HTTP errors.
 * http://issues.couchbase.com/browse/JSCBC-541[JSCBC-541]:
-Updated to libcouchbase 2.10.2 
+Updated to libcouchbase 2.10.2.
 * http://issues.couchbase.com/browse/JSCBC-542[JSCBC-542]:
-Rewrite parameter handling
+Parameter handling rewritten for updated LCB operations in support of Analytics Ingress and Deferred Querying.
 * http://issues.couchbase.com/browse/JSCBC-415[JSCBC-415]:
-Improved tests to support variable cluster versions. 
+Improved tests to support variable cluster versions.
 * http://issues.couchbase.com/browse/JSCBC-539[JSCBC-539]:
-End traces at correct point for FTS and N1QL. 
+Traces now end at correct point for FTS and N1QL, covering entire operation.
 * http://issues.couchbase.com/browse/JSCBC-540[JSCBC-540]:
-Fixed Winston logging warning. 
+Fixed Winston logging warning for newest loggers.
 * http://issues.couchbase.com/browse/JSCBC-529[JSCBC-529]:
-Added insert/upsert docs in mutateIn method. 
+Added insert/upsert documentation in mutateIn method.
 
 
 == Version 2.6.2 (4 December 2018)
