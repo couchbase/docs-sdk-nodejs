@@ -14,7 +14,7 @@ npm install couchbase@2.4.5
 ----
 
 
-== Version 2.6.3 (February 8 2018)
+== Version 2.6.3 (February 8 2019)
 
 Version 2.6.3 is a minor maintenance release of the 2.6 series.
 
