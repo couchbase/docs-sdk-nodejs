@@ -4,6 +4,8 @@
 [abstract]
 The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the Node.js language.
 
+// tag::install[]
+
 WARNING: These pages cover the first _Developer Preview_ of the Couchbase Node.js SDK 3.0 (DP1).
 As such they are likely to change without notice.
 The DP1 code _should not_ be used in production.
@@ -14,6 +16,8 @@ The DP1 code _should not_ be used in production.
 ----
 npm install couchbase
 ----
+
+// end::install[]
 
 Information on new features, fixes, known issues, as well as information on how to install older release versions is xref::project-docs:relnotes-nodejs-sdk.adoc[in the release notes].
 
