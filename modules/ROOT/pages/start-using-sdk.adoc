@@ -35,7 +35,7 @@ npm install couchbase
 
 // end::install[]
 
-Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:relnotes-nodejs-sdk.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:sdk-release-notes.adoc[in the release notes].
 
 [#using-node]
 == Hello Couchbase
