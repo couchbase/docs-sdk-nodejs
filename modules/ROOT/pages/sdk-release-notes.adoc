@@ -1,5 +1,5 @@
 = Couchbase Node.js Release Notes and Download Archives
-:page-aliases: relnotes-nodejs-sdk,sdk-release-notes
+:page-aliases: relnotes-nodejs-sdk
 
 
 include::start-using-sdk.adoc[tag=prep]
