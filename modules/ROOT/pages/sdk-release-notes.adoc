@@ -20,17 +20,17 @@ npm install couchbase@2.4.5
 Version 2.6.4 is a minor maintenance release of the 2.6 series.
 This release is a rebuild of the 2.6.3 client including a builder fix to correct an incompatibility with older RHEL systems.
 
- [source,bash]
+[source,bash]
 ----
 $ npm install couchbase@2.6.4
 ----
 
- http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.3/[API Reference]
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.3/[API Reference]
 
- === Fixed Issues
+=== Fixed Issues
 
- * http://issues.couchbase.com/browse/JSCBC-547[JSCBC-547]:
-* Corrected an issue with installation of the SDK on older RHEL systems.
+* http://issues.couchbase.com/browse/JSCBC-547[JSCBC-547]:
+Corrected an issue with installation of the SDK on older RHEL systems.
 
 
 == Version 2.6.3 (February 8 2019)
