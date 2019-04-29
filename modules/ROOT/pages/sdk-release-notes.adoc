@@ -15,6 +15,24 @@ npm install couchbase@2.4.5
 ----
 
 
+== Version 2.6.4 (April 17 2019)
+
+Version 2.6.4 is a minor maintenance release of the 2.6 series.
+This release is a rebuild of the 2.6.3 client including a builder fix to correct an incompatibility with older RHEL systems.
+
+ [source,bash]
+----
+$ npm install couchbase@2.6.4
+----
+
+ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.3/[API Reference]
+
+ === Fixed Issues
+
+ * http://issues.couchbase.com/browse/JSCBC-547[JSCBC-547]:
+* Corrected an issue with installation of the SDK on older RHEL systems.
+
+
 == Version 2.6.3 (February 8 2019)
 
 Version 2.6.3 is a minor maintenance release of the 2.6 series.
@@ -52,7 +70,12 @@ Fixed Winston logging warning for newest loggers.
 * http://issues.couchbase.com/browse/JSCBC-529[JSCBC-529]:
 Added insert/upsert documentation in mutateIn method.
 
+ === Known Issues
 
+* Due to a new build system introduced in the 2.6.1 timeframe, there is a known incompatibility when using the prebuilds from this release with RHEL7. 
+2.6.4 should be used instead.
+  
+  
 == Version 2.6.2 (4 December 2018)
 
 Version 2.6.2 is a minor maintenance release of the 2.6 series.
@@ -68,6 +91,12 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.2/[API Reference]
 
 * http://issues.couchbase.com/browse/JSCBC-520[JSCBC-520]:
 Added name property to Bucket objects for easier access.
+
+ === Known Issues
+
+* Due to a new build system introduced in the 2.6.1 timeframe, there is a known incompatibility when using the prebuilds from this release with RHEL7. 
+2.6.4 should be used instead.
+  
 
 == Version 2.6.1 (13 November 2018)
 
@@ -87,6 +116,12 @@ Fixed issue with special characters causing errors with Node 11.x.
 * http://issues.couchbase.com/browse/JSCBC-517[JSCBC-517]:
 Updated all third-party dependencies to their latest versions.
 * Various minor changes.
+
+=== Known Issues
+
+* Due to a new build system introduced in the 2.6.1 timeframe, there is a known incompatibility when using the prebuilds from this release with RHEL7. 
+2.6.4 should be used instead.
+  
 
 == Version 2.6.0 (2 October 2018)
 
