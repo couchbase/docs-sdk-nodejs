@@ -1,6 +1,8 @@
 = Couchbase Node.js Release Notes and Download Archives
+:page-partial:
 :page-aliases: relnotes-nodejs-sdk
 
+// tag::latest[]
 
 include::start-using-sdk.adoc[tag=prep]
 
@@ -678,3 +680,4 @@ management operations do not indicate status code errors.
 * https://issues.couchbase.com/browse/JSCBC-305[JSCBC-305]: Query
 options consistency and ConsistentWith do not behave as expected
 with regard to their exclusivity.
+// end::latest[]
