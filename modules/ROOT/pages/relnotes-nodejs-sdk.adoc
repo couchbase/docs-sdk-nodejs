@@ -1,1 +1,1 @@
-include::nodejs-sdk::page$relnotes-nodejs-sdk.adoc[tag=latest]
+include::nodejs-sdk::page$sdk-release-notes.adoc[tag=latest]
