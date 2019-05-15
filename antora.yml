@@ -1,8 +1,8 @@
 name: nodejs-sdk
-version: '3.0dp1'
+version: '3.0'
 prerelease: ALPHA
 title: Node.js SDK
-start_page: 3.0dp1@nodejs-sdk:hello-world:start-using-sdk.adoc
+start_page: 3.0@nodejs-sdk:hello-world:start-using-sdk.adoc
 nav:
 - modules/ROOT/nav.adoc
 server_version: '6.5'
