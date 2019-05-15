@@ -67,13 +67,14 @@ var getResult = await collection.get("my-document");
 ----
 
 KV Operations are described in detail on the xref:net-sdk:howtos:kv-operations.adoc[KV Operations page].
-Now that you know the basics, you may wish to go straight to that page -- or first see a complete worked example of using the Couchbase .NET client, our xref:3.0dp1@sample-application.adoc[Travel Sample Application].
+Now that you know the basics, you may wish to go straight to that page.
+//-- or first see a complete worked example of using the Couchbase node.js client, our xref:sample-application.adoc[Travel Sample Application].
 
 == Additional Resources
 
-The API reference is generated for each release and can be found xref:http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0dp1/[here].
+// The API reference is generated for each release and can be found xref:http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0dp1/[here].
 
-xref:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
+// xref:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Node.js SDK.
 The Node.js SDK source code is available on xref:https://github.com/couchbase/couchbase-node-client[GitHub].
