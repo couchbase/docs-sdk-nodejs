@@ -26,7 +26,7 @@ Make sure you're familiar with the basics of authorization and connecting to a C
 We're going to expand on the short _Upsert_ example we used there, adding options as we move through the various CRUD operations.
 Here is the _Insert_ operation at its simplest:
 
-Insert
+.Insert
 [source,javascript]
 ----
 var document = {foo: 'bar', bar: 'foo'};
@@ -35,7 +35,7 @@ var result = await collection.insert('document-key', document);
 
 Options may be added to operations:
 
-Insert (with options)
+.Insert (with options)
 [source,javascript]
 ----
 var document = {foo: 'bar', bar: 'foo'};
@@ -104,7 +104,7 @@ var content = result.content;
 
 Timeout can also be set - as in the earlier `Insert` example:
 
-Get (with options)
+.Get (with options)
 [source,javascript]
 ----
 var result = await collection.get('document-key', {
@@ -118,7 +118,7 @@ var content = result.content;
 
 When removing a document, you will have the same concern for durability as with any additive modification to the Bucket:
 
-Remove (with options)
+.Remove (with options)
 [source,javascript]
 ----
 var result = await collection.remove('document-key', {
@@ -153,14 +153,14 @@ var result = await collection.touch('document-key', 30000, {
 
 The value of a document can be increased or decreased atomically using `binary().increment()` and `binary().decrement()`.
 
-Increment
+.Increment
 [source,javascript]
 ----
 // increment binary value by 1
 await collection.binary().increment('document-key', 1);
 ----
 
-Increment (with options)
+.Increment (with options)
 [source,javascript]
 ----
 // increment binary value by 1, if document doesn’t exist, seed it at 1000
@@ -170,14 +170,14 @@ await collection.binary().increment('document-key', 1, {
 });
 ----
 
-Decrement
+.Decrement
 [source,csharp]
 ----
 // decrement binary value by 1
 await collection.binary().decrement('document-key', 1);
 ----
 
-Decrement (with options)
+.Decrement (with options)
 [source,csharp]
 ----
 // decrement binary value by 1, if document doesn’t exist, seed it at 1000
@@ -194,9 +194,8 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API and as s
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
 
-Another way of increasing network performance is to _pipeline_ operations with xref:batching-operations.adoc[Batching Operations].
+// Another way of increasing network performance is to _pipeline_ operations with xref:batching-operations.adoc[Batching Operations].
 
-As well as various xref:concept-docs:data-model.adoc[Formats] of JSON, Couchbase can work directly with xref:non-json.adoc[arbitary bytes, or binary format].
+// As well as various xref:concept-docs:data-model.adoc[Formats] of JSON, Couchbase can work directly with xref:non-json.adoc[arbitary bytes, or binary format].
 
 Our xref:n1ql-queries-with-sdk.adoc[Query Engine] enables retrieval of information using the SQL-like syntax of N1QL.
-
