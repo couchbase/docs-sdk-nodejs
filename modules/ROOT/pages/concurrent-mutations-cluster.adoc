@@ -165,19 +165,32 @@ How to handle this error depends on the application logic.
 If the application wishes to simply insert a new property within the document (which is not dependent on other properties within the document), then it may simply retry the read-update cycle by retrieving the item (and thus getting the new CAS), performing the local modification and then uploading the change to the server.
 For example, if a document represents a user, and the application is simply updating a user’s information (like an email field), the method to update this information may look like this:
 
-[source,python]
+[source,javascript]
 ----
-def update_email(cb, user_id, email):
-    while True:
-        result = cb.get(user_id)
-        user_doc = result.value
-        user_doc['email'] = email
-        cb.upsert(user_id, user_doc, cas=result.cas)
-        break # Mutation succeeded
-    except KeyExistsError:
-        # This means the CAS has been modified. We still need to
-        # insert the email field, but do not want to override new changes
-        continue
+function updateEmail(bucket, userId, newEmail, callback) {
+    var tryUpdateEmail = function() {
+        bucket.get(userId, function(err, res) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            var userDoc = res.value;
+            userDoc.email = newEmail;
+            bucket.upsert(userId, userDoc, function(err, res) {
+                if (err && err.code == couchbase.errors.keyAlreadyExists) {
+                    tryUpdateEmail();
+                } else if (err) {
+                    callback(err);
+                    return;
+                }
+
+                callback(null, true);
+            });
+        });
+    };
+    tryUpdateEmail();
+}
 ----
 
 Sometimes more logic is needed when performing updates, for example, if a property is mutually exclusive with another property; only one or the other can exist, but not both.
@@ -236,49 +249,31 @@ You can modify the time the lock is held for (though it can be no longer than 15
 
 Be sure to keep note of the _cas_ value when locking a document.
 You will need it when unlocking.
-The following blocks show how to use [.api]`lock` and [.api]`unlock` with the C SDK.
-This process should be similar for other SDKs.
+The following blocks show how to use [.api]`lock` and [.api]`unlock` with the Node.js SDK.
 
-[source,c]
+[source,javascript]
 ----
-lcb_CMDGET cmd = { 0 };
-LCB_CMD_SET_KEY(&cmd, "key", 3);
-cmd.lock = 1;
-cmd.exptime = 5;
-lcb_get3(instance, NULL, &cmd);
-lcb_wait(instance);
-----
-
-----
-static int unlock_only = 0;
-
-void get_handler(lcb_t instance, int cbtype, const lcb_RESPBASE *rb)
-{
-    const lcb_RESPGET *resp = (const lcb_RESPGET *)rb;
-
-    union {
-        lcb_CMDBASE base;
-        lcb_CMDSTORE store;
-        lcb_CMDUNLOCK unlock;
-    } u;
-
-    if (rb->rc == LCB_ETMPFAIL) {
-        printf("Key already locked!");
-    } else if (rb->rc == LCB_SUCCESS) {
-        memset(&u, 0, sizeof u);
-        LCB_CMD_SET_KEY(&u.base, rb->key, rb->nkey);
-        u.base.cas = rb->cas;
-        if (unlock_only) {
-            lcb_unlock3(instance, NULL, &u.unlock);
-        } else {
-            LCB_CMD_SET_VALUE(&u.store, "value", 5);
-            u.store.operation = LCB_REPLACE;
-            lcb_store3(instance, NULL, &u.store);
-        }
+bucket.lock('key', function(err, res) {
+    if (err && err.code === couchbase.errors.temporaryError) {
+        // document already locked
+        return;
     }
-}
+
+    var lockedCas = res.cas;
+
+    /** an example of simply unlocking the document
+    bucket.unlock('key', lockedCas, function(err, res) {
+        // document is now unlocked
+    })
+    */
+
+    // update the contents of the locked document and unlock it
+    bucket.upsert('key', 'new value', {cas: lockedCas}, function(err, res) {
+        // the document is now updated and unlocked.
+    });
+});
 ----
 
-The handler will unlock the item either via an explicit unlock operation ([.api]`lcb_unlock3`) or implicitly via modifying the item with the correct CAS.
+The handler will unlock the item either via an explicit unlock operation ([.api]`unlock`) or implicitly via modifying the item with the correct CAS.
 
 If the item has already been locked, the server will respond with [.var]`LCB_ETMPFAIL` which means that the operation could not be executed temporarily, but may succeed later on.
