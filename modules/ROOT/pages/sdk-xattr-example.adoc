@@ -63,3 +63,67 @@ bucket.mutateIn('hotel_10138')
         });
     });
 ----
+
+== Virtual Extended Attributes Example
+
+Using the Sub-Document API, xref:sdk-xattr-overview.adoc#_virtual_extended_attributes[Virtual XATTR] can be used to fetch metadata about a document, via the `$document` virtual XATTR.
+A common use case is discovering documentation expiration metadata, or TTL:
+
+[source,go]
+----
+'use strict';
+
+var couchbase = require('couchbase');
+
+var cluster = new couchbase.Cluster('couchbase://localhost');
+cluster.authenticate('Administrator', 'password');
+
+var bucket = cluster.openBucket('travel-sample');
+
+var key = 'airline_17628';
+
+// Touch the document to give it a TTL
+bucket.touch(key, 300, function(err, res) {
+  if (err) {
+    throw err;
+  }
+
+  // Fetch the TTL of the document
+  bucket.lookupIn(key)
+    .get('$document.exptime', {xattrMacro: true})
+    .execute(function(err, res) {
+      if (err) {
+        throw err;
+      }
+
+      var ttl = res.contentByIndex(0);
+      console.log('Expiry value is: ' + ttl);
+
+      // Reset the expiry so that the document does not expire
+      bucket.touch(key, 0, function(err, res) {
+        if (err) {
+          throw err;
+        }
+
+        // Multiple paths can be access at once via subdoc. It's limited to 16 paths and xattrs have to be first.
+        bucket.lookupIn(key)
+          .get('$document.exptime', {xattrMacro: true})
+          .get('$document.value_bytes', {xattrMacro: true})
+          .get('callsign')
+          .execute(function(err, res) {
+            if (err) {
+              throw err;
+            }
+
+            var ttl = res.contentByIndex(0);
+            var size = res.contentByIndex(1);
+            var callsign = res.contentByIndex(2);
+
+            console.log('Expiry value is: ' + ttl);
+            console.log('Size is ' + size);
+            console.log('Callsign is ' + callsign);
+          });
+      })
+    })
+});
+----
