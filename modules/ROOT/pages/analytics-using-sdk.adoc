@@ -1,0 +1,100 @@
+= Analytics using the Node.js SDK
+:page-topic-type: howto
+:page-edition: Enterprise Edition:
+
+[abstract]
+Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+
+For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, Couchbase Data Platform introduces the xref:6.0@server:analytics:introduction.adoc[Couchbase Analytics Service]. 
+After familiarising yourself with our xref:6.0@server:analytics:primer-beer.adoc[introductory primer], in particular creating a dataset and linking it to a bucket to shadow the operational data, try Couchbase Analytics using the Node.js SDK.
+
+== Availability
+
+The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5). While earlier Node.js SDK versions provide some support, we strongly recommend to use at least version 2.6.0, which provides a committed and stable interface for it.
+
+== Usage: Performing a Request
+
+Intentionally, the API for analytics is very similar to the query service one.  To perform a query, you need to create an `AnalyticsQuery`. If parameters are used, they can either be `positional` or `named`. Here is one example of each:
+
+[source,javascript]
+----
+var query = couchbase.AnalyticsQuery.fromString(
+    "SELECT airportname, country FROM airports WHERE country='France'");
+bucket.query(query, function(err, rows) {
+    // ...
+});
+----
+
+[source,javascript]
+----
+var query = couchbase.AnalyticsQuery.fromString(
+    "SELECT airportname, country FROM airports WHERE country=?");
+bucket.query(query, ['France'], function(err, rows) {
+    // ...
+});
+----
+
+[source,javascript]
+----
+var query = couchbase.AnalyticsQuery.fromString(
+    "SELECT airportname, country FROM airports WHERE country=$country");
+bucket.query(query, {country: 'France'}, function(err, rows) {
+    // ...
+});
+----
+
+Additional options are available at query time which can be passed in through the `AnalyticsQuery` object:
+
+.Analytics Params Reference
+[#node-analytics-params-ref]
+|===
+| Name | Builder | Default | Description
+
+| Pretty
+| `pretty(bool)`
+| false
+| If the returned result should be prettified JSON.
+
+| Priority
+| `priority(bool)`
+| false
+| If this request should have priority over others.
+
+| Raw Param
+| `rawParam(string, object)`
+| none
+| Allows to send arbitrary params to the analytics service which are not part of the builder API.
+
+|===
+
+These params must be sent as part of the query:
+
+[source,javascript]
+----
+var query = couchbase.AnalyticsQuery.fromString(
+    "SELECT airportname, country FROM airports WHERE country='France'"
+).priority(true);
+----
+
+== Usage: Handling the Response
+
+Once the request has been executed, results are sent back to the client and it will return an `AnalyticsResults`.  The result contains all kinds of actual data and metadata which might or might not be set, depending on the query response. The resulting rows can be accessed through the rows property returend. Here is an example:
+
+[source,javascript]
+----
+var query = couchbase.AnalyticsQuery.fromString(
+    "SELECT airportname, country FROM airports WHERE country='France' LIMIT 5");
+bucket.query(query, function(err, rows) {
+    if (err) {
+        throw err;
+    }
+
+    for (var i = 0; i < rows.length; ++i) {
+        console.log(rows[i]);
+    }
+})
+----
+
+Always be sure to check `Close()` for any errors.
+
+Additional metrics can be accessed through the `Metrics()` function, such as `ElapsedTime` or the `ResultCount`.

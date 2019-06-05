@@ -41,13 +41,13 @@ Because JSON is a structured format, it can be subsequently searched and queried
 [#crud-overview]
 == Primitive Key-Value Operations
 
-[source,python]
+[source,javascript]
 ----
-upsert(docid, document)
-insert(docid, document)
-replace(docid, document)
-get(docid)
-remove(docid)
+upsert(docId, newValue, options, callback)
+insert(docId, newValue, options, callback)
+replace(docId, newValue, options, callback)
+get(docId, options, callback)
+remove(docId, options, callback)
 ----
 
 In Couchbase documents are stored using one of the operations: _upsert_, _insert_, and _replace_.
@@ -125,9 +125,13 @@ See xref:concurrent-mutations-cluster.adoc[CAS] for a description on how to use 
 ====
 If you wish to only modify certain parts of a document, you can use xref:subdocument-operations.adoc[sub-document] operations which operate on specific subsets of documents:
 
-[source,python]
+[source,javascript]
 ----
-cb.mutate_in('docid', subdoc.array_addunique('tags', 'fast'))
+bucket.mutateIn('docid')
+  .arrayAddUnique('tags', 'fast')
+  .execute(function(err, res) {
+    // operation completed
+});
 ----
 
 or xref:{version-server}@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
@@ -185,9 +189,15 @@ SELECT * FROM default WHERE META(default).id = "docid";
 
 You can also retrieve _parts_ of documents using xref:subdocument-operations.adoc[sub-document operations], by specifying one or more sections of the document to be retrieved
 
-[source,python]
+[source,javascript]
 ----
-name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
+bucket.lookupIn('user:kingarthur')
+  .get('contact.name)
+  .get('contact.email')
+  .execute(function(err, res) {
+    var name = res.contentByIndex(0);
+    var email = res.contentByIndex(1);
+})
 ----
 
 [#devguide_kvcore_counter_generic]
@@ -200,20 +210,24 @@ Within a single cluster the `incr()` is atomic, as is `decr()`; across XDCR howe
 The same is the case for `decr()`.
 
 A document may be used as a counter if its value is a simple ASCII number, like `42`.
-Couchbase allows you to increment and decrement these values atomically using a special [.api]`counter` operation.
-The example below (in Python) shows how to use counters:
+Couchbase allows you to increment and decrement these values atomically using a special [.api]`counter` operation:
 
-[source,python]
+[source,javascript]
 ----
->>> cb.counter('counter_id', delta=20, initial=100).value
-100L
->>> cb.counter('counter_id', delta=1).value
-101L
->>> cb.counter('counter_id', delta=-50).value
-51L
+bucket.counter('counter_id', {delta: 20, initial: 100}, function(err, res) {
+    // counter is now 100
+
+    bucket.counter('counter_id', {delta: 1}, function(err, res) {
+        // counter is now 101
+
+        bucket.counter('counter_id', {delta: -50}, function(err, res) {
+            // counter is now 51
+        });
+    });
+});
 ----
 
-In the above example, a counter is created by using the [.api]`counter` Python method with an [.param]`initial` value.
+In the above example, a counter is created by using the `counter` with an `initial` value.
 The initial value is the value the counter uses if the counter ID does not yet exist.
 
 Once created, the counter can be incremented or decremented atomically by a given _amount_ or _delta_.
@@ -230,12 +244,16 @@ xref:concurrent-mutations-cluster.adoc[CAS] values are not used with counter ope
 The intent of the counter operation is to simply increment the current server-side value of the document.
 If you wish to only increment the document if it is at a certain value, then you may use a normal [.api]`upsert` function with CAS:
 
-[source,python]
+[source,javascript]
 ----
-rv = cb.get('counter_id')
-value, cas = rv.value, rv.cas
-if should_increment_value(value):
-  cb.upsert('counter_id', value + increment_amount, cas=cas)
+bucket.get('counter_id', function(err, res) {
+    if (should_increment_value(res.value)) {
+        var newValue = res.value + increment_amount;
+        bucket.upsert('counter_id', newValue, {cas: res.cas}, function(err, res) {
+            // updated
+        });
+    }
+})
 ----
 
 You can also use xref:subdocument-operations.adoc#ul_fp2_2yw_mv[sub-document counter operations] to increment numeric values _within_ a document containing other content.
@@ -243,19 +261,20 @@ You can also use xref:subdocument-operations.adoc#ul_fp2_2yw_mv[sub-document cou
 [#devguide_datastructures]
 == Datastructures - List, Map, Set, Queue
 
-You can use collection data structures such as lists, maps, sets and queues in Couchbase.
+You can use collection data structures such as lists, maps, sets, and queues in Couchbase.
 These data structures may be manipulated with basic operations without retrieving and storing the entire document.
 
-See the data structures xref:python-sdk::datastructures.adoc[documentation for each SDK language] for details on implementation.
-Some Python examples are provided below for easy reference, but more advanced Collections frameworks are accessible in xref:java-sdk::datastructures.adoc[Java] and xref:dotnet-sdk::datastructures.adoc[.NET] as well.
+See the xref:datastructures.adoc[data structures documentation for each SDK language] for details on implementation.
+Some examples are provided below for easy reference, but more advanced Collections frameworks are accessible in xref:java-sdk::datastructures.adoc[Java] and xref:dotnet-sdk::datastructures.adoc[.NET] as well.
 
-Data structures in Couchbase are similar in concept to data structures in, for example, Python:
+Data structures in Couchbase are similar in concept to the data structures found in JavaScript:
 
-* *Map* is like Python `dict`, and is a key-value structure, where a value is accessed by using a key string.
-* *List* is like a Python `list` and is a sequential data structure.
+* *Map* is like the JavaScript `Map`, introduced in ES6.
+Prior to this, it's like a JS`Object`, being a key-value structure, where a value is accessed by using a key string.
+* *List* is like a JavaScript `array` and is a sequential data structure.
 Values can be placed in the beginning or end of a list, and can be accessed using numeric indexes.
-* *Queue* is a wrapper over a _list_ which offers FIFO (first-in-first-out) semantics, allowing it to be used as a lightweight job queue.
-* *Set* is a wrapper over a _list_ which provides the ability to handle unique values.
+* *Queue* is a wrapper over an _array_ which offers FIFO (first-in-first-out) semantics, allowing it to be used as a lightweight job queue.
+* *Set* is a wrapper over an _array_ which provides the ability to handle unique values.
 
 These data structures are stored as JSON documents in Couchbase, and can therefore be accessed using N1QL, Full Text Search, and normal key-value operations.
 Data structures can also be manipulated using the traditional sub-document and full-document key-value APIs.
@@ -263,18 +282,21 @@ Data structures can also be manipulated using the traditional sub-document and f
 To add an item to a map, specify the _document ID_ of the map itself (i.e.
 the ID which uniquely identifies the map in the server), the key _within_ the map, and the value to store under the key:
 
-[source,python]
+[source,javascript]
 ----
-bucket.map_add('map_id', 'name', 'Mark Nunberg', create=True)
+bucket.mapAdd('map_id', 'name', 'Mark Nunberg', {upsert: true}, function(err, res) {
+    // item added to the map
+})
 ----
 
 Data structures can be accessed using their appropriate methods.
-Most data access methods will return an [.api]`ValueResult`-like object with the actual returned value under the [.var]`value` property.
+Most data access methods will return an object with the actual returned value under the [.var]`value` property.
 
-[source,python]
+[source,javascript]
 ----
-bucket.list_get(0).value  # 'hello'
-bucket.map_get('map_id', 'name').value  # 'mark nunberg'
+bucket.mapGet('map_id', 'name', function(err, res) {
+    var name = res.value; // Mark Nunberg
+});
 ----
 
 [#devguide_kvcore_append_prepend_generic]
@@ -291,10 +313,10 @@ Using the append and prepend methods may invalidate an existing JSON document.
 You can use xref:subdocument-operations.adoc[sub-document operations] if you want to have true JSON-aware prepend and append operations which add values to JSON arrays.
 ====
 
-[source,python]
+[source,javascript]
 ----
-append(docid, fragment)
-prepend(docid, fragment)
+append(docId, fragment, options, callback)
+prepend(docId, fragment, options, callback)
 ----
 
 The _append_ and _prepend_ operations atomically add bytes to the end or beginning of a binary document.
@@ -306,36 +328,23 @@ The semantics of the _append_ and _prepend_ operations are similar to those of t
 These functions may be used to add efficiency for custom binary data structures (such as logs), as they avoid transferring the contents of the entire document for each operation.
 Consider the following versions (which are equivalent)
 
-.Append using get() and replace() (slow)
-[source,python]
+.Append using append()
+[source,javascript]
 ----
-# Store the document
-cb.upsert('binary_doc', '\x01', format=couchbase.FMT_BYTES)
+// store the initial document
+bucket.upsert('binary_doc', Buffer.from([1]), function(err, res) {
+    
+    // append some bytes to the document
+    bucket.append('binary_doc', Buffer.from([2, 3, 4]), function(err, res) {
 
-while True:
-    # Retrieve the entire document
-    rv = cb.get('binary_doc')
-    value = rv.value + '\x02'
-    try:
-        # Upload the entire document
-        cb.replace('binary_doc', value, format=couchbase.FMT_BYTES)
-        break
-    except couchbase.exceptions.KeyExistsError:
-        continue
+        // fetch the document
+        bucket.get('binary_doc', function(err, res) {
+            var binaryValue = res.value;
 
-print repr(cb.get('binary_doc').value)
-----
-
-.Append using append() (fast)
-[source,python]
-----
-# Store the document
-cb.upsert('binary_doc', '\x01', format=couchbase.FMT_BYTES)
-
-# Append a fragment
-cb.append('binary_doc', '\x02', format=couchbase.FMT_BYTES)
-
-print repr(cb.get('binary_doc').value)
+            console.log(binaryValue); // Buffer(1, 2, 3, 4)
+        })
+    });
+});
 ----
 
 Note that since the _append_ operation is done atomically, there is no need for a CAS check (though one can still be supplied if the document must be at a specific state).
@@ -405,5 +414,5 @@ The _expiry pager_ is a routine internal process which scans the database for it
 
 When gathering resource usage statistics, note that expired-but-not-purged items (such as the expiry pager has not scanned this item yet) will still be considered with respect to the overall storage size and item count.
 
-NOTE: Although the API only sets expiry values _per document_, it is possible that elsewhere in the server, an expiry value is being set for https://developer.couchbase.com/documentation/server/5.5/architecture/core-data-access-bucket-expiration.html[every document in a bucket^].
+NOTE: Although the API only sets expiry values _per document_, it is possible that elsewhere in the server, an expiry value is being set for xref:6.0@server:learn:buckets-memory-and-storage/expiration.adoc[every document in a bucket^].
 Should this be the case, the document TTL may be reduced, and the document may become unavailable to the app sooner than expected.
