@@ -19,7 +19,7 @@ When applications provide the CAS, server will check the application-provided ve
 * If the two CAS values match (they compare successfully), then the mutation operation succeeds.
 * If the two CAS values differ, then the mutation operation fails.
 
-CAS, on the server-side might be implemented along these lines
+CAS, on the server-side might be implemented along these lines (pseudocode):
 
 [source,c]
 ----
