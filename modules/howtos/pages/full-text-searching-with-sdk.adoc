@@ -1,4 +1,7 @@
 = Full Text Search from the SDK
 
+include::partial$alpha-warning.adoc[]
+
+
 (FTS)
 
