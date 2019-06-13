@@ -3,13 +3,13 @@
 :page-topic-type: howto
 :page-aliases: document-operations.adoc
 
-WARNING: These pages cover the first _Alpha Preview_ of the Couchbase Node.js SDK 3.0 (Alpha 1).
-As such they are likely to change without notice.  This alpha code _should not_ be used in production.
+include::partial$alpha-warning.adoc[]
 
+////
 The complete code sample used on this page can be downloaded from
-///  xref::example$document.cs[here]
+  xref::example$document.cs[here]
 - from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
-
+////
 
 == Documents
 
