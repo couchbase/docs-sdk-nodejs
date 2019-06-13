@@ -6,6 +6,8 @@ The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluste
 
 // tag::install[]
 
+include::partial$alpha-warning.adoc[]
+
 WARNING: These pages cover the first _Alpha release_ of the Couchbase Node.js SDK 3.0 (alpha.1).
 As such they are likely to change without notice.
 The alpha code _should not_ be used in production.
