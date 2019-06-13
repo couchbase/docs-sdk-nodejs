@@ -1,5 +1,7 @@
 = Extended Attributes
 
+include::partial$alpha-warning.adoc[]
+
 
 
 
