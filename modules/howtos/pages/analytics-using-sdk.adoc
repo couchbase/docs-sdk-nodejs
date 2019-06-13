@@ -1,2 +1,4 @@
 = Analytics using the SDK
 
+include::partial$alpha-warning.adoc[]
+
