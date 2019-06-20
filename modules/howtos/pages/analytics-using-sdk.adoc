@@ -67,13 +67,13 @@ See example in the next section.
 Additional parameters may be sent as part of the query, using the options block in the API.
 There are currently three parameters:
 
-*Client Context ID*, sets a context ID that is returned back as part of the result.
+* *Client Context ID*, sets a context ID that is returned back as part of the result.
 Uses the `clientContextId` option; default is a random UUID 
-*Server Side Timeout*, customizes the timeout sent to the server. 
+* *Server Side Timeout*, customizes the timeout sent to the server. 
 Does not usually have to be set, as the client sets it based on the timeout on the operation. 
 Uses the `timeout` option, and defaults to the Analytics timeout set on the client (75s).
 This can be adjusted at the xref:project-docs:client-settings.html#timeout-options[cluster global config level].
-*Priority*, set if the request should have priority over others.
+* *Priority*, set if the request should have priority over others.
 The `priority` option, defaults to `false`.
 
 
@@ -127,6 +127,8 @@ console.log('Error count: %d', result.meta.metrics.errorCount);
 
 // For listing of available properties in the meta-data (and sub structures)
 For a listing of available `metrics` in the meta-data, see the xref:concept-docs:analytics-for-SDK-users.adoc[Understanding Analytics] SDK doc.
+
+
 == Advanced Analytics Topics
 
 From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
