@@ -1,4 +1,132 @@
-= Analytics using the SDK
+= Analytics using the Node.js SDK
+:page-topic-type: howto
+:page-edition: Enterprise Edition:
 
 include::partial$alpha-warning.adoc[]
 
+[abstract]
+Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+
+
+For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
+This is the analytic counterpart to our xref:n1ql-queries-with-sdk.adoc[operational data focussed Query Service].
+The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5).
+
+
+== Getting Started
+
+After familiarizing yourself with our xref:6.5@server:analytics:primer-beer.adoc[introductory primer],
+in particular creating a dataset and linking it to a bucket to shadow the operational data, 
+try Couchbase Analytics using the Node.js SDK.
+Intentionally, the API for analytics is very similar to that of the query service. 
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
+
+for (var i = 0; i < result.rows.length; ++i) {
+    console.log(result.rows[i].greeting);
+}
+----
+
+
+== Queries
+
+A query can either be `simple` or be `parameterized`. If parameters are used, they can either be `positional` or `named`. 
+Here is one example of each:
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics('SELECT airportname, country FROM airports WHERE country="France"');
+----
+
+The query may be performed with positional parameters:
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics(
+    'SELECT airportname, country FROM airports WHERE country = ?',
+    ['France']);
+----
+
+Alternatively, the query may be performed with named parameters:
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics(
+    'SELECT airportname, country FROM airports WHERE country = $country',
+    {country: 'France'});
+----
+
+NOTE: As timeouts are propagated to the server by the client, a timeout set on the client side may be used to stop the processing of a request, in order to save system resources.
+See example in the next section.
+
+
+== Fluent API
+
+Additional parameters may be sent as part of the query, using the options block in the API.
+There are currently three parameters:
+
+*Client Context ID*, sets a context ID that is returned back as part of the result.
+Uses the `clientContextId` option; default is a random UUID 
+*Server Side Timeout*, customizes the timeout sent to the server. 
+Does not usually have to be set, as the client sets it based on the timeout on the operation. 
+Uses the `timeout` option, and defaults to the Analytics timeout set on the client (75s).
+This can be adjusted at the xref:project-docs:client-settings.html#timeout-options[cluster global config level].
+*Priority*, set if the request should have priority over others.
+The `priority` option, defaults to `false`.
+
+
+Here, we give the request priority over others, and set a custom, server-side timeout value:
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics(
+    'SELECT airportname, country FROM airports WHERE country="France"',
+    {
+        priority: true,
+        timeout: 100, // seconds
+    });
+----
+
+
+== Handling the Response
+
+
+Assuming that no errors are thrown during the exceution of your query, the return value
+will be a `AnalyticsQueryResult` object.  You can access the individual rows which were
+returned through the rows property. 
+These rows may contain various sorts of data and metadata, 
+depending upon the nature of the query, 
+as you will have seen when working through our xref:6.5@server:analytics:primer-beer.adoc[introductory primer].
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
+
+for (var i = 0; i < result.rows.length; ++i) {
+    console.log('Greeting: %s', result.rows[i].greeting);
+}
+----
+
+=== MetaData
+
+The `meta` property of `AnalyticsQueryResult` contains useful metadata, such as metrics, which contains
+properties such as `elapsedTime`, and `resultCount`.
+Here is a snippet printing out some metrics from a query:
+
+[source,javascript]
+----
+var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
+
+console.log('Elapsed time: %d', result.meta.metrics.elapsedTime);
+console.log('Execution time: %d', result.meta.metrics.executionTime);
+console.log('Result count: %d', result.meta.metrics.resultCount);
+console.log('Error count: %d', result.meta.metrics.errorCount);
+----
+
+// For listing of available properties in the meta-data (and sub structures)
+For a listing of available `metrics` in the meta-data, see the xref:concept-docs:analytics-for-SDK-users.adoc[Understanding Analytics] SDK doc.
+== Advanced Analytics Topics
+
+From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
