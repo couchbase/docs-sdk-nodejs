@@ -10,9 +10,13 @@ multi_get()
 
 Node.js is asynchronous, and can deal with rows as they come in or the whole event.
 
+// promises vs callbacks
+//
+// 
+// N1QL with callbacks...
 // expand on this
 
-
+// add in negative cases
 
 == Batching
 
