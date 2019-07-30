@@ -8,10 +8,6 @@ The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluste
 
 include::partial$alpha-warning.adoc[]
 
-WARNING: These pages cover the first _Alpha release_ of the Couchbase Node.js SDK 3.0 (alpha.1).
-As such they are likely to change without notice.
-The alpha code _should not_ be used in production.
-
 == Installing the SDK
 
 [source,javascript]
@@ -21,7 +17,7 @@ npm install couchbase
 
 // end::install[]
 
-Information on new features, fixes, known issues, as well as information on how to install older release versions is xref::project-docs:relnotes-nodejs-sdk.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:project-docs:relnotes-nodejs-sdk.adoc[in the release notes].
 
 == Hello Couchbase
 
@@ -35,7 +31,7 @@ var cluster = new couchbase.Cluster(
         password: 'password'});
 ----
 
-Couchbase uses xref:6.5@server:learn/security:roles.adoc[Role Based Access Control (RBAC) to control access to resources.
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC) to control access to resources.
 Here we will use the _Full Admin_ role created during installation of the Couchbase Data Platform.
 For production client code, you will want to use more appropriate, restrictive settings, but here we want to get you up and running quickly.
 If you're developing client code on the same VM or machine as the Couchbase Server, your URI can be _localhost_.
@@ -79,6 +75,6 @@ KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV O
 // xref:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Node.js SDK.
-The Node.js SDK source code is available on xref:https://github.com/couchbase/couchbase-node-client[GitHub].
+The Node.js SDK source code is available on https://github.com/couchbase/couchbase-node-client[GitHub].
 
 
