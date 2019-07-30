@@ -6,9 +6,9 @@
 [abstract]
 Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
 
-include::hello-world:start-using-sdk.adoc[tag=prep]
+// include::hello-world:start-using-sdk.adoc[tag=prep]
 
-include::hello-world:start-using-sdk.adoc[tag=install]
+// include::hello-world:start-using-sdk.adoc[tag=install]
 
 To install an older version, specify the version directly with npm. 
 For example, to install version 2.6.1:
