@@ -1,3 +1,5 @@
 = Documents
-
 :page-topic-type: concept
+
+include::partial$alpha-warning.adoc[]
+
