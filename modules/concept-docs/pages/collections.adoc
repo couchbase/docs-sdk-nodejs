@@ -1,0 +1,9 @@
+= Collections & Scope
+:page-topic-type: concept
+:page-aliases:
+
+
+[abstract]
+Collections, instroduced as a _Developer Preview_ in Couchbase Server 6.5.
+
+include::partial$alpha-warning.adoc[]
