@@ -78,6 +78,4 @@ KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV O
 // xref:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Node.js SDK.
-The Node.js SDK source code is available on https://github.com/couchbase/couchbase-node-client[GitHub].
-
-
+The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].
