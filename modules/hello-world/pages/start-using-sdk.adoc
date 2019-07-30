@@ -4,6 +4,10 @@
 [abstract]
 The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the Node.js language.
 
+// tag::prep[]
+
+// end::prep[]
+
 // tag::install[]
 
 include::partial$alpha-warning.adoc[]
@@ -17,7 +21,7 @@ npm install couchbase
 
 // end::install[]
 
-Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:project-docs:relnotes-nodejs-sdk.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
 
 == Hello Couchbase
 
@@ -51,7 +55,6 @@ var collection = bucket.defaultCollection();
 var myCollection = bucket.collection("my-collection");
 ----
 
-The 3.0 SDK is ready for the introduction of xref:#[Collections] in an upcoming release of the Couchbase Data Platform.
 The latest release, Mad Hatter, brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
 Here we will use the `DefaultCollection`, rather than a specific collection, but best practice would be to group your users into a single collection, groups into another, etc...
 
