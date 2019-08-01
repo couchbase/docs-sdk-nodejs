@@ -1,7 +1,7 @@
 = Choosing an API
 :navtitle: Choosing an API
 :page-topic-type: howto
-:page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis
+:page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:bulk-operations
 
 [abstract]
 All async
@@ -21,7 +21,7 @@ Node.js is asynchronous, and can deal with rows as they come in or the whole eve
 == Batching
 
 // Batching -- multiple ops
-// multi_get()
+// multi_get() - or getMulti() ?
 //
 // using previous version's text for now:
 
@@ -29,3 +29,7 @@ You can batch operations via the other Couchbase SDKs (see the dropdown menu abo
 Batching operations -- done either via explicit _multi_ methods, or by scheduling multiple operations in sequence -- are an alternative in many of the other SDKs, but Node.js is an asynchronous language. 
 Since the user is free to dispatch as many operations as they wish, which will be in parallel implicitly, there is no need to batch operations. 
 In fact, if you schedule several asynchronous operations at the same time, then they will be performed at the same time, as the SDK effectively batches them internally.
+
+
+// You have now completed the Node.js 'Choose Your own API Adventure'.
+// Please insert a quarter to play again.
