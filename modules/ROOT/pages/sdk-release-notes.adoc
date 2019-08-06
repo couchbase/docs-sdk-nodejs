@@ -17,6 +17,32 @@ npm install couchbase@2.4.5
 ----
 
 
+== Version 2.6.6 (August 6 2019)
+
+Version 2.6.6 is a minor maintenance release of the 2.6 series.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.6/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-572[JSCBC-572]:
+Fixed an issue causing transcoding of null values to fail where it would
+previously encode a `null` value successfully.
+* http://issues.couchbase.com/browse/JSCBC-573[JSCBC-573]:
+Corrected missing documentation for the GeoDistanceQuery search query object.
+* http://issues.couchbase.com/browse/JSCBC-574[JSCBC-574]:
+Updated all third-party dependencies to their latest versions including
+security fixes and other audit results.
+* http://issues.couchbase.com/browse/JSCBC-571[JSCBC-571]:
+Fixed issue with test harness causing failures on real clusters.
+* Various minor changes.
+
+
 == Version 2.6.5 (July 4 2019)
 
 Version 2.6.5 is a minor maintenance release of the 2.6 series.
