@@ -1,5 +1,6 @@
 = CRUD Document Operations using the Node.js SDK with Couchbase Server
 :navtitle: Document Operations
+:page-aliases: documents-creating,documents-updating,documents-retrieving,documents-deleting,howtos:kv-operations
 
 You can access documents in Couchbase using the [.api]`Bucket` class (constructed via `cluster.openBucket()`).
 You can retrieve documents using the [.api]`get()` and [.api]`lookupIn` methods, and mutate documents using the [.api]`upsert()`, [.api]`insert()`, [.api]`replace()`, and [.api]`mutateIn()` methods.

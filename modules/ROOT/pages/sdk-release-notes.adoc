@@ -1,6 +1,6 @@
 = Couchbase Node.js Release Notes and Download Archives
 :page-partial:
-:page-aliases: relnotes-nodejs-sdk,release-notes
+:page-aliases: relnotes-nodejs-sdk,release-notes,download-links,project-docs:migrating-sdk-code-to-3.n,project-docs:sdk-release-notes
 
 // tag::latest[]
 

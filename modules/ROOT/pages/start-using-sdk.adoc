@@ -1,5 +1,6 @@
 = Install and Start Using the Node.js SDK with Couchbase Server
 :navtitle: Start Using the SDK
+:page-aliases: getting-started,hello-couchbase,nodejs-intro,hello-world:start-using-sdk,concept-docs:http-services
 
 [#install-node]
 

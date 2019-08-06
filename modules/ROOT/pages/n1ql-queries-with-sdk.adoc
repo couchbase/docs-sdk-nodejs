@@ -1,5 +1,6 @@
 = N1QL Queries Using the Node.js SDK with Couchbase Server
 :navtitle: N1QL from the SDK
+:page-aliases: querying-n1ql,howtos:n1ql-queries-with-sdk
 
 To issue N1QL queries you must pass an [.api]`couchbase.N1qlQuery` object to the [.api]`Bucket.query()` function which will then send the query to the cluster and invoke the passed callback.
 

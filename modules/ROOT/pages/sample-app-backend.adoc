@@ -1,5 +1,6 @@
 = Node.js Sample App Backend Tutorial
 :navtitle: Sample App Backend
+:page-aliases: tutorial4
 
 [abstract]
 The Node.js SDK tutorial bridges the gap between simple and advanced concepts by walking through a complete web application.

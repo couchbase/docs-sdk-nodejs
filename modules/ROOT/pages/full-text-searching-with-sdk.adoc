@@ -1,5 +1,6 @@
 = Full Text Search (FTS) using the Node.js SDK with Couchbase Server
 :navtitle: Searching from the SDK
+:page-aliases: howtos:full-text-searching-with-sdk
 
 [abstract]
 Using the Node.js SDK, you can use the Couchbase Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
