@@ -1,6 +1,6 @@
 = Collecting Information and Logging in the Node.js SDK with Couchbase Server
 :navtitle: Collecting Information
-:page-aliases: env-config,ref:client-settings
+:page-aliases: event-bus-metrics,logging,howtos:collecting-information-and-logging
 
 You may enable logging through the underlying C SDK:
 
