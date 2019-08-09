@@ -81,8 +81,24 @@ var result = await collection.Upsert('document-key', document, {
 ----
 
 Here, we have add _Durability_ options, namely `persistTo` and `replicateTo`.
-In Couchbase Server releases before 6.5, Durability was set with these two options -- see the https://docs.couchbase.com/nodejs-sdk/2.6/durability.html[6.0 Durability documentation] -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
-Couchbase Data Platform 6.5 refines these two options, with xref:6.5@server:learn:data/durability.adoc[Synchronous Replication], allowing discrete control of replication and persisteence across a number of nodes before the mutation is available.
+In Couchbase Server releases before 6.5, Durability was set with these two options 
+-- see the xref:2.6@nodejs-sdk::durability.adoc[6.0 Durability documentation] 
+-- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
+Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] 
+-- although they remain essentially the same in use.
+
+The following example demonstrates using the newer durability features available in Couchbase server 6.5 onwards.
+
+[source,javascript]
+----
+var document = {foo: 'bar', bar: 'foo'};
+var result = await collection.Upsert('document-key', document, {
+  case: SOME_CAS,
+  expiration: 60, // 60 seconds,
+  durabilityLevel: couchbase.DurabilityLevel.Majority,
+  timeout: 5000, // 5 seconds
+});
+----
 
 [TIP]
 .Sub-Document Operations
