@@ -29,7 +29,6 @@
 .Learn
 * xref:concept-docs:concepts.adoc[Overview]
 * xref:concept-docs:collections.adoc[Collections & Scope]
-* xref:concept-docs:collections.adoc[Collections & Scope]
 * xref:concept-docs:data-model.adoc[Data Model]
 * xref:concept-docs:durability-replication-failure-considerations.adoc[Failure Considerations]
 * xref:concept-docs:encryption.adoc[Field Level Encryption]
