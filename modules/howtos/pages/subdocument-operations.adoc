@@ -385,6 +385,32 @@ For example, two concurrent _subdoc-array-append_ operations to the same array w
 
 While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
 
+== Durability
+
+Couchbase's xref:2.7@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
+
+[source,javascript]
+----
+bucket.mutateIn('couchbase123', [
+    couchbase.MutateInSpec.insert('name', 'mike'),
+], {
+    durabilityPersistTo: 1,
+    durabilityReplicateTo: 1,
+});
+----
+
+In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability.adoc#synchronous-durability[Synchronous Replication], 
+which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
+
+[source,javascript]
+----
+bucket.mutateIn('couchbase123', [
+    couchbase.MutateInSpec.insert('name', 'mike'),
+], {
+    durabilityLevel: couchbase.DurabilityLevel.Majority,
+});
+----
+
 == Error handling
 
 Subdoc operations have their own set of errors.
