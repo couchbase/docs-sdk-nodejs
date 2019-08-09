@@ -387,7 +387,7 @@ While CAS is no longer so strongly required to ensure document updates are prese
 
 == Durability
 
-Couchbase's xref:2.7@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
+Couchbase's xref:2.6@nodejs-sdk:concept-docs:durability-replication-failure-considerations.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
 
 [source,javascript]
 ----
