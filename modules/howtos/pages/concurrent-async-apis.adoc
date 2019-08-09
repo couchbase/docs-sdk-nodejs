@@ -1,35 +1,83 @@
 = Choosing an API
 :navtitle: Choosing an API
 :page-topic-type: howto
-:page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:bulk-operations
+:source-language: javascript
+:lang: Node.js
+:page-aliases: ROOT:async-programming,multiple-apis,ROOT:batching-operations
+
+include::partial$alpha-warning.adoc[]
 
 [abstract]
-All async
-multi_get()
+The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of
+result handling.
+
+The Node.js SDK provides two APIs, which can be freely mixed:
+
+* A simple promises approach, available in the newest editions of Javascript.
+* A standard callback based approach, typical of Node.js.
 
 
-Node.js is asynchronous, and can deal with rows as they come in or the whole event.
+== Using the Promises API
 
-// promises vs callbacks
-//
-// 
-// N1QL with callbacks...
-// expand on this
+This is the simplest API, in which all operations can be directly waited upon.  
+A simple upsert example looks like this:
 
-// add in negative cases
+[source,javascript]
+----
+var result = await collection.upsert('somedoc', {foo: 'bar'});
+----
+
+Methods will return a Javascript 'Promise' object, which can be chained, joined
+or handled.
+
+An example of performing a couple of operations simultanously with the Promises
+API looks like this:
+
+[source,javascript]
+----
+var results = await Promise.all([
+    collection.upsert('somerealdoc', 'foo'),
+    collection.upsert('someotherdoc', 'bar'),
+    collection.upsert('somelastdoc', 'baz')
+]);
+----
+
+
+== Using the Callback API
+
+In addition to the Promises approach, we also simultaneously support the
+standard callback approach which is well known.  A simple upsert example
+looks like this:
+
+[source,javascript]
+----
+collection.upert('somedoc', {foo: 'bar'}, (err, result) => {
+    // ...
+});
+----
+
 
 == Batching
 
-// Batching -- multiple ops
-// multi_get() - or getMulti() ?
-//
-// using previous version's text for now:
+As Node.js inherently performs all operations in an asynchronous manner, no
+special implementation is required in order to enable batching.  Simply
+perform a number of operations simultaenously and they will be batched on
+the network.  This happens internally and is highly efficient.
 
-You can batch operations via the other Couchbase SDKs (see the dropdown menu above to access their docs).
-Batching operations -- done either via explicit _multi_ methods, or by scheduling multiple operations in sequence -- are an alternative in many of the other SDKs, but Node.js is an asynchronous language. 
-Since the user is free to dispatch as many operations as they wish, which will be in parallel implicitly, there is no need to batch operations. 
-In fact, if you schedule several asynchronous operations at the same time, then they will be performed at the same time, as the SDK effectively batches them internally.
+While most batching operations can be performed trivially by the application
+developer, the Node.js SDK does implement a method for performing batched
+retreival of documents from the cluster through the `getMulti` method.  An
+example of this looks like this:
+
+[source,javascript]
+----
+var results = await collection.getMulti(['somerealdoc', 'someotherdoc', 'somelastdoc']);
+----
 
 
-// You have now completed the Node.js 'Choose Your own API Adventure'.
-// Please insert a quarter to play again.
+== Choosing an API
+So which API should you choose?
+
+It's really down to you and the needs of your application.  
+If you're already writing code using promises, then it makes sense to continue that way.
+If you working with a legacy application which is still using the standard callback approach, it may make sense to continue using callbacks.
