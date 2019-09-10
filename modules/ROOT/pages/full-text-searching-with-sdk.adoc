@@ -389,7 +389,8 @@ This allows an application, based on the user’s input of a particular coordina
 
 The location-data provided by a geospatial query can be either of the following:
 
-* A location, specified as a longitude-latitude coordinate pair; and a distance, in miles. The location determines the center of a circle whose radius-length is the specified distance.
+* A location, specified as a longitude-latitude coordinate pair; and a distance, with units -- (in|ft|yd|mi|mm|cm|m|km|nm) where nm is nautical miles.
+The location determines the center of a circle whose radius-length is the specified distance.
 Documents are returned if they reference a location within the circle
 (this is the case in the example _below_).
 * Two longitude-latitude coordinate pairs. These are respectively taken to indicate the top left and bottom right corners of a bounding box.
@@ -414,7 +415,7 @@ var cluster = new couchbase.Cluster('couchbase://10.143.191.101,10.143.191.102,1
 cluster.authenticate('Administrator', 'password')
 var bucket = cluster.openBucket('travel-sample')
 ​
-// lon, lat, distance (with units, eg 100mi, 20km. Accepts (in|ft|yd|mi|mm|cm|m|km|nm) where nm is nautical miles)
+// lon, lat, distance (with units, eg 100mi, 20km.
 // Search in a 60 kilometer radius of London
 let query = couchbase.SearchQuery.geoDistanceQuery(-0.12,  51.51, '60km').field('geo')
 // Use the demoIndex FTS index
