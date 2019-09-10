@@ -413,16 +413,18 @@ var bucket = cluster.openBucket('travel-sample')
 // lon, lat, distance (with units, eg 100mi or 20km).
 // Search in a 60 kilometer radius of London
 let query = couchbase.SearchQuery.geoDistanceQuery(-0.12,  51.51, '60km').field('geo')
+
 // Use the demoIndex FTS index
 let q = couchbase.SearchQuery.new('demoIndex', query)
+
 // Sort the results by distance from the search point
 // (descending(false) applies to the distance - so closest is at the bottom)
-// (and descending(true) cuts off the closest results.)
-// (so most useful output is probably to reverse descending(false))
+// (and descending(true) cuts off the closer locations in favour of the other extreme of the results list)
 q.sort([
   // This call _is_ lat, lon; unlike the other one...
   couchbase.SearchSort.geoDistance('geo', 51.51, -0.12).unit('km').descending(false)
 ])
+
 // Run the query
 bucket.query(q, (err, rows, meta) => {
   if(rows.length > 0){
