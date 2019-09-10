@@ -381,41 +381,36 @@ querySet1(travelSample, function() {
 
 == Geospatial Queries
 
-
-A geospatial query specifies a location, and returns each document that contains a proximity-match.
-A location is represented by means of longitude-latitude coordinate pairs.
+A geospatial query specifies a location, and returns each document that contains a proximity match.
+A location is represented by means of latitude,longitude coordinate pairs.
 
 This allows an application, based on the user’s input of a particular coordinate, address, or property name, to derive a list of points of interest that lie within a specified distance of the user-referenced location; and display these for the user’s benefit.
 
-The location-data provided by a geospatial query can be either of the following:
+The location data provided by a geospatial query can be either of the following:
 
-* A location, specified as a longitude-latitude coordinate pair; and a distance, with units -- (in|ft|yd|mi|mm|cm|m|km|nm) where nm is nautical miles.
-The location determines the center of a circle whose radius-length is the specified distance.
+* A location, specified as a latitude,longitude coordinate pair; and a distance, with units -- selected from (in|ft|yd|mi|mm|cm|m|km|nm) where nm is nautical miles.
+The location determines the center of a circle whose radius length is the specified distance.
 Documents are returned if they reference a location within the circle
 (this is the case in the example _below_).
-* Two longitude-latitude coordinate pairs. These are respectively taken to indicate the top left and bottom right corners of a bounding box.
+* Two latitude,longitude coordinate pairs. These are respectively taken to indicate the top left and bottom right corners of a bounding box.
 Documents are returned if they reference a location within the box.
 
-To be successful, a geospatial query must reference an index within which the geopoint type mapping has been applied to the field containing the target longitude-latitude coordinate pair.
+To be successful, a geospatial query must reference an index within which the geopoint type mapping has been applied to the field containing the target latitude,longitude coordinate pair.
 
-NOTE: In the current (2.6.7) Node.js SDK, _longitude_ must be given before _latitude_ for the `geoDistanceQuery` method.
+NOTE: In the current (2.6.7) and earlier Node.js SDK, _longitude_ must be given before _latitude_ for the `geoDistanceQuery` method.
 This bug does not apply to the 3.0 version of the SDK.
-
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ check with Brett
-
-// https://issues.couchbase.com/browse/JSCBC-589
 
 
 [source,javascript]
 ----
-// Using SDK 2.6.7
+// Using Node.js SDK 2.6.7
 ​
 var couchbase = require('couchbase')
 var cluster = new couchbase.Cluster('couchbase://10.143.191.101,10.143.191.102,10.143.191.103')
 cluster.authenticate('Administrator', 'password')
 var bucket = cluster.openBucket('travel-sample')
 ​
-// lon, lat, distance (with units, eg 100mi, 20km.
+// lon, lat, distance (with units, eg 100mi or 20km).
 // Search in a 60 kilometer radius of London
 let query = couchbase.SearchQuery.geoDistanceQuery(-0.12,  51.51, '60km').field('geo')
 // Use the demoIndex FTS index
