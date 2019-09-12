@@ -397,7 +397,8 @@ Documents are returned if they reference a location within the box.
 
 To be successful, a geospatial query must reference an index within which the geopoint type mapping has been applied to the field containing the target latitude,longitude coordinate pair.
 
-NOTE: In the current (2.6.7) and earlier Node.js SDK, _longitude_ must be given before _latitude_ for the `geoDistanceQuery` method.
+NOTE: In the 2.6 and earlier Node.js SDK, _longitude_ must be given before _latitude_ for the `geoDistanceQuery` method,
+to work around an issue in the Search Geospatial implementation.
 This bug does not apply to the 3.0 version of the SDK.
 
 
@@ -421,7 +422,7 @@ let q = couchbase.SearchQuery.new('demoIndex', query)
 // (descending(false) applies to the distance - so closest is at the bottom)
 // (and descending(true) cuts off the closer locations in favour of the other extreme of the results list)
 q.sort([
-  // This call _is_ lat, lon; unlike the other one...
+  // This call _is_ lat, lon
   couchbase.SearchSort.geoDistance('geo', 51.51, -0.12).unit('km').descending(false)
 ])
 
