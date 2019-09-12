@@ -39,7 +39,7 @@
 * xref:collecting-information-and-logging.adoc[Collecting Information]
 
 .Project Docs
-* xref:relnotes-nodejs-sdk.adoc#version-2-4-5-7-march-2018[Release Notes]
+* xref:relnotes-nodejs-sdk.adoc#version-2-4-6-25-april-2018[Release Notes]
 * xref:compatibility-versions-features.adoc[Compatibility]
 * xref:sdk-licenses.adoc[Licenses]
 * xref:get-involved.adoc[Get involved]
