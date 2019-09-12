@@ -297,6 +297,29 @@ release of the SDK or to disable tracing temporarily until the
 upgrade is completed by specifying `enable_tracing=false` in
 their connection string.
 
+
+== Version 2.4.6 (7 March 2018)
+
+Version 2.4.6 is a maintenance release for the 2.4.x series.
+
+[source,bash]
+----
+$ npm install couchbase@2.4.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.4.6/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-458[JSCBC-458]:
+Added support for N1QL profiling.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-461[JSCBC-461]:
+Fixed an issue with view error parsing.
+* Fixed an issue where the SDK reported an incorrect libcouchbase version.
+
 == Version 2.4.5 (7 March 2018)
 
 Version 2.4.5 is a maintenance release for the 2.4.x series.
