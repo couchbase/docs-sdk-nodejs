@@ -298,7 +298,7 @@ upgrade is completed by specifying `enable_tracing=false` in
 their connection string.
 
 
-== Version 2.4.6 (7 March 2018)
+== Version 2.4.6 (25 April 2018)
 
 Version 2.4.6 is a maintenance release for the 2.4.x series.
 
