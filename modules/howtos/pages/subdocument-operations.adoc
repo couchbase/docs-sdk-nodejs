@@ -358,7 +358,7 @@ bucket.mutateIn('customer123', [
 
 == CAS Semantics
 
-Subdoc mostly eliminates the need for tracking the xref:concurrent-mutations-cluster.adoc[CAS] value.
+Subdoc mostly eliminates the need for tracking the xref:concurrent-document-mutations.adoc[CAS] value.
 Subdoc operations are atomic and therefore if two different threads access two different sub-documents then no conflict will arise.
 For example the following two blocks can execute concurrently without any risk of conflict:
 
@@ -387,7 +387,7 @@ While CAS is no longer so strongly required to ensure document updates are prese
 
 == Durability
 
-Couchbase's xref:2.6@nodejs-sdk:concept-docs:durability-replication-failure-considerations.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
+Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
 
 [source,javascript]
 ----
@@ -399,7 +399,7 @@ bucket.mutateIn('couchbase123', [
 });
 ----
 
-In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability.adoc#synchronous-durability[Synchronous Replication], 
+In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability-replication-failure-considerations.adoc#synchronous-durability[Synchronous Replication], 
 which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
 
 [source,javascript]
