@@ -3,6 +3,6 @@
 
 == Contributing
 
-Couchbase welcomes community contributions to the .NET SDK.
-The https://github.com/couchbase/couchnode/[.NET SDK source code^] is available on GitHub.
+Couchbase welcomes community contributions to the Node.js SDK.
+The https://github.com/couchbase/couchnode/[Node.js SDK source code^] is available on GitHub.
 Please see the https://github.com/couchbase/couchnode/blob/master/CONTRIBUTING.md[CONTRIBUTING^] file for further information.
