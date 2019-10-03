@@ -20,6 +20,29 @@ For example, to install version 2.6.1:
 npm install couchbase@2.6.1
 ----
 
+== Version 3.0.0-beta.1 (Oct 3 2019)
+
+=== New Features
+
+* Updated to 3.0.0-beta.1 release of libcouchbase.
+* Added support for checking the existence of a document.
+* Added support for per-operation transcoders.
+* Implemented data-structures support.
+* Implemented bucket management APIs.
+* Implemented full view management APIs.
+* Implemented diagnostics APIs
+* Implemented debug-based logging.
+* Added contextual details to errors returned from the library.
+
+=== Fixed Issues
+
+* Updated all dependencies based on security audit.
+* Improved connection management.
+* Adjusted geospatial coordinate ordering to lon/lat rather than lat/lon.
+* Fixed bugs causing sub-document operations to sometimes fail.
+* Fixed issues causing unreliable query service error types.
+* Removed support for spatial views.
+
 == Version 3.0.0-alpha.1 (May 2 2019)
 
 This is the first pre-release of the third generation Node.js SDK and a complete rewrite over the 2.x series. 
