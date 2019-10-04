@@ -22,6 +22,13 @@ npm install couchbase@2.6.1
 
 == Version 3.0.0-beta.1 (Oct 3 2019)
 
+[source,bash]
+----
+$ npm install couchbase@3.0.0-beta.1
+----
+
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0-beta.1/[API Reference]
+
 === New Features
 
 * Updated to 3.0.0-beta.1 release of libcouchbase.
