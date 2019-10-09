@@ -5,7 +5,7 @@
 :lang: Node.js
 :page-aliases: ROOT:async-programming,multiple-apis,ROOT:batching-operations
 
-include::partial$alpha-warning.adoc[]
+include::partial$beta-warning.adoc[]
 
 [abstract]
 The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of

@@ -10,7 +10,7 @@ The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluste
 
 // tag::install[]
 
-include::partial$alpha-warning.adoc[]
+include::partial$beta-warning.adoc[]
 
 == Installing the SDK
 

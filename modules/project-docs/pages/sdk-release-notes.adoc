@@ -6,7 +6,7 @@
 [abstract]
 Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
 
-include::partial$alpha-warning.adoc[]
+include::partial$beta-warning.adoc[]
 
 // include::hello-world:start-using-sdk.adoc[tag=prep]
 
