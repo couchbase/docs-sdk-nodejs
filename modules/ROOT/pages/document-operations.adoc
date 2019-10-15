@@ -201,7 +201,7 @@ Sub-document operations save network bandwidth by allowing you to specify _paths
 The document is parsed on the server and only the relevant sections (indicated by _paths_) are transferred between client and server.
 You can execute xref:subdocument-operations.adoc[sub-document] operations in the node.js SDK using the [.api]`Bucket.mutateIn`, and [.api]`Bucket.lookupIn` methods.
 
-Each of these methods accepts a [.param]`key` as its mandatory first argument and returns a builder object which can be used to add one or more _command specifications_ specifying a specifying an operation and a document field operand.
+Each of these methods accepts a [.param]`key` as its mandatory first argument and returns a builder object which can be used to add one or more _command specifications_ specifying an operation and a document field operand.
 To submit the operation, invoke the [.api]`execute()` method on the builder, passing it the callback to be invoked.
 
 [source,javascript]
