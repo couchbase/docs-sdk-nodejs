@@ -181,7 +181,7 @@ bucket.getAndTouch('some_document', 2, function(err, result) {
 
 == Atomic document modifications
 
-Additional atomic document modifications can be performing using the node.js SDK.
+Additional atomic document modifications can be performed using the node.js SDK.
 You can modify a xref:core-operations.adoc#devguide_kvcore_append_prepend_generic[counter document] using the [.api]`Bucket.counter()` method.
 You can also use the [.api]`Bucket.append` and [.api]`Bucket.prepend` methods to perform raw byte concatenation
 
