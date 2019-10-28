@@ -134,7 +134,8 @@ For a listing of available `metrics` in the meta-data, see the xref:concept-docs
 From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
 
 
-
+////
 == Additional Resources 
 
 To learn more about using N1QL for Analytics -- the first commercial implementation of SQL++ -- see our https://sqlplusplus-tutorial.couchbase.com/tutorial/#1[Tutorial Introduction to SQL++ for SQL users].
+////
