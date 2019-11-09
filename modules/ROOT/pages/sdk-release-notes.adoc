@@ -17,6 +17,27 @@ npm install couchbase@2.4.5
 ----
 
 
+== Version 2.6.9 (November 8 2019)
+
+Version 2.6.9 is a minor maintenance release of the 2.6 series.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.9
+----
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-625[JSCBC-625]:
+Fixed inability to ping the analytics service.
+* http://issues.couchbase.com/browse/JSCBC-624[JSCBC-624]:
+Updated to latest version of libcouchbase (2.10.5)
+
+=== Known Issues
+
+* libcouchbase version is incorrectly reported as 2.10.4.
+
+
 == Version 2.6.8 (October 7 2019)
 
 Version 2.6.8 is a minor maintenance release of the 2.6 series.
