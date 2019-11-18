@@ -68,6 +68,9 @@ We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below]
 For a discussion of item (Document) _vs_ Bucket expiration, see the 
 xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
+
+== Durability
+
 [source,javascript]
 ----
 var document = {foo: 'bar', bar: 'foo'};
