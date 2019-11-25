@@ -12,7 +12,7 @@ Sub-Document operations are also atomic, allowing safe modifications to document
 Starting with Couchbase Server 4.5 you can atomically and efficiently update and retrieve _parts_ of a document.
 These parts are called _Sub-Documents_.
 While full-document retrievals retrieve the entire document and full document updates require sending the entire document, Sub-Document retrievals only retrieve relevant parts of a document and Sub-Document updates only require sending the updated portions of a document.
-You should use Sub-Document operations when you are modifying only portions of a document, and full-document operations when the contents of a document is to change significantly.
+You should use Sub-Document operations when you are modifying only portions of a document, and full-document operations when the contents of a document are to change significantly.
 
 [caption=Attention]
 IMPORTANT: The Sub-Document operations described on this page are for _Key-Value_ requests only: they are not related to Sub-Document N1QL queries.
