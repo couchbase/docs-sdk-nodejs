@@ -272,5 +272,5 @@ TIP: See xref:nonjson.adoc[Non-JSON Documents] for a general overview of using n
 
 All JavaScript types which can be represented as JSON may be passed unmodified to a storage function, and be received via the [.api]`get` method without any additional modifications.
 
-You can implement a custom transcoder if you would like to serialize documents to/from a format other than JSON, or if you would like to interact with other SDKs which use non-JSON serialization formats.
+You can implement a custom xref:nonjson.adoc[transcoder] if you would like to serialize documents to/from a format other than JSON, or if you would like to interact with other SDKs which use non-JSON serialization formats.
 See [.api]`Bucket.setTranscoder()`.
