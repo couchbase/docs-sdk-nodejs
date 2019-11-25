@@ -51,7 +51,7 @@ Considering the document:
 }
 ----
 
-The path's `name`, `addresses.billing.country` and `purchases.complete[0]` are all valid paths.
+The path's `name`, `addresses.billing.country`, and `purchases.complete[0]` are all valid paths.
 
 == Retrieving
 
