@@ -230,30 +230,28 @@ function N1QLFetchAirports(search, callback) {
 == Monitoring
 When dealing with failures like these it's important to keep tabs on what issues are occurring and how often.
 It's great that an application can still operate if a node drops, but if everything just continues to work, it may not be obvious that there's an underlying issue.
-In the Node.js SDK there are 3 main methods of gathering information: *LCB Logging*, *Threshold Logging* and *Health Check*. 
+In the Node.js SDK there are 3 main methods of gathering information: *LCB Logging*, *Threshold Logging*, and *Health Check*. 
 
 xref:collecting-information-and-logging.adoc[LCB Logging] is lower-level and gives logging and stack traces from the underlying `libcouchbase` C library.
-This can be useful for manually debugging what's causing a specific error, or why a connection might be dropping etc.
-However, it's not the best solution for simply checking the status of a node for example, due to the sheer volume of information it outputs.
+This can be useful for manually debugging what's causing a specific error, or why a connection might be dropping.
+However, it's not the best solution for simply checking the status of a node for example, due to the volume of information it outputs.
 
-xref:threshold-logging.adoc[Threshold Logging] will periodically output a list of operations that took longer than a specified timer to complete.
+xref:threshold-logging.adoc[Threshold Logging] will periodically output a list of operations that took longer than a specified time to complete.
 If you're mainly dealing with timeouts this is an excellent tool to be able to see exactly what's going on in your system.
 
-But the most useful tool for this context is the Health Check API.
-If after a few timeouts or failures (remember, these can always be counted/tracked explicitly as part of the application code) we may suspect there's a problem server-side.
+But the most useful tool for this context is the xref:health-check.adoc[Health Check API].
+After a few timeouts or failures (remember, these can always be counted or tracked explicitly as part of the application code), we may suspect there's a problem server-side.
 In this case we can use the `ping` or `diagnostics` methods on our bucket object.
 These methods can give us information, usable inside the application, about the current state of nodes, and their connections.
 If they reveal that a whole node is down for example, it might be wise to stop the application there, and notify an administrator, or wait for the server to come back up.
 Regardless of the course of action taken, the important thing is that the issue can be identified and reacted to in the most applicable way for your application.
 
 Here's some examples of what might be returned:
-
 +
 Diagnostics returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
 However this call _does not actively poll the nodes_.
 It simply reports the state the last time it tried to access each node.
-
-
++
 [source,javascript]
 ----
 bucket.diagnostics((err, res) => {
@@ -289,12 +287,9 @@ bucket.diagnostics((err, res) => {
 }
 */
 ----
-
-
 +
 Ping actively queries the status of the specified services, and returns the status for every node reachable
-
-
++
 [source,javascript]
 ----
 let services = [couchbase.ServiceType.KeyValue, couchbase.ServiceType.Query]
