@@ -227,8 +227,137 @@ function N1QLFetchAirports(search, callback) {
 ----
 <1> The function `getMultiReplica` isn't actually implemented, but is simply performing `getReplica` in a loop (concurrently), and waiting until all responses have arrived.
 
-
-////
 == Monitoring
-////
+When dealing with failures like these it's important to keep tabs on what issues are occurring and how often.
+It's great that an application can still operate if a node drops, but if everything just continues to work, it may not be obvious that there's an underlying issue.
+In the Node.js SDK there are 3 main methods of gathering information: *LCB Logging*, *Threshold Logging* and *Health Check*. 
 
+xref:collecting-information-and-logging.adoc[LCB Logging] is lower-level and gives logging and stack traces from the underlying `libcouchbase` C library.
+This can be useful for manually debugging what's causing a specific error, or why a connection might be dropping etc.
+However, it's not the best solution for simply checking the status of a node for example, due to the sheer volume of information it outputs.
+
+xref:threshold-logging.adoc[Threshold Logging] will periodically output a list of operations that took longer than a specified timer to complete.
+If you're mainly dealing with timeouts this is an excellent tool to be able to see exactly what's going on in your system.
+
+But the most useful tool for this context is the Health Check API.
+If after a few timeouts or failures (remember, these can always be counted/tracked explicitly as part of the application code) we may suspect there's a problem server-side.
+In this case we can use the `ping` or `diagnostics` methods on our bucket object.
+These methods can give us information, usable inside the application, about the current state of nodes, and their connections.
+If they reveal that a whole node is down for example, it might be wise to stop the application there, and notify an administrator, or wait for the server to come back up.
+Regardless of the course of action taken, the important thing is that the issue can be identified and reacted to in the most applicable way for your application.
+
+Here's some examples of what might be returned:
+
++
+Diagnostics returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
+However this call _does not actively poll the nodes_.
+It simply reports the state the last time it tried to access each node.
+
+
+[source,javascript]
+----
+bucket.diagnostics((err, res) => {
+    console.log(res)
+})
+/*
+{
+    "id":"0x10290d100","kv":[
+        {
+            "id":"0000000072b21d66",
+            "last_activity_us":2363294,
+            "local":"10.112.195.1:51473",
+            "remote":"10.112.195.101:11210",
+            "status":"connected"
+        },
+        {
+            "id":"000000000ba84e5e",
+            "last_activity_us":7369021,
+            "local":"10.112.195.1:51486",
+            "remote":"10.112.195.102:11210",
+            "status":"connected"
+        },
+        {
+            "id":"0000000077689398",
+            "last_activity_us":4855640,
+            "local":"10.112.195.1:51409",
+            "remote":"10.112.195.103:11210",
+            "status":"connected"
+        }
+    ],
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "version":1
+}
+*/
+----
+
+
++
+Ping actively queries the status of the specified services, and returns the status for every node reachable
+
+
+[source,javascript]
+----
+let services = [couchbase.ServiceType.KeyValue, couchbase.ServiceType.Query]
+bucket.ping(services, (err, res) => {
+    console.log(res)
+})
+/*
+{
+    "config_rev":1822,
+    "id":"0x102f09dc0",
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "services":{
+        "kv":[
+            {
+                "id":"0x104802900",
+                "latency_us":1542,
+                "local":"10.112.195.1:51707",
+                "remote":"10.112.195.101:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029253d0",
+                "latency_us":6639,
+                "local":"10.112.195.1:51714",
+                "remote":"10.112.195.103:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x102924bc0",
+                "latency_us":1240660,
+                "local":"10.112.195.1:51713",
+                "remote":"10.112.195.102:11210",
+                "scope":"travel-sample",
+                "status":"timeout"
+            }
+        ],
+        "n1ql":[
+            {
+                "id":"0x10291d980",
+                "latency_us":3787,
+                "local":"10.112.195.1:51710",
+                "remote":"10.112.195.101:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029240f0",
+                "latency_us":9321,
+                "local":"10.112.195.1:51712",
+                "remote":"10.112.195.103:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x102923350",
+                "latency_us":7003363,
+                "local":"10.112.195.1:51711",
+                "remote":"10.112.195.102:8093",
+                "status":"timeout"
+            }
+        ]
+    },
+    "version":1
+}
+*/
+----
