@@ -1,12 +1,27 @@
 = Handling Common Errors in Node SDK v2.6
+:nav-title: Error Handling Example
+:page-topic-type: howto
+:page-aliases: howtos:handling-error-sample-code
 
 [abstract]
-Insert abstract here
 
-== Better title than I can come up with
-The errors we focus on here are *Timeout* and *NetworkError*, as well as *TemporaryError* (aka *TemporaryFailure*). The first two of these fall into a class of ambiguous errors, meaning they're not explicitly a success or failure, and as such we must handle them with care, especially when retrying.
 
-Throughout these examples we will be assuming the following setup:
+
+A distributed database has to operate across a network environment which, even on the best of days, will suffer congestion, dropouts, and timeout errors.
+These errors may leave the application in an uncertain state, as to whether an operation has been successful.
+How to handle errors in such ambiguous conditions, is dependent upon the idempotency of the operation.
+Some document operations, such as `GET`, make no changes to the data, and are thus safe to retry in the event of an error.
+Others, such as appending to an array, need a different strategy to handle ambiguous situations.
+The operation not happening, or happening twice or more, may not be acceptable, in which case the success of the operation must be tested.
+
+The errors we focus on here are `Timeout` and `NetworkError`, as well as `TemporaryError` (aka *Temporary Failure*).
+The first two of these fall into a class of ambiguous errors, meaning they're not explicitly a success or failure, and as such we must handle them with care, especially when retrying.
+
+
+== Prerequisites
+
+Throughout these examples we will be assuming the following setup, with the user having write priveleges for the bucket:
+
 [source,javascript]
 ----
 const couchbase = require('couchbase')
@@ -14,11 +29,12 @@ const CBErr = couchbase.errors
 const N1qlQuery = couchbase.N1qlQuery
 
 const cluster = new couchbase.Cluster('[ClusterAddress]')
-cluster.authenticate('[username]', '[password')
+cluster.authenticate('[username]', '[password]')
 const bucket = cluster.openBucket('default')
 ----
 
-For convenience we also have a custom error class `RetriesExceededError` to have a cleaner way to break a retry loop
+For convenience let's create a custom error class `RetriesExceededError`, giving us a cleaner way to break a retry loop
+
 [source,javascript]
 ----
 class RetriesExceededError extends Error {
@@ -29,10 +45,15 @@ class RetriesExceededError extends Error {
 }
 ----
 
-== GET Operations
-GET is the simplest operation to deal with, as there's no chance we made a change, so there's no risk to retrying a GET. The difficult part is deciding when to _stop_ retrying if we aren't getting a response back.
 
-This example shows a recursive retry function that employs *exponential backoff*. There are of course several https://example.com[backoff alternatives] but this is one of the simplest to implement. All of the examples on this page will return their results using callbacks - following suit from the direct sdk calls.
+== GET Operations
+
+GET is the simplest operation to deal with, as there's no chance we made a change, so there's no risk to retrying a GET.
+The difficult part is deciding when to _stop_ retrying if we aren't getting a response back.
+
+This example shows a recursive retry function that employs *exponential backoff*.
+There are of course several https://example.com[backoff alternatives] but this is one of the simplest to implement.
+All of the examples on this page will return their results using callbacks -- following suit from the direct SDK calls.
 
 [source,javascript]
 ----
@@ -51,10 +72,11 @@ function getOrRetry(key, callback, retries=2, delay=1000, backoff_factor=1){
 }
 ----
 
-An alternative to retrying is to get the document from a replica; i.e. from a different node on the cluster, in the case that the node required is not available, but (at least some of) the rest of the cluster is. 
+In the case that the node required is not available, an alternative to retrying is to get the document from a replica, which will be on a different node in the cluster.
 
-WARNING: This method always has a chance to return *stale data*, so make sure only to use it in appropriate contexts. 
-E.g:{nbsp}Get largely static data about, say, an airport - pretty safe. Airline ticket reservations - absolutely not. 
+WARNING: This method could possibly return _stale data_; so make sure only to use it in appropriate contexts.
+Relatively safe uses include largely static datasets such airport names and locations, whilst fast-moving data such as airline ticket reservations, are absolutely not.
+
 
 [source,javascript]
 ----
@@ -72,6 +94,7 @@ function getNormalOrReplica(key, callback){
 ----
 
 Putting these examples together we can implement the replica read as a "last resort".
+
 [source,javascript]
 ----
 function getRetryThenReplica(key, callback){
@@ -86,30 +109,46 @@ function getRetryThenReplica(key, callback){
 }
 ----
 
-While this combination may seem like a catch-all solution, it's important to remember that this won't always get you an answer. Sometimes the best solution is just to throw an error in the application - there's nothing you can do if the app has lost all network access.
-What's more, it can be detrimental in some cases. If the relevant active node is semi-permanently down, all this solution does is add whatever timeout was used (here 4 seconds total) before successfully getting from a replica. This is where monitoring can come in useful, see *later on this page...*
+While this combination may seem like a catch-all solution, it's important to remember that this won't always get you an answer.
+Sometimes the best solution is just to throw an error in the application -- there's nothing you can do if the app has lost all network access.
+
+There are times when failing faster and going straight to the replica is best.
+If the relevant active node is semi-permanently down, all the above solution does is add whatever timeout was used (here 4 seconds total) before successfully getting from a replica.
+This is where monitoring can come in useful, see xref:#monitoring[below].
+
 
 == SET and UPSERT Operations
-Getting a hard failure (eg [MAKE LIST HERE]) from either of these operations is safe to retry immediately. 
-What's more difficult to deal with is the ambiguous errors we're working with: Timeouts and NetworkErrors. For simple cases (ie idempotent operations), retrying is usually safe - especially when combined with checking cas values.
 
-In the case of a SET, a retry could fail with a *KeyAlreadyExists* error - which would be confirmation that the original operation succeded (or that it would have failed because a document was already present). The code for this follows the exact same format as the *getOrRetry* sample above, with an extra `else if` clause to handle the *KeyAlreadyExists* error.
+Getting a hard failure, such as `connectionRefused`, from either of these operations is safe to retry immediately.
+
+What's more difficult to deal with is the ambiguous errors we're working with: Timeouts and NetworkErrors.
+For simple cases, such as idempotent operations, retrying is usually safe -- especially when combined with checking CAS values.
+
+In the case of a `SET`, a retry could fail with a `KeyAlreadyExists` error -- which would be confirmation that the original operation succeded (or that it would have failed because a document was already present).
+The code for this follows the same format as the `getOrRetry` sample above, with an extra `else if` clause to handle the `KeyAlreadyExists` error.
+
 [source,javascript]
 ----
 } else if(err && err.code == CBErr.keyAlreadyExists) {
     callback(err, res) // <1>
 }
 ----
-<1> Bear in mind that the `res` here wouldn't be the exact same as for a successful SET, so it's up to you to decide how that should be handled, or whether to return a static value or `null` here.
+<1> Bear in mind that the `res` here wouldn't be exactly the same as for a successful `SET`, so it's up to you to decide how that should be handled, or whether to return a static value or `null` here.
 
-Retrying an UPSERT on the other hand, would simply overwrite the document with our version, had it already been changed.
-(Again this would be identical to *getOrRetry* but instead calling `bucket.upsert`)
+Retrying an `UPSERT` on the other hand, would simply overwrite the document with our version, had it already been changed.
+(Again this would be identical to `getOrRetry` but instead calling `bucket.upsert`.)
 
-For http://HOVER_WOULD_BE_BETTER[non-idempotent] operations, it's important to track the document's CAS value so it's not overwritten without checking its new content.
-In the case that our initial attempt at an UPSERT with CAS is either timed-out or the connection is dropped early, we lose the ability to know if _we_ or _someone else_ edited the document. Unless there's already some structure in your application logic that could be used to check in these cases who the last edit came from, we recommend taking a look at http://BLOGPOST[this blog post] which explains this mechanism fully and has more in depth code samples.
+For non-idempotent operations, it's important to track the document's CAS value so it's not overwritten without checking its new content.
+In the case that our initial attempt at an `UPSERT` with CAS is either timed-out or the connection is dropped early, we lose the ability to know if _we_ or _someone else_ edited the document.
+////
+Unless there's already some structure in your application logic that could be used to check in these cases who the last edit came from, we recommend taking a look at http://BLOGPOST[this blog post] which explains this mechanism fully and has more in depth code samples.
+////
+
 
 == N1QL Queries and Replicas
-The errors we deal with on this page are usually caused by a node dropping out, or a loss of network connection. In some of these cases, trying a N1QL query may fail outright.
+
+The errors we deal with on this page are usually caused by a node dropping out, or a loss of network connection.
+In some of these cases, trying a N1QL query may fail outright.
 However, it may still be possible to get all of the query results where there's only a partial failure (i.e: when a minority of data nodes drop).
 This depends on 2 conditions:
 
@@ -117,7 +156,7 @@ This depends on 2 conditions:
 * The WHERE clause only operates on a fully indexed field
 
 While this seems like a strict requirement, it may still be useful for your application
-For example, in the couchbase travel-sample app, a common query is to search for airports:
+For example, in the xref:sample-app-backend.adoc[couchbase travel-sample app], a common query is to search for airports:
 
 [source,n1lq]
 ----
@@ -125,8 +164,9 @@ For example, in the couchbase travel-sample app, a common query is to search for
 SELECT airportname FROM `travel-sample` WHERE POSITION(faa, $val) = 0
 ----
 
-In the case described, the result of running this query would be a timeout error - as the query tries to access the documents on the failed node to get the airport names.
-But we can still get data directly from the index we're using (the FAA index). For example, both of the following queries would work:
+In the case described, the result of running this query would be a timeout error -- as the query tries to access the documents on the failed node to get the airport names.
+But we can still get data directly from the index we're using (the FAA index).
+For example, both of the following queries would work:
 
 [source,n1lq]
 ----
@@ -134,9 +174,11 @@ SELECT faa FROM `travel-sample` WHERE POSITION(faa, $val) = 0
 SELECT meta().id FROM `travel-sample` WHERE POSITION(faa, $val) = 0
 ----
 
-The latter of these queries gives us all the document IDs for the results. This is useful because we can now fetch the documents ourselves, choosing to either
-
+The latter of these queries gives us all the document IDs for the results.
+This is useful because we can now fetch the documents ourselves, choosing to either
++
 A. Get only the documents that are available on their active nodes
++
 B. Get the active docs, and the replicas for the remaining docs
 
 Here's a code sample showing option B:
@@ -183,4 +225,10 @@ function N1QLFetchAirports(search, callback) {
     })
 }
 ----
-<1> The function *getMultiReplica* isn't actually implemented, but is simply performing getReplica in a loop (concurrently), and waiting until all responses have arrived.
+<1> The function `getMultiReplica` isn't actually implemented, but is simply performing `getReplica` in a loop (concurrently), and waiting until all responses have arrived.
+
+
+////
+== Monitoring
+////
+
