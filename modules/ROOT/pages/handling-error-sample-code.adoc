@@ -53,7 +53,7 @@ GET is the simplest operation to deal with, as there's no chance we made a chang
 The difficult part is deciding when to _stop_ retrying if we aren't getting a response back.
 
 This example shows a recursive retry function that employs *exponential backoff*.
-There are of course several https://example.com[backoff alternatives] but this is one of the simplest to implement.
+There are of course several https://github.com/jeffchao/backoff[backoff alternatives], but this is one of the simplest to implement.
 All of the examples on this page will return their results using callbacks -- following suit from the direct SDK calls.
 
 [source,javascript]
