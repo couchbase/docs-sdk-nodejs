@@ -4,7 +4,8 @@
 :page-aliases: howtos:handling-error-sample-code
 
 [abstract]
-
+Ambiguous or uncertain conditions, caused by timeouts and other network errors, need careful handling.
+Idempotent operations may be safely retried, but others need a more nuanced approach.
 
 
 A distributed database has to operate across a network environment which, even on the best of days, will suffer congestion, dropouts, and timeout errors.
