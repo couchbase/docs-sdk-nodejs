@@ -1,0 +1,9 @@
+= Health Check
+:nav-title: Health Check
+:page-topic-type: concept
+:page-aliases: concept-docs:health-check.adoc
+
+[abstract]
+Health Check provides ping() and diagnostic() tests for the health of the network and the cluster.
+
+A practical example can be found in xref:handling-error-sample-code.adoc#monitoring[the Handling Errors Sample Code].
