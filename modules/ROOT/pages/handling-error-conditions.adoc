@@ -1,5 +1,6 @@
 = Handling Exceptions and Other Errors with the Node.js SDK in Couchbase
 :navtitle: Handling Errors
+:page-topic-type: concept
 :page-aliases: howtos:handling-errors,concept-docs:errors,ref:errors
 
 When an operation fails, its callback will be invoked with a non-empty error argument.
@@ -28,3 +29,7 @@ cb.get('docid', function(err, result) {
 ----
 
 include::6.0@sdk:shared:partial$couchbase-errors.adoc[tag=group]
+
+== Sample Code
+
+Sample code, along with discussions of strategies for different error conditions, xref:handling-error-sample-code.adoc[are presented on this page].
