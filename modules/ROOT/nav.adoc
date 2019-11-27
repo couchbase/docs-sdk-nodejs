@@ -39,6 +39,7 @@
 .Settings, Error Handling & Diagnostics
 * xref:client-settings.adoc[Client Settings]
 * xref:handling-error-conditions.adoc[Handling Errors]
+** xref:handling-error-sample-code.adoc[Error Handling Sample Code]
 * xref:failure-considerations.adoc[Failure Considerations]
 * xref:collecting-information-and-logging.adoc[Collecting Information]
 * xref:threshold-logging.adoc[Threshold Logging]
