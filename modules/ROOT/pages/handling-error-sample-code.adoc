@@ -1,4 +1,4 @@
-= Handling Common Errors in Node SDK v2.6
+= Handling Common Errors in Node.js SDK
 :nav-title: Error Handling Example
 :page-topic-type: howto
 :page-aliases: howtos:handling-error-sample-code
@@ -176,12 +176,13 @@ SELECT meta().id FROM `travel-sample` WHERE POSITION(faa, $val) = 0
 ----
 
 The latter of these queries gives us all the document IDs for the results.
-This is useful because we can now fetch the documents ourselves, choosing to either::
-A. Get only the documents that are available on their active nodes
-+
-B. Get the active docs, and the replicas for the remaining docs
+This is useful because we can now fetch the documents ourselves, choosing to either:
 
-Here's a code sample showing option B:
+* Get only the documents that are available on their active nodes
+
+* Get the active docs, and the replicas for the remaining docs
+
+Here's a code sample showing the second option, _active docs_:
 
 [source,javascript]
 ----
@@ -247,8 +248,9 @@ These methods can give us information, usable inside the application, about the 
 If they reveal that a whole node is down for example, it might be wise to stop the application there, and notify an administrator, or wait for the server to come back up.
 Regardless of the course of action taken, the important thing is that the issue can be identified and reacted to in the most applicable way for your application.
 
-Here are some examples of what might be returned.::
-Diagnostics returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
+Here are some examples of what might be returned:
+
+* Diagnostics returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
 However this call _does not actively poll the nodes_.
 It simply reports the state the last time it tried to access each node.
 +
@@ -287,8 +289,8 @@ bucket.diagnostics((err, res) => {
 }
 */
 ----
-+
-`Ping()` actively queries the status of the specified services, and returns the status for every node reachable
+
+* `Ping()` actively queries the status of the specified services, and returns the status for every node reachable
 +
 [source,javascript]
 ----
