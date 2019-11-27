@@ -1,0 +1,358 @@
+= Handling Common Errors in Node SDK v2.6
+:nav-title: Error Handling Example
+:page-topic-type: howto
+:page-aliases: howtos:handling-error-sample-code
+
+[abstract]
+
+
+
+A distributed database has to operate across a network environment which, even on the best of days, will suffer congestion, dropouts, and timeout errors.
+These errors may leave the application in an uncertain state, as to whether an operation has been successful.
+How to handle errors in such ambiguous conditions, is dependent upon the idempotency of the operation.
+Some document operations, such as `GET`, make no changes to the data, and are thus safe to retry in the event of an error.
+Others, such as appending to an array, need a different strategy to handle ambiguous situations.
+The operation not happening, or happening twice or more, may not be acceptable, in which case the success of the operation must be tested.
+
+The errors we focus on here are `Timeout` and `NetworkError`, as well as `TemporaryError` (aka *Temporary Failure*).
+The first two of these fall into a class of ambiguous errors, meaning they're not explicitly a success or failure, and as such we must handle them with care, especially when retrying.
+
+
+== Prerequisites
+
+Throughout these examples we will be assuming the following setup, with the user having write priveleges for the bucket:
+
+[source,javascript]
+----
+const couchbase = require('couchbase')
+const CBErr = couchbase.errors
+const N1qlQuery = couchbase.N1qlQuery
+
+const cluster = new couchbase.Cluster('[ClusterAddress]')
+cluster.authenticate('[username]', '[password]')
+const bucket = cluster.openBucket('default')
+----
+
+For convenience let's create a custom error class `RetriesExceededError`, giving us a cleaner way to break a retry loop
+
+[source,javascript]
+----
+class RetriesExceededError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "RetriesExceededError"
+    }
+}
+----
+
+
+== GET Operations
+
+GET is the simplest operation to deal with, as there's no chance we made a change, so there's no risk to retrying a GET.
+The difficult part is deciding when to _stop_ retrying if we aren't getting a response back.
+
+This example shows a recursive retry function that employs *exponential backoff*.
+There are of course several https://example.com[backoff alternatives] but this is one of the simplest to implement.
+All of the examples on this page will return their results using callbacks -- following suit from the direct SDK calls.
+
+[source,javascript]
+----
+function getOrRetry(key, callback, retries=2, delay=1000, backoff_factor=1){
+    bucket.get(key, function(err, res){
+        if(err && (err.code == CBErr.timedOut || err.code == CBErr.networkError || err.code == CBErr.temporaryError)){
+            if(retries > 0){
+                setTimeout(() => getOrRetry(key, callback, retries-1, delay*backoff_factor, backoff_factor), delay)
+            } else {
+                callback(new RetriesExceededError())
+            }
+        } else {
+            callback(err, res)
+        }
+    })
+}
+----
+
+In the case that the node required is not available, an alternative to retrying is to get the document from a replica, which will be on a different node in the cluster.
+
+WARNING: This method could possibly return _stale data_; so make sure only to use it in appropriate contexts.
+Relatively safe uses include largely static datasets such airport names and locations, whilst fast-moving data such as airline ticket reservations, are absolutely not.
+
+
+[source,javascript]
+----
+function getNormalOrReplica(key, callback){
+    bucket.get(key, function(err, res){
+        if(err.code == CBErr.timedOut || err.code == CBErr.networkError){
+            bucket.getReplica(key, callback)
+        } else {
+            // Either we succeeded first time, or got a different error
+            // In both instances we simply notify the callback
+            callback(err, res)
+        }
+    })
+}
+----
+
+Putting these examples together we can implement the replica read as a "last resort".
+
+[source,javascript]
+----
+function getRetryThenReplica(key, callback){
+    getOrRetry(key, function(err, res){
+        if(err instanceof RetriesExceededError){
+            // Could manually log a failure here - notify an admin that replica had to be used
+            getNormalOrReplica(key, callback)
+        } else {
+            callback(err, res)
+        }
+    }, 2, 1000, 2)
+}
+----
+
+While this combination may seem like a catch-all solution, it's important to remember that this won't always get you an answer.
+Sometimes the best solution is just to throw an error in the application -- there's nothing you can do if the app has lost all network access.
+
+There are times when failing faster and going straight to the replica is best.
+If the relevant active node is semi-permanently down, all the above solution does is add whatever timeout was used (here 4 seconds total) before successfully getting from a replica.
+This is where monitoring can come in useful, see xref:#monitoring[below].
+
+
+== SET and UPSERT Operations
+
+Getting a hard failure, such as `connectionRefused`, from either of these operations is safe to retry immediately.
+
+What's more difficult to deal with is the ambiguous errors we're working with: Timeouts and NetworkErrors.
+For simple cases, such as idempotent operations, retrying is usually safe -- especially when combined with checking CAS values.
+
+In the case of a `SET`, a retry could fail with a `KeyAlreadyExists` error -- which would be confirmation that the original operation succeded (or that it would have failed because a document was already present).
+The code for this follows the same format as the `getOrRetry` sample above, with an extra `else if` clause to handle the `KeyAlreadyExists` error.
+
+[source,javascript]
+----
+} else if(err && err.code == CBErr.keyAlreadyExists) {
+    callback(err, res) // <1>
+}
+----
+<1> Bear in mind that the `res` here wouldn't be exactly the same as for a successful `SET`, so it's up to you to decide how that should be handled, or whether to return a static value or `null` here.
+
+Retrying an `UPSERT` on the other hand, would simply overwrite the document with our version, had it already been changed.
+(Again this would be identical to `getOrRetry` but instead calling `bucket.upsert`.)
+
+For non-idempotent operations, it's important to track the document's CAS value so it's not overwritten without checking its new content.
+In the case that our initial attempt at an `UPSERT` with CAS is either timed-out or the connection is dropped early, we lose the ability to know if _we_ or _someone else_ edited the document.
+////
+Unless there's already some structure in your application logic that could be used to check in these cases who the last edit came from, we recommend taking a look at http://BLOGPOST[this blog post] which explains this mechanism fully and has more in depth code samples.
+////
+
+
+== N1QL Queries and Replicas
+
+The errors we deal with on this page are usually caused by a node dropping out, or a loss of network connection.
+In some of these cases, trying a N1QL query may fail outright.
+However, it may still be possible to get all of the query results where there's only a partial failure (i.e: when a minority of data nodes drop).
+This depends on 2 conditions:
+
+* The Query and Index nodes/services are still available
+* The WHERE clause only operates on a fully indexed field
+
+While this seems like a strict requirement, it may still be useful for your application
+For example, in the xref:sample-app-backend.adoc[couchbase travel-sample app], a common query is to search for airports:
+
+[source,n1lq]
+----
+// Matches any airports where our search fits their FAA code (eg MAN, LHR) 
+SELECT airportname FROM `travel-sample` WHERE POSITION(faa, $val) = 0
+----
+
+In the case described, the result of running this query would be a timeout error -- as the query tries to access the documents on the failed node to get the airport names.
+But we can still get data directly from the index we're using (the FAA index).
+For example, both of the following queries would work:
+
+[source,n1lq]
+----
+SELECT faa FROM `travel-sample` WHERE POSITION(faa, $val) = 0
+SELECT meta().id FROM `travel-sample` WHERE POSITION(faa, $val) = 0
+----
+
+The latter of these queries gives us all the document IDs for the results.
+This is useful because we can now fetch the documents ourselves, choosing to either
++
+A. Get only the documents that are available on their active nodes
++
+B. Get the active docs, and the replicas for the remaining docs
+
+Here's a code sample showing option B:
+[source,javascript]
+----
+const q = N1qlQuery.fromString("SELECT airportname FROM `travel-sample` WHERE POSITION(faa, $val) = 0")
+const simple_q = N1qlQuery.fromString("SELECT meta().id FROM `travel-sample` WHERE POSITION(faa, $val) = 0")
+
+function N1QLFetchAirports(search, callback) {
+    let param = search.toLowerCase()
+
+    bucket.query(q, [param], (err, rows) => {
+        if(err && err.code == CBErr.timedOut){
+
+            // If the original query timed out, try the simple one
+            bucket.query(simple_q, [param], (err, rows) => {
+
+                // An error here means we just give up
+                if(err) return callback(err)
+
+                // Get the document IDs as a list, so we can getMulti them
+                let IDs = rows.map(x => x.id)
+                bucket.getMulti(IDs, (num_errs, get_rows) => {
+
+                    // Filter for keys that got an error response, and get them from replicas
+                    IDs = IDs.filter(x => get_rows[x].error)
+                    bucket.getMultiReplica(IDs, (num_errs, replica_rows) => { // <1>
+                        // Log failed gets
+                        console.log("Failed to get", num_errs, "documents")
+                        // Concatenate results, then format to match normal output
+                        get_rows = {...get_rows, ...replica_rows}
+                        let results = Object.keys(get_rows).map(k => ({
+                            airportname: get_rows[k].value.airportname,
+                            city: get_rows[k].value.city
+                        }))
+                        callback(err, results)
+                    })
+                })
+            })
+        } else {
+            // Original query hard-failed
+            callback(err, rows)
+        }
+    })
+}
+----
+<1> The function `getMultiReplica` isn't actually implemented, but is simply performing `getReplica` in a loop (concurrently), and waiting until all responses have arrived.
+
+== Monitoring
+When dealing with failures like these it's important to keep tabs on what issues are occurring and how often.
+It's great that an application can still operate if a node drops, but if everything just continues to work, it may not be obvious that there's an underlying issue.
+In the Node.js SDK there are 3 main methods of gathering information: *LCB Logging*, *Threshold Logging*, and *Health Check*. 
+
+xref:collecting-information-and-logging.adoc[LCB Logging] is lower-level and gives logging and stack traces from the underlying `libcouchbase` C library.
+This can be useful for manually debugging what's causing a specific error, or why a connection might be dropping.
+However, it's not the best solution for simply checking the status of a node for example, due to the volume of information it outputs.
+
+xref:threshold-logging.adoc[Threshold Logging] will periodically output a list of operations that took longer than a specified time to complete.
+If you're mainly dealing with timeouts this is an excellent tool to be able to see exactly what's going on in your system.
+
+But the most useful tool for this context is the xref:health-check.adoc[Health Check API].
+After a few timeouts or failures (remember, these can always be counted or tracked explicitly as part of the application code), we may suspect there's a problem server-side.
+In this case we can use the `ping` or `diagnostics` methods on our bucket object.
+These methods can give us information, usable inside the application, about the current state of nodes, and their connections.
+If they reveal that a whole node is down for example, it might be wise to stop the application there, and notify an administrator, or wait for the server to come back up.
+Regardless of the course of action taken, the important thing is that the issue can be identified and reacted to in the most applicable way for your application.
+
+Here's some examples of what might be returned:
++
+Diagnostics returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
+However this call _does not actively poll the nodes_.
+It simply reports the state the last time it tried to access each node.
++
+[source,javascript]
+----
+bucket.diagnostics((err, res) => {
+    console.log(res)
+})
+/*
+{
+    "id":"0x10290d100","kv":[
+        {
+            "id":"0000000072b21d66",
+            "last_activity_us":2363294,
+            "local":"10.112.195.1:51473",
+            "remote":"10.112.195.101:11210",
+            "status":"connected"
+        },
+        {
+            "id":"000000000ba84e5e",
+            "last_activity_us":7369021,
+            "local":"10.112.195.1:51486",
+            "remote":"10.112.195.102:11210",
+            "status":"connected"
+        },
+        {
+            "id":"0000000077689398",
+            "last_activity_us":4855640,
+            "local":"10.112.195.1:51409",
+            "remote":"10.112.195.103:11210",
+            "status":"connected"
+        }
+    ],
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "version":1
+}
+*/
+----
++
+Ping actively queries the status of the specified services, and returns the status for every node reachable
++
+[source,javascript]
+----
+let services = [couchbase.ServiceType.KeyValue, couchbase.ServiceType.Query]
+bucket.ping(services, (err, res) => {
+    console.log(res)
+})
+/*
+{
+    "config_rev":1822,
+    "id":"0x102f09dc0",
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "services":{
+        "kv":[
+            {
+                "id":"0x104802900",
+                "latency_us":1542,
+                "local":"10.112.195.1:51707",
+                "remote":"10.112.195.101:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029253d0",
+                "latency_us":6639,
+                "local":"10.112.195.1:51714",
+                "remote":"10.112.195.103:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x102924bc0",
+                "latency_us":1240660,
+                "local":"10.112.195.1:51713",
+                "remote":"10.112.195.102:11210",
+                "scope":"travel-sample",
+                "status":"timeout"
+            }
+        ],
+        "n1ql":[
+            {
+                "id":"0x10291d980",
+                "latency_us":3787,
+                "local":"10.112.195.1:51710",
+                "remote":"10.112.195.101:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029240f0",
+                "latency_us":9321,
+                "local":"10.112.195.1:51712",
+                "remote":"10.112.195.103:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x102923350",
+                "latency_us":7003363,
+                "local":"10.112.195.1:51711",
+                "remote":"10.112.195.102:8093",
+                "status":"timeout"
+            }
+        ]
+    },
+    "version":1
+}
+*/
+----
