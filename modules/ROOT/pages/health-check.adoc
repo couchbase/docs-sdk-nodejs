@@ -15,6 +15,7 @@ Health Check provides ping() and diagnostic() tests for the health of the networ
 It can also help keep connections alive if you are operating across an environment which aggressively closes down unused connections.
 
 `Diagnostics` provides a strongly typed API for proactive, pull-based monitoring systems, such as:
+
 * https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/[Kubernetes Liveness and Readiness Probes via HTTP or CLI commands].
 * https://docs.docker.com/engine/reference/builder/#healthcheck[Docker Health Check with CLI commands].
 * http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html[AWS ELB through HTTP].
