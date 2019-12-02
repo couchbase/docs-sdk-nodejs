@@ -4,10 +4,10 @@
 :page-aliases: concept-docs:health-check
 
 [abstract]
-Health Check provides ping() and diagnostic() tests for the health of the network and the cluster.
+Health Check provides ping() and diagnostics() tests for the health of the network and the cluster.
 
 
-`Ping` and `diagnostics` methods on the bucket object can give us information about the current state of nodes, and their connections.
+`Ping` and `diagnostics` methods, on the bucket and cluster objects respectively, can give us information about the current state of nodes, and their connections.
 
 == Uses
 
@@ -15,16 +15,21 @@ Health Check provides ping() and diagnostic() tests for the health of the networ
 It can also help keep connections alive if you are operating across an environment which aggressively closes down unused connections.
 
 `Diagnostics` provides a strongly typed API for proactive, pull-based monitoring systems, such as:
+
 * https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/[Kubernetes Liveness and Readiness Probes via HTTP or CLI commands].
 * https://docs.docker.com/engine/reference/builder/#healthcheck[Docker Health Check with CLI commands].
 * http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html[AWS ELB through HTTP].
 
 This API does not provide binary yes/no answers about the health of the cluster; rather it summarizes as much information as possible, for the application developer to assemble a complete, contextual view and come to a conclusion.
 
+Note: `Ping` may reopen a connection, so is not without side-effects.
+`Diagnostics` shows what the SDK _perceives_ as the current state of the network and services -- it is without side-effects, but may not be up to date.
+
 
 == Ping
 
-Ping _actively_ queries the status of the specified services,giving status and latency information for every node reachable.
+`Ping` _actively_ queries the status of the specified services,giving status and latency information for every node reachable.
+In addition to its use as a monitoring tool, a regular `Ping` can be used in an environment which does not respect keep alive values for a connection. 
 This is a Map (a JavaScript `object`) with `type` keys for each service available, such as `kv` and `n1ql`, and the value containing latency and status information.
 
 
