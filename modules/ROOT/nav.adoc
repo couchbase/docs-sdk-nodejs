@@ -42,6 +42,7 @@
 ** xref:handling-error-sample-code.adoc[Error Handling Sample Code]
 * xref:failure-considerations.adoc[Failure Considerations]
 * xref:collecting-information-and-logging.adoc[Collecting Information]
+* xref:health-check.adoc[Health Check API]
 * xref:threshold-logging.adoc[Threshold Logging]
 * xref:tracing-from-the-sdk.adoc[Tracing from the SDK]
 
