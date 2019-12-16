@@ -42,7 +42,7 @@ Information on new features, fixes, known issues, as well as information on how 
 == Hello Couchbase
 
 Once you've installed the SDK, you can run this simple code snippet showcasing some of its features.
-Before running, be sure to replace _localhost_ with the hostname of a node in your cluster, if running the SDK on a different host.
+Before running, be sure to replace _localhost_ with the hostname of a KV (data) node in your cluster, if running the SDK on a different host.
 
 [source,javascript]
 ----
