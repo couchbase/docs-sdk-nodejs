@@ -24,6 +24,9 @@ var couchbase = require('couchbase');
 var cluster = new couchbase.Cluster('couchbase://10.0.0.1');
 ----
 
+IMPORTANT: Any Cluster nodes addresses passed in to establish (bootstrap) the connection should be for data (KV) nodes.
+
+
 == Authenticating
 
 From Couchbase Server 5.0, you will need to authenticate the user, rather than against the bucket, as part of xref:6.0@server:learn:security/authorization-overview.adoc[Role-Based Access Control].
