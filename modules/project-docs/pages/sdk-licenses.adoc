@@ -1,8 +1,30 @@
-= SDK Licence
+= SDK License
+:page-topic-type: project-doc
+:page-aliases: ROOT:sdk-licenses.adoc
+
+[abstract]
+Couchbase SDKs' source code is licensed under the Apache Licence 2.0.
+Dependencies carry their own licenses.
 
 The Couchbase Node.js Client is distributed as source under the https://www.apache.org/licenses/LICENSE-2.0[Apache License, Version 2.0].
-Any dependencies may have their https://www.couchbase.com/legal/agreements[own, separate licenses].
+
+
+== Binary Distribution
 
 Binary distributions are made under Couchbase's own license agreements. 
 * https://www.couchbase.com/LA03262019[Enterprise License Agreement]
 * https://www.couchbase.com/binaries/content/assets/website/legal/ce-license-agreement.pdf[Community License Agreement (PDF)]
+
+
+== Dependencies
+
+Any dependencies may have their https://www.couchbase.com/legal/agreements[own, separate licenses].
+
+.Third Party Component Licenses
+|===
+| Component | License
+
+|`combined-stream` 1.0.7 | Expat License
+|`nodejs/string_decoder` 1.2.0 | Expat License
+|`tweetnacl-js` 0.14.5 | The Unlicense
+|===
