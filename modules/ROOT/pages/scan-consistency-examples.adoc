@@ -1,0 +1,66 @@
+= Scan Consistency Using the Node.js SDK with Couchbase Server
+:navtitle: Using Scan Consistency
+:page-topic-type: howto
+
+[abstract]
+You can balance performance against consistency in N1QL queries via the Couchbase Node.js client and the AtPlus option.
+
+[#scan_consistency]
+--
+Setting a https://developer.couchbase.com/documentation/server/5.1/architecture/querying-data-with-n1ql.html#story-h2-2[Scan Consistency^], lets you choose between `NOT_BOUNDED` (the default), for sharpest performance; `REQUEST_PLUS`, for strongest consistency; and `AT_PLUS`, for a good balance between increased performance and completeness of results.
+
+The following example -- for which mutation tokens must be enabled during connection -- shows AT_PLUS in action, using `consistentWith(mutationState)`:
+
+[source,nodejs]
+----
+var couchbase = require('./lib/couchbase');
+
+var cluster = new couchbase.Cluster(
+  'couchbase://192.168.0.112?fetch_mutation_tokens=true');
+cluster.authenticate('Administrator', 'password');
+
+var bucket = cluster.openBucket('default');
+
+var randomNumber = Math.round(Math.random() * 10000000);
+bucket.upsert('user:' + randomNumber, {
+  name: ['Brass', 'Doorknob'],
+  email: 'brass.doorknob@example.com',
+  random: randomNumber,
+}, function(err, res) {
+  if (err) {
+    throw err;
+  }
+
+  // construct mutation state from the list of mutation results
+  var mutationState = new couchbase.MutationState(res);
+
+  var query = couchbase.N1qlQuery.fromString(
+    'SELECT name, email, random, META(default).id FROM default WHERE $1 IN name'
+  );
+
+  // If this line is removed, the latest 'random' field might not be present
+  query.consistentWith(mutationState);
+
+  // Search all the results
+  bucket.query(query, ['Brass'], function(err, rows) {
+    if (err) {
+      throw err;
+    }
+
+    console.log('Expecting random: %d', randomNumber);
+
+    for (var i = 0; i < rows.length; ++i) {
+      var row = rows[i];
+
+      console.log('Name: %s, Email: %s, Random: %d',
+        row.name.join(' '), row.email, row.random);
+
+      if (row.random === randomNumber) {
+        console.log('!!! Found our newly inserted document !!!');
+      }
+    }
+
+    process.exit(0);
+  });
+});
+----
