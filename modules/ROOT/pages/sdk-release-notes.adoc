@@ -9,11 +9,11 @@ include::start-using-sdk.adoc[tag=prep]
 include::start-using-sdk.adoc[tag=install]
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 2.4.5:
+For example, to install version 2.5.1:
 
 [source,bash]
 ----
-npm install couchbase@2.4.5
+npm install couchbase@2.5.1
 ----
 
 
@@ -25,6 +25,8 @@ Version 2.6.10 is a minor maintenance release of the 2.6 series.
 ----
 $ npm install couchbase@2.6.10
 ----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.10/[API Reference]
 
 === Fixed Issues
 
@@ -47,6 +49,8 @@ Version 2.6.9 is a minor maintenance release of the 2.6 series.
 ----
 $ npm install couchbase@2.6.9
 ----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.9/[API Reference]
 
 === Fixed Issues
 
