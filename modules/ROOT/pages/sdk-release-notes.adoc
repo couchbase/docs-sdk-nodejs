@@ -17,6 +17,28 @@ npm install couchbase@2.4.5
 ----
 
 
+== Version 2.6.10 (December 19 2019)
+
+Version 2.6.10 is a minor maintenance release of the 2.6 series.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.10
+----
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-630[JSCBC-630]:
+Corrected issue with decoding invalid JSON.
+* http://issues.couchbase.com/browse/JSCBC-631[JSCBC-631]:
+Added support for building with Node.js v13.
+* Various minor changes.
+* Various dependency updates and security audit fixes.
+
+=== Known Issues
+
+* libcouchbase version is incorrectly reported as 2.10.4.
+
 == Version 2.6.9 (November 8 2019)
 
 Version 2.6.9 is a minor maintenance release of the 2.6 series.
