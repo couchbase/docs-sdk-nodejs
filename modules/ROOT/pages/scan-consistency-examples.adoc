@@ -9,6 +9,7 @@ You can balance performance against consistency in N1QL queries via the Couchbas
 --
 Setting a https://developer.couchbase.com/documentation/server/5.1/architecture/querying-data-with-n1ql.html#query-consistency-with-n1ql[Scan Consistency^], lets you choose between `NOT_BOUNDED` (the default), for sharpest performance; `REQUEST_PLUS`, for strongest consistency; and `AT_PLUS`, for a good balance between increased performance and completeness of results.
 
+A `REQUEST_PLUS` example can be found on the xref:n1ql-query.adoc#index-consistency[N1QL from the SDK page]. 
 The following example -- for which mutation tokens must be enabled during connection -- shows AT_PLUS in action, using `consistentWith(mutationState)`:
 
 [source,nodejs]
