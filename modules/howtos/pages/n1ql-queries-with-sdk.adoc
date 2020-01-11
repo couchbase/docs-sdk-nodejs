@@ -60,7 +60,7 @@ var result = await collection.query(
     {'type': 'User'});
 ----
 
-The complete code for this page's example can be found at xref:[??]
+// The complete code for this page's example can be found at xref:[??]
 
 
 
