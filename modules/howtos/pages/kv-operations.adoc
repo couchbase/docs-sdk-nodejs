@@ -87,8 +87,18 @@ Here, we have add _Durability_ options, namely `persistTo` and `replicateTo`.
 In Couchbase Server releases before 6.5, Durability was set with these two options 
 -- see the xref:2.6@nodejs-sdk::durability.adoc[6.0 Durability documentation] 
 -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
-Couchbase Data Platform 6.5 refines these two options, with xref:6.5@server:learn:data/durability.adoc[Synchronous Replication] 
--- although they remain essentially the same in use.
+
+If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature, 
+in which Couchbase Server will only return success to the SDK after the requested replication level has been achieved. 
+The three replication levels are:
+
+ * `Majority` - The server will ensure that the change is available in memory on the majority of configured replicas.
+ * `MajorityAndPersistToActive` - Majority level, plus persisted to disk on the active node.
+ * `PersistToMajority` - Majority level, plus persisted to disk on the majority of configured replicas.
+
+The options are in increasing levels of safety. 
+Note that nothing comes for free - for a given node, waiting for writes to storage is considerably slower than waiting for it to be available in-memory.
+These trade offs, as well as which settings may be tuned, are discussed in the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[durability page].
 
 The following example demonstrates using the newer durability features available in Couchbase server 6.5 onwards.
 
@@ -102,6 +112,9 @@ var result = await collection.Upsert('document-key', document, {
   timeout: 5000, // 5 seconds
 });
 ----
+
+To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration, 
+and the default level of safety provided by Couchbase will be reasonable for the majority of situations.
 
 [TIP]
 .Sub-Document Operations
