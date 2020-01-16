@@ -1,0 +1,7 @@
+:nodejs-api-link: http://docs.couchbase.com/sdk-api/couchbase-nodejs-client-3.0.0
+:nodejs-current-version: 3.0.0
+////
+use -
+
+The API reference for version `{lcb-current-version}` is at {lcb-api-link}[]
+////
