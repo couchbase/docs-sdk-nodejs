@@ -15,8 +15,6 @@ The 3.0 SDK also brings in `promises`, to reduce the complexity of asynchronous 
 
 // tag::install[]
 
-include::partial$beta-warning.adoc[]
-
 == Installing the SDK
 
 [source,javascript]
