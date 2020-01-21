@@ -6,7 +6,5 @@
 [abstract]
 The Couchbase Node.js SDK provides an API for managing a Couchbase cluster programmatically.
 
-include::partial$beta-warning.adoc[]
-
 
 Management operations in the Node.js SDK may be performed through several interfaces depending on the object:

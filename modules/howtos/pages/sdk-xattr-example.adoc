@@ -1,6 +1,6 @@
 = Extended Attributes
 
-include::partial$beta-warning.adoc[]
+
 
 
 
