@@ -65,26 +65,11 @@ See the notes there for Support details.
 | DP in 5.5 with 2.4.2
 2+| Since 2.6
 
-| Distributed ACID Transactions
-2+| Not Supported
-| Since 3.0
-
 | Collections
 2+| Not Supported
 | SDK 3.0 for Developer Preview in Server 6.5
 
 |===
 
-
-
-
-== .NET Framework Version Compatibility
-
-The Couchbase .NET SDK targets NetStandard 2.0, 
-on both Windows and Ubuntu GNU/Linux: 
-it is tested with .NET Standard 2.0, 
-which supports .NET Core 2.0+. 
-The .NET SDK is compatible with .NET framework 4.6.1+ on Windows. 
-Other .NET implementations might work but are not tested and are outside of the scope of our technical support organization.
 
 include::6.5@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
