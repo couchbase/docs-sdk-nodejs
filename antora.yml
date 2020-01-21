@@ -1,6 +1,5 @@
 name: nodejs-sdk
 version: '3.0'
-prerelease: BETA
 title: Node.js SDK
 start_page: hello-world:start-using-sdk.adoc
 nav:
