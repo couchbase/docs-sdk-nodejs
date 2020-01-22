@@ -40,7 +40,7 @@ Any dependencies may have their https://www.couchbase.com/legal/agreements[own, 
 |`detect-libc` 1.0.3 | Apache License 2.0
 |`dominictarr/rc` 1.2.8 | BSD 2-clause "Simplified" License / MIT License / Apache License 2.0
 |`end-of-stream` 1.4.1 | MIT License
-|`expand-template` 2.0.3 | MIT License / Do What The F*ck You Want To Public License
+|`expand-template` 2.0.3 | MIT License 
 |`file-uri-to-path` 1.0.0 | MIT License
 |`fs-constants` 1.0.0 | MIT License
 |`github-from-package` 0.0.0 | MIT License
