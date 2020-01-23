@@ -1,1 +1,1 @@
-include::nodejs-sdk::page$sdk-release-notes.adoc[tag=latest]
+include::2.6@nodejs-sdk::page$sdk-release-notes.adoc[tag=latest]
