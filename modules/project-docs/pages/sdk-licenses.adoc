@@ -18,13 +18,5 @@ Binary distributions are made under Couchbase's own license agreements.
 
 == Dependencies
 
-Any dependencies may have their https://www.couchbase.com/legal/agreements[own, separate licenses].
+Any dependencies may have their https://www.couchbase.com/legal/agreements#ThirdPartyComponents[own, separate licenses].
 
-.Third Party Component Licenses
-|===
-| Component | License
-
-|`combined-stream` 1.0.7 | Expat License
-|`nodejs/string_decoder` 1.2.0 | Expat License
-|`tweetnacl-js` 0.14.5 | The Unlicense
-|===
