@@ -42,7 +42,7 @@ Note that both parameters and options are optional.
 .Positional parameter example:
 [source,javascript]
 ----
-var result = await collection.query(
+var result = await cluster.query(
     'SELECT x.* FROM `default` WHERE x.Type=$1',
     ['User']);
 ----
@@ -54,7 +54,7 @@ var parameters = new QueryParameters()
     .Add('type', 'User');
 var options = new QueryOptions();
 
-var result = await collection.query(
+var result = await cluster.query(
     'SELECT x.* FROM `default` WHERE x.Type=$type',
     {'type': 'User'});
 ----
@@ -69,7 +69,7 @@ In most cases your query will return more than one result, and you may be lookin
 
 [source,javascript]
 ----
-var result = await collection.query(
+var result = await cluster.query(
     'SELECT x.* FROM `default` WHERE x.Type=$0',
     ['User']);
 
