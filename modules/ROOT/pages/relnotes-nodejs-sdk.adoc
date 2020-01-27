@@ -1,1 +1,4 @@
+= Couchbase Node.js Release Notes and Download Archives
+:page-aliases: sdk-release-notes,release-notes,download-links,project-docs:migrating-sdk-code-to-3.n,project-docs:sdk-release-notes
+
 include::2.6@nodejs-sdk::page$sdk-release-notes.adoc[tag=latest]
