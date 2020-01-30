@@ -58,7 +58,7 @@ var collection = bucket.defaultCollection();
 var myCollection = bucket.collection("my-collection");
 ----
 
-The latest release, 6.5β, brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
+The latest release, 6.5, brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
 Here we will use the `DefaultCollection`, rather than a specific collection, but best practice would be to group your users into a single collection, groups into another, etc...
 
 [source,javascript]
