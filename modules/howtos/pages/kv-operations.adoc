@@ -57,7 +57,7 @@ for the _Replace_ example:
 var document = {foo: 'bar', bar: 'foo'};
 var result = await collection.replace('document-key', document, {
     cas: SOME_CAS,
-    expiration: 60, // 60 seconds
+    expiry: 60, // 60 seconds
     timeout: 5000, // 5 seconds
 });
 ----
@@ -75,7 +75,7 @@ xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-buck
 var document = {foo: 'bar', bar: 'foo'};
 var result = await collection.Upsert('document-key', document, {
     cas: SOME_CAS,
-    expiration: 60, // 60 seconds
+    expiry: 60, // 60 seconds
     persistTo: 1,
     replicateTo: 1,
     timeout: 5000, // 5 seconds
@@ -106,7 +106,7 @@ The following example demonstrates using the newer durability features available
 var document = {foo: 'bar', bar: 'foo'};
 var result = await collection.Upsert('document-key', document, {
   case: SOME_CAS,
-  expiration: 60, // 60 seconds,
+  expiry: 60, // 60 seconds,
   durabilityLevel: couchbase.DurabilityLevel.Majority,
   timeout: 5000, // 5 seconds
 });
