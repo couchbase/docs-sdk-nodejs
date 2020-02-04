@@ -1,0 +1,3 @@
+[submodule "devguide-examples"]
+	path = devguide-examples
+	url = git@github.com:couchbaselabs/devguide-examples.git

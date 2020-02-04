@@ -19,9 +19,13 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=terms]
 As an example here is a KeyValue document fetch:
 
 // change to $Your_language
-[source,java]
+[source,javascript]
 ----
-GetResult getResult = collection.get("key", getOptions().timeout(Duration.ofSeconds(3));
+const bucket = cluster.bucket("travel-sample", "");
+const collection=bucket.collection('my-collection');
+var getResult = collection.get("airline_1191",{timeout:3},(err, res) => {
+        console.log("res: "+JSON.stringify(res));
+    });
 ----
 
 Compare this to a N1QL query:
@@ -93,6 +97,30 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
    and discusses old vs. new
 
 ==== Key Value
+
+As an example here is a KeyValue document fetch:
+
+// change to $Your_language
+[source,javascript]
+----
+const bucket = cluster.bucket("travel-sample", "");
+const collection=bucket.collection('my-collection');
+var getResult = collection.get("airline_1191",{timeout:3},(err, res) => {
+        console.log("res: "+JSON.stringify(res));
+    });
+----
+
+As an example here is a KeyValue document fetch:
+
+// change to $Your_language
+[source,javascript]
+----
+const bucket = cluster.bucket("travel-sample", "");
+const collection=bucket.collection('my-collection');
+var getResult = collection.getReplica("airline_1191",{timeout:3},(err, res) => {
+        console.log("res: "+JSON.stringify(res));
+    });
+----
 
  - don't forget the get replica changes!
 

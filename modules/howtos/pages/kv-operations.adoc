@@ -28,8 +28,7 @@ Here is the _Insert_ operation at its simplest:
 .Insert
 [source,javascript]
 ----
-var document = {foo: 'bar', bar: 'foo'};
-var result = await collection.insert('document-key', document);
+include::example$old-kv-operations.js[tag=insert,indent=0]
 ----
 
 Options may be added to operations:
@@ -37,11 +36,7 @@ Options may be added to operations:
 .Insert (with options)
 [source,javascript]
 ----
-var document = {foo: 'bar', bar: 'foo'};
-var result = await collection.insert('document-key', document, {
-    cas: SOME_CAS,
-    timeout: 10000, // 10 seconds
-});
+include::example$old-kv-operations.js[tag=insertwithoptions,indent=0]
 ----
 
 Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
@@ -54,12 +49,7 @@ for the _Replace_ example:
 
 [source,javascript]
 ----
-var document = {foo: 'bar', bar: 'foo'};
-var result = await collection.replace('document-key', document, {
-    cas: SOME_CAS,
-    expiration: 60, // 60 seconds
-    timeout: 5000, // 5 seconds
-});
+include::example$old-kv-operations.js[tag=replace,indent=0]
 ----
 
 Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
@@ -72,14 +62,7 @@ xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-buck
 
 [source,javascript]
 ----
-var document = {foo: 'bar', bar: 'foo'};
-var result = await collection.Upsert('document-key', document, {
-    cas: SOME_CAS,
-    expiration: 60, // 60 seconds
-    persistTo: 1,
-    replicateTo: 1,
-    timeout: 5000, // 5 seconds
-});
+include::example$old-kv-operations.js[tag=durability,indent=0]
 ----
 
 Here, we have add _Durability_ options, namely `persistTo` and `replicateTo`.
@@ -103,13 +86,7 @@ The following example demonstrates using the newer durability features available
 
 [source,javascript]
 ----
-var document = {foo: 'bar', bar: 'foo'};
-var result = await collection.Upsert('document-key', document, {
-  case: SOME_CAS,
-  expiration: 60, // 60 seconds,
-  durabilityLevel: couchbase.DurabilityLevel.Majority,
-  timeout: 5000, // 5 seconds
-});
+include::example$old-kv-operations.js[tag=newdurability,indent=0]
 ----
 
 To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration, 
@@ -128,8 +105,7 @@ Using the `get()` method with the document key can be done in a similar fashion 
 
 [source,javascript]
 ----
-var result = await collection.get('document-key');
-var content = result.content;
+include::example$old-kv-operations.js[tag=get,indent=0]
 ----
 
 Timeout can also be set - as in the earlier `Insert` example:
@@ -137,10 +113,7 @@ Timeout can also be set - as in the earlier `Insert` example:
 .Get (with options)
 [source,javascript]
 ----
-var result = await collection.get('document-key', {
-    timeout: 5000, // 5 seconds
-});
-var content = result.content;
+include::example$old-kv-operations.js[tag=getwithoptions,indent=0]
 ----
 
 
@@ -151,13 +124,7 @@ When removing a document, you will have the same concern for durability as with 
 .Remove (with options)
 [source,javascript]
 ----
-var result = await collection.remove('document-key', {
-    cas: SOME_CAS,
-    persistTo: 1,
-    replicateTo: 1,
-    timeout: 5000, // 5 seconds
-    }
-);
+include::example$old-kv-operations.js[tag=remove,indent=0]
 ----
 
 == Expiration / TTL
@@ -201,14 +168,14 @@ await collection.binary().increment('document-key', 1, {
 ----
 
 .Decrement
-[source,csharp]
+[source,javascript]
 ----
 // decrement binary value by 1
 await collection.binary().decrement('document-key', 1);
 ----
 
 .Decrement (with options)
-[source,csharp]
+[source,javascript]
 ----
 // decrement binary value by 1, if document doesn’t exist, seed it at 1000
 await collection.binary().decrement('document-key', 1, {
