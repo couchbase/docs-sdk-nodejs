@@ -1,6 +1,6 @@
 .Getting Started
 * xref:hello-world:start-using-sdk.adoc[Start Using the Node.js SDK]
-// * xref:hello-world:sample-application.adoc[Sample Application]
+* xref:hello-world:sample-application.adoc[Sample Application]
 
 .Working with Data
 * xref:howtos:kv-operations.adoc[Key Value Operations]
@@ -14,6 +14,7 @@
 
 .Advanced Data Operations
 * xref:howtos:concurrent-async-apis.adoc[Choosing an API]
+* xref:howtos:working-with-collections.adoc[Working with Collections DP]
 
 .Managing Couchbase
 // * User Management
