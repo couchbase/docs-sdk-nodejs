@@ -28,7 +28,7 @@ Here is the _Insert_ operation at its simplest:
 .Insert
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=insert,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=insert,indent=0]
 ----
 
 Options may be added to operations:
@@ -36,7 +36,7 @@ Options may be added to operations:
 .Insert (with options)
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=insertwithoptions,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=insertwithoptions,indent=0]
 ----
 
 Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
@@ -49,7 +49,7 @@ for the _Replace_ example:
 
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=replace,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=replace,indent=0]
 ----
 
 Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
@@ -62,7 +62,7 @@ xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-buck
 
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=durability,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=durability,indent=0]
 ----
 
 Here, we have add _Durability_ options, namely `persistTo` and `replicateTo`.
@@ -86,7 +86,7 @@ The following example demonstrates using the newer durability features available
 
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=newdurability,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=newdurability,indent=0]
 ----
 
 To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration, 
@@ -96,7 +96,7 @@ and the default level of safety provided by Couchbase will be reasonable for the
 .Sub-Document Operations
 ====
 All of these operations involve fetching the complete document from the Cluster.
-Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Docunent Operations].
+Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Document Operations].
 ====
 
 == Retrieving full documents
@@ -105,7 +105,7 @@ Using the `get()` method with the document key can be done in a similar fashion 
 
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=get,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
 ----
 
 Timeout can also be set - as in the earlier `Insert` example:
@@ -113,7 +113,7 @@ Timeout can also be set - as in the earlier `Insert` example:
 .Get (with options)
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=getwithoptions,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=getwithoptions,indent=0]
 ----
 
 
@@ -124,7 +124,7 @@ When removing a document, you will have the same concern for durability as with 
 .Remove (with options)
 [source,javascript]
 ----
-include::example$old-kv-operations.js[tag=remove,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=remove,indent=0]
 ----
 
 == Expiration / TTL
@@ -134,16 +134,14 @@ Using `touch()`, you can set expiration values on documents to handle transient 
 
 [source,javascript]
 ----
-var result = await collection.touch('document-key', 10000);
+include::devguide:example$nodejs/kv-operations.js[tag=touch,indent=0]
 ----
 
 A network timeout can be set with the options, in the same fashion as earlier examples on this page:
 
 [source,javascript]
 ----
-var result = await collection.touch('document-key', 30000, {
-    timeout: 5000, // 5 seconds
-});
+include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 ----
 
 == Atomic document modifications
@@ -153,35 +151,25 @@ The value of a document can be increased or decreased atomically using `binary()
 .Increment
 [source,javascript]
 ----
-// increment binary value by 1
-await collection.binary().increment('document-key', 1);
+include::devguide:example$nodejs/kv-operations.js[tag=increment,indent=0]
 ----
 
 .Increment (with options)
 [source,javascript]
 ----
-// increment binary value by 1, if document doesn’t exist, seed it at 1000
-await collection.binary().increment('document-key', 1, {
-    initial: 1000,
-    timeout: 5000, // 5 seconds
-});
+include::devguide:example$nodejs/kv-operations.js[tag=incrementwithoptions,indent=0]
 ----
 
 .Decrement
 [source,javascript]
 ----
-// decrement binary value by 1
-await collection.binary().decrement('document-key', 1);
+include::devguide:example$nodejs/kv-operations.js[tag=decrement,indent=0]
 ----
 
 .Decrement (with options)
 [source,javascript]
 ----
-// decrement binary value by 1, if document doesn’t exist, seed it at 1000
-await collection.binary().decrement('document-key', 1, {
-    initial: 1000,
-    cas: SOME_CAS
-});
+include::devguide:example$nodejs/kv-operations.js[tag=decrementwithoptions,indent=0]
 ----
 
 NOTE: Increment & Decrement are considered part of the ‘binary’ API and as such may still be subject to change
