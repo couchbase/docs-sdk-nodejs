@@ -63,14 +63,16 @@ special implementation is required in order to enable batching.  Simply
 perform a number of operations simultaenously and they will be batched on
 the network.  This happens internally and is highly efficient.
 
-While most batching operations can be performed trivially by the application
-developer, the Node.js SDK does implement a method for performing batched
-retreival of documents from the cluster through the `getMulti` method.  An
-example of this looks like this:
+Note that this behaviour extends to the world of async/await, such that
+following would be automatically batched across the network:
 
 [source,javascript]
 ----
-var results = await collection.getMulti(['somerealdoc', 'someotherdoc', 'somelastdoc']);
+var [res1, res2, res3] = await Promise.all([
+    await collection.get('somerealdoc'),
+    await collection.get('someotherdoc'),
+    await collection.get('somelastdoc')
+])
 ----
 
 
