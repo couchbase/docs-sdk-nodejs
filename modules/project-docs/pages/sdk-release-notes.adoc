@@ -7,7 +7,7 @@
 Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
 
 These pages cover the 3.0 versions of the Couchbase Node.js SDK. 
-For release notes, download links, and installation methods for 2.6 and earlier releases of the Couchbase Node.js Client, please see the xref:2.6@c-sdk::sdk-release-notes.adoc[2.x Node.js Release Notes & Download Archive].
+For release notes, download links, and installation methods for 2.6 and earlier releases of the Couchbase Node.js Client, please see the xref:2.6@nodejs-sdk::sdk-release-notes.adoc[2.x Node.js Release Notes & Download Archive].
 
 // include::hello-world:start-using-sdk.adoc[tag=prep]
 
