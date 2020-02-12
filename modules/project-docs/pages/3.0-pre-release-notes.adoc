@@ -1,0 +1,52 @@
+= Pre-release Archive Release Notes
+:navtitle: α & β Release Notes
+:page-topic-type: project-doc
+:page-aliases: 3.0αλφα-sdk-release-notes
+
+[abstract] 
+Release notes for the 3.0 Alpha & Beta Releases
+
+In the run-up to the SDK 3.0 AP releases, several αλφα and βετα releases were made.
+Their release notes are maintained here for archive purposes.
+The 3.0 series release notes proper can be found xref:sdk-release-notes.adoc[here], along with install instructions for all supported platforms.
+Please note that none of the pre-releases listed below are supported; all _supported_ (GA) releases can be found xref:sdk-release-notes.adoc[here].
+
+WARNING: These are the pre-release α & β Release Notes maintained purely for archive and information purposes.
+These releases are unsupported.
+Supported (GA) releases can be found xref:sdk-release-notes.adoc[on the general 3.0 Release Notes page].
+
+
+== Version 3.0.0-beta.1 (Oct 3 2019)
+
+[source,bash]
+----
+$ npm install couchbase@3.0.0-beta.1
+----
+
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0-beta.1/[API Reference]
+
+=== New Features
+
+* Updated to 3.0.0-beta.1 release of libcouchbase.
+* Added support for checking the existence of a document.
+* Added support for per-operation transcoders.
+* Implemented data-structures support.
+* Implemented bucket management APIs.
+* Implemented full view management APIs.
+* Implemented diagnostics APIs
+* Implemented debug-based logging.
+* Added contextual details to errors returned from the library.
+
+=== Fixed Issues
+
+* Updated all dependencies based on security audit.
+* Improved connection management.
+* Adjusted geospatial coordinate ordering to lon/lat rather than lat/lon.
+* Fixed bugs causing sub-document operations to sometimes fail.
+* Fixed issues causing unreliable query service error types.
+* Removed support for spatial views.
+
+== Version 3.0.0-alpha.1 (May 2 2019)
+
+This is the first pre-release of the third generation Node.js SDK and a complete rewrite over the 2.x series. 
+As such, there are no release notes for this first alpha release.
