@@ -8,6 +8,8 @@ include::6.5@sdk:shared:partial$cas.adoc[tag=demo]
 
 include::6.5@sdk:shared:partial$cas.adoc[tag=example]
 
+include::6.5@sdk:shared:partial$cas.adoc[tag=errors]
+
 [source,javascript]
 ----
 async function incrementVisitCount(collection, userId) {
