@@ -21,7 +21,9 @@ For example, to install version 2.6.1:
 npm install couchbase@2.6.1
 ----
 
-== Version 3.0.0 (Oct 3 2019)
+== Version 3.0.0 (20th January 2020)
+
+This is the first GA release of the third generation Node.js SDK.
 
 [source,bash]
 ----
@@ -38,7 +40,6 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0-beta.1/[API Refer
 
 === Fixed Issues
 
-Fixed Issues:
 * http://issues.couchbase.com/browse/JSCBC-653[JSCBC-653]:
 Fixed transcoding in getReplica and getAndTouch.
 * http://issues.couchbase.com/browse/JSCBC-650[JSCBC-650]:
