@@ -28,6 +28,8 @@ npm install couchbase@2.6.1
 $ npm install couchbase@3.0.0
 ----
 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0/[API Reference]
+
 https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0-beta.1/[API Reference]
 
 === New Features
