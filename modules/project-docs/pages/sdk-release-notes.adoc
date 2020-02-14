@@ -21,37 +21,44 @@ For example, to install version 2.6.1:
 npm install couchbase@2.6.1
 ----
 
-== Version 3.0.0-beta.1 (Oct 3 2019)
+== Version 3.0.0 (Oct 3 2019)
 
 [source,bash]
 ----
-$ npm install couchbase@3.0.0-beta.1
+$ npm install couchbase@3.0.0
 ----
 
 https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0-beta.1/[API Reference]
 
 === New Features
 
-* Updated to 3.0.0-beta.1 release of libcouchbase.
-* Added support for checking the existence of a document.
-* Added support for per-operation transcoders.
-* Implemented data-structures support.
-* Implemented bucket management APIs.
-* Implemented full view management APIs.
-* Implemented diagnostics APIs
-* Implemented debug-based logging.
-* Added contextual details to errors returned from the library.
+* Updated to libcouchbase 3.0.0
 
 === Fixed Issues
 
-* Updated all dependencies based on security audit.
-* Improved connection management.
-* Adjusted geospatial coordinate ordering to lon/lat rather than lat/lon.
-* Fixed bugs causing sub-document operations to sometimes fail.
-* Fixed issues causing unreliable query service error types.
-* Removed support for spatial views.
+Fixed Issues:
+* http://issues.couchbase.com/browse/JSCBC-653[JSCBC-653]:
+Fixed transcoding in getReplica and getAndTouch.
+* http://issues.couchbase.com/browse/JSCBC-650[JSCBC-650]:
+Improved stream wrappers to support both events and async/await.
+* http://issues.couchbase.com/browse/JSCBC-657[JSCBC-657]:
+Fixed some error double-translation issues.
+* http://issues.couchbase.com/browse/JSCBC-652[JSCBC-652]:
+Fixed issue with data structures exist checks.
+* http://issues.couchbase.com/browse/JSCBC-655[JSCBC-655]:
+Fixed search query constructors not being exported.
+* http://issues.couchbase.com/browse/JSCBC-656[JSCBC-656]:
+Renamed QueryProfile to QueryProfileMode.
+* http://issues.couchbase.com/browse/JSCBC-639[JSCBC-639]:
+Updated tests to reflect updated libcouchbase behaviour.
+* http://issues.couchbase.com/browse/JSCBC-654[JSCBC-654]:
+Updated to the latest mock to resolve test issue.
+* http://issues.couchbase.com/browse/JSCBC-647[JSCBC-647]:
+Marked all error contexts as uncommitted.
+* http://issues.couchbase.com/browse/JSCBC-596[JSCBC-596]:
+Marked defaultScope, scope, and collection methods uncommitted.
 
-== Version 3.0.0-alpha.1 (May 2 2019)
 
-This is the first pre-release of the third generation Node.js SDK and a complete rewrite over the 2.x series. 
-As such, there are no release notes for this first alpha release.
+== Pre-releases
+
+Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release, and although unsupported, the release notes and download links are retained for archive purposes xref:3.0-pre-release-notes.adoc[here].
