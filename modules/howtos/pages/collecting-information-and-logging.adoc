@@ -63,4 +63,4 @@ This is supplied for messages that relate to the state of a particular connectio
 == Additional Information
 
 The Node.js SDK internally uses the Couchbase C SDK to perform operations.  If more in depth debug information is required such as
-Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in the C SDK documentation.
+Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:2.10@c-sdk::collecting-information-and-logging.adoc[the C SDK documentation].
