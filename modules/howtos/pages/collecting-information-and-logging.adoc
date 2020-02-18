@@ -8,19 +8,20 @@ Node.js SDK logging.
 
 The Node.js SDK offers a basic logging facility through which its various subsystems can output debug and error information.
 This information provides details of the library's internals and additional error information which may otherwise not be accessible via other APIs.
-Logging may be enabled via the `debug` library, an environment variables or a connection string directive.
+Logging may be enabled via the `debug` library, an environment variable, or a connection string directive.
 
-The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.  Alternatively you can set the `LCB_LOGLEVEL`
-environment variable to a number between 1 and 5, with 5 being the most verbose and 1 being the least verbose.  Note that these logs will go
-to standard output:
+The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.  
+Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5, with 5 being the most verbose and 1 being the least verbose.  
+Note that these logs will go to `stdout` (standard output):
 
-[source,bash]
+[source,shell]
 ----
 $ DEBUG=couchnode* node my_couchbase_app
 ----
 
 When logging is turned on, the library will output messages similar to this:
 
+[source,shell]
 ----
 1ms [I0] {14780} [DEBUG] (lcbio_mgr - L:383) <localhost:11210> (HE=0xe56760)
 Creating new connection because none are available in the pool
@@ -62,5 +63,5 @@ This is supplied for messages that relate to the state of a particular connectio
 
 == Additional Information
 
-The Node.js SDK internally uses the Couchbase C SDK to perform operations.  If more in depth debug information is required such as
-Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:2.10@c-sdk::collecting-information-and-logging.adoc[the C SDK documentation].
+The Node.js SDK internally uses the Couchbase C SDK to perform operations. 
+If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:2.10@c-sdk::collecting-information-and-logging.adoc[the C SDK documentation].
