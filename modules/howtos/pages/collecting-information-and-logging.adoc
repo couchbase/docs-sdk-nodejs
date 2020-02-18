@@ -1,0 +1,67 @@
+= Collecting Information & Logging
+:page-topic-type: howto
+
+[abstract]
+Node.js SDK logging.
+
+== Library logging
+
+The Node.js SDK offers a basic logging facility through which its various subsystems can output debug and error information.
+This information provides details of the library's internals and additional error information which may otherwise not be accessible via other APIs.
+Logging may be enabled via the `debug` library, an environment variable, or a connection string directive.
+
+The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.  
+Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5, with 5 being the most verbose and 1 being the least verbose.  
+Note that these logs will go to `stdout` (standard output):
+
+[source,shell]
+----
+$ DEBUG=couchnode* node my_couchbase_app
+----
+
+When logging is turned on, the library will output messages similar to this:
+
+[source,shell]
+----
+1ms [I0] {14780} [DEBUG] (lcbio_mgr - L:383) <localhost:11210> (HE=0xe56760)
+Creating new connection because none are available in the pool
+----
+
+NOTE: The output format is subject to change.
+It is intended for human consumption and is not designed to be parseable.
+
+The following table describes the components of the log entries:
+
+[cols="50,213"]
+|===
+| Format | Description
+
+| `nms`
+| The number of milliseconds elapsed since the loading of the library
+
+| `[In]`
+| The identifier of the `lcb_t` object associated with the current message.
+This allows you to determine the origin of the message in the case where the application contains multiple such `lcb_t` objects.
+The number is incremented for each call to [.api]`lcb_create()`
+
+| `+{PID}+`
+| The current thread/process identifier.
+On Linux this is also the process ID for single-threaded programs, further helping distinguish between multiple forks of an application.
+
+| `[LEVEL]`
+| A string representing the severity of the level
+
+| `(subsystem - L:line)`
+| The _subsystem_ that produced this message, followed by the source code line at which this message was created.
+The subsystem will typically, but not always, resemble the source code file.
+It is a small string describing what the current line is doing.
+
+| `<host:port>`
+| The host and port, if any, associated with the message.
+This is supplied for messages that relate to the state of a particular connection.
+|===
+
+== Additional Information
+
+The Node.js SDK internally uses the Couchbase C SDK to perform operations. 
+If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:2.10@c-sdk::collecting-information-and-logging.adoc[the C SDK documentation].
