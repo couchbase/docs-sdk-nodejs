@@ -40,7 +40,7 @@ And run with
 
 [source,bash]
 ----
-npm rub start
+npm run start
 ----
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
