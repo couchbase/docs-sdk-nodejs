@@ -1,7 +1,7 @@
 /*
     Sample of various KV Operations
- */
 
+ */
 
 const url = require("url");
 const Hapi = require("hapi");
@@ -11,7 +11,6 @@ const options = {username: 'Administrator', password: 'password'};
 const cluster = new couchbase.Cluster("http://localhost", options);
 const bucket = cluster.bucket("travel-sample");
 const collection = bucket.defaultCollection();
-//const collection = bucket.collection("bogus-collection");
 const docKey = 'airport_77';
 const binValKey = 'my-counter-2';
 let document;
@@ -36,8 +35,9 @@ function init() {
         if (res) {
             cas = res.cas;
             document = res.value;
+            console.log("=========== existing`");
         } else {
-            if (err.cause.code !== 301 /* something other than document doesn't exist */ ) {
+            if (err.cause.code !== 301 /* something other than document doesn't exist */) {
                 console.log(err.toString());
             } else {
                 try {
@@ -88,7 +88,8 @@ async function getHandler(request, h) {
  */
 async function getwithoptionsHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
-    try { // #tag::getwithoptions[]
+    try {
+        // #tag::getwithoptions[]
         return collection.get(key, {timeout: 1000},
             (err, res) => {
                 if (res) {
@@ -99,7 +100,8 @@ async function getwithoptionsHandler(request, h) {
             console.log(e);
             return h.response(e.toString() + "<pre>" + e.stack + "</pre>");
         });
-    } catch (e) { // #end::getwithoptions[]
+        // #end::getwithoptions[]
+    } catch (e) {
         console.log(e);
         return h.response(e.toString());
     }
@@ -161,10 +163,9 @@ async function durabilityHandler(request, h) {
     try {
         // #tag::durability[]
         let result = await collection.upsert(key, document, {
-            cas: cas,
             expiration: 60, // 60 seconds
-            persistTo: 1,
-            replicateTo: 1,
+            durabilityPersistTo: 1,
+            durabilityReplicateTo: 0, // anything but 0 will fail on single-node cluster
             timeout: 5000, // 5 seconds
         });
         // #end::durability[]
@@ -181,7 +182,6 @@ async function newdurabilityHandler(request, h) {
     try {
         // #tag::newdurability[]
         let result = await collection.upsert(key, document, {
-            cas: cas,
             expiration: 60, // 60 seconds,
             durabilityLevel: couchbase.DurabilityLevel.None, // Majority etc.
             timeout: 5000, // 5 seconds
@@ -258,16 +258,16 @@ async function incrementwithoptionsHandler(request, h) {
     try {
         // #tag::incrementwithoptions[]
         // increment binary value by 1, if binValKey doesn’t exist, seed it at 1000
-        const result = await collection.binary().increment( binValKey, 1,
-            { initial: 1000, timeout: 5000 },
+        const result = await collection.binary().increment(binValKey, 1,
+            {initial: 1000, timeout: 5000},
             (err, res) => {
                 console.log("res: " + JSON.stringify(res));
             });
         // #end::incrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if(e.toString() === "Error: bad initial passed")
-		return(h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
+        if (e.toString() === "Error: bad initial passed")
+            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -297,8 +297,8 @@ async function decrementwithoptionsHandler(request, h) {
         // #end::decrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if(e.toString() === "Error: bad initial passed")
-		return(h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
+        if (e.toString() === "Error: bad initial passed")
+            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -326,7 +326,7 @@ function usage(request, h) {
         "<tr><td><a href='incrementwithoptions'>/incrementwithoptions</a></td></tr>" +
         "<tr><td><a href='decrement'>/decrement</a></td></tr>" +
         "<tr><td><a href='decrementwithoptions'>/decrementwithoptions</a></td></tr>" +
-        "<tr><td>&nbsp</td></tr>"+
+        "<tr><td>&nbsp</td></tr>" +
         "<tr><td><a href='get?k=airport_1254'>/get?k=airport_1254</a></td></tr>" +
 
         "</table>"

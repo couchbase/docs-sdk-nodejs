@@ -21,8 +21,9 @@ egrep -v '^striptags.sh|^nodejs/node_modules|^nodejs/package-lock.json' |\
   else
 	egrep -v '#tag|#end' $f > /tmp/stripped.$$
         test  $? -gt 1 && exit
-	diff -q /tmp/stripped.$$ $target/$f 
+	diff -q /tmp/stripped.$$ $target/$f  > /dev/null
         if [ $? -ne 0 ] ; then 
+		echo copied stripped version of $f to $target/$f 
 		mv /tmp/stripped.$$ $target/$f || exit
 		if [ $gitmod -eq 1 ] ; then 
 			echo git add $target/$f
