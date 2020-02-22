@@ -2,26 +2,29 @@
 var couchbase = require('couchbase');
 
 // Setup Cluster Connection Object
-var cluster = new couchbase.Cluster('couchbase://127.0.0.1');
-
-// Setup Bucket object to be reused within the code
-var bucket = cluster.openBucket('travel-sample');
+const options = {username: 'Administrator', password: 'password'};
+const cluster = new couchbase.Cluster("http://localhost", options);
+const bucket = cluster.bucket("travel-sample");
+const collection = bucket.defaultCollection();
 
 // Setup a Document and store in the bucket.
 var key = "nodeDevguideExampleRetrieve";
-bucket.insert(key, {test:"Some Test Value"},function(err, res) {
-    if (err) throw err;
+collection.remove(key, function (err, res) { // remove if already exists
 
-    console.log('Initialized Document, stored to bucket');
-
-    // Get Document
-    bucket.get(key, function (err, resRead) {
+    collection.insert(key, {test: "Some Test Value"}, function (err, res) {
         if (err) throw err;
 
-        // Print Document Value
-        console.log("Retrieved Document:", resRead.value);
+        console.log('Initialized Document, stored to bucket');
 
-        console.log('Example Successful - Exiting');
-        process.exit(0);
+        // Get Document
+        collection.get(key, function (err, resRead) {
+            if (err) throw err;
+
+            // Print Document Value
+            console.log("Retrieved Document:", resRead.value);
+
+            console.log('Example Successful - Exiting');
+            process.exit(0);
+        });
     });
 });

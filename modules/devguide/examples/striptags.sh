@@ -1,13 +1,14 @@
 #!/bin/sh
 here="`pwd`"
 cd "$(dirname "$0")"
+# default is to *not* git add to target
 if [ -z "$gitmod" ] ; then
 	gitmod=0
 fi
-target="$(cd ../../../../devguide-examples ; pwd)" # only 3 ../ if using submodule
-# exclude striptags.sh and non-git files like nodejs/node_modules
+target="$(cd ../../../../sdk-examples ; pwd)" # only 3 ../ if using submodule
+# exclude non-sample code files like nodejs/node_modules
 find * |\
-egrep -v '^striptags.sh|^nodejs/node_modules|^nodejs/package-lock.json' |\
+egrep -v '^striptags|^nodejs/node_modules|^nodejs/package-lock.json' |\
  while read f ; do
   if [ -d $f ] ; then
     if [ ! -d $target/$f ] ; then
@@ -21,8 +22,9 @@ egrep -v '^striptags.sh|^nodejs/node_modules|^nodejs/package-lock.json' |\
   else
 	egrep -v '#tag|#end' $f > /tmp/stripped.$$
         test  $? -gt 1 && exit
-	diff -q /tmp/stripped.$$ $target/$f 
+	diff -q /tmp/stripped.$$ $target/$f  > /dev/null
         if [ $? -ne 0 ] ; then 
+		echo copied stripped version of $f to $target/$f 
 		mv /tmp/stripped.$$ $target/$f || exit
 		if [ $gitmod -eq 1 ] ; then 
 			echo git add $target/$f

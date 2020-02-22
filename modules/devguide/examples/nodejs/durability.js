@@ -2,11 +2,12 @@
 var couchbase = require('couchbase');
 
 // Setup Cluster Connection Object
-var cluster = new couchbase.Cluster('couchbase://127.0.0.1');
+const options = {username: 'Administrator', password: 'password'};
+var cluster = new couchbase.Cluster('couchbase://127.0.0.1', options);
 
 // Setup Bucket object to be reused within the code
-var bucket = cluster.openBucket('travel-sample');
-//bucket.durabilityTimeout=10;
+var bucket = cluster.bucket('travel-sample');
+const collection = bucket.defaultCollection();
 
 // Setup a Document and store in the bucket.
 var key = "nodeDevguideExampleDurability";
@@ -32,16 +33,14 @@ function persistExample(done) {
     // Should Always Succeed, even on single node cluster.
     console.log("==========================================");
     console.log("  BEGIN EXAMPLE: Persist To 1 node");
-    bucket.durabilityInterval=1000;
-    bucket.upsert(key, {test: "Some Test Value"}, {persist_to: 1}, function (err, res) {
+    collection.upsert(key+"_1", {test: "Some Test Value 1"}, {durabilityPersistTo: 1}, function (err, res) {
         if (err) throw err;
 
         if (res) {
-            console.log("    CALLBACK: RESULT", res);
             console.log("    Initialized Document, stored to bucket");
 
             // Get Document
-            bucket.get(key, function (err, resRead) {
+            collection.get(key+"_1", function (err, resRead) {
                 if (err) throw err;
 
                 // Print Document Value
@@ -60,17 +59,16 @@ function replicateExample(done) {
     // Should Fail on a single node cluster, succeed on a multi node
     // cluster of 3 or more nodes with at least one replica enabled.
     console.log("==========================================");
-    console.log("  BEGIN EXAMPLE: Replicate To 1 node");
-    bucket.durabilityInterval=1000;
-    bucket.upsert(key, {test: "Some Test Value"}, {replicate_to: 1}, function (err, res) {
+    console.log("  BEGIN EXAMPLE: Replicate To 0 node");
+    collection.upsert(key+"_2", {test: "Some Test Value 2"}, {durabilityReplicateTo: 0}, function (err, res) {
         if (err) throw err;
 
         if (res) {
-            console.log("    CALLBACK: RESULT", res);
+            //console.log("    CALLBACK: RESULT", res);
             console.log("    Initialized Document, stored to bucket");
 
             // Get Document
-            bucket.get(key, function (err, resRead) {
+            collection.get(key+"_2", function (err, resRead) {
                 if (err) throw err;
 
                 // Print Document Value
@@ -90,17 +88,16 @@ function replicateAndPersistExample(done) {
     // a multi node cluster of 3 or more nodes with at least one replica
     // enabled.
     console.log("==========================================");
-    console.log("  BEGIN EXAMPLE: Replicate To and Persist To 1 node");
-    bucket.durabilityInterval=1000;
-    bucket.upsert(key, {test: "Some Test Value"}, {replicate_to: 1, persist_to:1}, function (err, res) {
+    console.log("  BEGIN EXAMPLE: Replicate To 0 and Persist To 1 node");
+    collection.upsert(key+"_3", {test: "Some Test Value 3"}, {durabilityReplicateTo: 0, durabilityPersistTo:1}, function (err, res) {
         if (err) throw err;
 
         if (res) {
-            console.log("    CALLBACK: RESULT", res);
+            //console.log("    CALLBACK: RESULT", res);
             console.log("    Initialized Document, stored to bucket");
 
             // Get Document
-            bucket.get(key, function (err, resRead) {
+            collection.get(key+"_3", function (err, resRead) {
                 if (err) throw err;
 
                 // Print Document Value

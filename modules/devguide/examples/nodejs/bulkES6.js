@@ -53,10 +53,12 @@ var getMultiArray=[];
 var couchbase = require('couchbase');
 
 // Setup Cluster Connection Object
-var cluster = new couchbase.Cluster(connString);
+const options = {username: 'Administrator', password: 'password'};
+var cluster = new couchbase.Cluster(connString, options);
 
 // Setup Bucket object to be reused within the code
-var bucket = cluster.openBucket('travel-sample');
+var bucket = cluster.bucket('travel-sample');
+const collection = bucket.defaultCollection();
 
 // Run the example
 verifyNodejsVersion()
@@ -75,7 +77,7 @@ verifyNodejsVersion()
 function verifyNodejsVersion() {
     return new Promise(
         (resolve, reject) => {
-            if (parseInt(((process.version).split("v"))[1].substr(0, 1)) < 4) {
+            if (parseInt(((process.version).split("v"))[1].split(".")[0] ) < 4) {
                 console.log("\n  The nodejs version is too low.  This application requires\n" +
                     "  ES6 features, specifically: \n" +
                     "    --promises \n    --arrow functions \n" +
@@ -114,7 +116,7 @@ function preload() {
                         getMultiArray[completed] = 'test' + completed;
 
                         // Upsert one document
-                        bucket.upsert('test' + completed, {
+                        collection.upsert('test' + completed, {
                             fieldToProcess: generateCharacters(documentSize),
                             fieldType: "url",
                             lastEdited: Date(),
@@ -149,9 +151,26 @@ function bulkGetMulti() {
         // This is the only bulk method exposed by the nodejs SDK.   This method
         // takes an array of keys, and returns a map of json documents for all
         // documents retrieved.   It will fire a callback when completed.
+
+            // there is no collect/bucket.getMulti() in SDK 3.0
+
+            for(var i = 0; i < getMultiArray.length; i++){
+                collection.get(getMultiArray[i]);
+             }
+             if (true /* res */) {
+                var time = process.hrtime(startTime);
+                console.log("====");
+                console.log("  Bulk getMulti took: " + parseInt((time[0] * 1000) +
+                        (time[1] / 1000000)) + " ms for: " + getMultiArray.length +
+                    " items");
+                resolve();
+            }
+
+/*
+        resolve();
         bucket.getMulti(getMultiArray, function(err, res) {
             if (err) {
-                console.console.log("  Error:", error);
+                console.log("  Error:", error);
             }
             // The callback "res" will only fire once the getMulti
             // operation has finished
@@ -164,6 +183,7 @@ function bulkGetMulti() {
                 resolve();
             }
         });
+*/
     });
 }
 
@@ -192,7 +212,7 @@ function bulkGetAsyncPattern(){
                   if (completed <= totalDocs) {
 
                       // Modify One Document
-                      bucket.get(getMultiArray[completed], function(err, res) {
+                      collection.get(getMultiArray[completed], function(err, res) {
                           if (err) console.log("  Error Retrieving:", err.message);
 
                           // This will fire WHEN and only WHEN a callback is received.
@@ -240,11 +260,10 @@ function bulkUpdateAsyncPattern(){
                   if (completed <= totalDocs) {
 
                       // Modify One Document
-                      bucket.mutateIn('test' + completed, 0, 0)
-                      .counter('rev', 1, false)
-                      .execute( function(err, res) {
+                      collection.mutateIn('test' + completed, 
+                          [ couchbase.MutateInSpec.upsert( "new", 1)],
+                       (err, res)=> {
                           if (err) console.log("  Error modifying:", err.message);
-
                           // This will fire WHEN and only WHEN a callback is received.
                           if (res) {
                               // Increment completed count
@@ -253,7 +272,7 @@ function bulkUpdateAsyncPattern(){
                               // Recursive call to modify
                               modifyOne();
                           }
-                      });
+                      }).catch((e) => { console.log(e);});
                   }
               }
           }

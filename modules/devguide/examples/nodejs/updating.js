@@ -2,41 +2,43 @@
 var couchbase = require('couchbase');
 
 // Setup Cluster Connection Object
-var cluster = new couchbase.Cluster('couchbase://127.0.0.1');
-
-// Setup Bucket object to be reused within the code
-var bucket = cluster.openBucket('travel-sample');
+const options = {username: 'Administrator', password: 'password'};
+const cluster = new couchbase.Cluster("http://localhost", options);
+const bucket = cluster.bucket("travel-sample");
+const collection = bucket.defaultCollection();
 
 // Setup a new Document and store in the bucket
 var key = "nodeDevguideExampleReplace";
-bucket.insert(key, {test:"Some Test Value"},function(err, res) {
-    if (err) throw err;
-
-    console.log('Initialized Document, stored to bucket');
-
-    // Get Document
-    bucket.get(key, function (err, resRead) {
+collection.remove(key, function (err, res) {// remove if already exists
+    collection.insert(key, {test: "Some Test Value"}, function (err, res) {
         if (err) throw err;
 
-        // Print Document Value
-        console.log("Retrieved Document:", resRead.value);
+        console.log('Initialized Document, stored to bucket');
 
-				// Add to value, and replace
-				resRead.value.test2='Some More Test Values';
-				var updatedVal=JSON.stringify(resRead.value);
-				bucket.replace(key,updatedVal,function(req,resUpdated){
-					if (err) throw err;
+        // Get Document
+        collection.get(key, function (err, resRead) {
+            if (err) throw err;
 
-					// Get Replaced Document Value
-					bucket.get(key, function (err, resReadUpdated) {
-							if (err) throw err;
+            // Print Document Value
+            console.log("Retrieved Document:", resRead.value);
 
-							// Print Document Value
-							console.log("Retrieved Document:", resReadUpdated.value);
+            // Add to value, and replace
+            resRead.value.test2 = 'Some More Test Values';
+            var updatedVal = JSON.stringify(resRead.value);
+            collection.replace(key, updatedVal, function (req, resUpdated) {
+                if (err) throw err;
 
-			        console.log('Example Successful - Exiting');
-			        process.exit(0);
-						});
-				});
+                // Get Replaced Document Value
+                collection.get(key, function (err, resReadUpdated) {
+                    if (err) throw err;
+
+                    // Print Document Value
+                    console.log("Retrieved Document:", resReadUpdated.value);
+
+                    console.log('Example Successful - Exiting');
+                    process.exit(0);
+                });
+            });
+        });
     });
 });
