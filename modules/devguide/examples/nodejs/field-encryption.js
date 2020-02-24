@@ -3,10 +3,10 @@
 var couchbase = require('couchbase');
 var cbfieldcrypt = require('couchbase-encryption');
 
-var cluster = new couchbase.Cluster('couchbase://127.0.0.1');
-cluster.authenticate('Administrator', 'password');
-var bucket = cluster.openBucket('default');
-
+const options = {username: 'Administrator', password: 'password'};
+const cluster = new couchbase.Cluster("http://localhost", options);
+const bucket = cluster.bucket("travel-sample");
+const collection = bucket.defaultCollection();
 
 var publicKey = '!mysecretkey#9^5usdk39d&dlf)03sL';
 var signingKey = 'myauthpassword';
@@ -35,7 +35,7 @@ bucket.upsert('person::1', encryptedTeddy, function(err, res) {
     throw err;
   }
 
-  bucket.get('person::1', function(err, res) {
+  collection.get('person::1', function(err, res) {
     if (err) {
       throw err;
     }
