@@ -90,7 +90,6 @@ cluster.query(query, opts, function (err, result, meta) {
                 console.log("Query 1 - prepare, execute     :", t1);
                 console.log("Query 2 - execute, same params :", t2);
                 console.log("Query 3 - execute, new params  :", t3);
-                console.log(t3);
                 console.log("Query 4 - execute, orig params :", t4);
                 console.log("=====");
                 console.log('Example Successful - Exiting');

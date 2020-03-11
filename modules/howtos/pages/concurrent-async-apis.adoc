@@ -23,7 +23,7 @@ A simple upsert example looks like this:
 
 [source,javascript]
 ----
-var result = await collection.upsert('somedoc', {foo: 'bar'});
+include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
 ----
 
 Methods will return a Javascript 'Promise' object, which can be chained, joined
@@ -34,11 +34,7 @@ API looks like this:
 
 [source,javascript]
 ----
-var results = await Promise.all([
-    collection.upsert('somerealdoc', 'foo'),
-    collection.upsert('someotherdoc', 'bar'),
-    collection.upsert('somelastdoc', 'baz')
-]);
+include::devguide:example$nodejs/kv-operations.js[tag=promises,indent=0]
 ----
 
 
@@ -50,9 +46,7 @@ looks like this:
 
 [source,javascript]
 ----
-collection.upert('somedoc', {foo: 'bar'}, (err, result) => {
-    // ...
-});
+include::devguide:example$nodejs/kv-operations.js[tag=callback,indent=0]
 ----
 
 
@@ -68,11 +62,7 @@ following would be automatically batched across the network:
 
 [source,javascript]
 ----
-var [res1, res2, res3] = await Promise.all([
-    await collection.get('somerealdoc'),
-    await collection.get('someotherdoc'),
-    await collection.get('somelastdoc')
-])
+include::devguide:example$nodejs/kv-operations.js[tag=batch,indent=0]
 ----
 
 

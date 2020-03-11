@@ -19,19 +19,19 @@ The KV Service exposes several common errors that can be encountered - both duri
 
 If a particular key cannot be found it is raised as an `DocumentNotFoundException`:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=key-not-found,indent=0]
 ----
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=get,indent=0]
 ----
 
 On the other hand if the key already exists and should not (e.g. on an insert) then it is raised as a `DocumentExistsException`:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=key-exists,indent=0]
 ----
@@ -41,7 +41,7 @@ Couchbase provides optimistic concurrency using CAS.
 Each document gets a CAS value on the server, which is changed on each mutation.
 When you get a document you automatically receive its CAS value, and when replacing the document, if you provide that CAS the server can check that the document has not been concurrently modified by another agent in-between.  If it has, it returns `CasMismatchException`, and the most appropriate response is to simply retry it:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=cas,indent=0]
 ----
@@ -58,7 +58,7 @@ It really needs to be considered case-by-case, but the general strategy is to be
 
 For instance, for inserts, they can simply be retried to see if they fail on `DocumentExistsException`, in which case the operation was successful:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=insert,indent=0]
 ----
@@ -68,7 +68,7 @@ That example is much closer to what an application will want to be doing.  Let's
 === Real-World Error Handling
 The application can write wrappers so that it can easily do operations without having to duplicate the error handling each time.  Something like this:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=insert-real,indent=0]
 ----
@@ -92,7 +92,7 @@ Most key-value operations are idempotent.  For those that aren't, such as a Sub-
 == Query and Analytics Errors
 A N1QL query either returns results or `QueryError`, like so:
 
-[source,scala]
+[source,javascript]
 ----
 include::example$ErrorHandling.scala[tag=query,indent=0]
 ----
