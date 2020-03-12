@@ -388,7 +388,7 @@ async function lockupdateHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::lockupdate[]
-        var result = await collection.get(key);
+        var result = await collection.getAndLock(key,1000);
         document = result.value;
         cas = result.cas; 
         // if we decided not to update, unlock
@@ -866,6 +866,16 @@ server.route({
     path: "/",
     handler: (request, h) => {
         return usage(request, h);
+    }
+});
+server.route({
+    method: "GET",
+    path: "/quit",
+    handler: (request, h) => {
+// #tag::disconnection[]
+        cluster.close();
+// #end::disconnection[]
+        process.exit(0);
     }
 });
 
