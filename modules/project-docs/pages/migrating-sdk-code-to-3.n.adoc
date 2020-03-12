@@ -43,8 +43,7 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
 
 ==  Installation and Configuration
 
-The Java SDK 3.x is available for download from the same resources as the previous generation. Builds can be found on maven central, pre-releases are available from our own maven repository.
-In addition, a `zip` file is available with the required jars. 
+The Node.js SDK 3.x is available through `npm`, just like the previous generation. 
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
 
 
@@ -518,13 +517,14 @@ Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,
 
 Not only does it throw a `CouchbaseException`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
 
+/// surely this doesn't apply to Node??
 ==== DSL Deprecation
 
 The fluent API feature in SDK 2 was found not to scale well for larger queries, nor for SQL++.
 For these reasons it is not amongst the features carried over to SDK 3.0.
 
 In most cases, a simple string statement is the best replacement.
-
+////
 
 === Analytics
 
