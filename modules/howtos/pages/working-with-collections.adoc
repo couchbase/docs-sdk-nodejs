@@ -86,7 +86,7 @@ And run with
 
 [source,bash]
 ----
-npm rub start
+npm run start
 ----
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
@@ -103,36 +103,13 @@ Collections and Scope are set immediately after opening the bucket:
 
 [source,javascript]
 ----
-// Open a specific Couchbase bucket, `travel-sample` in this case.
-var bucket = cluster.bucket('travel-sample');
-// And select the default collection
-var coll = bucket.defaultCollection();
-
-// Open users bucket, with scope and specific collections
-var userBucket = cluster.bucket("travel-users");
-var userScope = userBucket.scope("userData");
-var userColl = userScope.collection("users");
-var flightColl = userScope.collection("flights");
+include::devguide:example$nodejs/kv-operations.js[tag=opencollections,indent=0]
 ----
 
 And operations are now performed on the specific collection, rather than the whole bucket (or the whole bucket via `_default` collection, as in Server 6.5 without the Developer Preview enabled).
 
 [source,javascript]
 ----
-  var userDocKey = username;
-  userColl.get(userDocKey, function(err, doc) {
-    if (err) {
-      if (err == couchbase.errors.KEY_ENOENT) {
-        res.status(403).send({
-          error: 'Could not find user.'
-        });
-        return;
-      }
-
-      res.status(500).send({
-        error: err
-      });
-      return;
-    }
+include::devguide:example$nodejs/kv-operations.js[tag=getcollectiondoc,indent=0]
 ----
 

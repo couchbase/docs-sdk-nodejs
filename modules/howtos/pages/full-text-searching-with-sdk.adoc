@@ -79,15 +79,15 @@ result.rows.forEach((hit) => {
 })
 ----
 
-[source,csharp]
-.Iterating facets
-----
-result.meta.facets.forEach((facet) => {
-    var name = facet.name;
-    var total = facet.total;
-    // ...
-});
-----
+//[source,csharp]
+//.Iterating facets
+//----
+//result.meta.facets.forEach((facet) => {
+//    var name = facet.name;
+//    var total = facet.total;
+//    // ...
+//});
+//----
 
 
 == Consistency

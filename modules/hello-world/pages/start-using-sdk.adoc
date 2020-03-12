@@ -77,9 +77,10 @@ KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV O
 == Additional Resources
 
 The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-node-client/[here].
-Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].
 
-// xref:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
+Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].	
+
+The xref:migrating-sdk-code-to-3.n.adoc[Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Node.js SDK.
 The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].

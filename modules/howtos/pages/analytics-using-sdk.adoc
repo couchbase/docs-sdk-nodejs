@@ -1,7 +1,7 @@
 = Analytics using the Node.js SDK
 :page-topic-type: howto
 :page-edition: Enterprise Edition:
-
+// no source code for query analytics in sdk-examples/nodejs
 [abstract]
 Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
 

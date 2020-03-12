@@ -42,21 +42,13 @@ Note that both parameters and options are optional.
 .Positional parameter example:
 [source,javascript]
 ----
-var result = await cluster.query(
-    'SELECT x.* FROM `default` WHERE x.Type=$1',
-    {parameters: ['Users']});
+include::devguide:example$nodejs/n1ql-queries.js[tag=queryplaceholders,indent=0]
 ----
 
 .Named parameter example:
 [source,javascript]
 ----
-var parameters = new QueryParameters()
-    .Add('type', 'User');
-var options = new QueryOptions();
-
-var result = await cluster.query(
-    'SELECT x.* FROM `default` WHERE x.Type=$type',
-    {'type': 'User'});
+include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 ----
 
 // The complete code for this page's example can be found at xref:[??]
@@ -66,68 +58,61 @@ var result = await cluster.query(
 == Handling Results
 
 In most cases your query will return more than one result, and you may be looking to iterate over those results:
-
+// this is the same as the above "query-named" as it also shows processing results
 [source,javascript]
 ----
-var result = await cluster.query(
-    'SELECT x.* FROM `default` WHERE x.Type=$0',
-    ['User']);
-
-// iterate over rows
-result.rows.forEach((row) => {
-    // each row is an object representing the row result
-    var name = row.username; // "mike"
-    var age = row.age;
-});
+include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 ----
 
-== Scan Consistency
+//== Scan Consistency
+//
+//
+//Setting a staleness parameter for queries, with `scan_consistency`, enables a tradeoff between latency and (eventual) consistency.
 
+//* A N1QL query using the default *Not Bounded* Scan Consistency will not wait for any indexes to finish updating before running the query and returning results, meaning that results are returned quickly, but the query will not return any documents that are yet to be indexed.
 
-Setting a staleness parameter for queries, with `scan_consistency`, enables a tradeoff between latency and (eventual) consistency.
-
-* A N1QL query using the default *Not Bounded* Scan Consistency will not wait for any indexes to finish updating before running the query and returning results, meaning that results are returned quickly, but the query will not return any documents that are yet to be indexed.
-
-* With Scan Consistency set to *RequestPlus*, all document changes and index updates are processed before the query is run.
-Select this when consistency is always more important than performance.
-
-* For a middle ground, *AtPlus* is a 'read your own write' (RYOW) option, which means it just waits for the new documents that you specify to be indexed, rather than an entire index of multiple documents.
+//* With Scan Consistency set to *RequestPlus*, all document changes and index updates are processed before the query is run.
+//Select this when consistency is always more important than performance.
+//
+//* For a middle ground, *AtPlus* is a 'read your own write' (RYOW) option, which means it just waits for the new documents that you specify to be indexed, rather than an entire index of multiple documents.
 // See the xref:scan-consistency-examples.adoc[examples] for how to use *AtPlus* for the best performance balance for many circumstances.
 
-.ScanConsisteny (RYOW)
-[source,javascript]
-----
-// create / update document (mutation)
-var upsertResult = await collection.upsert('id', {name: 'Mike', type: 'User'});
-
-// create mutation state from mutation results
-var state = couchbase.MutationState.from(upsertResult);
-
+// commented out until this is working - n1ql-queries.js
+//.ScanConsisteny (RYOW)
+//[source,javascript]
+//----
+//// create / update document (mutation)
+//var upsertResult = await collection.upsert('id', {name: 'Mike', type: 'User'});
+//
+//// create mutation state from mutation results
+//var state = couchbase.MutationState.from(upsertResult);
+//
 // use mutation state with query option
-var result = await cluster.query(
-    'SELECT x.* FROM `default` WHERE x.Type=$1',
-    ['User'], {
-        consistentWith: state,
-    });
-----
+//var result = await cluster.query(
+//    'SELECT x.* FROM `default` WHERE x.Type=$1',
+//    ['User'], {
+//        consistentWith: state,
+//    });
+//----
 
-== Streaming Large Result Sets
+// commented out until this is working - n1ql-queries.js
+//== Streaming Large Result Sets
+//
+//The Node.js SDK supports a number of methods for performing queries, all through the same interface.  If you await on the result, or utilize a callback to receive the results, the entire resultset will be downloaded and cached before being returned.  If you wish to stream the results, you can use the result as an event emitter in order to row-by-row process the results.  Using the event emitter prevents the SDK from needing to cache the rows internally, and allows you to stream the results.
 
-The Node.js SDK supports a number of methods for performing queries, all through the same interface.  If you await on the result, or utilize a callback to receive the results, the entire resultset will be downloaded and cached before being returned.  If you wish to stream the results, you can use the result as an event emitter in order to row-by-row process the results.  Using the event emitter prevents the SDK from needing to cache the rows internally, and allows you to stream the results.
-
-.Streaming
-[source,javascript]
-----
-var result = cluster.query(
-    'SELECT x.* FROM `default` WHERE x.Type="User"');
-result.on('row', (row) => {
-    // handle the row
-    var name = row.name;
-});
-result.on('end', (meta) => {
-    // finish processing and handle the meta
-});
-----
+//.Streaming
+//[source,javascript]
+//----
+//var result = cluster.query(
+//    'SELECT x.* FROM `default` WHERE x.Type="User"');
+//result.on('row', (row) => {
+//    // handle the row
+//    var name = row.name;
+//});
+//result.on('end', (meta) => {
+//    // finish processing and handle the meta
+//});
+//----
 
 == Additional Resources
 

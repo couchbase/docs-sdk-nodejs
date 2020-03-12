@@ -6,17 +6,29 @@ Node.js SDK logging.
 
 == Library logging
 
-The Node.js SDK offers a basic logging facility through which its various subsystems can output debug and error information.
-This information provides details of the library's internals and additional error information which may otherwise not be accessible via other APIs.
+Note that customization of logging levels via console_log_level or LCB_LOGLEVEL will not take 
+effect if a custome logging function has been provided in the sdk 'options' argument. 
+As of Node SDK 3.0.1, the connection library provides a logging function if one is not provided, 
+so there will always be a provided logging function, and the DEBUG environment variable should
+be used to obtain logging output.
+
+The Node.js SDK offers a basic logging facility through which its various subsystems can output 
+debug and error information.
+This information provides details of the library's internals and additional error information 
+which may otherwise not be accessible via other APIs.
 Logging may be enabled via the `debug` library, an environment variable, or a connection string directive.
 
 The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.  
-Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5, with 5 being the most verbose and 1 being the least verbose.  
+Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5, 
+with 5 being the most verbose and 1 being the least verbose.  Also, the query parameter 
+console_log_level can be used to set the log level.
 Note that these logs will go to `stdout` (standard output):
 
 [source,shell]
 ----
 $ DEBUG=couchnode* node my_couchbase_app
+-- OR --
+$ DEBUG=couchnode:lcb:error,couchnode:lcb:warn node my_couchbase_app
 ----
 
 When logging is turned on, the library will output messages similar to this:
@@ -28,7 +40,8 @@ Creating new connection because none are available in the pool
 ----
 
 NOTE: The output format is subject to change.
-It is intended for human consumption and is not designed to be parseable.
+It is intended for human consumption and is not designed to be parseable. Different formats 
+can be specified by providing a custom logging function in the 'options' argument.
 
 The following table describes the components of the log entries:
 

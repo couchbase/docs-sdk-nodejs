@@ -1,6 +1,8 @@
 // Require Couchbase Module
 var couchbase = require('couchbase');
 var http = require('http');
+// tag::connecting-cert-auth[]
+// see sdk-examples/etc for creation of certificates
 const here = process.cwd();
 const truststorepath = here + "/" + '../etc/x509-cert/SSLCA/clientdir/trust.pem';
 const certpath = here + "/" + '../etc/x509-cert/SSLCA/clientdir/client.pem';
@@ -13,6 +15,8 @@ var cluster = new couchbase.Cluster(
     '?truststorepath=' + truststorepath +
     '&certpath=' + certpath +
     '&keypath=' + keypath, options);
+
+// end::connecting-cert-auth[]
 
 // Setup Bucket object to be reused within the code
 var bucket = cluster.bucket('client.key');
