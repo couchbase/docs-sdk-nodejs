@@ -50,7 +50,7 @@ Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date informa
 SDK 3 depends on the following ones instead:
 
 [source,json]
----
+----
   "dependencies": {
     "bindings": "^1.5.0",
     "debug": "^4.1.1",
@@ -59,7 +59,7 @@ SDK 3 depends on the following ones instead:
     "prebuild-install": "^5.3.2",
     "qs": "^6.9.0"
   }
----
+----
 
 
 === Connection to the Cluster
@@ -152,7 +152,7 @@ include::devguide:example$nodejs/connecting-cert-auth.js[tag=connecting-cert-aut
 
 Please see the 
 //xref:howtos:authentication.adoc[documentation on certificate-based authentication] 
-xref:java-sdk::howtos:authentication.adoc[documentation on certificate-based authentication] 
+xref:java-sdk::howtos:sdk-authentication.adoc[documentation on certificate-based authentication] 
 for detailed information on how to configure this properly.
 
 == Connection Lifecycle
@@ -517,7 +517,8 @@ Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,
 
 Not only does it throw a `CouchbaseException`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
 
-/// surely this doesn't apply to Node??
+////
+// surely this doesn't apply to Node??
 ==== DSL Deprecation
 
 The fluent API feature in SDK 2 was found not to scale well for larger queries, nor for SQL++.
