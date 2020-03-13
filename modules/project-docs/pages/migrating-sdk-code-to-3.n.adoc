@@ -150,10 +150,7 @@ Connecting with certificate-based authentication.
 include::devguide:example$nodejs/connecting-cert-auth.js[tag=connecting-cert-auth,indent=0]
 ----
 
-Please see the 
-//xref:howtos:authentication.adoc[documentation on certificate-based authentication] 
-xref:java-sdk::howtos:sdk-authentication.adoc[documentation on certificate-based authentication] 
-for detailed information on how to configure this properly.
+// Please see the xref:howtos:authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
 
 == Connection Lifecycle
 
