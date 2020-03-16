@@ -1,11 +1,19 @@
 #!/bin/sh
 here="`pwd`"
-cd "$(dirname "$0")"
 # default is to *not* git add to target
 if [ -z "$gitmod" ] ; then
 	gitmod=0
 fi
-target="$(cd ../../../../sdk-examples ; pwd)" # only 3 ../ if using submodule
+
+dir="$(dirname $0)"
+cd "$dir"
+scriptloc="$(pwd)"
+echo $scriptloc
+
+cd ../../../../sdk-examples || exit  # only 3 ../ if using submodule
+target="$(pwd)"
+
+cd $scriptloc
 # exclude non-sample code files like nodejs/node_modules
 find * |\
 egrep -v '^striptags|^nodejs/node_modules|^nodejs/package-lock.json' |\
