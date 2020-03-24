@@ -17,6 +17,24 @@ npm install couchbase@2.5.1
 ----
 
 
+== Version 2.6.11 (20 March 2020)
+
+Version 2.6.11 is a minor maintenance release of the 2.6 series.
+
+[source,bash]
+----
+$ npm install couchbase@2.6.11
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.11/[API Reference]
+
+=== Fixed Issues
+
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 2.10.6.
+* Adjusted prebuilt binaries to match currently supported Node.js versions.
+
+
 == Version 2.6.10 (December 19 2019)
 
 Version 2.6.10 is a minor maintenance release of the 2.6 series.
