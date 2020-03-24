@@ -30,9 +30,9 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.6.11/[API Reference]
 
 === Fixed Issues
 
-* Updated all dependancies to latest versions
-* Updated to libcouchbase 2.10.6
-* Adjusted prebuilt binaries to match currently support Node.js versions.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 2.10.6.
+* Adjusted prebuilt binaries to match currently supported Node.js versions.
 
 
 == Version 2.6.10 (December 19 2019)
