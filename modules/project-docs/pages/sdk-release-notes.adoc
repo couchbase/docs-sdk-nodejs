@@ -24,7 +24,7 @@ npm install couchbase@2.6.1
 
 == Version 3.0.1 (20th March 2020)
 
-This is the maintenance release of the third generation Node.js SDK.
+Version 3.0.1 is the second release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
 [source,bash]
 ----
@@ -40,26 +40,26 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.1/[API Reference]
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-669[JSCBC-669]:
-JSCBC-669: Fixed CAS not being returned in some cases.
+Fixed CAS not being returned in some cases.
 * http://issues.couchbase.com/browse/JSCBC-682[JSCBC-682]:
-JSCBC-682: Fixed N1QL parameter options parsing.
+Fixed N1QL parameter options parsing.
 * http://issues.couchbase.com/browse/JSCBC-666[JSCBC-666]:
-JSCBC-666: Fixed ConjunctionSearchQuery not being able to add queries.
+Fixed ConjunctionSearchQuery not being able to add queries.
 * http://issues.couchbase.com/browse/JSCBC-665[JSCBC-665]:
-JSCBC-665: Fixed search query not using the correct indexes.
+Fixed search query not using the correct indexes.
 * http://issues.couchbase.com/browse/JSCBC-677[JSCBC-677]:
-JSCBC-677: Fixed search query consistency not being set in some cases.
+Fixed search query consistency not being set in some cases.
 * http://issues.couchbase.com/browse/JSCBC-668[JSCBC-668]:
-JSCBC-668: Fixed an UnhandledPromiseRejection error which could occur.
+Fixed an UnhandledPromiseRejection error which could occur.
 * http://issues.couchbase.com/browse/JSCBC-673[JSCBC-673]:
-JSCBC-673: Improved handling of cluster closing.
+Improved handling of cluster closing.
 * http://issues.couchbase.com/browse/JSCBC-711[JSCBC-711]:
-JSCBC-711: Fixed a case where closing connections could trigger a segfault.
+Fixed a case where closing connections could trigger a segfault.
 * http://issues.couchbase.com/browse/JSCBC-695[JSCBC-695]:
-JSCBC-695: Fixed issue with the use of custom connection string options.
+Fixed issue with the use of custom connection string options.
 * http://issues.couchbase.com/browse/JSCBC-683[JSCBC-683]:
-JSCBC-683: Fixed inconsistent metrics data from query service.
-* Updated to latest version of all dependancies.
+Fixed inconsistent metrics data from query service.
+* Updated to latest version of all dependencies.
 * Adjusted prebuilt binaries to match currently support Node.js versions.
 
 
