@@ -15,6 +15,7 @@
 .Advanced Data Operations
 * xref:howtos:concurrent-async-apis.adoc[Choosing an API]
 * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
+* xref:howtos:transcoders-nonjson.adoc[Transcoders & Non-JSON]
 * xref:howtos:working-with-collections.adoc[Working with Collections DP]
 
 .Managing Couchbase
