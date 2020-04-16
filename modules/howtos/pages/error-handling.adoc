@@ -1,7 +1,7 @@
 = Handling Errors
 :navtitle: Handling Errors
 :page-topic-type: howto
-:page-aliases: handling-error-conditions
+:page-aliases: ROOT:handling-error-conditions
 :source-language: javascript
 :lang: Node.js
 
