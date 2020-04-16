@@ -12,8 +12,9 @@ Couchbase gives you a lot of flexibility, but it is recommended that you equip y
 
 == Handling Errors
 
-The Node.js SDK works directly with the built in exception handling available in Javascript.  This enables you to catch, interogate and handle or
-log them and continue.  Depending on the type of the exception you catch, there are a number of properties which will be available to you.
+The Node.js SDK works directly with the built in exception handling available in Javascript. 
+This enables you to catch, interogate, and handle or log them and continue. 
+Depending on the type of the exception you catch, there are a number of properties which will be available to you.
 
 [source,javascript,indent=0]
 ----
@@ -22,7 +23,8 @@ include::devguide:example$nodejs/error-handling.js[tag=catch]
 
 == Key-Value Errors
 
-The KV Service exposes several common errors that can be encountered - both during development, and to be handled by the production app. Here we will cover some of the most common errors.
+The KV Service exposes several common errors that can be encountered -- both during development, and to be handled by the production app. 
+Here we will cover some of the most common errors.
 
 If a particular key cannot be found it is return as a `DocumentNotFoundError`:
 
@@ -39,9 +41,9 @@ include::devguide:example$nodejs/error-handling.js[tag=exists]
 ----
 
 === Concurrency
-Couchbase provides optimistic concurrency using CAS.
+Couchbase provides optimistic concurrency using xref:concurrent-document-mutations.adoc[CAS].
 Each document gets a CAS value on the server, which is changed on each mutation.
-When you get a document you automatically receive its CAS value, and when replacing the document, if you provide that CAS the server can check that the document has not been concurrently modified by another agent in-between.
+When you get a document you automatically receive its CAS value, and when replacing the document, if you provide that CAS the server can check that the document has not been concurrently modified by another agent.
 If it has, it returns `CasMismatchError`, and the most appropriate response is to simply retry it:
 
 [source,javascript,indent=0]
@@ -50,17 +52,18 @@ include::devguide:example$nodejs/error-handling.js[tag=cas]
 ----
 
 === Ambiguity
+
 There are situations with any distributed system in which it is simply impossible to know for sure if the operation completed successfully or not.
-Take this as an example: your application requests that a new document be created on Couchbase Server.
+For example, your application requests that a new document be created on Couchbase Server.
 This completes, but, just before the server can notify the client that it was successful, a network switch dies and the application's connection to the server is lost.
 The client will timeout waiting for a response and will raise a `TimeoutError`, but it's ambiguous to the app whether the operation succeeded or not.
 
-So `TimeoutError` is one ambiguous error, another is `DurabilityAmbiguousError`, which can returned when performing a durable operation.
+`TimeoutError` is one ambiguous error; another is `DurabilityAmbiguousError`, which can returned when performing a durable operation.
 This similarly indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
 
-Given the inevitability of ambiguity, how is the application supposed to handle this?
+==== Given the inevitability of ambiguity, how is the application supposed to handle this?
 
-It really needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
+This needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
 
 For instance, for inserts, they can simply be retried to see if they fail on `DocumentExistsError`, in which case the operation was successful:
 
@@ -69,20 +72,24 @@ For instance, for inserts, they can simply be retried to see if they fail on `Do
 include::devguide:example$nodejs/error-handling.js[tag=insert]
 ----
 
-That example is much closer to what an application will want to be doing.  Let's flesh it out further.
+That example is much closer to what an application will want to be doing. 
+Let's flesh it out further.
 
 === Non-Idempotent Operations
-Idempotent operations are those that can be applied multiple times and only have one effect.
-Repeatedly setting an email field is idempotent - increasing a counter by one is not.
 
-Some operations we can view as idempotent as they will fail with no effect after the first success - such as inserts.
+Idempotent operations are those that can be applied multiple times yet still have the one, same effect.
+Repeatedly setting an email field is idempotent -- increasing a counter by one is not.
+
+Some operations we can view as idempotent as they will fail with no effect after the first success -- such as inserts.
 
 Idempotent operations are much easier to handle, as on ambiguous error results (`DurabilityAmbiguousError` and `TimeoutError`) the operation can simply be retried.
 
 Most key-value operations are idempotent.
-For those that aren't, such as a Sub-Document `arrayAppend` call, or a counter increment, the application should, on an ambiguous result, first read the document to see if that change was applied.
+For those that are not, such as a Sub-Document `arrayAppend` call, or a counter increment, the application should, on an ambiguous result, first read the document to see if that change was applied.
+
 
 == Query and Analytics Errors
+
 A N1QL query either returns results or will throw an error with a `QueryErrorContext`, like so:
 
 [source,javascript,indent=0]
@@ -93,6 +100,7 @@ include::devguide:example$nodejs/error-handling.js[tag=query]
 Analytics works in an identical fashion, potentially raising an analytics specific error and having an `AnalyticsErrorContext`.
 
 == Additional Resources
+
 Errors & Exception handling is an expansive topic.
 Here, we have covered examples of the kinds of exception scenarios that you are most likely to face.
 More fundamentally, you also need to weigh up xref:concept-docs:durability-replication-failure-considerations.adoc[concepts of durability].
