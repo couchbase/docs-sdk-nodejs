@@ -103,7 +103,7 @@ The simplest of these operations is _subdoc-upsert_, which, similar to the fulld
 .Upserting a new sub-document
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.upsert('fax', '311-555-0151')
 ]);
 ----
@@ -113,7 +113,7 @@ Likewise, the _subdoc-insert_ operation will only add the new value to the path 
 .Inserting a sub-document
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.insert('purchases.complete', [42, true, 'None'])
 ]);
 
@@ -125,7 +125,7 @@ Here's an example of one which replaces one path and removes another.
 
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.remove('addresses.billing');
     couchbase.MutateInSpec.replace('email', 'dougr96@hotmail.com')
 ]);
@@ -141,7 +141,7 @@ Unlike fulldoc _append_/_prepend_ operations (which simply concatenate bytes to 
 
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.arrayAppend('purchases.complete', 777)
 ]);
 
@@ -150,7 +150,7 @@ bucket.mutateIn('customer123', [
 
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.ArrayPrepend('purchases.abandoned', 18)
 ]);
 
@@ -164,7 +164,7 @@ Simply initialize the document with an empty array and then use the empty path f
 [source,javascript]
 ----
 bucket.upsert('my_array', []);
-bucket.mutateIn('my_array', [
+collection.mutateIn('my_array', [
     couchbase.MutateInSpec.arrayAppend('', 'some element')
 ]);
 
@@ -177,7 +177,7 @@ Be sure to know the difference between passing a collection of multiple elements
 .Add multiple elements to an array
 [source,javascript]
 ----
-bucket.mutateIn('my_array', [
+collection.mutateIn('my_array', [
     couchbase.MutateInSpec.arrayAppend(false, '', 'elem1', 'elem2', 'elem3')
 ]);
 
@@ -187,7 +187,7 @@ bucket.mutateIn('my_array', [
 .Add single array as element to existing array
 [source,javascript]
 ----
-bucket.mutateIn(“my_array”, [
+collection.mutateIn(“my_array”, [
     couchbase.MutateInSpec.arrayAppend('', ['elem1', 'elem2', 'elem3']”)
 ]);
 # the document my_array is now ['some_element', ['elem1', 'elem2', 'elem3']]
@@ -198,7 +198,7 @@ Note that passing multiple values to a single _array-append_ operation results i
 .Adding multiple elements to array (slow)
 [source,javascript]
 ----
-bucket.mutateIn('my_array', [
+collection.mutateIn('my_array', [
     couchbase.MutateInSpec.arrayAppend('', 'elem1');
     couchbase.MutateInSpec.arrayAppend('', 'elem2');
     couchbase.MutateInSpec.arrayAppend('', 'elem3');
@@ -209,7 +209,7 @@ If you wish to create an array if it does not exist and also push elements to it
 
 [source,javascript]
 ----
-bucket.mutateIn('some_doc', [
+collection.mutateIn('some_doc', [
     couchbase.MutateInSpec.arrayAppend('some.array', 'Hello', 'World', {
         createParents: true,
     }
@@ -223,13 +223,13 @@ This will do a check to determine if the given value exists or not before actual
 
 [source,javascript]
 ----
-bucket.MutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.arrayAddUnique('purchases.complete', 95)
 ]);
 
 # => Success
 
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.ArrayAddUnique('purchases.complete', 95)
 ]);
 
@@ -250,7 +250,7 @@ For example, to insert `'cruel'` as the second element in the array `['Hello', '
 
 [source,javascript]
 ----
-bucket.mutateIn('array', [
+collection.mutateIn('array', [
     couchbase.MutateInSpec.arrayInsert('[1]', 'cruel')
 ]);
 ----
@@ -267,7 +267,7 @@ These operations are logically similar to the _counter_ operation on an entire d
 
 [source,javascript]
 ----
-var result = bucket.mutateIn('customer123', [
+var result = collection.mutateIn('customer123', [
     couchbase.MutateInSpec.increment('logins', 1)
 ]);
 
@@ -283,7 +283,7 @@ bucket.upsert('player432', {
     gold: 1000
 });
 
-var result = bucket.mutateIn('player432', [
+var result = collection.mutateIn('player432', [
     couchbase.MutateInSpec.decrement('gold', 150)
 ]);
 # => player 432 now has 850 gold remaining
@@ -345,7 +345,7 @@ In this case, the _create-path_ option may be used.
 
 [source,javascript]
 ----
-bucket.mutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.upsert('level_0.level_1.foo.bar.phone', {
         num: '311-555-0101',
         ext: 16,
@@ -363,7 +363,7 @@ For example the following two blocks can execute concurrently without any risk o
 
 [source,javascript]
 ----
-bucket.MutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.arrayAppend('purchases.complete', {
         cas: SOME_CAS,
     }),
@@ -372,7 +372,7 @@ bucket.MutateIn('customer123', [
 
 [source,javascript]
 ----
-bucket.MutateIn('customer123', [
+collection.mutateIn('customer123', [
     couchbase.MutateInSpec.arrayAppend('purchases.abandoned', {
         cas: SOME_CAS,
     }),
@@ -390,7 +390,7 @@ Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using 
 
 [source,javascript]
 ----
-bucket.mutateIn('couchbase123', [
+collection.mutateIn('couchbase123', [
     couchbase.MutateInSpec.insert('name', 'mike'),
 ], {
     durabilityPersistTo: 1,
@@ -403,7 +403,7 @@ which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[ma
 
 [source,javascript]
 ----
-bucket.mutateIn('couchbase123', [
+collection.mutateIn('couchbase123', [
     couchbase.MutateInSpec.insert('name', 'mike'),
 ], {
     durabilityLevel: couchbase.DurabilityLevel.Majority,

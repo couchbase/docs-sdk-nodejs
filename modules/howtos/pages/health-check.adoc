@@ -8,5 +8,11 @@ Health Check introduces _Ping_ to check nodes are still healthy, and to force id
 _Diagnostics_ requests a report from a node, giving instant health check information.
 
 
+Working in distributed environments is _hard_.
+Latencies come and go, so do connections in their entirity.
+Is it a network glitch, or is the remote cluster down?
+Sometimes just knowing the likely cause is enough to get a good start on a workaround, or at least avoid hours wasted on an inappropriate solution.
+
+Health Check enables useful diagnostics on the state of Couchbase Clusters across networks. 
 
 
