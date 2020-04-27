@@ -32,6 +32,7 @@ Now you have the Node.js client installed, try out the following:
 
 [source,javascript]
 ----
+var couchbase = require('couchbase')
 var cluster = new couchbase.Cluster(
     'http://10.112.180.101:8091', {
         username: 'Administrator',
