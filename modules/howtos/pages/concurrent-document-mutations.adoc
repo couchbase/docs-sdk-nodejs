@@ -27,7 +27,7 @@ include::6.5@sdk:shared:partial$cas.adoc[tag=locking]
 
 [source,javascript]
 ----
-include::devguide:example$nodejs/kv-operations.js[tag=updatewithretry,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=lockupdate,indent=0]
 ----
 
 The handler will unlock the item either via an explicit unlock operation ([.api]`unlock`) or implicitly via modifying the item with the correct CAS.
