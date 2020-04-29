@@ -446,7 +446,7 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-2.4.4/[API Reference]
 
 * http://issues.couchbase.com/browse/JSCBC-408[JSCBC-408]: Added
 method for pinging the server.
-* http://390[JSCBC-390]: Added method for getting diagnostic info
+* https://issues.couchbase.com/browse/JSCBC-390[JSCBC-390]: Added method for getting diagnostic info
 from the client.
 * http://issues.couchbase.com/browse/JSCBC-438[JSCBC-438]: Added
 support for certificate-based authentication.
