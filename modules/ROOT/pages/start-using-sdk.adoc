@@ -31,12 +31,14 @@ To install the SDK, simply use `npm`:
 
 [source,bash]
 ----
-npm install couchbase
+npm install couchbase@2.6.11
 ----
+
+Note that `npm install couchbase` always installs the very latest version of the SDK -- which is now at version 3.x.
 
 // end::install[]
 
-Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:sdk-release-notes.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install other release versions is xref:sdk-release-notes.adoc[in the release notes].
 
 [#using-node]
 == Hello Couchbase
@@ -100,11 +102,11 @@ npm install couchbase --compile --couchbase-root=/usr/local
 You can install a previous release of the SDK using `npm install couchbase@x.y.z`
 
 where `x.y.z` is the version.
-For example, to install version 2.0.1, use:
+For example, to install version 2.5.1, use:
 
 [source,bash]
 ----
-npm install couchbase@2.0.1
+npm install couchbase@2.5.1
 ----
 
 == Additional Resources
