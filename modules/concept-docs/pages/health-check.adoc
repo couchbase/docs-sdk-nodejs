@@ -36,6 +36,7 @@ Note: `Ping` may reopen a connection, so is not without side-effects.
 `Ping` _actively_ queries the status of the specified services,giving status and latency information for every node reachable.
 In addition to its use as a monitoring tool, a regular `Ping` can be used in an environment which does not respect keep alive values for a connection. 
 `Ping()` will be implemented in an upcoming release of the Node.js SDK 3.0.
+It is already implemented in the xref:2.6@nodejs-sdk::health-check.adoc#ping[Node.js SDK 2.6.n].
 
 
 == Diagnostics
