@@ -22,7 +22,7 @@ npm install couchbase@2.6.1
 ----
 
 
-== Version 3.0.2 (7th May 2020)
+== Version 3.0.2 (7 May 2020)
 
 Version 3.0.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
@@ -58,7 +58,7 @@ Fixed custom search query timeouts causing query failures.
 * Various other minor fixes.
 
 
-== Version 3.0.1 (20th March 2020)
+== Version 3.0.1 (20 March 2020)
 
 Version 3.0.1 is the second release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
@@ -99,7 +99,7 @@ Fixed inconsistent metrics data from query service.
 * Adjusted prebuilt binaries to match currently support Node.js versions.
 
 
-== Version 3.0.0 (20th January 2020)
+== Version 3.0.0 (20 January 2020)
 
 This is the first GA release of the third generation Node.js SDK.
 
