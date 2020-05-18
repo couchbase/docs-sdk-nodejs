@@ -15,19 +15,61 @@ The 3.0 SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/Jav
 
 // tag::install[]
 
+== Creating a New Node.js Project
+// This section is optional
+
+Creating a Node.js project is as easy as making a directory and initializing it with npm. The next two commands will do that for us. Open up a terminal and run the following command:
+
+[source,bash]
+----
+mkdir node-couchbase-project && cd $_
+----
+
+The command above will make our directory and change our current working directory.
+
+[source,bash]
+----
+npm init -y
+----
+
+If a directory does not already have a `package.json` at its root, this means it is not initialized. The command above will accomplish this. 
+
+Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes. 
+
+[source,json]
+----
+{
+  "name": "node-couchbase-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+----
+
 == Installing the SDK
-The Couchbase Node.js SDK works best with the latest version of Node LTS version. Download the latest stable version is available on the link:https://nodejs.org/en/download/[Node.js Downloads]:
 
 [source,bash]
 ----
 npm install couchbase --save
 ----
 
+Note: This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
+
+// end::install[]
+
 Information on new features, fixes, known issues, as well as information on how to install older release versions is in the link:https://docs.couchbase.com/nodejs-sdk/3.0/project-docs/sdk-release-notes.html[release notes].
 
 == Hello Couchbase
 
-Now you have the Couchbase Node.js client installed, let's connect to our Couchbase cluster and bucket:
+At this point we want to transition from the terminal to your code editor of choice and point to the directory we have just created named `node-couchbase-project`.
+
+Let's now create an empty file named `index.js` and walk through step by step adding code to enable us to connect to a bucket, add a document and retrieve it using a key-value get operation:
 
 [source,javascript]
 ----
@@ -38,19 +80,15 @@ const cluster = new couchbase.Cluster(
 )
 ----
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. Here we will use the _Full Admin_ role created during the installation of our Couchbase Server.
-
-Production code should use more appropriate, restrictive settings as well as packages like `dotenv` to store our username and password in the case you will publish your code in a public git repository. If you're developing client code on the same VM or machine as the Couchbase Server, your URI can be _localhost_.
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. Since we are running this locally, we are using the Couchbase alias for localhost.
 
 [source,javascript]
 ----
 // get a reference to our bucket
-const bucket = cluster.bucket('bucket-name')
+const bucket = cluster.bucket('travel-sample')
 ----
 
-If you installed the travel sample data bucket, substitute _travel-sample_ for _bucket-name_.
-
-Get a reference to the default collection:
+If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ for your _bucket-name_.
 
 [source,javascript]
 ----
@@ -58,20 +96,19 @@ Get a reference to the default collection:
 const collection = bucket.defaultCollection()
 ----
 
-The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but best practice would be to group your users into a single collection, groups into another, etc...
+The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but best practice would be to group your document by type into a single collection.
 
-Let's create a document in our application that we can add to our Couchbase bucket. I have followed the same document structure for a document of type airline using our `travel-sample` bucket and creaeted a fake airline:
+Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
 [source,javascript]
 ----
-// airline document 
 const airline = {
   type: 'airline',
   id: 8091,
   callsign: 'CBS',
   iata: null,
   icao: null,
-  name: 'Couchbase Airways',
+  name: 'Couchbase Airways'
 }
 ----
 
@@ -79,34 +116,12 @@ Now we will create a function that will take care of upserting that document. Th
 
 [source,javascript]
 ----
-// upsert function 
-const upsertSingleDocument = async (doc) => {
+const upsertDocument = async (doc) => {
   try {
+    // key will equal: "airline_8091"
     const key = `${doc.type}_${doc.id}`
     const result = await collection.upsert(key, doc)
-    console.log(result);
-  } catch (error) {
-    console.error(error)
-  }
-}
-----
-
-Now, we can simply call that function passing in our document:
-
-[source,javascript]
-----
-// call upsert function 
-upsertDocument(airline)
-----
-
-We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key. This function also is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
-
-[source,javascript]
-----
-// get document function
-const getAirlineByKey = async(key) => {
-  try {
-    const result = await collection.get(key);
+    console.log('Upsert Result: ')
     console.log(result)
   } catch (error) {
     console.error(error)
@@ -114,7 +129,32 @@ const getAirlineByKey = async(key) => {
 }
 ----
 
-Now, we can simply call that function passing in any valid document key:
+Now, we can simply call the `upsertDocument` function passing in our `airline` document:
+
+[source,javascript]
+----
+upsertDocument(airline)
+----
+
+We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key that is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
+
+[source,javascript]
+----
+// get document function
+const getAirlineByKey = async(key) => {
+  try {
+    const result = await collection.get(key)
+    console.log('Get Result: ')
+    console.log(result)
+  } catch (error) {
+    console.error(error)
+  }
+}
+----
+
+KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
+
+Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091`:
 
 [source,javascript]
 ----
@@ -122,9 +162,37 @@ Now, we can simply call that function passing in any valid document key:
 getAirlineByKey("airline_8091")
 ----
 
-KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
-// Now that you know the basics, you may wish to go straight to that page.
-//-- or first see a complete worked example of using the Couchbase node.js client, our xref:sample-application.adoc[Travel Sample Application].
+Now we can run our code using the following command:
+
+[source,bash]
+----
+npm rebuild && node index.js
+----
+
+The results you should expect are as follows:
+
+[source,bash]
+----
+Upsert Result: 
+{
+  cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
+  token: CbMutationToken {
+    '0': <Buffer cc 6d 45 09 c2 ce 00 00 2c 00 00 00 00 00 00 00 a9 03 00 00 00 00 00 00 74 72 61 76 65 6c 2d 73 61 6d 70 6c 65 00 00 00 50 6b bf ef fe 7f 00 00 28 2e ... 230 more bytes>
+  }
+}
+Get Result: 
+{
+  cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
+  value: {
+    type: 'airline',
+    id: 8091,
+    callsign: 'CBS',
+    iata: null,
+    icao: null,
+    name: 'Couchbase Airways'
+  }
+}
+----
 
 == Additional Resources
 
