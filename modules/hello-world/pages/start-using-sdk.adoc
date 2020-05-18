@@ -3,11 +3,11 @@
 :navtitle: Start Using the SDK
 
 [abstract]
-The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the Node.js language.
+The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js language].
 
-The Couchbase Node.js SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
-The 3.0 SDK also brings in `promises`, to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options
+The Couchbase Node.js SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as xref:concept-docs:collections.adoc[a developer preview]).
 
+The 3.0 SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options
 
 // tag::prep[]
 
@@ -16,59 +16,110 @@ The 3.0 SDK also brings in `promises`, to reduce the complexity of asynchronous 
 // tag::install[]
 
 == Installing the SDK
+The Couchbase Node.js SDK works best with the latest version of Node LTS version. Download the latest stable version is available on the link:https://nodejs.org/en/download/[Node.js Downloads]:
 
-[source,javascript]
+[source,bash]
 ----
-npm install couchbase
+npm install couchbase --save
 ----
 
-// end::install[]
-
-Information on new features, fixes, known issues, as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is in the link:https://docs.couchbase.com/nodejs-sdk/3.0/project-docs/sdk-release-notes.html[release notes].
 
 == Hello Couchbase
 
-Now you have the Node.js client installed, try out the following:
+Now you have the Couchbase Node.js client installed, let's connect to our Couchbase cluster and bucket:
 
 [source,javascript]
 ----
-var couchbase = require('couchbase');
-var cluster = new couchbase.Cluster(
-    'http://10.112.180.101:8091', {
-        username: 'Administrator',
-        password: 'password'});
+const couchbase = require('couchbase')
+const cluster = new couchbase.Cluster(
+  'couchbase://localhost',
+  { username: 'Administrator', password: 'password' }
+)
 ----
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-Here we will use the _Full Admin_ role created during installation of the Couchbase Data Platform.
-For production client code, you will want to use more appropriate, restrictive settings, but here we want to get you up and running quickly.
-If you're developing client code on the same VM or machine as the Couchbase Server, your URI can be _localhost_.
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. Here we will use the _Full Admin_ role created during the installation of our Couchbase Server.
+
+Production code should use more appropriate, restrictive settings as well as packages like `dotenv` to store our username and password in the case you will publish your code in a public git repository. If you're developing client code on the same VM or machine as the Couchbase Server, your URI can be _localhost_.
 
 [source,javascript]
 ----
-// get a bucket reference
-var bucket = cluster.bucket('bucket-name');
+// get a reference to our bucket
+const bucket = cluster.bucket('bucket-name')
 ----
 
 If you installed the travel sample data bucket, substitute _travel-sample_ for _bucket-name_.
 
-[source,javascript]
-----
-// get a collection reference
-var collection = bucket.defaultCollection();
-var myCollection = bucket.collection("my-collection");
-----
-
-The latest release, 6.5, brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
-Here we will use the `DefaultCollection`, rather than a specific collection, but best practice would be to group your users into a single collection, groups into another, etc...
+Get a reference to the default collection:
 
 [source,javascript]
 ----
-// upsert document
-var upsertResult = await collection.upsert("my-document", {name: 'mike'});
+// get a reference to the default collection
+const collection = bucket.defaultCollection()
+----
 
-// get document
-var getResult = await collection.get("my-document");
+The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but best practice would be to group your users into a single collection, groups into another, etc...
+
+Let's create a document in our application that we can add to our Couchbase bucket. I have followed the same document structure for a document of type airline using our `travel-sample` bucket and creaeted a fake airline:
+
+[source,javascript]
+----
+// airline document 
+const airline = {
+  type: 'airline',
+  id: 8091,
+  callsign: 'CBS',
+  iata: null,
+  icao: null,
+  name: 'Couchbase Airways',
+}
+----
+
+Now we will create a function that will take care of upserting that document. This function is of type `async` and simply awaits the result of the upsert and either logs out the result or error in our console:
+
+[source,javascript]
+----
+// upsert function 
+const upsertSingleDocument = async (doc) => {
+  try {
+    const key = `${doc.type}_${doc.id}`
+    const result = await collection.upsert(key, doc)
+    console.log(result);
+  } catch (error) {
+    console.error(error)
+  }
+}
+----
+
+Now, we can simply call that function passing in our document:
+
+[source,javascript]
+----
+// call upsert function 
+upsertDocument(airline)
+----
+
+We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key. This function also is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
+
+[source,javascript]
+----
+// get document function
+const getAirlineByKey = async(key) => {
+  try {
+    const result = await collection.get(key);
+    console.log(result)
+  } catch (error) {
+    console.error(error)
+  }
+}
+----
+
+Now, we can simply call that function passing in any valid document key:
+
+[source,javascript]
+----
+// call get document function 
+getAirlineByKey("airline_8091")
 ----
 
 KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
