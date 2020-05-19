@@ -11,7 +11,7 @@ Our query service uses N1QL, which will be fairly familiar to anyone who's used 
 Before you get started you may wish to check out the xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL intro page], or just dive in with a query against our travel-sample data set. To make a Bucket queryable, it must have at least one index defined. You can define a _primary_ index on a bucket. While not recommended for production, defining a primary index is great for ad-hoc queries that are great for exploring your data, the reason they are not recommended for production is that they enable a full-bucket scan.
 
 Use
-xref:6.5@server:tools:cbq-shell.html[cbq], our interactive Query shell.
+xref:6.5@server:tools:cbq-shell.adoc[cbq], our interactive Query shell.
 Open it, and enter the following:
 
 [source,n1ql]
@@ -45,11 +45,10 @@ include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 
 == Handling Results
 
-In most cases your query will return more than one result, and you may be looking to iterate over those results:
-// this is the same as the above "query-named" as it also shows processing results
+Most queries return more than one result, and you want to iterate over the results:
 [source,javascript]
 ----
-include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
+include::devguide:example$nodejs/n1ql-queries.js[tag=queryresults,indent=0]
 ----
 
 //== Scan Consistency
@@ -69,10 +68,10 @@ include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 //.ScanConsisteny (RYOW)
 //[source,javascript]
 //----
-//// create / update document (mutation)
+// // create / update document (mutation)
 //var upsertResult = await collection.upsert('id', {name: 'Mike', type: 'User'});
 //
-//// create mutation state from mutation results
+// // create mutation state from mutation results
 //var state = couchbase.MutationState.from(upsertResult);
 //
 // use mutation state with query option
@@ -115,4 +114,3 @@ The http://query.pub.couchbase.com/tutorial/#1[N1QL interactive tutorial] is a g
 // Indexes / GSI links?
 
 // SQL++ / Analytics.
-
