@@ -7,9 +7,8 @@ const cluster = new couchbase.Cluster(
 const bucket = cluster.bucket("travel-sample");
 const collection = bucket.defaultCollection();
 
-function start() {
-  console.log("start");
-  return new Promise((resolve, reject) => resolve());
+async function start() {
+  console.log('start')
 }
 
 // #tag::queryplaceholders[]
