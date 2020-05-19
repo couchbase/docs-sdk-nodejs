@@ -63,7 +63,7 @@ Note: This will download the latest Couchbase Node.js SDK, and add a dependency 
 
 // end::install[]
 
-Information on new features, fixes, known issues, as well as information on how to install older release versions is in the link:https://docs.couchbase.com/nodejs-sdk/3.0/project-docs/sdk-release-notes.html[release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes].
 
 == Hello Couchbase
 
