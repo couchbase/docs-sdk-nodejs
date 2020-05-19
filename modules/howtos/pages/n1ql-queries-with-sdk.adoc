@@ -27,11 +27,7 @@ NOTE: The default installation places cbq in `/opt/couchbase/bin/` on Linux, `/A
 
 == Queries & Placeholders
 
-Placeholders allow you to specify variable constraints for an otherwise constant query.
-There are two variants of placeholders: positional and named parameters.
-Positional parameters use an ordinal placeholder for substitution and named parameters use variables.
-A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
-Note that both parameters and options are optional.
+Placeholders allow you to specify variable constraints for an otherwise constant query. There are two variants of placeholders: positional and named parameters. Positional parameters use an ordinal placeholder for substitution and named parameters use variables. A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query. Note that both parameters and options are optional.
 
 .Positional parameter example:
 [source,javascript]
