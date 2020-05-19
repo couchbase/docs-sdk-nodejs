@@ -19,7 +19,7 @@ Open it, and enter the following:
 CREATE PRIMARY INDEX ON `travel-sample`
 ----
 
-or replace _travel-sample_ with a different Bucket name to build an index on a different dataset.
+By replacing _travel-sample_ with a different Bucket, you can build an index on your bucket of choice.
 
 NOTE: The default installation places cbq in `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows.
 
