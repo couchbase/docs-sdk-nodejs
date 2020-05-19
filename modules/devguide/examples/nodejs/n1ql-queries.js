@@ -12,7 +12,7 @@ async function start() {
 }
 
 // #tag::queryplaceholders[]
-const queryPlaceholders = async () => {
+async function queryPlaceholders() {
   const query = `
     SELECT airportname, city FROM \`travel-sample\` 
     WHERE type=$1 
@@ -31,7 +31,7 @@ const queryPlaceholders = async () => {
 // #end::queryplaceholders[]
 
 // #tag::querynamed[]
-const queryNamed = async () => {
+async function queryNamed() {
   const query = `
     SELECT airportname, city FROM \`travel-sample\` 
     WHERE type=$TYPE 
@@ -50,7 +50,7 @@ const queryNamed = async () => {
 // #end::querynamed[]
 
 // #tag::queryresults[]
-const queryResults = async () => {
+async function queryResults() {
   const query = `
   SELECT airportname, city FROM \`travel-sample\` 
   WHERE type='airport' 
