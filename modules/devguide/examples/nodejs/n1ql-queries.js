@@ -1,70 +1,73 @@
-
 var couchbase = require('couchbase');
 
-// Setup Cluster Connection Object
-const options = {username: 'Administrator', password: 'password'};
-const cluster = new couchbase.Cluster("http://localhost", options);
+const cluster = new couchbase.Cluster(
+  'couchbase://localhost',
+  { username: 'Administrator', password: 'password' }
+)
 const bucket = cluster.bucket("travel-sample");
 const collection = bucket.defaultCollection();
 
-
-function start(){
-  console.log("start");
- return new Promise( (resolve, reject) => { resolve(); });
-
+async function start() {
+  console.log('start')
 }
 
-async function queryplaceholders(){
-  // Make a N1QL specific Query
-  // #tag::queryplaceholders[]
-  var query = "SELECT airportname, city, country FROM `travel-sample` " +
-      "WHERE type=$1 AND city=$2";
-  
-  // Issue Query with parameters passed in array
-  
-  var result=await cluster.query(query, {parameters: ["airport", "Reno"]}, function (err, res) {
-      console.log(err);
-      if (err) throw err;
-      console.log("Result:", res);
-  });
-  // #end::queryplaceholders[]
+// #tag::queryplaceholders[]
+async function queryPlaceholders() {
+  const query = `
+    SELECT airportname, city FROM \`travel-sample\` 
+    WHERE type=$1 
+      AND city=$2
+  `;
+  const options = { parameters: ['airport', 'San Jose'] }
+
+  try {
+    let result = await cluster.query(query, options)
+    console.log("Result:", result)
+    return result
+  } catch (error) {
+    console.error('Query failed: ', error)
+  }
 }
+// #end::queryplaceholders[]
 
-async function querynamed(){
+// #tag::querynamed[]
+async function queryNamed() {
+  const query = `
+    SELECT airportname, city FROM \`travel-sample\` 
+    WHERE type=$TYPE 
+      AND city=$CITY;
+  `
+  const options = { parameters: { TYPE: 'airport', CITY: 'Reno' } }
 
-  // Make a N1QL specific Query
-  // #tag::querynamed[]
-  var query = "SELECT airportname, city, country FROM `travel-sample` WHERE type=$TYPE and city=$CITY";
-  
-  // Issue Query with parameters passed in objects
-  
-  const opts = { parameters : {  TYPE:"airport", CITY:"Reno"} };
-  var result=await cluster.query(query, opts, function(err,res){
-          console.log(err);
-          if (err) throw err;
-          console.log("Result:",res);
-  });
-  // #end::querynamed[]
+  try {
+    let result = await cluster.query(query, options)
+    console.log("Result:", result)
+    return result
+  } catch (error) {
+    console.error('Query failed: ', error)
+  }
 }
-async function queryresults(){
+// #end::querynamed[]
 
-  // Make a N1QL specific Query
-  var query = "SELECT airportname, city, country FROM `travel-sample` WHERE type=$TYPE and city=$CITY";
-  
-  // Issue Query with parameters passed in objects
-  
-  // #tag::queryresults[]
-  const opts = { parameters : {  TYPE:"airport", CITY:"Reno"} };
-  var result=cluster.query(query, opts, function(err,res){
-          console.log(err);
-          if (err) throw err;
-          res.rows.forEach((row)=>{
-             console.log("row :");
-             console.log(row);
-          });
-  });
-  // #end::queryresults[]
-} 
+// #tag::queryresults[]
+async function queryResults() {
+  const query = `
+  SELECT airportname, city FROM \`travel-sample\` 
+  WHERE type='airport' 
+    AND tz LIKE '%Los_Angeles' 
+    AND airportname LIKE '%Intl';
+  `
+  try {
+    let results = await cluster.query(query);
+    results.rows.forEach((row) => {
+      console.log('Query row: ', row)
+    })
+    return results
+  } catch (error) {
+    console.error('Query failed: ', error)
+  }
+}
+// #end::queryresults[]
 
 /*** Not implemented
 async function queryresultson(){
@@ -102,8 +105,8 @@ var result = await cluster.query(
 
 
 start()
- .then(queryplaceholders)
- .then(querynamed)
- .then(queryresults)
+  .then(queryPlaceholders)
+  .then(queryNamed)
+  .then(queryResults)
  //.then(queryresultson)
  //.then(querystate)

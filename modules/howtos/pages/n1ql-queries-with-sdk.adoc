@@ -4,19 +4,18 @@
 :page-aliases: n1ql-query
 
 [abstract]
-You can query for documents in Couchbase using the N1QL query language, a language based on SQL, but designed for structured and flexible JSON documents.
-Querying can solve typical programming tasks such as finding a user profile by email address, facebook login, or user ID.
+You can query for documents in Couchbase using the N1QL query language, a language based on SQL, but designed for structured and flexible JSON documents. 
+Querying can solve typical programming tasks such as finding a user profile by email address, Facebook login, or user ID.
 
+Our query service uses N1QL, which will be fairly familiar to anyone who's used any dialect of SQL. 
+xref:#additional-resources[Additional resources] for learning about N1QL are listed at the bottom of the page.
 
-Our query service uses N1QL, which will be fairly familiar to anyone who's used any dialect of SQL.
-xref:#additional_resources[Further resources] for learning about N1QL are listed at the bottom of the page.
-Before you get started you may wish to checkout the xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL intro page], or just dive in with a query against our travel sample data set.
-In this case, the one thing that you need to know is that in order to make a Bucket queryable, it must have at least one index defined.
-You can define a _primary_ index on a bucket.
-When a primary index is defined you can issue non-covered queries on the bucket as well.
+Before you get started you may wish to check out the xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL intro page], or just dive in with a query against our travel-sample data set. 
+To make a Bucket queryable, it must have at least one index defined. 
+You can define a _primary_ index on a bucket. 
+While not recommended for production, defining a primary index is useful for ad hoc queries that are great for exploring your data, the reason they are not recommended for production is that they enable a full-bucket scan.
 
-Use
-xref:6.5@server:tools:cbq-shell.html[cbq], our interactive Query shell.
+Use xref:6.5@server:tools:cbq-shell.adoc[cbq], our interactive Query shell.
 Open it, and enter the following:
 
 [source,n1ql]
@@ -24,19 +23,18 @@ Open it, and enter the following:
 CREATE PRIMARY INDEX ON `travel-sample`
 ----
 
-or replace _travel-sample_ with a different Bucket name to build an index on a different dataset.
+By replacing _travel-sample_ with a different Bucket, you can build an index on your bucket of choice.
 
 NOTE: The default installation places cbq in `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows.
 
 // TODO: improving this and/or adding server/6.0/tools/query-workbench.html
 
-
 == Queries & Placeholders
 
-Placeholders allow you to specify variable constraints for an otherwise constant query.
-There are two variants of placeholders: postional and named parameters.
-Positional parameters use an ordinal placeholder for substitution and named parameters use variables.
-A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
+Placeholders allow you to specify variable constraints for an otherwise constant query. 
+There are two variants of placeholders: positional and named parameters. 
+Positional parameters use an ordinal placeholder for substitution and named parameters use variables. 
+A named or positional parameter is a placeholder for a value in the WHERE, LIMIT, or OFFSET clause of a query. 
 Note that both parameters and options are optional.
 
 .Positional parameter example:
@@ -53,15 +51,12 @@ include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 
 // The complete code for this page's example can be found at xref:[??]
 
-
-
 == Handling Results
 
-In most cases your query will return more than one result, and you may be looking to iterate over those results:
-// this is the same as the above "query-named" as it also shows processing results
+Most queries return more than one result, and you want to iterate over the results:
 [source,javascript]
 ----
-include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
+include::devguide:example$nodejs/n1ql-queries.js[tag=queryresults,indent=0]
 ----
 
 //== Scan Consistency
@@ -81,10 +76,10 @@ include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 //.ScanConsisteny (RYOW)
 //[source,javascript]
 //----
-//// create / update document (mutation)
+// // create / update document (mutation)
 //var upsertResult = await collection.upsert('id', {name: 'Mike', type: 'User'});
 //
-//// create mutation state from mutation results
+// // create mutation state from mutation results
 //var state = couchbase.MutationState.from(upsertResult);
 //
 // use mutation state with query option
@@ -116,16 +111,15 @@ include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 
 == Additional Resources
 
-NOTE: N1QL is not the only query option in Couchbase.
+NOTE: N1QL is not the only query option in Couchbase. 
 Be sure to check that your use case fits your selection of query service.
 
 // For a deeper dive into N1QL from the SDK, refer to our xref:concept:[N1QL SDK concept doc].
 
-The xref:6.0@server:n1ql:n1ql-language-reference/index.adoc[Server doc N1QL intro] introduces up a complete guide to the N1QL language, including all of the latest additions.
+The xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL Language Reference] introduces up a complete guide to the N1QL language, including all of the latest additions.
 
 The http://query.pub.couchbase.com/tutorial/#1[N1QL interactive tutorial] is a good introduction to the basics of N1QL use.
 
 // Indexes / GSI links?
 
 // SQL++ / Analytics.
-
