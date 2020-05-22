@@ -193,7 +193,7 @@ You can also retrieve _parts_ of documents using xref:subdocument-operations.ado
 [source,javascript]
 ----
 bucket.lookupIn('user:kingarthur')
-  .get('contact.name)
+  .get('contact.name')
   .get('contact.email')
   .execute(function(err, res) {
     var name = res.contentByIndex(0);
