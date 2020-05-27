@@ -54,6 +54,8 @@ Note: We have used the `-y` flag to take the initialization defaults. To change 
 
 == Installing the SDK
 
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, and 12.x.
+
 [source,bash]
 ----
 npm install couchbase --save
