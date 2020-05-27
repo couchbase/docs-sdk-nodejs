@@ -6,12 +6,13 @@
 [abstract]
 You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 
+Full Text Search (FTS) allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
 
-Full Text Search or FTS allows you to create, manage, and query full text indexes on JSON documents stored in Couchbase buckets.
-It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
-Some of the supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
-The Node.js SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
+Using natural language processing for querying documents, FTS provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
 
+Supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
+
+The Couchbase Node.js SDK exposes an API for performing FTS queries which abstract some of the complexity of using the underlying REST API.
 
 // As of Couchbase Server 6.5, FTS...
 
@@ -23,27 +24,26 @@ Here is a simple MatchQuery that looks for the text “swanky” using a defined
 [source,javascript]
 ----
 var result = await cluster.searchQuery(
-    'travel-sample-index-hotel-description',
-    couchbase.SearchQuery.match('swanky'),
-    {
-        limit: 10
-    });
+  'travel-sample-index-hotel-description',
+  couchbase.SearchQuery.match('swanky'),
+  { limit: 10 }
+);
 ----
 
 All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
+
 Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
 Here is a date range query that looks for dates between 1st January 2019 and 31st January:
 
 [source,javascript]
 ----
 var result = await cluster.searchQuery(
-    'index-name',
-    couchbase.SearchQuery.dateRange()
-        .start('2019-01-01')
-        .end('2019-02-01'),
-    {
-        limit: 10
-    });
+  'index-name',
+  couchbase.SearchQuery.dateRange()
+    .start('2019-01-01')
+    .end('2019-02-01'),
+  { limit: 10 }
+);
 ----
 
 A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
@@ -51,31 +51,30 @@ A conjunction query contains multiple child queries; its result documents must s
 [source,javascript]
 ----
 var result = await cluster.searchQuery(
-    'index-name',
-    couchbase.SearchQuery.conjuncts(
-        couchbase.SearchQuery.dateRange()
-            .start('2019-01-01')
-            .end('2019-02-01'),
-        couchbase.SearchQuery.match('swanky')
-    ));
+  'index-name',
+  couchbase.SearchQuery.conjuncts(
+    couchbase.SearchQuery.dateRange()
+      .start('2019-01-01')
+      .end('2019-02-01'),
+    couchbase.SearchQuery.match('swanky')
+  ));
 ----
 
 == Working with Results
 
 As with all query result types in the Node.js SDK, the search query results
-object contains two properties.  The hits reflecting the documents that
-matched your query, which are emitted as rows. Along with the metadata
-available in the meta property.  
-Metdata holds additional information not directly related to your query, 
+object contains two properties. The hits reflecting the documents that
+matched your query, emitted as rows. Along with the metadata available in the meta property.  
+
+Metadata holds additional information not directly related to your query, 
 such as success total hits and how long the query took to execute in the cluster.
 
 [source,javascript]
 .Iterating hits
 ----
 result.rows.forEach((hit) => {
-    var documentId = hit.id;
-    var score = hit.score;
-    // ...
+  var documentId = hit.id;
+  var score = hit.score;
 })
 ----
 
@@ -99,10 +98,8 @@ updated indexes:
 [source,javascript]
 ----
 var result = cluster.searchQuery(
-    'travel-sample-index-hotel-description',
-    couchbase.SearchQuery.match('swanky'),
-    {
-        consistency: couchbase.Consistency.RequestPlus
-    }
+  'travel-sample-index-hotel-description',
+  couchbase.SearchQuery.match('swanky'),
+  { consistency: couchbase.Consistency.RequestPlus }
 );
 ----
