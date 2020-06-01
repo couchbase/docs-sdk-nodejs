@@ -73,7 +73,7 @@ var country = result.content[0]; //'United Kingdom'
 .Check existence of sub-document path
 [source,javascript]
 ----
-var result = await collecton.LookupIn('customer123', [
+var result = await collecton.lookupIn('customer123', [
     couchbase.LookupInSpec.exists('purchases.pending[-1]')
 ]);
 console.log('Path exists? ', result.content[0]);
