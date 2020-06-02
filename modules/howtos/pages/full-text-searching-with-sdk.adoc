@@ -1,7 +1,7 @@
 = Full Text Search (FTS) Using the Node.js SDK with Couchbase Server
 :navtitle: Searching from the SDK
 :page-topic-type: howto
-
+:imagesdir: ../../assets/images
 
 [abstract]
 You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
@@ -16,33 +16,68 @@ The Couchbase Node.js SDK exposes an API for performing FTS queries which abstra
 
 // As of Couchbase Server 6.5, FTS...
 
-== Examples
+== Full Example with Index Creation Illustrated
 
-Search queries are executed at the cluster level (not bucket or collection).
-Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
+Search queries are executed at the cluster level (not bucket or collection). Below is a simple MatchQuery that looks for a specified term like “five-star”. 
 
 [source,javascript]
 ----
-var result = await cluster.searchQuery(
-  'travel-sample-index-hotel-description',
-  couchbase.SearchQuery.match('swanky'),
-  { limit: 10 }
-);
+const ftsMatchTerm = async(term) => {
+  try {
+    const queryResult = await cluster.searchQuery(
+      'travel-sample-hotel-description',
+      couchbase.SearchQuery.match(term),
+      { limit: 10 }
+    );
+    console.log(queryResult)
+
+    return queryResult
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 ----
+
+The above example will log to the console our return object with its metadata and rows returned, each returned document has an index, id, score and sort value.
+
+== Creating Our Simple FTS Index
+
+To replicate the `travel-sample-hotel-description` FTS index that is used in the code example above, we use the Couchbase Server Web UI, navigate to the Search tab to "Add Index". Select `travel-sample` bucket from the dropdown and set the "Type Identifier" to (JSON type field) adding a value of `type`. 
+
+image::add-fts-index-00.png[Add Index Type Idnetifier,1024,align=left]
+
+Then we "Add Type Mapping" entering a new name of `hotel` and selecting "inherit" from the "default analyzer" dropdown and hit "ok".
+
+image::add-fts-index-02.png[Add Type Mapping for hotel,988,align=left]
+
+With that in place, we can hover over the "hotel" type mapping we just created and click the "+" button and select "Insert Child Field". Add the field value of `description` of type "text" and this populates searchable as `description`. We again select "inherit" from the "default analyzer" dropdown and check all of the field checkboxes.
+
+image::add-fts-index-03.png[Insert Child Field for description,920,align=left]
+
+Next, we click the "+" button to "Insert Child Field" and add the field `name` of type "text" searchable as `name`. Again selecting "inherit" from the "default analyzer" dropdown and also selecting all field checkboxes.
+
+image::add-fts-index-04.png[Insert Child Field for name,918,align=left]
+
+Selecting "Create Index" to finalize our changes. Then We also unchecked the "default" Type mapping as we don't want to scan all types. The index should look like the following:
+
+image::add-fts-index-05.png[Finalize Creation of Index,1020,align=left]
 
 All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
 
 Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
 
-Here is a date range query that looks for dates between 1st January 2019 and 31st January:
+== Partial Examples Using Other Query Types
+
+Another query type is a date range query that looks for dates between 1st January and the 31st January of the year 2020:
 
 [source,javascript]
 ----
 var result = await cluster.searchQuery(
   'index-name',
   couchbase.SearchQuery.dateRange()
-    .start('2019-01-01')
-    .end('2019-02-01'),
+    .start('2020-01-01')
+    .end('2020-02-01'),
   { limit: 10 }
 );
 ----
@@ -55,20 +90,17 @@ var result = await cluster.searchQuery(
   'index-name',
   couchbase.SearchQuery.conjuncts(
     couchbase.SearchQuery.dateRange()
-      .start('2019-01-01')
-      .end('2019-02-01'),
-    couchbase.SearchQuery.match('swanky')
+      .start('2020-01-01')
+      .end('2020-02-01'),
+    couchbase.SearchQuery.match('five-star')
   ));
 ----
 
 == Working with Results
 
-As with all query result types in the Node.js SDK, the search query results
-object contains two properties. The hits reflecting the documents that
-matched your query, emitted as rows. Along with the metadata available in the meta property.  
+As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.  
 
-Metadata holds additional information not directly related to your query, 
-such as success total hits and how long the query took to execute in the cluster.
+Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
 
 [source,javascript]
 .Iterating hits
@@ -98,7 +130,7 @@ updated indexes:
 [source,javascript]
 ----
 var result = cluster.searchQuery(
-  'travel-sample-index-hotel-description',
+  'travel-sample-hotel-description',
   couchbase.SearchQuery.match('swanky'),
   { consistency: couchbase.Consistency.RequestPlus }
 );
