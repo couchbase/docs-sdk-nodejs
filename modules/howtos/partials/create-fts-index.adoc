@@ -1,0 +1,29 @@
+:imagesdir: ../../assets/images
+:navtitle: Searching from the SDK
+:page-topic-type: partials
+
+== Creating a Simple FTS Index
+
+To replicate the `travel-sample-hotel-description` FTS index that is used in the code example above, we use the Couchbase Server Web UI, navigate to the Search tab to "Add Index". Select `travel-sample` bucket from the dropdown and set the "Type Identifier" to (JSON type field) adding a value of `type`. 
+
+image::add-fts-index-00.png[Add Index Type Idnetifier,1024,align=left]
+
+Then we "Add Type Mapping" entering a new name of `hotel` and selecting "inherit" from the "default analyzer" dropdown and hit "ok".
+
+image::add-fts-index-02.png[Add Type Mapping for hotel,988,align=left]
+
+With that in place, we can hover over the "hotel" type mapping we just created and click the "+" button and select "Insert Child Field". Add the field value of `description` of type "text" and this populates searchable as `description`. We again select "inherit" from the "default analyzer" dropdown and check all of the field checkboxes.
+
+image::add-fts-index-03.png[Insert Child Field for description,920,align=left]
+
+Next, we click the "+" button to "Insert Child Field" and add the field `name` of type "text" searchable as `name`. Again selecting "inherit" from the "default analyzer" dropdown and also selecting all field checkboxes.
+
+image::add-fts-index-04.png[Insert Child Field for name,918,align=left]
+
+Selecting "Create Index" to finalize our changes. Then We also unchecked the "default" Type mapping as we don't want to scan all types. The index should look like the following:
+
+image::add-fts-index-05.png[Finalize Creation of Index,1020,align=left]
+
+All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
+
+Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
