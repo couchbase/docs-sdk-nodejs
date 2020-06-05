@@ -4,7 +4,7 @@
 
 == Creating a Simple FTS Index
 
-To replicate the `travel-sample-hotel-description` FTS index that is used in the code example above, we use the Couchbase Server Web UI, navigate to the Search tab to "Add Index". Select `travel-sample` bucket from the dropdown and set the "Type Identifier" to (JSON type field) adding a value of `type`. 
+To replicate the `index-hotel-description` FTS index that is used in the code example above, we use the Couchbase Server Web UI, navigate to the Search tab to "Add Index". Select `travel-sample` bucket from the dropdown and set the "Type Identifier" to (JSON type field) adding a value of `type`. 
 
 image::add-fts-index-00.png[Add Index Type Idnetifier,1024,align=left]
 
