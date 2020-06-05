@@ -7,7 +7,7 @@ You can use the Full Text Search service (FTS) to create queryable full-text ind
 
 Full Text Search (FTS) allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
 
-Using natural language processing for querying documents, FTS provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
+Using natural language processing for querying documents, FTS provides relevance scoring on the results AKA 'hits' from your queries, and has fast indexes for querying a wide range of possible text searches.
 
 Supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
 
@@ -59,7 +59,7 @@ ftsMatchPhrase('Yosemite Valley')
   .then((result) => console.log(result))
 ----
 
-Below is a simple FTS SearchQuery that uses the `dateRange()` method to find a brewery from our `beer-sample` dataset where the updated field which is a date falls within a specified date range .
+Below is a simple FTS SearchQuery that uses the `dateRange()` method to find a brewery from our `beer-sample` dataset where the updated field which is a date falls within a specified specified date range.
 
 [source,javascript]
 ----
@@ -81,18 +81,30 @@ ftsBreweryUpdatedByDateRange('2010-11-10', '2010-11-20')
   .then((result) => console.log(result))
 ----
 
-A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
+A conjunction query contains multiple child queries; its resulting documents or 'hits' must satisfy all child queries. The example below will only return one document because its description has the word 'Five star' and 'luxury hotel' while no other documents match both criteria.
+
 
 [source,javascript]
 ----
-return await cluster.searchQuery(
-  'index-hotel-description',
-  couchbase.SearchQuery.conjuncts(
-    couchbase.SearchQuery.match('five-star'),
-    couchbase.SearchQuery.matchPhrase('Yosemite Valley')
-  )
-);
+async function ftsConjunction() {
+  try {
+    return await cluster.searchQuery(
+      'index-hotel-description',
+      couchbase.SearchQuery.conjuncts(
+        couchbase.SearchQuery.match('five-star'),
+        couchbase.SearchQuery.matchPhrase('luxury hotel')
+      )
+    );
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+ftsConjunction()
+  .then((result) => console.log(result.rows))
 ----
+
+Note: Our match for 'five-star' was not exact, but still produced a result because a similar term was found 'Five star', we could have potentially matched '5 star' or the word 'five'. When you work with any full-text search the number of hits you get and their score are variable.
 
 == Working with Results
 
@@ -101,12 +113,18 @@ As with all query result types in the Node.js SDK, the search query results obje
 Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
 
 [source,javascript]
-.Iterating hits
+.Iterating over hits
 ----
-result.rows.forEach((hit) => {
-  var documentId = hit.id;
-  var score = hit.score;
-})
+ftsConjunction().then(
+  result => {
+    result.rows.forEach((hit, index) => {
+      console.log(`
+        Result #${index+1} 
+        ID: ${hit.id} 
+        Score: ${hit.score}`)
+    })
+  }
+)
 ----
 
 //[source,csharp]
