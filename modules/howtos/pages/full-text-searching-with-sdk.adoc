@@ -5,7 +5,7 @@
 [abstract]
 You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 
-Full Text Search (FTS) allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
+FTS allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
 
 Using natural language processing for querying documents, FTS provides relevance scoring on the results AKA 'hits' from your queries, and has fast indexes for querying a wide range of possible text searches.
 
@@ -74,7 +74,7 @@ hits:
   hotel_28259: "10 minute walk to the coastal path"
 ----
 
-If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). This also happens with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and "walk to the" (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
+If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, ee get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and "walk to the" (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
 
 .Date Range
 
@@ -126,6 +126,30 @@ ftsConjunction()
 
 Note: Our match for 'five-star' was not exact, but still produced a result because a similar term was found 'Five star', we could have potentially matched '5 star' or the word 'five'. When you work with any full-text search the number of hits you get and their score are variable.
 
+.Disjunction
+
+A query satisfying (by default) one query or another. If a conjunction query can be thought of like using an `AND ` operator, a disjunction would be like using an `OR` operator. The example below will return seven documents hitting on the term 'Louvre' and five hits on the term 'Eiffel' returning a total of 12 rows together as part of a disjunction query.
+
+[source,javascript]
+----
+async function ftsDisjunction() {
+  try {
+    return await cluster.searchQuery(
+      'index-hotel-description',
+      couchbase.SearchQuery.disjuncts(
+        couchbase.SearchQuery.match('Moat'),
+        couchbase.SearchQuery.match('Eiffel')
+      )
+    );
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+ftsDisjunction()
+  .then((result) => console.log(result))
+----
+
 == Working with Results
 
 As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.  
@@ -135,16 +159,17 @@ Metadata holds additional information not directly related to your query, such a
 [source,javascript]
 .Iterating over hits
 ----
-ftsConjunction().then(
-  result => {
-    result.rows.forEach((hit, index) => {
-      console.log(`
-        Result #${index+1} 
+ftsDisjunction()
+  .then(
+    result => {
+      result.rows.forEach((hit, index) => {
+        console.log(`
+        Result #${index + 1} 
         ID: ${hit.id} 
         Score: ${hit.score}`)
-    })
-  }
-)
+      })
+    }
+  )
 ----
 
 //[source,csharp]
