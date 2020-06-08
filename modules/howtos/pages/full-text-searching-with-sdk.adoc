@@ -164,9 +164,9 @@ ftsDisjunction()
     result => {
       result.rows.forEach((hit, index) => {
         console.log(`
-        Result #${index + 1} 
-        ID: ${hit.id} 
-        Score: ${hit.score}`)
+          Result #${index + 1} 
+          ID: ${hit.id} 
+          Score: ${hit.score}`)
       })
     }
   )
