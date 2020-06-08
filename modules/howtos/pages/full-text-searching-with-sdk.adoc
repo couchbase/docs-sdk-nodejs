@@ -156,8 +156,9 @@ As with all query result types in the Node.js SDK, the search query results obje
 
 Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
 
+.Iterating over Hits
+
 [source,javascript]
-.Iterating over hits
 ----
 ftsDisjunction()
   .then(
