@@ -10,23 +10,16 @@ include::6.5@sdk:shared:partial$views.adoc[tag=views-intro]
 
 include::6.5@sdk:shared:partial$views.adoc[tag=example-beer]
 
-
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = bucket.viewQuery('beers', 'by_name', {
-    range: {start: 'A'},
-    limit: 10,
-});
+include::../examples/views.js[tag=range-query]
 ----
 
 include::6.5@sdk:shared:partial$views.adoc[tag=example-travel]
 
-
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = bucket.viewQuery('landmarks', 'by_name', {
-    key: '<landmark-name>'
-});
+include::../examples/views.js[tag=key-query]
 ----
 
 include::6.5@sdk:shared:partial$views.adoc[tag=example-geo-travel]
