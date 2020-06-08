@@ -89,7 +89,7 @@ async function go() {
       return await cluster.searchQuery(
         "index-hotel-description",
         couchbase.SearchQuery.disjuncts(
-          couchbase.SearchQuery.match("Moat"),
+          couchbase.SearchQuery.match("Louvre"),
           couchbase.SearchQuery.match("Eiffel")
         )
       )
