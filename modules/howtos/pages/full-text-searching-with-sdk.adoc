@@ -20,45 +20,29 @@ The Node.js SDK exposes an API for performing FTS queries which abstracts some o
 Search queries are executed at the cluster level (not bucket or collection).
 Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.searchQuery(
-    'travel-sample-index-hotel-description',
-    couchbase.SearchQuery.match('swanky'),
-    {
-        limit: 10
-    });
+include::../examples/search.js[tag=basic-query]
 ----
+
 
 All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
 Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
 Here is a date range query that looks for dates between 1st January 2019 and 31st January:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.searchQuery(
-    'index-name',
-    couchbase.SearchQuery.dateRange()
-        .start('2019-01-01')
-        .end('2019-02-01'),
-    {
-        limit: 10
-    });
+include::../examples/search.js[tag=date-query]
 ----
+
 
 A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.searchQuery(
-    'index-name',
-    couchbase.SearchQuery.conjuncts(
-        couchbase.SearchQuery.dateRange()
-            .start('2019-01-01')
-            .end('2019-02-01'),
-        couchbase.SearchQuery.match('swanky')
-    ));
+include::../examples/search.js[tag=conjunct-query]
 ----
+
 
 == Working with Results
 
@@ -69,25 +53,15 @@ available in the meta property.
 Metdata holds additional information not directly related to your query, 
 such as success total hits and how long the query took to execute in the cluster.
 
-[source,javascript]
-.Iterating hits
+[source,javascript,indent=0]
 ----
-result.rows.forEach((hit) => {
-    var documentId = hit.id;
-    var score = hit.score;
-    // ...
-})
+include::../examples/search.js[tag=handle-hits]
 ----
 
-//[source,csharp]
-//.Iterating facets
-//----
-//result.meta.facets.forEach((facet) => {
-//    var name = facet.name;
-//    var total = facet.total;
-//    // ...
-//});
-//----
+[source,javascript,indent=0]
+----
+include::../examples/search.js[tag=handle-facets]
+----
 
 
 == Consistency
@@ -96,13 +70,7 @@ Like the majority of Couchbase query services, FTS allows `RequestPlus` queries 
 _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from
 updated indexes:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = cluster.searchQuery(
-    'travel-sample-index-hotel-description',
-    couchbase.SearchQuery.match('swanky'),
-    {
-        consistency: couchbase.Consistency.RequestPlus
-    }
-);
+include::../examples/search.js[tag=ryow-query]
 ----

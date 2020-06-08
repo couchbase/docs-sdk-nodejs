@@ -18,13 +18,9 @@ in particular creating a dataset and linking it to a bucket to shadow the operat
 try Couchbase Analytics using the Node.js SDK.
 Intentionally, the API for analytics is very similar to that of the query service. 
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
-
-for (var i = 0; i < result.rows.length; ++i) {
-    console.log(result.rows[i].greeting);
-}
+include::../examples/analytics.js[tag=basic-query]
 ----
 
 
@@ -33,27 +29,23 @@ for (var i = 0; i < result.rows.length; ++i) {
 A query can either be `simple` or be `parameterized`. If parameters are used, they can either be `positional` or `named`. 
 Here is one example of each:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics('SELECT airportname, country FROM airports WHERE country="France"');
+include::../examples/analytics.js[tag=simple-query]
 ----
 
 The query may be performed with positional parameters:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics(
-    'SELECT airportname, country FROM airports WHERE country = ?',
-    ['France']);
+include::../examples/analytics.js[tag=posparam-query]
 ----
 
 Alternatively, the query may be performed with named parameters:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics(
-    'SELECT airportname, country FROM airports WHERE country = $country',
-    {country: 'France'});
+include::../examples/analytics.js[tag=namedparam-query]
 ----
 
 NOTE: As timeouts are propagated to the server by the client, a timeout set on the client side may be used to stop the processing of a request, in order to save system resources.
@@ -77,14 +69,9 @@ The `priority` option, defaults to `false`.
 
 Here, we give the request priority over others, and set a custom, server-side timeout value:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics(
-    'SELECT airportname, country FROM airports WHERE country="France"',
-    {
-        priority: true,
-        timeout: 100, // seconds
-    });
+include::../examples/analytics.js[tag=priority-query]
 ----
 
 
@@ -98,14 +85,11 @@ These rows may contain various sorts of data and metadata,
 depending upon the nature of the query, 
 as you will have seen when working through our xref:6.5@server:analytics:primer-beer.adoc[introductory primer].
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
+include::../examples/analytics.js[tag=handle-rows]
+----
 
-for (var i = 0; i < result.rows.length; ++i) {
-    console.log('Greeting: %s', result.rows[i].greeting);
-}
-----
 
 === MetaData
 
@@ -113,14 +97,9 @@ The `meta` property of `AnalyticsQueryResult` contains useful metadata, such as 
 properties such as `elapsedTime`, and `resultCount`.
 Here is a snippet printing out some metrics from a query:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-var result = await cluster.queryAnalytics('SELECT "hello" AS greeting');
-
-console.log('Elapsed time: %d', result.meta.metrics.elapsedTime);
-console.log('Execution time: %d', result.meta.metrics.executionTime);
-console.log('Result count: %d', result.meta.metrics.resultCount);
-console.log('Error count: %d', result.meta.metrics.errorCount);
+include::../examples/analytics.js[tag=handle-meta]
 ----
 
 // For listing of available properties in the meta-data (and sub structures)
