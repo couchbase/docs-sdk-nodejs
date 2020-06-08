@@ -6,10 +6,12 @@
 [abstract]
 You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 
+FTS allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
 
-Full Text Search or FTS allows you to create, manage, and query full text indexes on JSON documents stored in Couchbase buckets.
 It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
-Some of the supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
+
+Supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
+
 The Node.js SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
 
 
@@ -17,51 +19,93 @@ The Node.js SDK exposes an API for performing FTS queries which abstracts some o
 
 == Examples
 
-Search queries are executed at the cluster level (not bucket or collection).
-Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
+Search queries are executed at the cluster level (not bucket or collection). All examples below will console log our returned documents along with their metadata and rows, each returned document has an index, id, score and sort value.
+
+.Match
+
+Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: “five-star”.
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=basic-query]
+include::../examples/search.js[tag=search-query-match]
 ----
 
 
-All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
-Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
-Here is a date range query that looks for dates between 1st January 2019 and 31st January:
+.Match Phrase
+
+An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: “Yosemite Valley”.
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=date-query]
+include::../examples/search.js[tag=search-query-matchPhrase]
 ----
 
 
-A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
+When searching for a phrase we get some additional benefits outside of the `match()` method. The match phrase query for ``"10-minute walk from the"`` will produce the following hits from our travel-sample dataset:
+
+[source,bash]
+----
+hits:
+  hotel_11331: "10-minute walk from village"
+  hotel_15915: "10 minute walk from Echo Arena"
+  hotel_3606: "10 minute walk to the centre"
+  hotel_28259: "10 minute walk to the coastal path"
+----
+
+
+If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, ee get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and "walk to the" (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
+
+.Date Range
+
+Using the `beer-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=conjunct-query]
+include::../examples/search.js[tag=search-query-dateRange]
+----
+
+
+.Conjunction
+
+A query satisfying multiple child queries. The example below will only return one document hitting on the term 'five-star' and the phrase 'luxury hotel' while no other documents match both criteria.
+
+[source,javascript,indent=0]
+----
+include::../examples/search.js[tag=search-query-conjuncts]
+----
+
+Note: Our match for 'five-star' was not exact, but still produced a result because a similar term was found 'Five star', we could have potentially matched '5 star' or the word 'five'. When you work with any full-text search the number of hits you get and their score are variable.
+
+
+.Disjunction
+
+A query satisfying (by default) one query or another. If a conjunction query can be thought of like using an `AND` operator, a disjunction would be like using an `OR` operator. The example below will return seven documents hitting on the term `"Louvre"` and five hits on the term `"Eiffel"` returning a total of 12 rows together as part of a disjunction query.
+
+[source,javascript,indent=0]
+----
+include::../examples/search.js[tag=search-query-disjuncts]
 ----
 
 
 == Working with Results
 
-As with all query result types in the Node.js SDK, the search query results
-object contains two properties.  The hits reflecting the documents that
-matched your query, which are emitted as rows. Along with the metadata
-available in the meta property.  
-Metdata holds additional information not directly related to your query, 
-such as success total hits and how long the query took to execute in the cluster.
+As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.  
+
+Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
+
+.Iterating over Hits
 
 [source,javascript,indent=0]
 ----
 include::../examples/search.js[tag=handle-hits]
 ----
 
-[source,javascript,indent=0]
-----
-include::../examples/search.js[tag=handle-facets]
-----
+// .Iterating facets
+
+// [source,javascript,indent=0]
+// ----
+// include::../examples/search.js[tag=handle-facets]
+// ----
 
 
 == Consistency
