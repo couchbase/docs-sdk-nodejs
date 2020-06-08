@@ -128,7 +128,7 @@ Note: Our match for 'five-star' was not exact, but still produced a result becau
 
 .Disjunction
 
-A query satisfying (by default) one query or another. If a conjunction query can be thought of like using an `AND` operator, a disjunction would be like using an `OR` operator. The example below will return seven documents hitting on the term 'Louvre' and five hits on the term 'Eiffel' returning a total of 12 rows together as part of a disjunction query.
+A query satisfying (by default) one query or another. If a conjunction query can be thought of like using an `AND` operator, a disjunction would be like using an `OR` operator. The example below will return seven documents hitting on the term `"Louvre"` and five hits on the term `"Eiffel"` returning a total of 12 rows together as part of a disjunction query.
 
 [source,javascript]
 ----
