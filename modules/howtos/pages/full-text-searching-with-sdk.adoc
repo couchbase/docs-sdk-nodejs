@@ -23,7 +23,7 @@ Search queries are executed at the cluster level (not bucket or collection). All
 
 .Match
 
-Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: “five-star”.
+Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
 
 [source,javascript,indent=0]
 ----
@@ -33,7 +33,7 @@ include::../examples/search.js[tag=search-query-match]
 
 .Match Phrase
 
-An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: “Yosemite Valley”.
+An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: `"Yosemite Valley"`.
 
 [source,javascript,indent=0]
 ----
@@ -53,7 +53,7 @@ hits:
 ----
 
 
-If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, ee get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and "walk to the" (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
+If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, ee get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and `"walk to the"` (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
 
 .Date Range
 
@@ -67,14 +67,14 @@ include::../examples/search.js[tag=search-query-dateRange]
 
 .Conjunction
 
-A query satisfying multiple child queries. The example below will only return one document hitting on the term 'five-star' and the phrase 'luxury hotel' while no other documents match both criteria.
+A query satisfying multiple child queries. The example below will only return one document hitting on the term `"five-star"` and the phrase `"luxury hotel"` while no other documents match both criteria.
 
 [source,javascript,indent=0]
 ----
 include::../examples/search.js[tag=search-query-conjuncts]
 ----
 
-Note: Our match for 'five-star' was not exact, but still produced a result because a similar term was found 'Five star', we could have potentially matched '5 star' or the word 'five'. When you work with any full-text search the number of hits you get and their score are variable.
+Note: Our match for `"five-star"` was not exact, but still produced a result because a similar term was found `"Five star"`, we could have potentially matched `"5 star"` or the word `"five"`. When you work with any full-text search the number of hits you get and their score are variable.
 
 
 .Disjunction

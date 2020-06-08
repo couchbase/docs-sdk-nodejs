@@ -104,16 +104,16 @@ async function go() {
 
   // tag::handle-hits[]
   ftsDisjunction()
-  .then(
-    (result) => {
-      result.rows.forEach((hit, index) => {
-        const docId = hit.id
-        const score = hit.score
-        const result = index+1
-        console.log(`Result #${result} ID: ${docId} Score: ${score}`)
-      })
-    }
-  )
+    .then(
+      (result) => {
+        result.rows.forEach((hit, index) => {
+          const docId = hit.id
+          const score = hit.score
+          const result = index+1
+          console.log(`Result #${result} ID: ${docId} Score: ${score}`)
+        })
+      }
+    )
   // end::handle-hits[]
 
   // tag::handle-facets[]
