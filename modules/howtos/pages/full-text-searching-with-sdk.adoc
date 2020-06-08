@@ -19,7 +19,9 @@ The Couchbase Node.js SDK exposes an API for performing FTS queries which abstra
 
 Search queries are executed at the cluster level (not bucket or collection). All of the examples below will log to the console our returned documents along with their metadata and rows, each returned document has an index, id, score and sort value.
 
-Below is a simple FTS SearchQuery that uses the `match()` method to find a specified term: “five-star”.
+.Match
+
+Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: “five-star”.
 
 [source,javascript]
 ----
@@ -39,7 +41,9 @@ ftsMatchWord('five-star')
   .then((result) => console.log(result))
 ----
 
-Below is a simple FTS SearchQuery that uses the `matchPhrase()` method to find a specified phrase: “Yosemite Valley”.
+.Match Phrase
+
+An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: “Yosemite Valley”.
 
 [source,javascript]
 ----
@@ -48,18 +52,33 @@ async function ftsMatchPhrase(phrase) {
     return await cluster.searchQuery(
       'index-hotel-description', 
       couchbase.SearchQuery.matchPhrase(phrase),
-      { limit: 5 }
+      { limit: 10 }
     );
   } catch (error) {
     console.error(error)
   }
 }
 
-ftsMatchPhrase('Yosemite Valley')
+ftsMatchPhrase('10-minute walk from the')
   .then((result) => console.log(result))
 ----
 
-Below is a simple FTS SearchQuery that uses the `dateRange()` method to find a brewery from our `beer-sample` dataset where the updated field which is a date falls within a specified specified date range.
+When searching for a phrase we get some additional benefits outside of the `match()` method. The match phrase query for ``"10-minute walk from the"`` will produce the following hits from our travel-sample dataset:
+
+[source,bash]
+----
+hits:
+  hotel_11331: "10-minute walk from village"
+  hotel_15915: "10 minute walk from Echo Arena"
+  hotel_3606: "10 minute walk to the centre"
+  hotel_28259: "10 minute walk to the coastal path"
+----
+
+If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). This also happens with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and "walk to the" (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
+
+.Date Range
+
+Using the `beer-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript]
 ----
@@ -81,8 +100,9 @@ ftsBreweryUpdatedByDateRange('2010-11-10', '2010-11-20')
   .then((result) => console.log(result))
 ----
 
-A conjunction query contains multiple child queries; its resulting documents or 'hits' must satisfy all child queries. The example below will only return one document because its description has the word 'Five star' and 'luxury hotel' while no other documents match both criteria.
+.Conjunction
 
+A query satisfying multiple child queries. The example below will only return one document hitting on the term 'five-star' and the phrase 'luxury hotel' while no other documents match both criteria.
 
 [source,javascript]
 ----
@@ -101,7 +121,7 @@ async function ftsConjunction() {
 }
 
 ftsConjunction()
-  .then((result) => console.log(result.rows))
+  .then((result) => console.log(result))
 ----
 
 Note: Our match for 'five-star' was not exact, but still produced a result because a similar term was found 'Five star', we could have potentially matched '5 star' or the word 'five'. When you work with any full-text search the number of hits you get and their score are variable.
