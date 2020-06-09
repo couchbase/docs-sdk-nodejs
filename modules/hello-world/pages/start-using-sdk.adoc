@@ -36,14 +36,14 @@ If a directory does not already have a `package.json` at its root, this means it
 
 Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes. 
 
-[source,json]
+[source,json,indent=0]
 ----
-include::../examples/getting-started/package.json
+include::../examples/getting-started/package.json[tag=start-using-package-json]
 ----
 
 == Installing the SDK
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, and 12.x.
+The Couchbase Node.js Client will run on any https://nodejs.org/en/download/[supported LTS version of Node.js].
 
 [source,bash]
 ----
