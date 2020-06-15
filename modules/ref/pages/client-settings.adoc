@@ -1,0 +1,14 @@
+= Client Settings
+:nav-title: Client Settings
+:page-topic-type: reference
+:page-aliases: ROOT:client-settings
+
+[abstract]
+Client settings
+
+
+== Timeout Options
+
+// section on wide area network support
+
+include::6.5@sdk:shared:partial$client-settings-wide-network.adoc[]
