@@ -24,6 +24,34 @@ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.0.3 (14 June 2020)
+
+Version 3.0.3 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,bash]
+----
+$ npm install couchbase@3.0.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.3/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-702[JSCBC-702]:
+Fixed MaxExpiry not being specifiable when creating a collection.
+* http://issues.couchbase.com/browse/JSCBC-757[JSCBC-757]:
+Fixed CreateCollection parameters not matching specification.
+* http://issues.couchbase.com/browse/JSCBC-698[JSCBC-698]:
+Fixed MutateIn placeholders not being handled correctly.
+* http://issues.couchbase.com/browse/JSCBC-751[JSCBC-751]:
+Fixed documentation of SearchIndexManager.
+* http://issues.couchbase.com/browse/JSCBC-754[JSCBC-754]:
+Don't swap in a bucket name when none is used.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.0.2
+* Various other minor fixes.
+
+
 == Version 3.0.2 (7 May 2020)
 
 Version 3.0.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
@@ -56,7 +84,7 @@ Fixed issue with analytics named parameters causing query failures.
 * http://issues.couchbase.com/browse/JSCBC-701[JSCBC-701]:
 Fixed custom search query timeouts causing query failures.
 * Updated all dependencies to latest versions.
-* Updated to libcouchbase 3.0.2
+* Updated to libcouchbase 3.0.1
 * Various other minor fixes.
 
 
