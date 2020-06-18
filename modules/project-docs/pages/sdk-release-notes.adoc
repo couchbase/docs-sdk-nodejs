@@ -71,8 +71,8 @@ Don't swap in a bucket name when none is used.
 === Known Issues
 
 * http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
-Buffer objects containing non-UTF8 data can become mangled when inserting
-them into a bucket or collection.  This has been corrected in 3.0.4.
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
 
 
 == Version 3.0.2 (7 May 2020)
@@ -113,8 +113,8 @@ Fixed custom search query timeouts causing query failures.
 === Known Issues
 
 * http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
-Buffer objects containing non-UTF8 data can become mangled when inserting
-them into a bucket or collection.  This has been corrected in 3.0.4.
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
 
 
 == Version 3.0.1 (20 March 2020)
@@ -160,8 +160,8 @@ Fixed inconsistent metrics data from query service.
 === Known Issues
 
 * http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
-Buffer objects containing non-UTF8 data can become mangled when inserting
-them into a bucket or collection.  This has been corrected in 3.0.4.
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
 
 
 == Version 3.0.0 (20 January 2020)
@@ -205,8 +205,8 @@ Marked defaultScope, scope, and collection methods uncommitted.
 === Known Issues
 
 * http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
-Buffer objects containing non-UTF8 data can become mangled when inserting
-them into a bucket or collection.  This has been corrected in 3.0.4.
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
 
 
 == Pre-releases
