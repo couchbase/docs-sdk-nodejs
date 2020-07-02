@@ -1,0 +1,42 @@
+= FTS Index Creation
+:navtitle: Creating Indexes for Our Code Examples
+:page-topic-type: howto
+
+Before creating our FTS Indexes you will need the Sample Buckets installed
+
+.Travel Sample Hotel Description
+
+Inside the Couchbase Server Web UI, navigate to the *Search* page and click *Add Index*. Add the following values:
+
+Name: `travel-sample-hotel-description`
+Bucket: `travel-sample`
+
+For *Type Identifier* select the radio button next to *JSON type field* having a value: `type`. 
+
+Then we click *Add Type Mapping* entering the text `hotel` after the hash symbol (*#*) and selecting *inherit* from the dropdown and hit *ok*. This dropdown selection inherits a *Default Analyzer*.
+
+Next, Hover over the *hotel* type mapping we just created and click the "*+*" button and select *Insert Child Field*. 
+
+Our fields will have these values:
+
+field: `description` +
+type: `text` +
+searchable as: `description` +
+analyzer: `inherit` +
+
+We can select all of the checkboxes at the bottom of the form.
+
+Unchecked the *default* Type mapping as we don't want to scan all types.
+
+Select *Create Index* to finalize our changes.
+
+.Index Brewery by Date Range
+
+Inside the Couchbase Server Web UI, navigate to the *Search* page and click *Add Index*. Add the following values:
+
+Name: `index-brewery-by-daterange`
+Bucket: `beer-sample`
+
+We will use the *default* Type mapping for this index and scan all types as the bucket only has documents of type `brewery`.
+
+Select "Create Index" to finalize our changes.

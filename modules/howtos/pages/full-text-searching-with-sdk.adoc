@@ -10,20 +10,23 @@ FTS allows you to create, manage, and query full-text indexes on JSON documents 
 
 It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
 
-Supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
+Search queries are executed at the cluster level and include simple text queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
 
 The Node.js SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
 
-
-// As of Couchbase Server 6.5, FTS...
-
 == Examples
 
-Search queries are executed at the cluster level (not bucket or collection). All examples below will console log our returned documents along with their metadata and rows, each returned document has an index, id, score and sort value.
+Examples on this page are not copy pastable without having the related xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Buckets] installed and FTS indexes created. 
+
+We use the `travel-sample` dataset and `index-hotel-description` FTS index for all but one example. 
+
+The `beer-sample` dataset and `index-brewery-by-daterange` FTS index are used only for the Date Range example.
+
+xref:full-text-searching-index-creation.adoc[Setting up the FTS indexes]
 
 .Match
 
-Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
+Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`. 
 
 [source,javascript,indent=0]
 ----
