@@ -43,7 +43,7 @@ Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt w
 Here we just note that the CAS is a value representing the current state of an item; each time the item is modified, its CAS changes.
 The CAS value is returned as part of a document’s metadata whenever a document is accessed.
 
-_timeout_ is an optional parameter which is represented in milliseconds.
+_timeout_ is an optional parameter which is represented in seconds.
 Timeout sets the timeout value for the operation. We will add to these options
 for the _Replace_ example:
 
