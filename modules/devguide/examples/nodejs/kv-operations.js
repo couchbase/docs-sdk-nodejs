@@ -167,7 +167,7 @@ async function insertwithoptionsHandler(request, h) {
     try {
         // #tag::insertwithoptions[]
         const result = await collection.insert(key, document, 
-            {timeout:10000} // 10 seconds
+            {timeout:10} // 10 seconds
         );
         // #end::insertwithoptions[]
         cas = result.cas; // JSCBC-669?
@@ -184,7 +184,9 @@ async function replaceHandler(request, h) {
         // #tag::replace[]
         const result = await collection.replace(key,
             document, 
-            {cas:cas , expiration:60, timeout:5000}
+            {cas:cas,
+            expiry:60, // in seconds
+            timeout:5} // in seconds
         );
         // #end::replace[]
         cas = result.cas; // JSCBC-669?
@@ -200,10 +202,10 @@ async function durabilityHandler(request, h) {
     try {
         // #tag::durability[]
         let result = await collection.upsert(key, document,
-              {expiration:60,
+              {expiry:60, // in seconds
               persist_to:1,    
               replicate_to:0, // cannot replicate on single node
-              timeout:5000} 
+              timeout:5} // in seconds 
         );
         // #end::durability[]
         cas = result.cas; // JSCBC-669?
@@ -219,9 +221,9 @@ async function newdurabilityHandler(request, h) {
     try {
         // #tag::newdurability[]
         let result = await collection.upsert(key, document, 
-              {expiration:60,  // 60 seconds,
+              {expiry:60, // in seconds
               durabilityLevel:couchbase.DurabilityLevel.None, // Majority etc.
-              timeout:5000} // 5 seconds
+              timeout:5} // in seconds
         );
         // #end::newdurability[]
         cas = result.cas; // JSCBC-669?
@@ -243,7 +245,7 @@ async function removeHandler(request, h) {
             {cas:cas,
             persist_to:0,  // non-zero gives "not implemented"
             replicate_to:0, // cannot replicate on single node
-            timeout:5000}
+            timeout:5} // in seconds
         );
         // #end::remove[]
         return h.response(result);
@@ -272,8 +274,9 @@ async function touchwithoptionsHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::touchwithoptions[]
-        const result = await collection.touch(key, 100,  // 100 seconds
-            {timeout:5000} // 5 seconds
+        const result = await collection.touch(key,
+            100, // expiry in seconds
+            {timeout:5} // 5 seconds
         );
         // #end::touchwithoptions[]
         return h.response(result);
@@ -297,7 +300,7 @@ async function incrementwithoptionsHandler(request, h) {
         // increment binary value by 1, if binValKey doesn’t exist, seed it at 1000
         const result = await collection.binary().increment(binValKey, 1,
             {initial:1000,
-            timeout:5000},
+            timeout:5}, // 5 seconds
           (err, res) => {
               console.log("res: " + JSON.stringify(res));
           });
@@ -330,7 +333,7 @@ async function decrementwithoptionsHandler(request, h) {
         // decrement binary value by 1, if binValKey doesn’t exist, seed it at 1000
         const result = await collection.binary().decrement(binValKey, 1,
             {initial:1000,
-            timeout:5000},
+            timeout:5}, // 5 seconds
         );
         // #end::decrementwithoptions[]
         return h.response(result);
