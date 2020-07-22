@@ -184,7 +184,7 @@ async function replaceHandler(request, h) {
         // #tag::replace[]
         const result = await collection.replace(key,
             document, 
-            {cas:cas , expiration:60, timeout:5000}
+            {cas:cas , expiry:60, timeout:5000}
         );
         // #end::replace[]
         cas = result.cas; // JSCBC-669?
@@ -200,7 +200,7 @@ async function durabilityHandler(request, h) {
     try {
         // #tag::durability[]
         let result = await collection.upsert(key, document,
-              {expiration:60,
+              {expiry:60,
               persist_to:1,    
               replicate_to:0, // cannot replicate on single node
               timeout:5000} 
@@ -219,7 +219,7 @@ async function newdurabilityHandler(request, h) {
     try {
         // #tag::newdurability[]
         let result = await collection.upsert(key, document, 
-              {expiration:60,  // 60 seconds,
+              {expiry:60,  // 60 seconds,
               durabilityLevel:couchbase.DurabilityLevel.None, // Majority etc.
               timeout:5000} // 5 seconds
         );

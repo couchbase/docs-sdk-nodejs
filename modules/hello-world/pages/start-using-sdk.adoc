@@ -36,25 +36,14 @@ If a directory does not already have a `package.json` at its root, this means it
 
 Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes. 
 
-[source,json]
+[source,json,indent=0]
 ----
-{
-  "name": "node-couchbase-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
-}
+include::../examples/getting-started/package.json[tag=start-using-package-json]
 ----
 
 == Installing the SDK
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, and 12.x.
+The Couchbase Node.js Client will run on any https://nodejs.org/en/download/[supported LTS version of Node.js].
 
 [source,bash]
 ----
@@ -73,95 +62,64 @@ At this point we want to transition from the terminal to your code editor of cho
 
 Let's now create an empty file named `index.js` and walk through step by step adding code to enable us to connect to a bucket, add a document and retrieve it using a key-value get operation:
 
-[source,javascript]
+
+[source,javascript,indent=0]
 ----
-const couchbase = require('couchbase')
-const cluster = new couchbase.Cluster(
-  'couchbase://localhost',
-  { username: 'Administrator', password: 'password' }
-)
+include::../examples/getting-started/index.js[tag=connect]
 ----
+
 
 Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. Since we are running this locally, we are using the Couchbase alias for localhost.
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-// get a reference to our bucket
-const bucket = cluster.bucket('travel-sample')
+include::../examples/getting-started/index.js[tag=bucket]
 ----
 
 If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your _bucket-name_.
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-// get a reference to the default collection
-const collection = bucket.defaultCollection()
+include::../examples/getting-started/index.js[tag=default-collection]
 ----
 
 The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but once the feature is generally available the best practice will be to group documents into collections by type.
 
 Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-const airline = {
-  type: 'airline',
-  id: 8091,
-  callsign: 'CBS',
-  iata: null,
-  icao: null,
-  name: 'Couchbase Airways'
-}
+include::../examples/getting-started/index.js[tag=test-doc]
 ----
 
 Now we will create a function that will take care of upserting that document. This function is of type `async` and simply awaits the result of the upsert and either logs out the result or error in our console:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-const upsertDocument = async (doc) => {
-  try {
-    // key will equal: "airline_8091"
-    const key = `${doc.type}_${doc.id}`
-    const result = await collection.upsert(key, doc)
-    console.log('Upsert Result: ')
-    console.log(result)
-  } catch (error) {
-    console.error(error)
-  }
-}
+include::../examples/getting-started/index.js[tag=upsert-func]
 ----
 
 Now, we can simply call the `upsertDocument` function passing in our `airline` document:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-upsertDocument(airline)
+include::../examples/getting-started/index.js[tag=upsert-invoke]
 ----
 
 We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key that is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-// get document function
-const getAirlineByKey = async(key) => {
-  try {
-    const result = await collection.get(key)
-    console.log('Get Result: ')
-    console.log(result)
-  } catch (error) {
-    console.error(error)
-  }
-}
+include::../examples/getting-started/index.js[tag=get-func]
 ----
 
 KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
 
 Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091`:
 
-[source,javascript]
+[source,javascript,indent=0]
 ----
-// call get document function 
-getAirlineByKey("airline_8091")
+include::../examples/getting-started/index.js[tag=get-invoke]
 ----
 
 Now we can run our code using the following command:
