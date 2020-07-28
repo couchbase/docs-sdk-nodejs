@@ -210,6 +210,14 @@ async function go() {
   ]);
   // end::mutate-cas-noconflict[]
 
+  // tag::cas[]
+  await collection.mutateIn("customer123", [
+    couchbase.MutateInSpec.arrayAppend("addresses", "17 Olcott St"),
+  ], {
+    cas: SOME_CAS
+  });
+  // end::cas[]
+
   // tag::mutate-persistto[]
   await collection.mutateIn(
     "couchbase123",
