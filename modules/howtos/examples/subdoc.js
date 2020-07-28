@@ -205,7 +205,7 @@ async function go() {
   // tag::mutate-cas-noconflict[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayAppend("purchases.abandoned", {
-      cas: SOME_CAS,
+      some_other_id: SOME_OTHER_ID,
     }),
   ]);
   // end::mutate-cas-noconflict[]
