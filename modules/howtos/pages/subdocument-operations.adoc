@@ -293,12 +293,14 @@ include::../examples/subdoc.js[tag=mutate-cas-noconflict]
 Even when modifying the _same_ part of the document, operations will not necessarily conflict.
 For example, two concurrent _subdoc-array-append_ operations to the same array will both succeed, never overwriting the other.
 
+While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: 
+Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
+
 [source,javascript,indent=0]
 ----
 include::example$subdoc.js[tag=cas]
 ----
 
-While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
 
 == Durability
 
