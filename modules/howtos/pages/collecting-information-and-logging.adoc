@@ -24,16 +24,22 @@ with 5 being the most verbose and 1 being the least verbose.  Also, the query pa
 console_log_level can be used to set the log level.
 Note that these logs will go to `stdout` (standard output):
 
-[source,shell]
+[source,console]
 ----
 $ DEBUG=couchnode* node my_couchbase_app
--- OR --
+----
+
+or
+
+
+[source,console]
+----
 $ DEBUG=couchnode:lcb:error,couchnode:lcb:warn node my_couchbase_app
 ----
 
 When logging is turned on, the library will output messages similar to this:
 
-[source,shell]
+[source,console]
 ----
 1ms [I0] {14780} [DEBUG] (lcbio_mgr - L:383) <localhost:11210> (HE=0xe56760)
 Creating new connection because none are available in the pool

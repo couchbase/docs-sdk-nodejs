@@ -20,16 +20,16 @@ The 3.0 SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/Jav
 
 Creating a Node.js project is as easy as making a directory and initializing it with npm. The next two commands will do that for us. Open up a terminal and run the following command:
 
-[source,bash]
+[source,console]
 ----
-mkdir node-couchbase-project && cd $_
+$ mkdir node-couchbase-project && cd $_
 ----
 
 The command above will make our directory and change our current working directory.
 
-[source,bash]
+[source,console]
 ----
-npm init -y
+$ npm init -y
 ----
 
 If a directory does not already have a `package.json` at its root, this means it is not initialized. The command above will accomplish this. 
@@ -45,9 +45,9 @@ include::../examples/getting-started/package.json[tag=start-using-package-json]
 
 The Couchbase Node.js Client will run on any https://nodejs.org/en/download/[supported LTS version of Node.js].
 
-[source,bash]
+[source,console]
 ----
-npm install couchbase --save
+$ npm install couchbase --save
 ----
 
 Note: This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.

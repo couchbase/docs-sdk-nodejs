@@ -18,9 +18,9 @@ The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[s
 To install an older version, specify the version directly with npm. 
 For example, to install version 2.6.1:
 
-[source,bash]
+[source,console]
 ----
-npm install couchbase@2.6.1
+$ npm install couchbase@2.6.1
 ----
 
 
@@ -28,7 +28,7 @@ npm install couchbase@2.6.1
 
 Version 3.0.4 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
-[source,bash]
+[source,console]
 ----
 $ npm install couchbase@3.0.4
 ----
@@ -45,7 +45,7 @@ Fixed binary data being interpreted as UTF-8.
 
 Version 3.0.3 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
-[source,bash]
+[source,console]
 ----
 $ npm install couchbase@3.0.3
 ----
@@ -79,7 +79,7 @@ This has been corrected in 3.0.4.
 
 Version 3.0.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
-[source,bash]
+[source,console]
 ----
 $ npm install couchbase@3.0.2
 ----
@@ -121,7 +121,7 @@ This has been corrected in 3.0.4.
 
 Version 3.0.1 is the second release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
 
-[source,bash]
+[source,console]
 ----
 $ npm install couchbase@3.0.1
 ----
@@ -168,7 +168,7 @@ This has been corrected in 3.0.4.
 
 This is the first GA release of the third generation Node.js SDK.
 
-[source,bash]
+[source,console]
 ----
 $ npm install couchbase@3.0.0
 ----
