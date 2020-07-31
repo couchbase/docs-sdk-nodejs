@@ -31,27 +31,27 @@ there is no upgrade path available from a DP-enabled Couchbase Server.
 As well as the xref:hello-world:start-using-sdk.adoc[Node.js SDK 3.0] and Couchbase Server, 
 set up as described above, you will need `git` to fetch the travel sample application code:
 
-[source,bash]
+[source,console]
 ----
-git clone https://github.com/couchbaselabs/try-cb-nodejs.git
+$ git clone https://github.com/couchbaselabs/try-cb-nodejs.git
 ----
 
 Change directory into your cloned repository, and check out the _Collections_ branch (in the case of the Node.js SDK, `6.5-collections`).
 
-[source,bash]
+[source,console]
 ----
-git checkout 6.5-collections
+$ git checkout 6.5-collections
 ----
 
 * Before building the Collections-enabled version of the Travel Sample Application, you need to enable this DP feature (see warning above).
 +
-[source,bash]
+[source,console]
 .Enable Collections Developer Preview
 ----
-/opt/couchbase/bin/couchbase-cli enable-developer-preview --enable -c http://localhost:8091 -u Administrator -p password
+$ /opt/couchbase/bin/couchbase-cli enable-developer-preview --enable -c http://localhost:8091 -u Administrator -p password
 ----
 +
-[source,bash]
+[source,console]
 ----
 Developer preview cannot be disabled once it is enabled. If you enter developer preview mode you will not be able to upgrade. DO NOT USE IN PRODUCTION.
 Are you sure [y/n]: y
@@ -60,15 +60,16 @@ Are you sure [y/n]: y
 The Travel Sample Bucket needs altering to be split into collections. 
 There is a script to do this included with the Travel Sample App -- run:
 
-[source,bash]
+[source,console]
 .Create Sample Collections
 ----
-sh create-collections.sh Administrator password 127.0.0.1
+$ sh create-collections.sh Administrator password 127.0.0.1
 ----
 
 adjusting for any changes you have made to server URL, or admin password.
 You should now have the Travel Sample Data Bucket split into collections:
 
+[source,console]
 ----
 {"uid":"1"}{"uid":"2"}{"uid":"3"}
 
@@ -84,9 +85,9 @@ From here onwards, we'll assume the defaults.
 
 And run with
 
-[source,bash]
+[source,console]
 ----
-npm run start
+$ npm run start
 ----
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
