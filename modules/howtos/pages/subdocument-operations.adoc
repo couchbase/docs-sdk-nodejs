@@ -162,7 +162,7 @@ If you wish to create an array if it does not exist and also push elements to it
 
 [source,javascript,indent=0]
 ----
-include::../examples/subdoc.js[tag=mutate-createparents]
+include::../examples/subdoc.js[tag=mutate-createpaths]
 ----
 
 == Arrays as Unique Sets
