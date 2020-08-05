@@ -132,13 +132,13 @@ async function go() {
   ]);
   // end::mutate-tl-arrayappend-multibad[]
 
-  // end::mutate-createpaths[]
+  // tag::mutate-createpaths[]
   await collection.mutateIn("some_doc", [
     couchbase.MutateInSpec.arrayAppend("some.array", "Hello", "World", {
       createPath: true,
     }),
   ]);
-  // tag::mutate-createpaths[]
+  // end::mutate-createpaths[]
 
   // tag::mutate-arrayaddunique[]
   await collection.mutateIn("customer123", [
