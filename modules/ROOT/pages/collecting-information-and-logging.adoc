@@ -4,4 +4,5 @@
 
 You may enable logging through the underlying C SDK:
 
-include::2.9@c-sdk::page$collecting-information-and-logging.adoc[tag=group]
+include::2.10@c-sdk:ROOT:page$collecting-information-and-logging.adoc[tag=group]
+
