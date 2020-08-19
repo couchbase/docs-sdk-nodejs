@@ -59,6 +59,26 @@ Most queries return more than one result, and you want to iterate over the resul
 include::devguide:example$nodejs/n1ql-queries.js[tag=queryresults,indent=0]
 ----
 
+
+== CAS and N1QL
+
+If you are performing an operation with N1QL that requires CAS to be used, in combination with using CAS from regular KV operations for example,
+then you need to be aware of the xref:howtos/concurrent-document-mutations.adoc#cas-value-format[CAS type].
+CAS is stored as a 64-bit integer, which cannot be represented safely in javaScript -- thus you must convert to a string:
+
+[source,javascript]
+----
+  const GET_IDS = `
+    SELECT  META().id AS recordId
+          , TOSTRING(META().cas) AS cas
+          , id 
+    FROM cdb
+    WHERE type = 'profile'
+    LIMIT $count
+    `;
+----
+
+
 //== Scan Consistency
 //
 //
