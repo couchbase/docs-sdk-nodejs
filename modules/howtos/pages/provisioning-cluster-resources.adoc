@@ -85,7 +85,7 @@ include::devguide:example$go/provisioning-resources-buckets.go[tag=removeBucket]
 
 include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
-You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-node-client/BucketManager.html#flushBucket[`flushBucket()`] method:
+You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-node-client/BucketManager.html#flushBucket[`flushBucket()` method]:
 ////
 [source,golang,indent=0]
 ----
