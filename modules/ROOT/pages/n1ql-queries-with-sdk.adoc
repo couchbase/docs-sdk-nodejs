@@ -14,7 +14,7 @@ var N1qlQuery = couchbase.N1qlQuery;
 query = N1qlQuery.fromString('SELECT name, email FROM default LIMIT 10');
 bucket.query(query, function(err, rows, meta) {
   for (row in rows) {
-    console.log('Name: %s. Email: %s', row.name, row.email);
+    console.log('Name: %s. Email: %s', rows[row].name, rows[row].email);
   }
 });
 ----
