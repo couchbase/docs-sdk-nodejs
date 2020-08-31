@@ -10,6 +10,24 @@ async function go() {
   });
   // end::rbac-auth[]
 
+  // tag::many-hosts[]
+  const cluster = new couchbase.Cluster(
+    "couchbase://10.0.0.1,10.0.0.2,10.0.0.3"
+  );
+  // end::many-hosts[]
+
+  // tag::alt-addresses[]
+  const cluster = await couchbase.connect(
+    "couchbase://localhost:1234?network=external"
+  );
+  // end:alt-addresses[]
+
+  // tag::tls-cacert[]
+  const cluster = await couchbase.connect("couchbases://localhost", {
+    trustStorePath: "/path/to/ca/certificates.pem",
+  });
+  // end::tls-cacert[]
+
   // tag::cert-auth[]
   const cluster = new couchbase.Cluster("couchbase://localhost", {
     authenticator: new couchbase.CertificateAuthenticator(
