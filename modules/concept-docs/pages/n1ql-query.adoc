@@ -23,10 +23,9 @@ async function queryNamed() {
     SELECT airportname, city FROM \`travel-sample\`
     WHERE type= 'airport'
       AND city='London';
-  `
-  const options = { adhoc: false }
+
   try {
-    let result = await cluster.query(query, options)
+    let result = await cluster.query(query, { adhoc: false })
     results.rows.forEach((row) => {
       console.log('Query row: ', row)
     return result
@@ -81,12 +80,12 @@ For more information, see xref:6.5@server:n1ql:n1ql-language-reference/covering-
 
 You can also create and define indexes in the SDK using:
 
-[source,csharp]
+[source,javascript]
 ----
-var bucketManager = bucket.CreateManager();
-await bucketManager.CreateN1qlPrimaryIndexAsync();
-await bucketManager.CreateN1qlIndexAsync("index_name", new string[] { "name" })
-await bucketManager.CreateN1qlIndexAsync("index_emai", new string[] { "email" })
+const indexMgr = cluster.queryIndexes();
+await indexMgr.createPrimaryIndex('bucket_name')
+await indexMgr.createIndex('bucket_name', 'ix_name', ['name'])
+await indexMgr.createIndex('bucket_name', 'ix_email', ['email'])
 ----
 
 
@@ -110,14 +109,14 @@ and indexes it for all of the applicable indexes (in this case, those that have 
 
 Building deferred indexes can also be done via the SDK:
 
-[source,csharp]
+[source,javascript]
 ----
-var bucketManager = bucket.CreateManager();
-await bucketManager.CreateN1qlPrimaryIndexAsync(defer = true);
-await bucketManager.CreateN1qlIndexAsync("ix_name", defer = true, new string[] { "name" });
-await bucketManager.CreateN1qlIndexAsync("ix_email", defer = true, new string[] { "email" });
-await bucketManager.BuildN1qlDeferredIndexesAsync();
-await bucketManager.WatchN1qlIndexes(new List<string> { "ix_name", "ix_email", "#primary"}, TimeSpan.FromSeconds(2));
+const indexMgr = cluster.queryIndexes();
+await indexMgr.createPrimaryIndex('bucket_name', {deferred: true})
+await indexMgr.createIndex('bucket_name', 'ix_name', ['name'], {deferred: true})
+await indexMgr.createIndex('bucket_name', 'ix_email', ['email'], {deferred: true})
+await indexMgr.buildDeferredIndexes('bucket_name')
+await indexMgr.watchIndexes('bucket_name', ['ix_name', 'ix_email', '#primary'], 2000)
 ----
 
 
@@ -139,21 +138,18 @@ For N1QL, the default consistency is `not_bounded`.
 ////
 Consider the following snippet:
 
-[source,csharp]
+[source,javascript]
 ----
+var randomNumber = Math.floor(Math.rand() * 10000000)
 
-var randomNumber = new Random().Next(0, 10000000);
+await collection.upsert(`user:${randomNumber}`, {
+  name: 'Brass Doorknob',
+  email: 'brass.doorknob@juno.com',
+  random: randomNumber
+})
 
-bucket.Upsert($"user:{randomNumber}", new {
-    name = "Brass Doorknob",
-    email = "brass.doorknob@juno.com",
-    random = randomNumber
-});
-
-var query = new QueryRequest("SELECT name, email, random, META(default).id FROM default WHERE $1 IN name'")
-    .AddPositionalParamter("Brass");
-
-var result = bucket.Query<dynamic>(query);
+var res = await cluster.query(
+  'SELECT name, email, random, META(default).id FROM default WHERE "Brass" IN name')
 ----
 
 The above query may not return the newly inserted document because it has not yet been indexed.
@@ -161,14 +157,12 @@ The query is issued immediately after document creation, and in this case the qu
 
 If the above code is modified to use _RequestPlus_, query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
 
-[source,csharp]
+[source,javascript]
 ----
-var query = new QueryRequest("SELECT name, email, random, META(default).id FROM default WHERE $1 IN name'")
-    .AddPositionalParamter("Brass")
-    // If this line is removed, the latest 'random' field might not be present
-    .ScanConsistency(ScanConsistency.RequestPlus);
-
-var result = bucket.Query<dynamic>(query);
+var res = await cluster.query(
+  'SELECT name, email, random, META(default).id FROM default WHERE "Brass" IN name', {
+    scanConsistency: couchbase.QueryScanConsistency.RequestPlus,
+  })
 ----
 
 This gives the application developer more control over the balance between performance (latency) and consistency,
