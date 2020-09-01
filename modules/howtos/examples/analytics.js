@@ -14,9 +14,9 @@ async function go() {
   // tag::basic-query[]
   var result = await cluster.analyticsQuery('SELECT "hello" AS greeting');
 
-  for (var i = 0; i < result.rows.length; ++i) {
-    console.log(result.rows[i].greeting);
-  }
+  result.rows.forEach((row) => {
+    console.log(row.greeting);
+  });
   // end::basic-query[]
 
   // tag::simple-query[]
@@ -52,9 +52,9 @@ async function go() {
   // tag::handle-rows[]
   var result = await cluster.analyticsQuery('SELECT "hello" AS greeting');
 
-  for (var i = 0; i < result.rows.length; ++i) {
-    console.log("Greeting: %s", result.rows[i].greeting);
-  }
+  result.rows.forEach((row) => {
+    console.log("Greeting: %s", row.greeting);
+  });
   // end::handle-rows[]
 
   // tag::handle-meta[]
