@@ -95,7 +95,7 @@ Creating indexes on buckets with many existing documents can take a long time.
 You can build indexes in the background, creating _deferred_ indexes.
 The deferred indexes can be built together, rather than having to re-scan the entire bucket for each index.
 
-[source,sql]
+[source,n1ql]
 ----
 CREATE PRIMARY INDEX ON `users` WITH {"defer_build": true};
 CREATE INDEX ix_name ON `users`(name) WITH {"defer_build": true};
