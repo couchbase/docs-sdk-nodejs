@@ -16,7 +16,7 @@ Our xref:hello-world:start-using-sdk.adoc[Getting Started] guide introduced basi
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=rbac-auth,indent=0]
+include::example$auth.js[tag=rbac-auth,indent=0]
 
 ----
 
@@ -34,9 +34,8 @@ That is, a cluster certificate has been created and installed on the server, a c
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=cert-auth,indent=0]
+include::example$auth.js[tag=cert-auth,indent=0]
 ----
 
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
-
