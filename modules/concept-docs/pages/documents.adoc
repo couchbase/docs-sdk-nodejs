@@ -57,9 +57,9 @@ await collection.mutateIn('customer123', [
 ])
 ----
 
-or xref:6.0@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
+or xref:6.6@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
 
-[source,sql]
+[source,n1ql]
 ----
 update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
@@ -67,14 +67,14 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 
 include::6.5@sdk:shared:partial$documents.adoc[tag=get_generic]
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT * FROM default USE KEYS ["docid"];
 ----
 
 or
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT * FROM default WHERE META(default).id = "docid";
 ----
