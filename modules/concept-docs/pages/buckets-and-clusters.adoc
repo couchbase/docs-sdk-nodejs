@@ -8,7 +8,7 @@ The Couchbase Node.js SDK provides an API for managing a Couchbase cluster progr
 
 include::6.5@sdk:shared:partial$clusters-buckets.adoc[tag=management]
 
-////
+
 Management operations in the Node.js SDK may be performed through several interfaces depending on the object:
 
 == Creating and Removing Buckets
@@ -33,4 +33,4 @@ bucketMgr.createBucket({
 ----
 
 The default Collection & Default Scope will be used automatically.
-////
+
