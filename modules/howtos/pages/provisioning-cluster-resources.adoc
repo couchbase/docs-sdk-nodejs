@@ -10,7 +10,7 @@ include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Node.js SDK also comes with some convenience functionality for common Couchbase management requests.
 
-////
+
 Management operations in the SDK may be performed through several interfaces depending on the object:
 
 * BucketManager -- `Cluster.buckets()`
