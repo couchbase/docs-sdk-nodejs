@@ -18,8 +18,6 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
-
-// change to $Your_language
 [source,javascript]
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
@@ -27,7 +25,6 @@ include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
 
 Compare this to a N1QL query:
 
-// change to $Your_language
 [source,javascript]
 ----
 include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
@@ -150,7 +147,7 @@ Connecting with certificate-based authentication.
 include::devguide:example$nodejs/connecting-cert-auth.js[tag=connecting-cert-auth,indent=0]
 ----
 
-// Please see the xref:howtos:authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
+Please see the xref:howtos:sdk-authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
 
 == Connection Lifecycle
 
@@ -291,6 +288,8 @@ As an example, consider the javadoc for the `Collection.get` API:
 These exceptions extend `CouchbaseException`, but both the `TimeoutException` and the `DocumentNotFoundException` can be caught individually if specific logic should be executed to handle them.
 -
 ////
+
+
 === Proactive Retry
 
 One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
@@ -458,10 +457,6 @@ include::devguide:example$nodejs/migrating.js[tag=querysimple,indent=0]
 Note that there is no `N1qlQuery.fromString` any more -- and query parameters argument has been moved to the options parameter for consistency reasons. 
 The following shows how to do named and positional parameters in SDK 3:
 
-//[source,javascript]
-//----
-//include::devguide/example$nodejs/migrating.js[tag=queryparameterized,indent=0]
-//----
 
 [source,javascript]
 ----
