@@ -70,8 +70,7 @@ If you wish to use TLS, the connection string must be configured as described in
 == Connection Lifecycle
 
 We recommend creating a single `Cluster` instance when your application starts up, and sharing this instance throughout your application.
-Each of the respective sub-instances (Bucket, Collection, etc...) of the Cluster class can be stored and re-used, or created in an
-on-demand fashion whenever needed.
+Each of the respective sub-instances (Bucket, Collection, etc...) of the Cluster class can be stored and re-used, or created in an on-demand fashion whenever needed.
 
 Before your application stops, gracefully shut down the client by calling the `disconnect()` method of each `Cluster` you created.
 
@@ -111,11 +110,9 @@ Options:
   timeout=10.0
 ----
 
-In many cases the client is able to automatically select the correct set of addresses to use when connecting to a
-cluster that advertises multiple addresses.
+In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
 
-If the detection heuristic fails in your environment, you can override it by setting the `network` client
-setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
+If the detection heuristic fails in your environment, you can override it by setting the `network` client setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
 
 NOTE: Any TLS certificates must be set up at the point where the connections are being made.
 
@@ -132,11 +129,9 @@ To configure encryption for the C SDK (libcouchbase):
 . Get the CA certificate from the cluster and save it in a text file.
 . Enable encryption on the client side and point it to the file containing the certificate.
 
-It is important to make sure you are transferring the certificate in an encrypted manner from the server to the client
-side, so either copy it through SSH, or through a similar secure mechanism.
+It is important to make sure you are transferring the certificate in an encrypted manner from the server to the client side, so either copy it through SSH, or through a similar secure mechanism.
 
-If you are running on `localhost` and just want to enable TLS for a development machine, just copying and pasting it
-suffices.  
+If you are running on `localhost` and just want to enable TLS for a development machine, just copying and pasting it suffices.  
 Navigate in the admin UI to menu:Settings[Cluster] and copy the input box of the TLS certificate into a file on your machine (which we will refer to as `cluster.cert`). 
 It looks similar to this:
 
@@ -184,8 +179,7 @@ E.....@.@.............+....Z.'yZ..#........
 
 include::6.5@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
 
-The Node.js SDK always tries to use the SRV records, if the connection string contains a single hostname and the feature is not
-disabled explicitly with connection string option `dnssrv=off`.
+The Node.js SDK always tries to use the SRV records, if the connection string contains a single hostname and the feature is not disabled explicitly with connection string option `dnssrv=off`.
 
 In case of successful resolution a message like this will be written at `INFO` level of debug logs:
 
