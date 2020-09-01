@@ -15,7 +15,7 @@ The simplest way to create a `Cluster` object is to `const cluster = new couchba
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=rbac-auth,indent=0]
+include::example$auth.js[tag=rbac-auth,indent=0]
 ----
 
 NOTE: If you are connecting to a version of Couchbase Server older than 6.5, it will be more efficient if the addresses are those of data (KV) nodes.
@@ -29,7 +29,7 @@ Multiple addresses may be specified in a connection string by delimiting them wi
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=many-hosts,indent=0]
+include::example$auth.js[tag=many-hosts,indent=0]
 ----
 
 TIP: You don't need to include the address of every node in the cluster.
@@ -89,7 +89,7 @@ If the external ports are not the default, you can specify custom ports by expli
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=alt-addresses,indent=0]
+include::example$auth.js[tag=alt-addresses,indent=0]
 ----
 
 To verify how the connection string is being deconstructed by the library, our C SDK's [.cmd]`cbc connstr` may also be used:
@@ -152,7 +152,7 @@ is `couchbases://` rather than the typical `couchbase://`):
 
 [source,javascript]
 ----
-include::examples$auth.js[tag=tls-cacert,indent=0]
+include::example$auth.js[tag=tls-cacert,indent=0]
 ----
 
 If you want to verify it's actually working, you can use a tool like [.cmd]`tcpdump`.
