@@ -68,8 +68,11 @@ Let's now create an empty file named `index.js` and walk through step by step ad
 include::../examples/getting-started/index.js[tag=connect]
 ----
 
+If you are connecting to Couchbase Cloud rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. Since we are running this locally, we are using the Couchbase alias for localhost.
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. 
+For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. 
+Since we are running this locally, we are using the Couchbase alias for localhost.
 
 [source,javascript,indent=0]
 ----
@@ -153,6 +156,19 @@ Get Result:
   }
 }
 ----
+
+
+== Cloud Connections
+
+For developing on Couchbase Cloud, if you are not working from the same _Availability Zone_, 
+try the https://github.com/couchbase/docs-sdk-nodejs/blob/release/3.0/modules/devguide/examples/nodejs/cloud.js[Cloud-based Hello World program], 
+refer to the follorwing:
+
+* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments], 
+* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements], 
+* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+
+
 
 == Additional Resources
 
