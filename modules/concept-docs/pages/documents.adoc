@@ -33,7 +33,7 @@ include::6.5@sdk:shared:partial$documents.adoc[tag=document]
 
 == Primitive Key-Value Operations
 
-[source,python]
+[source,javascript]
 ----
 upsert(docid, document)
 insert(docid, document)
@@ -50,14 +50,16 @@ include::6.5@sdk:shared:partial$documents.adoc[tag=store-update]
 ====
 If you wish to only modify certain parts of a document, you can use xref:subdocument-operations.adoc[sub-document] operations which operate on specific subsets of documents:
 
-[source,python]
+[source,javascript]
 ----
-collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
+await collection.mutateIn('customer123', [
+    couchbase.MutateInSpec.upsert("fax", '311-555-0151')],
+])
 ----
 
-or xref:6.0@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
+or xref:6.6@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
 
-[source,sql]
+[source,n1ql]
 ----
 update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
@@ -65,23 +67,33 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 
 include::6.5@sdk:shared:partial$documents.adoc[tag=get_generic]
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT * FROM default USE KEYS ["docid"];
 ----
 
 or
 
-[source,sql]
+[source,n1ql]
 ----
 SELECT * FROM default WHERE META(default).id = "docid";
 ----
 
 You can also retrieve _parts_ of documents using xref:subdocument-operations.adoc[sub-document operations], by specifying one or more sections of the document to be retrieved
 
-[source,python]
+[source,javascript]
 ----
-name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
+var res = await collection.get('user:kingarthur', {
+    project: ['contact.name', 'contact.email']
+})
+
+// res.content:
+// {
+//   'contact': {
+//     'name': 'King Arthur',
+//     'email': 'theking@knightsoftheroundtable.com',
+//   }
+// }
 ----
 
 include::6.5@sdk:shared:partial$documents.adoc[tag=expiration]

@@ -16,15 +16,8 @@ Our xref:hello-world:start-using-sdk.adoc[Getting Started] guide introduced basi
 
 [source,javascript]
 ----
-const couchbase = require("couchbase");
+include::examples$auth.js[tag=rbac-auth,indent=0]
 
-const cluster = new couchbase.Cluster("couchbase://localhost", {
-  username: "Administrator",
-  password: "password",
-});
-----
-////
-include::example$Auth.scala[tag=basic,indent=0]
 ----
 ////
 
@@ -39,9 +32,9 @@ For sample procedures whereby certificates can be generated and deployed, see xr
 The rest of this document assumes that the processes there, or something similar, have been followed.
 That is, a cluster certificate has been created and installed on the server, a client certificate has been created, and it is stored in a JVM keystore along with the cluster's certificate.
 
-[source,scala]
+[source,javascript]
 ----
-include::example$Auth.scala[tag=auth,indent=0]
+include::examples$auth.js[tag=cert-auth,indent=0]
 ----
 ////
 
