@@ -94,8 +94,14 @@ include::example$auth.js[tag=alt-addresses,indent=0]
 
 To verify how the connection string is being deconstructed by the library, our C SDK's [.cmd]`cbc connstr` may also be used:
 
+====
+[source,console]
 ----
 $ cbc connstr 'couchbase://localhost:1234,localhost:2345=http?network=external&timeout=10.0'
+----
+
+[source,console]
+----
 Bucket:
 Implicit port: 11210
 SSL: DISABLED
@@ -107,6 +113,7 @@ Options:
   network=external
   timeout=10.0
 ----
+====
 
 In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
 
