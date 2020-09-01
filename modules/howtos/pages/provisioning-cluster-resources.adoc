@@ -31,7 +31,7 @@ It is instantiated through the `Cluster.buckets()` method.
 
 [source,javascript]
 ----
-include::examples$provisioning.js[tag=create-bucketmgr,indent=0]
+include::example$provisioning.js[tag=create-bucketmgr,indent=0]
 ----
 
 The `CreateBucketSettings` and `BucketSettings` structs are used for creating and updating buckets, `BucketSettings` is also used for exposing information about existing buckets.
@@ -58,21 +58,21 @@ The following example creates a "hello" bucket:
 
 [source,javascript]
 ----
-include::examples$provisioning.js[tag=create-bucket,indent=0]
+include::example$provisioning.js[tag=create-bucket,indent=0]
 ----
 
 We can now get this bucket and update it to enable flush:
 
 [source,javascript]
 ----
-include::examples$provisioning.js[tag=update-bucket,indent=0]
+include::example$provisioning.js[tag=update-bucket,indent=0]
 ----
 
 Once you no longer need to use the bucket, you can remove it:
 
 [source,javascript]
 ----
-include::examples$provisioning.js[tag=remove-bucket,indent=0]
+include::example$provisioning.js[tag=remove-bucket,indent=0]
 ----
 
 
@@ -86,7 +86,7 @@ You can flush a bucket in the SDK by using the `flush` method:
 
 [source,javascript]
 ----
-include::examples$provisioning.js[tag=flush-bucket,indent=0]
+include::example$provisioning.js[tag=flush-bucket,indent=0]
 ----
 
 The `flush` operation may fail if the bucket does not have flush enabled, in that case it will return an error.
@@ -106,4 +106,3 @@ For those occasions when you do, please see the relevant API docs:
 * AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/AnalyticsIndexManager.html[`Cluster.analyticsIndexes()`];
 * SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/SearchIndexManager.html[`Cluster.searchIndexes()`];
 * ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/ViewIndexManager.html[`Bucket.viewIndexes()`].
-
