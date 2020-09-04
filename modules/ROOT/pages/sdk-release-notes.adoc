@@ -872,4 +872,9 @@ management operations do not indicate status code errors.
 * https://issues.couchbase.com/browse/JSCBC-305[JSCBC-305]: Query
 options consistency and ConsistentWith do not behave as expected
 with regard to their exclusivity.
+
+
+== Older Releases
+
+Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
 // end::latest[]
