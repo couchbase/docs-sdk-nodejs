@@ -24,6 +24,40 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.0.6 (3 September 2020)
+
+Version 3.0.6 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.6/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-786[JSCBC-786]:
+Added uncommitted collections support for user management.
+* http://issues.couchbase.com/browse/JSCBC-743[JSCBC-743]:
+Added high-level options for basic configuration.
+* http://issues.couchbase.com/browse/JSCBC-788[JSCBC-788]:
+Added high-level options for specifying certificates.
+* http://issues.couchbase.com/browse/JSCBC-686[JSCBC-686]:
+Added auto generation of TypeScript types using JSDoc.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-784[JSCBC-784]:
+Fixed some results using value instead of content.
+* http://issues.couchbase.com/browse/JSCBC-758[JSCBC-758]:
+Improved view scan consistency handling.
+* Updated to libcouchbase 3.0.4.
+* Updated all dependencies to latest versions.
+* Various minor documentation updates.
+* Various other minor fixes.
+
+
 == Version 3.0.5 (6 August 2020)
 
 Version 3.0.5 is a release of the third generation Node.js SDK.
