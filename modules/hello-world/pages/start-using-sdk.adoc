@@ -1,5 +1,5 @@
 = Install and Start Using the Node.js SDK with Couchbase Server
-:page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
+:page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk,server:sdks:node-2.0/introduction
 :navtitle: Start Using the SDK
 
 [abstract]
