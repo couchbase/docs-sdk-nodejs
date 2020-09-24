@@ -304,7 +304,8 @@ include::example$subdoc.js[tag=cas]
 
 == Durability
 
-Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
+Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is 
+xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[still available], particularly for talking to Couchbase Server 6.0 and earlier:
 
 [source,javascript,indent=0]
 ----
