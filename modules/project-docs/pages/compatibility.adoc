@@ -80,6 +80,13 @@ At time of writing (September 2020): 10.13 (_High Sierra_), 10.14 (_Mojave_), an
 Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
 
 
+== Integrations
+
+=== Ottoman ODM
+
+The 3.0 Node.js SDK is compatible with https://v2.ottomanjs.com/#introduction[version 2.0 of the Ottoman ODM].
+
+
 == Couchbase New Feature Availability Matrix
 
 .Couchbase Server and SDK Supported Version Matrix
