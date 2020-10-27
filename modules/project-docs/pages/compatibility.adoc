@@ -90,6 +90,7 @@ The 3.0 Node.js SDK is compatible with https://v2.ottomanjs.com/#introduction[ve
 == Couchbase New Feature Availability Matrix
 
 .Couchbase Server and SDK Supported Version Matrix
+[.table-merge-cells] 
 |===
 | | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6
 
