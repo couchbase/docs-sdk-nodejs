@@ -78,11 +78,10 @@ const result = await cluster.ping({
 });
 ----
 
-In this example, only the Query service is included in the ping report.
+In this example, only the Query Service is included in the ping report.
 
 Note that `ping` is available both on the `Cluster` and the `Bucket` level. 
-The difference is that at the cluster level, the key-value service might not be
-included based on the Couchbase Server version in use. 
+The difference is that at the cluster level, the key-value service might not be included based on the Couchbase Server version in use. 
 If you want to make sure the key-value service is included, perform it at the bucket level.
 
 
