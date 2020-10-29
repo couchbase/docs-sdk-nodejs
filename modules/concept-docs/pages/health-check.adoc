@@ -33,11 +33,56 @@ Note: `Ping` may reopen a connection, so is not without side-effects.
 
 == Ping
 
-`Ping` _actively_ queries the status of the specified services,giving status and latency information for every node reachable.
-In addition to its use as a monitoring tool, a regular `Ping` can be used in an environment which does not respect keep alive values for a connection. 
+At its simplest, `ping` provides information about the current state of the connections in the Couchbase Cluster, by actively polling:
 
-`Ping()` will be implemented in an upcoming release of the Node.js SDK 3.0.
-It is already implemented in the xref:2.6@nodejs-sdk::health-check.adoc#ping[Node.js SDK 2.6.n].
+[source,javascript]
+----
+const result = await cluster.ping();
+console.log(result);
+/*
+{
+  config_rev: 3,
+  id: '0x103828d70/41115255fb1e3c76',
+  sdk: 'libcouchbase/3.0.6-njs couchnode/3.0.7 (node/12.18.2; v8/7.8.279.23-node.39; ssl/1.1.1g)',
+  services: {
+    kv: [
+        {
+            id: '0x10410c8d0',
+            latency_us: 5577,
+            local: '127.0.0.1:54985',
+            namespace: 'default',
+            remote: 'localhost:54979',
+            status: 'ok'
+        },
+        ...
+    ],
+    n1ql: [ ... ],
+    views: [ ... ]
+  },
+  version: 1
+}
+*/
+----
+
+This will print the latency for each socket (endpoint) connected per service. More information is available on the classes. 
+
+By default the SDK will ping all services available on the target cluster. 
+You can customize the type of services to ping through the `PingOptions`:
+
+[source,javascript]
+----
+const result = await cluster.ping({
+    serviceTypes: [
+        couchbase.ServiceType.Query,
+    ]
+});
+----
+
+In this example, only the Query Service is included in the ping report.
+
+Note that `ping` is available both on the `Cluster` and the `Bucket` level. 
+The difference is that at the cluster level, the key-value service might not be included based on the Couchbase Server version in use. 
+If you want to make sure the key-value service is included, perform it at the bucket level.
 
 
 == Diagnostics
@@ -48,9 +93,8 @@ If you want the _current_ status, then use xref:#ping[Ping].
 
 [source,javascript]
 ----
-bucket.diagnostics((err, res) => {
-    console.log(res)
-})
+const result = await bucket.diagnostics();
+console.log(result)
 /*
 {
     "id":"0x10290d100","kv":[
