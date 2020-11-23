@@ -20,7 +20,7 @@ async function go() {
   const cluster = await couchbase.connect(
     "couchbase://localhost:1234?network=external"
   );
-  // end:alt-addresses[]
+  // end::alt-addresses[]
 
   // tag::tls-cacert[]
   const cluster = await couchbase.connect("couchbases://localhost", {
