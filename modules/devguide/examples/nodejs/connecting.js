@@ -23,6 +23,6 @@ try {
             console.log(e)
         });
 } catch (e) {
-    e.printStackTrace();
+    console.trace();
 }
 
