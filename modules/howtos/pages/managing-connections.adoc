@@ -1,7 +1,7 @@
 = Managing Connections using the Node.js SDK with Couchbase Server
 :navtitle: Managing Connections
 :page-topic-type: howto
-:page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced,server:sdk:nodejs/managing-connections
+:page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
 
 [abstract]
 This section describes how to connect the Node.js SDK to a Couchbase cluster.
