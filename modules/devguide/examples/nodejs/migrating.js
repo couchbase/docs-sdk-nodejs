@@ -18,7 +18,8 @@ start()
  .then(rawbinary)
  .then(customtimeout)
  .then(querysimple)
-// .then(analyticssimple) // don't have dataset// .then(analyticsparameterized) // don't have dataset
+// .then(analyticssimple) // don't have dataset
+// .then(analyticsparameterized) // don't have dataset
  .then(searchsimple) 
  .then(searchcheck)
  .then(viewquery)
