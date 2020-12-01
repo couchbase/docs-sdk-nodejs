@@ -163,7 +163,7 @@ In SDK 2, you connected, opened a bucket, performed a KV op, and disconnected li
 
 [source,javascript]
 ----
-const cluster = new couchbase.Cluster("127.0.0.1");
+const cluster = await couchbase.connect("127.0.0.1");
 cluster.authenticate("user", "pass");
 const bucket = cluster.openBucket("travel-sample");
 
