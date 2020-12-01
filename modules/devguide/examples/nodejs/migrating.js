@@ -18,8 +18,7 @@ start()
  .then(rawbinary)
  .then(customtimeout)
  .then(querysimple)
-// .then(analyticssimple) // don't have dataset
-// .then(analyticsparameterized) // don't have dataset
+// .then(analyticssimple) // don't have dataset// .then(analyticsparameterized) // don't have dataset
  .then(searchsimple) 
  .then(searchcheck)
  .then(viewquery)
@@ -40,7 +39,7 @@ async function timeoutbuilder_java_only(){
 async function connect(){
       // #tag::connect[]
       const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1", options);
+      cluster = await couchbase.connect( "http://127.0.0.1", options);
       bucket = cluster.bucket("travel-sample");
       collection = bucket.defaultCollection();
       // #end::connect[]
@@ -78,7 +77,7 @@ async function connstr(){
       if(cluster) cluster.close();
       // #tag::connstr[]
       const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1/?query_timeout=2000", options);
+      await couchbase.connect( "http://127.0.0.1/?query_timeout=2000", options);
       // #end::connstr[]
 }
 
@@ -109,7 +108,7 @@ async function simpleget(){
       console.log("simpleget:");
       // #tag::simpleget[]
       const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1", options);
+      cluster = await couchbase.connect( "http://127.0.0.1", options);
       bucket = cluster.bucket("travel-sample");
       collection = bucket.defaultCollection();
       const getResult = await collection.get("airport_1254");
