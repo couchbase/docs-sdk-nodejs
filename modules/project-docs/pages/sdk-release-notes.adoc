@@ -3,4 +3,4 @@
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
 
-include::3.1@nodejs-sdk::page$sdk-release-notes.adoc[tag=all]
+include::3.1@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
