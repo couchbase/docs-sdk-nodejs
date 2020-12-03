@@ -5,7 +5,7 @@
 [abstract]
 The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js language].
 
-The Couchbase Node.js SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as xref:concept-docs:collections.adoc[a developer preview]).
+The Couchbase Node.js SDK 3._x_ is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as xref:concept-docs:collections.adoc[a developer preview]).
 
 The 3.0 SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options
 
