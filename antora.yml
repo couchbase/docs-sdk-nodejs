@@ -1,7 +1,6 @@
 name: nodejs-sdk
 version: '3.1'
 title: Node.js SDK
-prerelease: BETA
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
