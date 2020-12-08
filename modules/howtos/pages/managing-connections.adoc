@@ -158,8 +158,9 @@ F4+FjEqAEIr1mQepDaNM0gEfVcgd2SzGhC3yhYFBAH//8W4DUot5ciEhoBs=
 -----END CERTIFICATE-----
 ----
 
-The next step is to enable encryption and pass it the path to the certificate file (note the connection string scheme:
-is `couchbases://` rather than the typical `couchbase://`):
+The next step is to enable encryption and pass it the path to the certificate file 
+(note the connection string scheme is `couchbases://` rather than the non-TLS `couchbase://`). 
+Additionally, you need to provide your `username` and `password`:
 
 [source,javascript]
 ----
