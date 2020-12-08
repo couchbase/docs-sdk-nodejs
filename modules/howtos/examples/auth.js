@@ -25,6 +25,8 @@ async function go() {
   // tag::tls-cacert[]
   const cluster = await couchbase.connect("couchbases://localhost", {
     trustStorePath: "/path/to/ca/certificates.pem",
+    username: "Administrator",
+    password: "password",
   });
   // end::tls-cacert[]
 
