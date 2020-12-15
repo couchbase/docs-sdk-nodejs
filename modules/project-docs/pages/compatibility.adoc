@@ -6,7 +6,7 @@
 Features available in different SDK versions, and compatibility between Server and SDK.
 Plus notes on Cloud, networks, and AWS Lambda.
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, and 12.x.
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, 12.x, and 14.x.
 
 
 == Couchbase Version/SDK Version Matrix
