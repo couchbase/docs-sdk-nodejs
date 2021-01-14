@@ -39,7 +39,7 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.1/[API Reference]
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-835[JSCBC-835]:
-Deprecate maxTTL in favor of maxExpiry.
+Deprecated maxTTL in favor of maxExpiry.
 * http://issues.couchbase.com/browse/JSCBC-834[JSCBC-834]:
 Fixed createCollection not working with default expiry.
 * http://issues.couchbase.com/browse/JSCBC-824[JSCBC-824]:
@@ -50,7 +50,7 @@ Fixed view-query 0 limit queries.
 Fixed serialization of views docid fields.
 * http://issues.couchbase.com/browse/JSCBC-822[JSCBC-822]:
 Fixed view ordering behaviour.
-* Updated to libcouchbase 3.0.7
+* Updated to libcouchbase 3.0.7.
 * Updated all dependencies to latest versions.
 
 
