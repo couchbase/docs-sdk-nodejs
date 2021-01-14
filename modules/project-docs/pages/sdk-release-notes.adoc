@@ -25,6 +25,35 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.1.1 (13 January 2021)
+
+Version 3.1.1 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.1/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-835[JSCBC-835]:
+Deprecate maxTTL in favor of maxExpiry.
+* http://issues.couchbase.com/browse/JSCBC-834[JSCBC-834]:
+Fixed createCollection not working with default expiry.
+* http://issues.couchbase.com/browse/JSCBC-824[JSCBC-824]:
+Added missing options docs for Increment/Decrement.
+* http://issues.couchbase.com/browse/JSCBC-828[JSCBC-828]:
+Fixed view-query 0 limit queries.
+* http://issues.couchbase.com/browse/JSCBC-823[JSCBC-823]:
+Fixed serialization of views docid fields.
+* http://issues.couchbase.com/browse/JSCBC-822[JSCBC-822]:
+Fixed view ordering behaviour.
+* Updated to libcouchbase 3.0.7
+* Updated all dependencies to latest versions.
+
+
 == Version 3.1.0 (2 December 2020)
 
 Version 3.1.0 is a minor release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release, 
@@ -40,24 +69,24 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.0/[API Reference]
 === New Features
 
 * http://issues.couchbase.com/browse/JSCBC-761[JSCBC-761]:
-JSCBC-761: Added support for specifying minimum bucket durability.
+Added support for specifying minimum bucket durability.
 * http://issues.couchbase.com/browse/JSCBC-787[JSCBC-787]:
-JSCBC-787: Added option to disable search scoring.
+Added option to disable search scoring.
 
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-820[JSCBC-820]:
-JSCBC-820: Reduced calls to debug.extend.
+Reduced calls to debug.extend.
 * http://issues.couchbase.com/browse/JSCBC-772[JSCBC-772]:
-JSCBC-772: Added missing partition information to query indexes.
+Added missing partition information to query indexes.
 * http://issues.couchbase.com/browse/JSCBC-818[JSCBC-818]:
-JSCBC-818: Fixed issue where analytics query context was not sent.
+Fixed issue where analytics query context was not sent.
 * http://issues.couchbase.com/browse/JSCBC-812[JSCBC-812]:
-JSCBC-812: Updated CollectionManager to throw errors when collections are not supported.
+Updated CollectionManager to throw errors when collections are not supported.
 * http://issues.couchbase.com/browse/JSCBC-816[JSCBC-816]:
-JSCBC-816: Fix cluster errors not propagating for http methods.
+Fix cluster errors not propagating for http methods.
 * http://issues.couchbase.com/browse/JSCBC-815[JSCBC-815]:
-JSCBC-815: Fixed seg-fault due to re-using consumed va_list.
+Fixed seg-fault due to re-using consumed va_list.
 * Various documentation updates.
 * Updated typescript definitions file.
 * Updated all dependencies to latest versions.
@@ -77,26 +106,26 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.7/[API Reference]
 === New Features
 
 * http://issues.couchbase.com/browse/JSCBC-773[JSCBC-773]:
-JSCBC-773: Added query collections support.
+Added query collections support.
 * http://issues.couchbase.com/browse/JSCBC-803[JSCBC-803]:
-JSCBC-803: Added support for pinging at a cluster level.
+Added support for pinging at a cluster level.
 
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-692[JSCBC-692]:
-JSCBC-692: Updated transcoders to bubble errors.
+Updated transcoders to bubble errors.
 * http://issues.couchbase.com/browse/JSCBC-799[JSCBC-799]:
-JSCBC-799: Improved error handling for deferred operations.
+Improved error handling for deferred operations.
 * http://issues.couchbase.com/browse/JSCBC-756[JSCBC-756]:
-JSCBC-756: Updated xattr helpers to be consistent.
+Updated xattr helpers to be consistent.
 * http://issues.couchbase.com/browse/JSCBC-755[JSCBC-755]:
-JSCBC-755: Added support for multi-value sub-document array ops.
+Added support for multi-value sub-document array ops.
 * http://issues.couchbase.com/browse/JSCBC-821[JSCBC-821]:
-JSCBC-821: Added missing MutationState implementation.
+Added missing MutationState implementation.
 * http://issues.couchbase.com/browse/JSCBC-797[JSCBC-797]:
-JSCBC-797: Resolved a number of typescript typings errors.
+Resolved a number of typescript typings errors.
 * http://issues.couchbase.com/browse/JSCBC-724[JSCBC-724]:
-JSCBC-724: Added a test case to confirm queries also cancel.
+Added a test case to confirm queries also cancel.
 * Added docs and types generation to `make check`.
 * Various minor documentation updates.
 * Updated to libcouchbase 3.0.6
