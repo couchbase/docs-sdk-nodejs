@@ -5,6 +5,8 @@
 //    2) an analytics node in the cluster
 //    3) a Dataset created in Analytics:
 //          CREATE DATASET airports ON `travel-sample` where `type` = 'airport';
+//    4) a Dataset on a collection:
+//          CREATE DATASET `airports-collection` ON `travel-sample`.inventory.airport;
 
 const couchbase = require("couchbase");
 
@@ -84,6 +86,17 @@ async function go() {
   console.log("Result count: %d", result.meta.metrics.resultCount);
   console.log("Error count: %d", result.meta.metrics.errorCount);
   // end::handle-meta[]
+
+  // tag::handle-collection[]
+  var result = await cluster.analyticsQuery('SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3');
+  // end::handle-collection[]
+  logResult(result);
+
+  // // tag::handle-scope[]
+  // var scope = bucket.scope("inventory");
+  // var result = await scope.analyticsQuery('SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3');
+  // // end::handle-scope[]
+  // logResult(result);
 }
 go()
   .then((res) => console.log("DONE:", res))
