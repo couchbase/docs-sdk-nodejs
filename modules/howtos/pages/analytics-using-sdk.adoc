@@ -106,6 +106,31 @@ include::../examples/analytics.js[tag=handle-meta]
 For a listing of available `metrics` in the meta-data, see the xref:concept-docs:analytics-for-sdk-users.adoc[Understanding Analytics] SDK doc.
 
 
+== Scoped Queries on Named Collections
+
+Given a dataset created against a collection, for example:
+
+[source,n1ql]
+----
+CREATE DATASET `airports-collection` ON `travel-sample`.inventory.airport;
+----
+
+You can run a query as follows:
+
+[source,javascript]
+----
+include::../examples/analytics.js[tag=handle-collection]
+----
+
+// // The following is pending a query JSCBC-846
+// In addition to running a query via the `Cluster` object, you can run one via the `Scope` object.
+
+// [source,javascript]
+// ----
+// include::../examples/analytics.js[tag=handle-scope]
+// ----
+
+
 == Advanced Analytics Topics
 
 From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
