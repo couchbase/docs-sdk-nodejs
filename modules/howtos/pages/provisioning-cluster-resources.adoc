@@ -94,12 +94,40 @@ The `flush` operation may fail if the bucket does not have flush enabled, in tha
 
 == Collection Management
 
-This is a xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview feature], see the https://docs.couchbase.com/sdk-api/couchbase-node-client/CollectionManager.html[API doc].
+The https://docs.couchbase.com/sdk-api/couchbase-node-client/CollectionManager.html[`CollectionManager`] interface may be used to create and delete scopes from the Couchbase cluster.
+It is instantiated through the `Bucket.collections()` method.
 
+[source,javascript]
+----
+include::example$collection-manager.js[tag=create-collection-manager,indent=0]
+----
+
+You can create a scope:
+
+[source,javascript]
+----
+include::example$collection-manager.js[tag=create-scope,indent=0]
+----
+
+You can then create a collection within that scope:
+
+[source,javascript]
+----
+include::example$collection-manager.js[tag=create-collection,indent=0]
+----
+
+Finally, you can drop unneeded collections and scopes:
+
+[source,javascript]
+----
+include::example$collection-manager.js[tag=drop-collection,indent=0]
+
+include::example$collection-manager.js[tag=drop-scope,indent=0]
+----
 
 == Index Management
 
-In general,you will rarely need to work with Index Managers from the SDK.
+In general, you will rarely need to work with Index Managers from the SDK.
 For those occasions when you do, please see the relevant API docs:
 
 * QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/QueryIndexManager.html[`Cluster.queryIndexes()`];
