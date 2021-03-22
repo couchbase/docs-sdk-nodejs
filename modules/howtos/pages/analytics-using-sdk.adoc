@@ -121,14 +121,15 @@ You can run a query as follows:
 ----
 include::../examples/analytics.js[tag=handle-collection]
 ----
+////
+// The following is pending a query JSCBC-846
+In addition to running a query via the `Cluster` object, you can run one via the `Scope` object.
 
-// // The following is pending a query JSCBC-846
-// In addition to running a query via the `Cluster` object, you can run one via the `Scope` object.
-
-// [source,javascript]
-// ----
-// include::../examples/analytics.js[tag=handle-scope]
-// ----
+[source,javascript]
+----
+include::../examples/analytics.js[tag=handle-scope]
+----
+////
 
 
 == Advanced Analytics Topics
