@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "couchbase": "^3.0.2"
+    "couchbase": "^3.1.1"
   }
 }

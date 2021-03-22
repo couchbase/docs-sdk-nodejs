@@ -9,7 +9,7 @@
   "author": "couchbase",
   "license": "ISC",
   "dependencies": {
-    "couchbase": "3.0.0",
+    "couchbase": "^3.1.1",
     "hapi": "^18.1.0",
     "joi": "^14.3.1",
     "uuid": "^3.3.3"

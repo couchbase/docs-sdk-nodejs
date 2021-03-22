@@ -1,4 +1,4 @@
-  // tag::start-using-package-json[]
+// tag::start-using-package-json[]
 {
   "name": "node-couchbase-project",
   "version": "1.0.0",
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "couchbase": "^3.0.2"
+    "couchbase": "^3.1.1"
   }
 }
 // end::start-using-package-json[]
