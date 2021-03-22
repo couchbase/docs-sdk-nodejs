@@ -4,7 +4,7 @@
 
 [abstract]
 Provisioning cluster resources is managed at the collection or bucket level, depending upon the service affected.
-Common use cases are outlined here, more recherché use cases are covered in the https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc[API docs].
+Common use cases are outlined here, more recherché use cases are covered in the https://docs.couchbase.com/sdk-api/couchbase-node-client/[API docs].
 
 include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
@@ -130,7 +130,7 @@ include::example$collection-manager.js[tag=drop-scope,indent=0]
 In general, you will rarely need to work with Index Managers from the SDK.
 For those occasions when you do, please see the relevant API docs:
 
-* QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/QueryIndexManager.html[`Cluster.queryIndexes()`];
-* AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/AnalyticsIndexManager.html[`Cluster.analyticsIndexes()`];
-* SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/SearchIndexManager.html[`Cluster.searchIndexes()`];
-* ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/ViewIndexManager.html[`Bucket.viewIndexes()`].
+* QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/QueryIndexManager.html[`Cluster.queryIndexes()`];
+* AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/AnalyticsIndexManager.html[`Cluster.analyticsIndexes()`];
+* SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/SearchIndexManager.html[`Cluster.searchIndexes()`];
+* ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/ViewIndexManager.html[`Bucket.viewIndexes()`].
