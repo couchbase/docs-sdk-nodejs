@@ -32,7 +32,7 @@ cat <<EOF > package.jston
 EOF
 */
 
-const Hapi = require("hapi");
+const Hapi = require("@hapi/hapi");
 const RawStringTranscoder = require("./rawstringtranscoder");
 const RawBinaryTranscoder = require("./rawbinarytranscoder");
 
@@ -41,7 +41,7 @@ const RawBinaryTranscoder = require("./rawbinarytranscoder");
 const couchbase = require("couchbase");
 
 const options = { username: 'Administrator', password: 'password' };
-const cluster = new couchbase.Cluster("http://localhost", options);
+const cluster = new couchbase.Cluster("localhost", options);
 // Open a specific Couchbase bucket, `travel-sample` in this case.
 const bucket = cluster.bucket("travel-sample");
 // And select the default collection
@@ -121,25 +121,15 @@ async function getHandler(request, h) {
     }
 }
 
-/*
- * This example returns a promise rather than waiting for the result
- *
- */
 async function getwithoptionsHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::getwithoptions[]
-        return collection.get(key, { timeout: 1000 },
-            (err, res) => {
-                if (res) {
-                    document = res.value;
-                    cas = res.cas;
-                }
-            }).catch((e) => {
-                console.log(e);
-                return h.response(e.toString() + "<pre>" + e.stack + "</pre>");
-            });
+        const result = await collection.get(key, { timeout: 1000 });
+        document = result.value;
         // #end::getwithoptions[]
+        cas = result.cas;
+        return h.response(result);
     } catch (e) {
         console.log(e);
         return h.response(e.toString());
@@ -301,19 +291,13 @@ async function incrementwithoptionsHandler(request, h) {
     try {
         // #tag::incrementwithoptions[]
         // increment binary value by 1, if binValKey doesn’t exist, seed it at 1000
-        const result = await collection.binary().increment(binValKey, 1,
-            {
-                initial: 1000,
-                timeout: 5000
-            },
-            (err, res) => {
-                console.log("res: " + JSON.stringify(res));
-            });
+        const result = await collection.binary().increment(binValKey, 1, {
+            initial: 1000,
+            timeout: 5000
+        });
         // #end::incrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if (e.toString() === "Error: bad initial passed")
-            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -362,12 +346,12 @@ async function updatewithretryHandler(request, h) {
             console.log("get " + i);
             var result = await collection.get(key);
             cas = result.cas;
-            console.log(cas);
+            console.log("CAS:", cas.toString('utf8'));
             if (i == 0) {
                 console.log("upsert");
                 let result = await collection.upsert(key, document,
                     (err, res) => { if (err) console.log(err) });
-                console.log(result.cas);
+                console.log("CAS:", result.cas.toString('utf8'));
             }
 
             try {
@@ -482,12 +466,12 @@ function initCollection() {
 
     try {
         const sampleOptions = { username: 'Administrator', password: 'password' };
-        const sampleCluster = new couchbase.Cluster("http://localhost", sampleOptions);
-        const sampleBucket = sampleCluster.bucket("travel-users");
-        const sampleScope = sampleBucket.scope("userData");
+        const sampleCluster = new couchbase.Cluster("localhost", sampleOptions);
+        const sampleBucket = sampleCluster.bucket("travel-sample");
+        const sampleScope = sampleBucket.scope("tenant_agent_00");
         sampleColl = sampleScope.collection("users");
     } catch (e) {
-        console.log("travel-user bucket, scope or collection not set up?");
+        console.log("travel-sample bucket, scope or collection not set up?");
         console.log(e);
     }
 
