@@ -329,8 +329,6 @@ async function decrementwithoptionsHandler(request, h) {
         // #end::decrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if (e.toString() === "Error: bad initial passed")
-            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -458,18 +456,14 @@ function initCollection() {
 
     // #tag::opencollections[]
 
-    // Open travel-users bucket, with scope and specific collections
-    // The bucket, scope and collection must be created already
-    // curl -X POST -u Administrator:password http://127.0.0.1:8091/pools/default/buckets -d name=travel-users -d ramQuotaMB=10 -d authType=none
-    // curl -X POST -v -u Administrator:password http://localhost:8091/pools/default/buckets/travel-users/collections -d name=userData // scope
-    // curl -X POST -v -u Administrator:password http://localhost:8091/pools/default/buckets/travel-users/collections/userData -d name=users // collection
-
     try {
+        // tag::userscollection[]
         const sampleOptions = { username: 'Administrator', password: 'password' };
         const sampleCluster = new couchbase.Cluster("localhost", sampleOptions);
         const sampleBucket = sampleCluster.bucket("travel-sample");
         const sampleScope = sampleBucket.scope("tenant_agent_00");
         sampleColl = sampleScope.collection("users");
+        // end::userscollection[]
     } catch (e) {
         console.log("travel-sample bucket, scope or collection not set up?");
         console.log(e);
@@ -514,6 +508,22 @@ async function getcollectiondocHandler(request, h) {
         return h.response('user ' + user + ' document not found in collection ' + sampleColl._name + ' (' + e + ')').code(404);
     }
     return h.response(result);
+}
+
+async function upsertnamedcollectionHandler(request, h) {
+    if (!sampleColl) initCollection();
+
+    var user = request.query.k ? request.query.k : 'user-key';
+    try {
+        // tag::namedcollectionupsert[]
+        let collDocument = { name: 'John Doe', preferred_email: 'johndoe111@test123.test' };
+        result = await sampleColl.upsert(user, collDocument);
+        // end::namedcollectionupsert[]
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString());
+    }
 }
 
 async function viewqueryHandler(request, h) {
@@ -664,6 +674,7 @@ function usage(request, h) {
         "<tr><td><a href='viewquery'>/viewquery</a></td></tr>" +
         "<tr><td><a href='customtranscoder_string'>/customtranscoder_string</a></td></tr>" +
         "<tr><td><a href='customtranscoder_binary'>/customtranscoder_binary</a></td></tr>" +
+        "<tr><td><a href='upsertnamedcollection'>/upsertnamedcollection</a></td></tr>" +
         "<tr><td>&nbsp</td></tr>" +
         "<tr><td><a href='get?k=airport_1254'>/get?k=airport_1254</a></td></tr>" +
 
@@ -854,6 +865,14 @@ server.route({
         return await customtranscoder_binaryHandler(request, h);
     }
 });
+
+server.route({
+    method: "GET",
+    path: "/upsertnamedcollection",
+    handler: async (request, h) => {
+        return await upsertnamedcollectionHandler(request, h);
+    }
+})
 
 server.route({
     method: "GET",
