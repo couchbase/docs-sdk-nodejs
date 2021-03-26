@@ -347,8 +347,7 @@ async function updatewithretryHandler(request, h) {
             console.log("CAS:", cas.toString('utf8'));
             if (i == 0) {
                 console.log("upsert");
-                let result = await collection.upsert(key, document,
-                    (err, res) => { if (err) console.log(err) });
+                let result = await collection.upsert(key, document);
                 console.log("CAS:", result.cas.toString('utf8'));
             }
 
@@ -417,20 +416,23 @@ async function promisesHandler(request, h) {
 async function callbackHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
-        // #tag::callback[]
-        var result = await collection.get(key,
-            (err, res) => {
-                if (err) console.log(err);
-                if (res) console.log(res);
-            }
-        );
-        // #end::callback[]
+        return new Promise((resolve) => {
+            // #tag::callback[]
+            collection.get(key,
+                (err, res) => {
+                    if (err) console.log(err);
+                    if (res) {
+                        console.log(res);
+                        resolve(res);
+                    };
+                }
+            );
+            // #end::callback[]
+        });
     } catch (e) {
         console.log(e);
         return h.response(e.toString());
     }
-    cas = result.cas;
-    return h.response(result);
 }
 
 async function batchHandler(request, h) {
@@ -482,30 +484,23 @@ async function getcollectiondocHandler(request, h) {
     try { // ensure 'user_77' works.  Others specified in parameter k  will return doc not found
         var collDocument;
         collDocument = { id: '77', type: 'user', first: 'Davey', last: 'Crockett' };
-        var smthing = await sampleColl.upsert('user_77', collDocument,
-            (err, res) => {
-                if (err) {
-                    console.log("error in callback:");
-                    console.log(err);
-                }
-            }).catch((e) => { console.log("catch at await:"); console.log(+e); }
-            );
+        await sampleColl.upsert('user_77', collDocument)
+            .catch((e) => { console.log("catch at await:"); console.log(+e); });
     } catch (e) {
         console.log("caught calling upsert:");
         console.log(e);
+        return h.response(e.toString());
     }
     try {
         // #tag::getcollectiondoc[]
-        result = await sampleColl.get(user, function (err, doc) {
-            if (err) {
-                if (err.cause && !err.cause.code != 301) { // something other than 'does not exist'
-                    console.log('err=' + err);
-                }
-            }
-        });
+        result = await sampleColl.get(user);
         // #end::getcollectiondoc[]
     } catch (e) {
-        return h.response('user ' + user + ' document not found in collection ' + sampleColl._name + ' (' + e + ')').code(404);
+        if (e.cause && e.cause.code === 301) {
+            return h.response('user ' + user + ' document not found in collection ' + sampleColl._name + ' (' + e + ')').code(404);
+        }
+        console.log('err=' + e);
+        return h.response(e.toString());
     }
     return h.response(result);
 }
@@ -569,19 +564,11 @@ async function viewqueryHandler(request, h) {
 
 async function customtranscoder_stringHandler(request, h) {
 
-    var nothing;
     const key = request.query.k ? request.query.k : 'string_123';
     // #tag::customtranscoder_string[]
     try {
-        let result = await collection.upsert('string_123', 'my string', // new Object(), // nothing,
+        await collection.upsert('string_123', 'my string',
             { transcoder: new RawStringTranscoder() },
-            (err, res) => {
-                if (res) console.log(res);
-                if (err) {
-                    console.log("UPSERT ERROR (FROM TRANSCODER)=" + err);
-                    console.log(err);
-                }
-            }
         ).catch((e) => { console.log("caught exception from upsert: "); console.log(e); console.log(e.cause) });
     } catch (e) {
         console.log("try/catch: ");
@@ -591,11 +578,7 @@ async function customtranscoder_stringHandler(request, h) {
 
     try {
         const result = await collection.get(key,
-            { transcoder: new RawStringTranscoder() },
-            (err, res) => {
-                if (res) console.log(res);
-                if (err) console.log("GET ERROR FROM TRANSCODER=" + err);
-            }
+            { transcoder: new RawStringTranscoder() }
         ).catch((e) => { console.log("caught exception from get: "); console.log(e); console.log(e.cause) });
         var output = result.value;
         console.log('output : type=' + (typeof output) + ' value=' + output);
@@ -620,9 +603,8 @@ async function customtranscoder_binaryHandler(request, h) {
     const key = request.query.k ? request.query.k : 'binary_123';
     // #tag::customtranscoder_binary[]
     try {
-        let result = await collection.upsert('binary_123', Buffer.from('my binary'),
+        await collection.upsert('binary_123', Buffer.from('my binary'),
             { transcoder: new RawBinaryTranscoder() },
-            (err, res) => { if (err) console.log("err=" + err); }
         ).catch((e) => console.log(e));
     } catch (e) {
         console.log(e);
@@ -632,7 +614,6 @@ async function customtranscoder_binaryHandler(request, h) {
     try {
         const result = await collection.get(key,
             { transcoder: new RawBinaryTranscoder() },
-            (err, res) => { if (err) console.log("err=" + err); }
         )
         var output = result.value;
         return h.response(output);
