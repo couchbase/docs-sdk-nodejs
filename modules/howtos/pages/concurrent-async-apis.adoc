@@ -41,7 +41,7 @@ include::devguide:example$nodejs/kv-operations.js[tag=promises,indent=0]
 == Using the Callback API
 
 In addition to the Promises approach, we also simultaneously support the
-standard callback approach which is well known.  A simple upsert example
+standard callback approach which is well known.  A simple get example
 looks like this:
 
 [source,javascript]
