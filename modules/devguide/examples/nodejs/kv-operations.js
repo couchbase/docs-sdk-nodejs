@@ -32,7 +32,7 @@ cat <<EOF > package.jston
 EOF
 */
 
-const Hapi = require("hapi");
+const Hapi = require("@hapi/hapi");
 const RawStringTranscoder = require("./rawstringtranscoder");
 const RawBinaryTranscoder = require("./rawbinarytranscoder");
 
@@ -40,8 +40,8 @@ const RawBinaryTranscoder = require("./rawbinarytranscoder");
 
 const couchbase = require("couchbase");
 
-const options = {username: 'Administrator', password: 'password'};
-const cluster = new couchbase.Cluster("http://localhost", options);
+const options = { username: 'Administrator', password: 'password' };
+const cluster = new couchbase.Cluster("localhost", options);
 // Open a specific Couchbase bucket, `travel-sample` in this case.
 const bucket = cluster.bucket("travel-sample");
 // And select the default collection
@@ -60,7 +60,7 @@ const templateDocument = {
     city: "Santa Clara",
     country: "United States",
     faa: "SCC",
-    geo: {"alt": 62, "lat": -121.928407, "lon": 37.368792},
+    geo: { "alt": 62, "lat": -121.928407, "lon": 37.368792 },
     icao: "LFAX",
     id: 77,
     type: "airport",
@@ -70,7 +70,7 @@ const templateDocument = {
 function init() {
     // try to get the cas for later use.  If doc does not exist, create it
     // #tag::getasync[]
-    collection.get(docKey,  {timeout:1000}, (err, res) => {
+    collection.get(docKey, { timeout: 1000 }, (err, res) => {
         if (res) {
             cas = res.cas;
             document = res.value;
@@ -87,8 +87,8 @@ function init() {
                                 cas = res.cas;
                             document = templateDocument;
                         }).catch((e) => {
-                        console.log("insert failed with " + e.stack)
-                    });
+                            console.log("insert failed with " + e.stack)
+                        });
                 } catch (e) {
                     console.log("caught in init(1): " + e);
                 }
@@ -97,12 +97,12 @@ function init() {
     }).catch((e) => {
         console.log("caught in init(2): " + e)
     });
-// #end::getasync[]
+    // #end::getasync[]
 }
 
 init();
 
-const server = new Hapi.Server({"host": "localhost", "port": 3000});
+const server = new Hapi.Server({ "host": "localhost", "port": 3000 });
 
 // handlers for HAPI
 
@@ -121,25 +121,15 @@ async function getHandler(request, h) {
     }
 }
 
-/*
- * This example returns a promise rather than waiting for the result
- *
- */
 async function getwithoptionsHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::getwithoptions[]
-        return collection.get(key, {timeout:1000},
-            (err, res) => {
-                if (res) {
-                    document = res.value;
-                    cas = res.cas;
-                }
-            }).catch((e) => {
-            console.log(e);
-            return h.response(e.toString() + "<pre>" + e.stack + "</pre>");
-        });
+        const result = await collection.get(key, { timeout: 1000 });
+        document = result.value;
         // #end::getwithoptions[]
+        cas = result.cas;
+        return h.response(result);
     } catch (e) {
         console.log(e);
         return h.response(e.toString());
@@ -166,8 +156,8 @@ async function insertwithoptionsHandler(request, h) {
     [document.type, document.id] = key.split("_");
     try {
         // #tag::insertwithoptions[]
-        const result = await collection.insert(key, document, 
-            {timeout:10000} // 10 seconds
+        const result = await collection.insert(key, document,
+            { timeout: 10000 } // 10 seconds
         );
         // #end::insertwithoptions[]
         cas = result.cas; // JSCBC-669?
@@ -183,8 +173,8 @@ async function replaceHandler(request, h) {
     try {
         // #tag::replace[]
         const result = await collection.replace(key,
-            document, 
-            {cas:cas , expiry:60, timeout:5000}
+            document,
+            { cas: cas, expiry: 60, timeout: 5000 }
         );
         // #end::replace[]
         cas = result.cas; // JSCBC-669?
@@ -200,10 +190,12 @@ async function durabilityHandler(request, h) {
     try {
         // #tag::durability[]
         let result = await collection.upsert(key, document,
-              {expiry:60,
-              persist_to:1,    
-              replicate_to:0, // cannot replicate on single node
-              timeout:5000} 
+            {
+                expiry: 60,
+                persist_to: 1,
+                replicate_to: 0, // cannot replicate on single node
+                timeout: 5000
+            }
         );
         // #end::durability[]
         cas = result.cas; // JSCBC-669?
@@ -218,10 +210,12 @@ async function newdurabilityHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::newdurability[]
-        let result = await collection.upsert(key, document, 
-              {expiry:60,  // 60 seconds,
-              durabilityLevel:couchbase.DurabilityLevel.None, // Majority etc.
-              timeout:5000} // 5 seconds
+        let result = await collection.upsert(key, document,
+            {
+                expiry: 60,  // 60 seconds,
+                durabilityLevel: couchbase.DurabilityLevel.None, // Majority etc.
+                timeout: 5000
+            } // 5 seconds
         );
         // #end::newdurability[]
         cas = result.cas; // JSCBC-669?
@@ -239,11 +233,13 @@ async function removeHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::remove[]
-        const result = await collection.remove(key, 
-            {cas:cas,
-            persist_to:0,  // non-zero gives "not implemented"
-            replicate_to:0, // cannot replicate on single node
-            timeout:5000}
+        const result = await collection.remove(key,
+            {
+                cas: cas,
+                persist_to: 0,  // non-zero gives "not implemented"
+                replicate_to: 0, // cannot replicate on single node
+                timeout: 5000
+            }
         );
         // #end::remove[]
         return h.response(result);
@@ -273,7 +269,7 @@ async function touchwithoptionsHandler(request, h) {
     try {
         // #tag::touchwithoptions[]
         const result = await collection.touch(key, 100,  // 100 seconds
-            {timeout:5000} // 5 seconds
+            { timeout: 5000 } // 5 seconds
         );
         // #end::touchwithoptions[]
         return h.response(result);
@@ -295,17 +291,13 @@ async function incrementwithoptionsHandler(request, h) {
     try {
         // #tag::incrementwithoptions[]
         // increment binary value by 1, if binValKey doesn’t exist, seed it at 1000
-        const result = await collection.binary().increment(binValKey, 1,
-            {initial:1000,
-            timeout:5000},
-          (err, res) => {
-              console.log("res: " + JSON.stringify(res));
-          });
+        const result = await collection.binary().increment(binValKey, 1, {
+            initial: 1000,
+            timeout: 5000
+        });
         // #end::incrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if (e.toString() === "Error: bad initial passed")
-            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -329,14 +321,14 @@ async function decrementwithoptionsHandler(request, h) {
         // #tag::decrementwithoptions[]
         // decrement binary value by 1, if binValKey doesn’t exist, seed it at 1000
         const result = await collection.binary().decrement(binValKey, 1,
-            {initial:1000,
-            timeout:5000},
+            {
+                initial: 1000,
+                timeout: 5000
+            },
         );
         // #end::decrementwithoptions[]
         return h.response(result);
     } catch (e) {
-        if (e.toString() === "Error: bad initial passed")
-            return (h.response("JSCBC-670 must be fixed for 'inital' to be accepted"));
         console.log(e);
         return h.response(e.toString());
     }
@@ -347,24 +339,23 @@ async function updatewithretryHandler(request, h) {
     try {
         // #tag::updatewithretry[]
         var maxRetries = 10;
-        for(var i = 0; i < maxRetries; ++i) {
+        for (var i = 0; i < maxRetries; ++i) {
             // Get the current document contents
-            console.log("get "+i);
+            console.log("get " + i);
             var result = await collection.get(key);
             cas = result.cas;
-            console.log(cas);
-            if(i == 0) {
-               console.log("upsert");
-               let result = await collection.upsert(key, document, 
-                 (err, res)=>{ if(err) console.log(err)});
-               console.log(result.cas);
+            console.log("CAS:", cas.toString('utf8'));
+            if (i == 0) {
+                console.log("upsert");
+                let result = await collection.upsert(key, document);
+                console.log("CAS:", result.cas.toString('utf8'));
             }
 
             try {
                 // Attempt to replace the document using CAS
                 console.log("replace");
-                await collection.replace(key, document, {cas: result.cas});
-                cas = result.cas; 
+                await collection.replace(key, document, { cas: result.cas });
+                cas = result.cas;
             } catch (e) {
                 // Check if the error thrown is a cas mismatch, if it is, we retry
                 if (e instanceof couchbase.CasMismatchError || e instanceof couchbase.DocumentExistsError) {
@@ -388,14 +379,14 @@ async function lockupdateHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::lockupdate[]
-        var result = await collection.getAndLock(key,1000);
+        var result = await collection.getAndLock(key, 1000);
         document = result.value;
-        cas = result.cas; 
+        cas = result.cas;
         // if we decided not to update, unlock
         //    await collection.unlock(key, result.cas);
         // else ...
         // Attempt to replace the document using CAS
-        await collection.replace(key, document, {cas: result.cas});
+        await collection.replace(key, document, { cas: result.cas });
         // #end::lockupdate[]
     } catch (e) {
         console.log(e);
@@ -425,27 +416,30 @@ async function promisesHandler(request, h) {
 async function callbackHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
-        // #tag::callback[]
-        var result = await collection.get(key, 
-            (err, res) => {
-                if(err) console.log(err);
-                if(res) console.log(res);
-            }
-        );
-        // #end::callback[]
+        return new Promise((resolve) => {
+            // #tag::callback[]
+            collection.get(key,
+                (err, res) => {
+                    if (err) console.log(err);
+                    if (res) {
+                        console.log(res);
+                        resolve(res);
+                    };
+                }
+            );
+            // #end::callback[]
+        });
     } catch (e) {
         console.log(e);
         return h.response(e.toString());
     }
-    cas = result.cas;
-    return h.response(result);
 }
 
 async function batchHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
         // #tag::batch[]
-        [res0, res1 ]  = await Promise.all([
+        [res0, res1] = await Promise.all([
             collection.get(key),
             collection.get('airport_1254')
         ]);
@@ -455,102 +449,107 @@ async function batchHandler(request, h) {
         return h.response(e.toString());
     }
     cas = res0.cas; // save for next call
-    return h.response([res0,res1]);
+    return h.response([res0, res1]);
 }
 
 var sampleColl;
 
-function initCollection(){
+function initCollection() {
 
-// #tag::opencollections[]
+    // #tag::opencollections[]
 
-// Open travel-users bucket, with scope and specific collections
-// The bucket, scope and collection must be created already
-// curl -X POST -u Administrator:password http://127.0.0.1:8091/pools/default/buckets -d name=travel-users -d ramQuotaMB=10 -d authType=none
-// curl -X POST -v -u Administrator:password http://localhost:8091/pools/default/buckets/travel-users/collections -d name=userData // scope
-// curl -X POST -v -u Administrator:password http://localhost:8091/pools/default/buckets/travel-users/collections/userData -d name=users // collection
+    try {
+        // tag::userscollection[]
+        const sampleOptions = { username: 'Administrator', password: 'password' };
+        const sampleCluster = new couchbase.Cluster("localhost", sampleOptions);
+        const sampleBucket = sampleCluster.bucket("travel-sample");
+        const sampleScope = sampleBucket.scope("tenant_agent_00");
+        sampleColl = sampleScope.collection("users");
+        // end::userscollection[]
+    } catch (e) {
+        console.log("travel-sample bucket, scope or collection not set up?");
+        console.log(e);
+    }
 
-try {
-const sampleOptions = {username: 'Administrator', password: 'password'};
-const sampleCluster = new couchbase.Cluster("http://localhost", sampleOptions);
-const sampleBucket = sampleCluster.bucket("travel-users");
-const sampleScope = sampleBucket.scope("userData");
-sampleColl = sampleScope.collection("users"); 
-} catch (e){
-        console.log("travel-user bucket, scope or collection not set up?");
-	console.log(e);
-}
-
-// #end::opencollections[]
+    // #end::opencollections[]
 
 }
 
 async function getcollectiondocHandler(request, h) {
 
-    if(!sampleColl) initCollection();
+    if (!sampleColl) initCollection();
 
     var result;
-    var user=request.query.k ? request.query.k : 'user_77';
+    var user = request.query.k ? request.query.k : 'user_77';
     try { // ensure 'user_77' works.  Others specified in parameter k  will return doc not found
         var collDocument;
-        collDocument = { id:'77', type:'user', first : 'Davey', last:'Crockett'};
-        var smthing = await sampleColl.upsert('user_77', collDocument,
-            (err, res) => { 
-               if(err){
-		 console.log("error in callback:");
-		 console.log(err);
-               }
-             }).catch((e) => { console.log("catch at await:"); console.log(+e); }
-        );
+        collDocument = { id: '77', type: 'user', first: 'Davey', last: 'Crockett' };
+        await sampleColl.upsert('user_77', collDocument)
+            .catch((e) => { console.log("catch at await:"); console.log(+e); });
     } catch (e) {
         console.log("caught calling upsert:");
         console.log(e);
+        return h.response(e.toString());
     }
     try {
         // #tag::getcollectiondoc[]
-          result = await sampleColl.get(user, function(err, doc) {
-              if (err) {
-                if (err.cause && !err.cause.code!=301) { // something other than 'does not exist'
-                  console.log('err='+err);
-                }
-              }
-        });
+        result = await sampleColl.get(user);
         // #end::getcollectiondoc[]
     } catch (e) {
-        return h.response('user '+user+' document not found in collection '+sampleColl._name+' ('+e+')').code(404);
+        if (e.cause && e.cause.code === 301) {
+            return h.response('user ' + user + ' document not found in collection ' + sampleColl._name + ' (' + e + ')').code(404);
+        }
+        console.log('err=' + e);
+        return h.response(e.toString());
     }
     return h.response(result);
 }
 
-async function viewqueryHandler(request, h) {
-/*
-Create Development View 
-Design document = design/dev_airports   name = airport_view
+async function upsertnamedcollectionHandler(request, h) {
+    if (!sampleColl) initCollection();
 
-function (doc, meta) {
-  if (doc.airportname)
-    emit(meta.id, doc.airportname);
+    var user = request.query.k ? request.query.k : 'user-key';
+    try {
+        // tag::namedcollectionupsert[]
+        let collDocument = { name: 'John Doe', preferred_email: 'johndoe111@test123.test' };
+        result = await sampleColl.upsert(user, collDocument);
+        // end::namedcollectionupsert[]
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString());
+    }
 }
 
-check that you have the map :
- curl -u Administrator:password  'http://localhost:8092/travel-sample/_design/dev_airports'
-{"views":{"airport_view":{"map":"function (doc, meta) {\n  if (doc.airportname)\n    emit(meta.id, doc.airportname);\n}"}}}
-
-*/
+async function viewqueryHandler(request, h) {
+    /*
+    Create Development View 
+    Design document = design/dev_airports   name = airport_view
+    
+    function (doc, meta) {
+      if (doc.airportname)
+        emit(meta.id, doc.airportname);
+    }
+    
+    check that you have the map :
+     curl -u Administrator:password  'http://localhost:8092/travel-sample/_design/dev_airports'
+    {"views":{"airport_view":{"map":"function (doc, meta) {\n  if (doc.airportname)\n    emit(meta.id, doc.airportname);\n}"}}}
+    
+    */
     const key = request.query.k ? request.query.k : docKey;
-    var range={};
-    if( request.query.s )
-	range.start=request.query.s;
-    if( request.query.e )
-	range.end=request.query.e;
+    var range = {};
+    if (request.query.s)
+        range.start = request.query.s;
+    if (request.query.e)
+        range.end = request.query.e;
     const end = request.query.e ? request.query.e : 'z';
     try {
         // #tag::viewquery[]
-        const result = await bucket.viewQuery( 
-          'dev_airports', 'airport_view', {
-            range : range,
+        const result = await bucket.viewQuery(
+            'dev_airports', 'airport_view', {
+            range: range,
             limit: 100,
-          }
+        }
         );
         document = result.value;
         // #end::viewquery[]
@@ -565,20 +564,12 @@ check that you have the map :
 
 async function customtranscoder_stringHandler(request, h) {
 
-    var nothing;
     const key = request.query.k ? request.query.k : 'string_123';
     // #tag::customtranscoder_string[]
     try {
-        let result = await collection.upsert('string_123',  'my string', // new Object(), // nothing,
+        await collection.upsert('string_123', 'my string',
             { transcoder: new RawStringTranscoder() },
-            (err, res) => { 
-                if(res) console.log(res);
-                if(err){
-                    console.log("UPSERT ERROR (FROM TRANSCODER)="+err);
-                    console.log(err);
-                }
-             }
-        ).catch((e)=>{console.log("caught exception from upsert: "); console.log(e); console.log(e.cause)});
+        ).catch((e) => { console.log("caught exception from upsert: "); console.log(e); console.log(e.cause) });
     } catch (e) {
         console.log("try/catch: ");
         console.log(e);
@@ -587,14 +578,10 @@ async function customtranscoder_stringHandler(request, h) {
 
     try {
         const result = await collection.get(key,
-            { transcoder: new RawStringTranscoder() },
-            (err, res) => { 
-            if(res) console.log(res);
-                if(err) console.log("GET ERROR FROM TRANSCODER="+err); 
-            }
-        ).catch((e)=>{console.log("caught exception from get: "); console.log(e); console.log(e.cause)});
+            { transcoder: new RawStringTranscoder() }
+        ).catch((e) => { console.log("caught exception from get: "); console.log(e); console.log(e.cause) });
         var output = result.value;
-        console.log('output : type='+(typeof output)+' value='+output);
+        console.log('output : type=' + (typeof output) + ' value=' + output);
         return h.response(output);
     } catch (e) {
         console.log("get try/catch: ");
@@ -605,21 +592,20 @@ async function customtranscoder_stringHandler(request, h) {
 }
 
 async function customtranscoder_binaryHandler(request, h) {
-/*
-var hugeArray = [];
-for (var i = 0; i < 20000000 ; i ++) {
-    hugeArray.push(Math.ceil(Math.random()*100))
-}
-var buf=Buffer.from(hugeArray);
-*/
+    /*
+    var hugeArray = [];
+    for (var i = 0; i < 20000000 ; i ++) {
+        hugeArray.push(Math.ceil(Math.random()*100))
+    }
+    var buf=Buffer.from(hugeArray);
+    */
 
     const key = request.query.k ? request.query.k : 'binary_123';
     // #tag::customtranscoder_binary[]
     try {
-        let result = await collection.upsert('binary_123', Buffer.from('my binary'),
+        await collection.upsert('binary_123', Buffer.from('my binary'),
             { transcoder: new RawBinaryTranscoder() },
-            (err, res) => { if(err) console.log("err="+err); }
-        ).catch((e)=> console.log(e));
+        ).catch((e) => console.log(e));
     } catch (e) {
         console.log(e);
         return h.response(e.toString());
@@ -628,7 +614,6 @@ var buf=Buffer.from(hugeArray);
     try {
         const result = await collection.get(key,
             { transcoder: new RawBinaryTranscoder() },
-            (err, res) => { if(err) console.log("err="+err); }
         )
         var output = result.value;
         return h.response(output);
@@ -670,6 +655,7 @@ function usage(request, h) {
         "<tr><td><a href='viewquery'>/viewquery</a></td></tr>" +
         "<tr><td><a href='customtranscoder_string'>/customtranscoder_string</a></td></tr>" +
         "<tr><td><a href='customtranscoder_binary'>/customtranscoder_binary</a></td></tr>" +
+        "<tr><td><a href='upsertnamedcollection'>/upsertnamedcollection</a></td></tr>" +
         "<tr><td>&nbsp</td></tr>" +
         "<tr><td><a href='get?k=airport_1254'>/get?k=airport_1254</a></td></tr>" +
 
@@ -863,6 +849,14 @@ server.route({
 
 server.route({
     method: "GET",
+    path: "/upsertnamedcollection",
+    handler: async (request, h) => {
+        return await upsertnamedcollectionHandler(request, h);
+    }
+})
+
+server.route({
+    method: "GET",
     path: "/",
     handler: (request, h) => {
         return usage(request, h);
@@ -872,9 +866,9 @@ server.route({
     method: "GET",
     path: "/quit",
     handler: (request, h) => {
-// #tag::disconnection[]
+        // #tag::disconnection[]
         cluster.close();
-// #end::disconnection[]
+        // #end::disconnection[]
         process.exit(0);
     }
 });

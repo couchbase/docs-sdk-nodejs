@@ -9,8 +9,8 @@
   "author": "couchbase",
   "license": "ISC",
   "dependencies": {
-    "couchbase": "3.0.0",
-    "hapi": "^18.1.0",
+    "@hapi/hapi": "^20.1.2",
+    "couchbase": "^3.1.1",
     "joi": "^14.3.1",
     "uuid": "^3.3.3"
   },
