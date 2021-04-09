@@ -25,6 +25,28 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.1.2 (9 April 2021)
+
+Version 3.1.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.2/[API Reference]
+
+=== Fixed Issues
+* http://issues.couchbase.com/browse/JSCBC-856[JSCBC-856]:
+JSCBC-856: Fixed memory leak with trace span management.
+* http://issues.couchbase.com/browse/JSCBC-850JSCBC-850]:
+JSCBC-850: Fixed some connection options not propagating to bucket connections.
+* http://issues.couchbase.com/browse/JSCBC-849[JSCBC-849]:
+JSCBC-849: Fixed some query errors returning the incorrect errors.
+* Updated to libcouchbase 3.1.0
+* Updated all dependencies to latest versions.
+
+
 == Version 3.1.1 (13 January 2021)
 
 Version 3.1.1 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
