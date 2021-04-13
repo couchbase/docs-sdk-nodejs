@@ -43,7 +43,7 @@ JSCBC-856: Fixed memory leak with trace span management.
 JSCBC-850: Fixed some connection options not propagating to bucket connections.
 * http://issues.couchbase.com/browse/JSCBC-849[JSCBC-849]:
 JSCBC-849: Fixed some query errors returning the incorrect errors.
-* Updated to libcouchbase 3.1.0
+* Updated to libcouchbase 3.1.0.
 * Updated all dependencies to latest versions.
 
 
@@ -72,7 +72,7 @@ Fixed view-query 0 limit queries.
 Fixed serialization of views docid fields.
 * http://issues.couchbase.com/browse/JSCBC-822[JSCBC-822]:
 Fixed view ordering behaviour.
-* Updated to libcouchbase 3.0.7
+* Updated to libcouchbase 3.0.7.
 * Updated all dependencies to latest versions.
 
 
