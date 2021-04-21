@@ -1,8 +1,9 @@
 = Collecting Information & Logging
+:description: Node.js SDK logging.
 :page-topic-type: howto
 
 [abstract]
-Node.js SDK logging.
+{description}
 
 == Library logging
 

@@ -1,4 +1,6 @@
 = Choosing an API
+:description: The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of \
+result handling.
 :navtitle: Choosing an API
 :page-topic-type: howto
 :source-language: javascript
@@ -7,8 +9,7 @@
 
 
 [abstract]
-The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of
-result handling.
+{description}
 
 The Node.js SDK provides two APIs, which can be freely mixed:
 
