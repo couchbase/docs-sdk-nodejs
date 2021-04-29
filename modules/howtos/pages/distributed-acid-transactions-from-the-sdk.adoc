@@ -1,9 +1,10 @@
 = Distributed Transactions from the Node.js SDK
+:description: Distributed ACID Transactions in Couchbase SDKs
 :navtitle: ACID Transactions
 :page-topic-type: howto
 
 [abstract]
-Distributed ACID Transactions in Couchbase SDKs
+{description}
 
 Distributed ACID Transactions are not currently available for the Node.js SDK.
 include::6.5@sdk:shared:partial$acid-transactions.adoc[tag=other]
