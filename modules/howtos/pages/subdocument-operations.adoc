@@ -6,7 +6,9 @@
 
 [abstract]
 {description}
+
 Sub-document operations may be quicker and more network-efficient than _full-document_ operations such as _upsert_, _replace_ and _get_ because they only transmit the accessed sections of the document over the network.
+
 Sub-document operations are also atomic, allowing safe modifications to documents with built-in concurrency control.
 
 
