@@ -26,6 +26,93 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.2.0-beta.1 (17 May 2021)
+
+Version 3.2.0-beta.1 is a beta release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.0-beta.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0-beta.1/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-883[JSCBC-883]:
+Reimplemented the library with TypeScript.
+* http://issues.couchbase.com/browse/JSCBC-806[JSCBC-806]:
+Added ability to specify collections to search query.
+* http://issues.couchbase.com/browse/JSCBC-886[JSCBC-886]:
+Added ability to specify raw search query options.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-870[JSCBC-870]:
+Updated mutateIn to use StoreSemantics.
+* http://issues.couchbase.com/browse/JSCBC-876[JSCBC-876]:
+Fixed BucketSettings evictionPolicy naming.
+* http://issues.couchbase.com/browse/JSCBC-871[JSCBC-871]:
+Fixed issue where unhandled exceptions could be thrown.
+* http://issues.couchbase.com/browse/JSCBC-860[JSCBC-860]:
+Fixed issue with flushEnabled not being retrieved correctly.
+* http://issues.couchbase.com/browse/JSCBC-829[JSCBC-829]:
+Fixed segfault on failed management operations.
+* http://issues.couchbase.com/browse/JSCBC-825[JSCBC-825]:
+Fixed definition of search facets in queries.
+* http://issues.couchbase.com/browse/JSCBC-873[JSCBC-873]:
+Renamed GetResult.expiry to GetResult.expiryTime to match spec.
+* http://issues.couchbase.com/browse/JSCBC-869[JSCBC-869]:
+Updated Unlock not to return a Result, it is never valid.
+* http://issues.couchbase.com/browse/JSCBC-872[JSCBC-872]:
+Updated CouchbaseSet remove to use the correct CAS.
+* http://issues.couchbase.com/browse/JSCBC-875[JSCBC-875]:
+Fixed watchIndexes using the wrong argument number.
+* http://issues.couchbase.com/browse/JSCBC-836[JSCBC-836]:
+Fixed property name for configuring bucket replica count.
+* http://issues.couchbase.com/browse/JSCBC-863[JSCBC-863]:
+Added additional tests for cas mismatch errors.
+* http://issues.couchbase.com/browse/JSCBC-864[JSCBC-864]:
+Fixed issue with error handling in LookupIn and MutateIn.
+* http://issues.couchbase.com/browse/JSCBC-862[JSCBC-862]:
+Fixed export typo causing failed query index manager construction.
+* http://issues.couchbase.com/browse/JSCBC-882[JSCBC-882]:
+Added missing getAllScopes method to CollectionManager.
+* http://issues.couchbase.com/browse/JSCBC-811[JSCBC-811]:
+Updated scopes/collections APIs to match latest specification.
+* Refactored LookupInMacro / MutateInMacro to work better with TypeScript.
+* Fixed HTTP errors not containing context in some cases.
+* Fixed some IndexMissing errors appearing as undefined errors.
+* Fixed UserManager parsing of User objects.
+* Fixed UserManager parsing of ldapGroupReference field.
+* Fixed chaining of the MutationState.add method.
+* Refactored all tests to properly pass lint checks with Typescript.
+* Rewrote documentation to integrate with Typescript.
+* Switched to using typedoc rather than jsdoc.
+* Deprecated Node.js 8 support as it is now EOL.
+* Updated all dependencies to latest versions.
+
+
+== Version 3.1.3 (5 May 2021)
+
+Version 3.1.3 is a patch release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.3/[API Reference]
+
+=== Fixed Issues
+* http://issues.couchbase.com/browse/JSCBC-884[JSCBC-884]:
+Fixed a number of memory access issues.
+* http://issues.couchbase.com/browse/JSCBC-881[JSCBC-881]:
+Fixed memory leak due to missing cell dereferences.
+* Updated to libcouchbase 3.1.2.
+* Updated all dependencies to latest versions.
+
+
 == Version 3.1.2 (9 April 2021)
 
 Version 3.1.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
