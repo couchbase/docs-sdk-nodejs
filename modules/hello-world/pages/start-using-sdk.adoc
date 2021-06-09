@@ -33,9 +33,9 @@ The command above will make our directory and change our current working directo
 $ npm init -y
 ----
 
-If a directory does not already have a `package.json` at its root, this means it is not initialized. The command above will accomplish this. 
+If a directory does not already have a `package.json` at its root, this means it is not initialized. The command above will accomplish this.
 
-Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes. 
+Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes.
 
 [source,json,indent=0]
 ----
@@ -71,8 +71,8 @@ include::../examples/getting-started/index.js[tag=connect]
 
 If you are connecting to Couchbase Cloud rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. 
-For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. 
+Couchbase uses xref:7.0@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 Since we are running this locally, we are using the Couchbase alias for localhost.
 
 [source,javascript,indent=0]
@@ -87,7 +87,7 @@ If you are not working with the `travel-sample` data bucket, substitute _travel-
 include::../examples/getting-started/index.js[tag=default-collection]
 ----
 
-The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. 
+The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
 For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, which includes all documents in a bucket, and is forwards and backwards compatible with all supported versions of Couchbase Server.
 Once the _Collections_ feature is generally available, the best practice will be to group documents into collections by type.
 
@@ -139,14 +139,14 @@ The results you should expect are as follows:
 
 [source,bash]
 ----
-Upsert Result: 
+Upsert Result:
 {
   cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
   token: CbMutationToken {
     '0': <Buffer cc 6d 45 09 c2 ce 00 00 2c 00 00 00 00 00 00 00 a9 03 00 00 00 00 00 00 74 72 61 76 65 6c 2d 73 61 6d 70 6c 65 00 00 00 50 6b bf ef fe 7f 00 00 28 2e ... 230 more bytes>
   }
 }
-Get Result: 
+Get Result:
 {
   cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
   value: {
@@ -163,13 +163,13 @@ Get Result:
 
 == Cloud Connections
 
-For developing on Couchbase Cloud, 
-try the https://github.com/couchbase/docs-sdk-nodejs/blob/release/3.0/modules/devguide/examples/nodejs/cloud.js[Cloud-based Hello World program], 
+For developing on Couchbase Cloud,
+try the https://github.com/couchbase/docs-sdk-nodejs/blob/release/3.0/modules/devguide/examples/nodejs/cloud.js[Cloud-based Hello World program],
 
 If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
 
-* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments], 
-* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements], 
+* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments],
+* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements],
 * If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
 
 
@@ -178,12 +178,12 @@ If you are not working from the same _Availability Zone_ as your Couchbase Cloud
 
 The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-node-client/[here].
 
-Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].	
+Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].
 
 The xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Node.js SDK.
 The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].
 
-https://v2.ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js. 
+https://v2.ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
 Ottoman's goal is to provide a better development experience while using Couchbase, bringing to developers a reliable tool to build systems that are easy to design, maintain, and scale.

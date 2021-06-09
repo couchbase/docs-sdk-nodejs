@@ -22,9 +22,9 @@ include::example$auth.js[tag=rbac-auth,indent=0]
 ----
 
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=rbac]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
 
 == Authenticating a Node.js Client by Certificate
@@ -39,4 +39,4 @@ include::example$auth.js[tag=cert-auth,indent=0]
 ----
 
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=ldap]
