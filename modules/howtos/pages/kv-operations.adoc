@@ -54,8 +54,8 @@ include::devguide:example$nodejs/kv-operations.js[tag=replace,indent=0]
 
 Expiration sets an explicit time to live (TTL) for a document.
 We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
-For a discussion of item (Document) _vs_ Bucket expiration, see the 
-xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
+For a discussion of item (Document) _vs_ Bucket expiration, see the
+xref:7.0@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
 
 == Durability
@@ -66,20 +66,20 @@ include::devguide:example$nodejs/kv-operations.js[tag=durability,indent=0]
 ----
 
 Here, we have added _Durability_ options, namely `persistTo` and `replicateTo`.
-In Couchbase Server releases before 6.5, Durability was set with these two options 
--- see the xref:2.6@nodejs-sdk::durability.adoc[6.0 Durability documentation] 
--- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
-If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to this xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability]. 
+In Couchbase Server releases before 6.5, Durability was set with these two options
+-- see the xref:2.6@nodejs-sdk::durability.adoc[6.0 Durability documentation]
+-- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
+If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to this xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability].
 
-If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature, 
-in which Couchbase Server will only return success to the SDK after the requested replication level has been achieved. 
+If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature,
+in which Couchbase Server will only return success to the SDK after the requested replication level has been achieved.
 The three replication levels are:
 
  * `Majority` - The server will ensure that the change is available in memory on the majority of configured replicas.
  * `MajorityAndPersistToActive` - Majority level, plus persisted to disk on the active node.
  * `PersistToMajority` - Majority level, plus persisted to disk on the majority of configured replicas.
 
-The options are in increasing levels of safety. 
+The options are in increasing levels of safety.
 Note that nothing comes for free - for a given node, waiting for writes to storage is considerably slower than waiting for it to be available in-memory.
 These trade offs, as well as which settings may be tuned, are discussed in the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[durability page].
 
@@ -90,7 +90,7 @@ The following example demonstrates using the newer durability features available
 include::devguide:example$nodejs/kv-operations.js[tag=newdurability,indent=0]
 ----
 
-To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration, 
+To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration,
 and the default level of safety provided by Couchbase will be reasonable for the majority of situations.
 
 [TIP]
@@ -130,7 +130,7 @@ include::devguide:example$nodejs/kv-operations.js[tag=remove,indent=0]
 
 == Expiration / TTL
 
-By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents. 
+By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents.
 Using `touch()`, you can set expiration values on documents to handle transient data:
 
 [source,javascript]
@@ -145,7 +145,7 @@ A network timeout can be set with the options, in the same fashion as earlier ex
 include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 ----
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=exp-note]
+include::7.0@sdk:shared:partial$documents.adoc[tag=exp-note]
 
 
 == Atomic Counters

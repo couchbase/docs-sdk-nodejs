@@ -24,7 +24,7 @@ Search queries are executed at the cluster level (not bucket or collection). All
 
 .Match
 
-Using the `travel-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
+Using the `travel-sample` xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
 
 [source,javascript,indent=0]
 ----
@@ -58,7 +58,7 @@ If you run this code, notice that we matched `"10-minute"` with three additional
 
 .Date Range
 
-Using the `beer-sample` xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
+Using the `beer-sample` xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript,indent=0]
 ----
@@ -90,7 +90,7 @@ include::../examples/search.js[tag=search-query-disjuncts]
 
 == Working with Results
 
-As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.  
+As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.
 
 Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
 

@@ -8,15 +8,15 @@
 {description}
 Querying can solve typical programming tasks such as finding a user profile by email address, Facebook login, or user ID.
 
-Our query service uses N1QL, which will be fairly familiar to anyone who's used any dialect of SQL. 
+Our query service uses N1QL, which will be fairly familiar to anyone who's used any dialect of SQL.
 xref:#additional-resources[Additional resources] for learning about N1QL are listed at the bottom of the page.
 
-Before you get started you may wish to check out the xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL intro page], or just dive in with a query against our travel-sample data set. 
-To make a Bucket queryable, it must have at least one index defined. 
-You can define a _primary_ index on a bucket. 
+Before you get started you may wish to check out the xref:7.0@server:n1ql:n1ql-language-reference/index.adoc[N1QL intro page], or just dive in with a query against our travel-sample data set.
+To make a Bucket queryable, it must have at least one index defined.
+You can define a _primary_ index on a bucket.
 While not recommended for production, defining a primary index is useful for ad hoc queries that are great for exploring your data, the reason they are not recommended for production is that they enable a full-bucket scan.
 
-Use xref:6.5@server:tools:cbq-shell.adoc[cbq], our interactive Query shell.
+Use xref:7.0@server:tools:cbq-shell.adoc[cbq], our interactive Query shell.
 Open it, and enter the following:
 
 [source,n1ql]
@@ -28,14 +28,14 @@ By replacing _travel-sample_ with a different Bucket, you can build an index on 
 
 NOTE: The default installation places cbq in `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows.
 
-// TODO: improving this and/or adding server/6.0/tools/query-workbench.html
+// TODO: improving this and/or adding server/7.0/tools/query-workbench.html
 
 == Queries & Placeholders
 
-Placeholders allow you to specify variable constraints for an otherwise constant query. 
-There are two variants of placeholders: positional and named parameters. 
-Positional parameters use an ordinal placeholder for substitution and named parameters use variables. 
-A named or positional parameter is a placeholder for a value in the WHERE, LIMIT, or OFFSET clause of a query. 
+Placeholders allow you to specify variable constraints for an otherwise constant query.
+There are two variants of placeholders: positional and named parameters.
+Positional parameters use an ordinal placeholder for substitution and named parameters use variables.
+A named or positional parameter is a placeholder for a value in the WHERE, LIMIT, or OFFSET clause of a query.
 Note that both parameters and options are optional.
 
 .Positional parameter example:
@@ -72,7 +72,7 @@ CAS is stored as a 64-bit integer, which cannot be represented safely in javaScr
   const GET_IDS = `
     SELECT  META().id AS recordId
           , TOSTRING(META().cas) AS cas
-          , id 
+          , id
     FROM cdb
     WHERE type = 'profile'
     LIMIT $count
@@ -151,12 +151,12 @@ See the https://docs.couchbase.com/sdk-api/couchbase-node-client/Scope.html#quer
 
 == Additional Resources
 
-NOTE: N1QL is not the only query option in Couchbase. 
+NOTE: N1QL is not the only query option in Couchbase.
 Be sure to check that your use case fits your selection of query service.
 
 // For a deeper dive into N1QL from the SDK, refer to our xref:concept:[N1QL SDK concept doc].
 
-The xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[N1QL Language Reference] introduces up a complete guide to the N1QL language, including all of the latest additions.
+The xref:7.0@server:n1ql:n1ql-language-reference/index.adoc[N1QL Language Reference] introduces up a complete guide to the N1QL language, including all of the latest additions.
 
 The http://query.pub.couchbase.com/tutorial/#1[N1QL interactive tutorial] is a good introduction to the basics of N1QL use.
 

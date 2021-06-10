@@ -8,7 +8,7 @@
 [abstract]
 {description}
 
-The Developer Preview of the upcoming Collections feature in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs. 
+The Developer Preview of the upcoming Collections feature in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs.
 Information on the Developer Preview (DP) of _Collections_ can be found in the xref:6.5@server:developer-preview:collections/collections-overview.adoc[server docs].
 
 == Using Collections & Scope DP
@@ -26,5 +26,5 @@ And for  a non-default scope:
 bucket.scope("marlowe_agency").collection("flights") too
 ----
 
-* Please see the xref:6.5@server:developer-preview:collections/collections-overview.adoc[Collections Overview documents] in the Server docs.
+* Please see the xref:7.0@server:developer-preview:collections/collections-overview.adoc[Collections Overview documents] in the Server docs.
 *  To see Collections in action, take a look at our xref:howtos:working-with-collections.adoc[Collections-enabled Travel Sample page].

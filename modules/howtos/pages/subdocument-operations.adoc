@@ -23,7 +23,7 @@ IMPORTANT: The sub-document operations described on this page are for _Key-Value
 (Sub-document N1QL queries are explained in the section xref:n1ql-queries-with-sdk.adoc[Querying with N1QL].)
 
 In order to use sub-document operations you need to specify a _path_ indicating the location of the sub-document.
-The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentation/server/current/sdk/subdocument-operations.html#story-h2-12[below^], and xref:6.0@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Queries and Results]).
+The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentation/server/current/sdk/subdocument-operations.html#story-h2-12[below^], and xref:7.0@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Queries and Results]).
 Considering the document:
 
 .customer123.json
@@ -296,7 +296,7 @@ include::../examples/subdoc.js[tag=mutate-cas-noconflict]
 Even when modifying the _same_ part of the document, operations will not necessarily conflict.
 For example, two concurrent _subdoc-array-append_ operations to the same array will both succeed, never overwriting the other.
 
-While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: 
+While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_:
 Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
 
 [source,javascript,indent=0]
@@ -307,7 +307,7 @@ include::example$subdoc.js[tag=cas]
 
 == Durability
 
-Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is 
+Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is
 xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[still available], particularly for talking to Couchbase Server 6.0 and earlier:
 
 [source,javascript,indent=0]
@@ -315,8 +315,8 @@ xref:concept-docs:durability-replication-failure-considerations.adoc#older-serve
 include::../examples/subdoc.js[tag=mutate-persistto]
 ----
 
-In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Writes], 
-which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
+In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Writes],
+which uses the concept of xref:7.0@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
 
 [source,javascript,indent=0]
 ----
@@ -394,7 +394,7 @@ a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
 
 // xattrs
-include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]
+include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]
 
 
 == XDCR

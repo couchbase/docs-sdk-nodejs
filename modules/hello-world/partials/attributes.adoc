@@ -1,3 +1,3 @@
 :nodejs-api-link: http://docs.couchbase.com/sdk-api/couchbase-nodejs-client-3.0.0
 :nodejs-current-version: 3.0.0
-:version-server: 6.5
+:version-server: 7.0
