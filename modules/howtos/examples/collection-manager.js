@@ -9,7 +9,6 @@ async function go() {
   });
 
   // tag::scopeAdmin[]
-
   const userMgr = clusterAdm.users();
   const bucketAdm = clusterAdm.bucket("travel-sample");
 
@@ -48,6 +47,8 @@ async function go() {
   }
   // end::create-scope[]
 
+  // Note: some parts of following examples are pending https://issues.couchbase.com/browse/JSCBC-858
+
   // tag::create-collection[]
   try {
     await collectionMgr.createCollection("example-collection", "example-scope");
@@ -56,12 +57,14 @@ async function go() {
     if (e instanceof couchbase.CollectionExistsError) {
       console.log("The collection already exists");
     }
-    else {
-      throw e
-    }
+    // tag::pending-JSCBC-858[]
     // else if (e instanceof couchbase.ScopeNotFoundError) {
     //   console.log("The scope does not exist");
     // }
+    // end::pending-JSCBC-858[]
+    else {
+      throw e
+    }
   }
   // end::create-collection[]
 
@@ -70,12 +73,16 @@ async function go() {
     await collectionMgr.dropCollection("example-collection", "example-scope");
   }
   catch (e) {
+    // tag::pending-JSCBC-858[]
     // if (e instanceof couchbase.CollectionNotFoundError) {
-      console.log("The collection does not exist");
+    // end::pending-JSCBC-858[]
+    console.log("The collection does not exist");
+    // tag::pending-JSCBC-858[]
     // }
     // else if (e instanceof couchbase.ScopeNotFoundError) {
     //   console.log("The scope does not exist");
     // }
+    // end::pending-JSCBC-858[]
   }
   // end::drop-collection[]
 
@@ -84,9 +91,13 @@ async function go() {
     await collectionMgr.dropScope("example-scope");
   }
   catch (e) {
+    // tag::pending-JSCBC-858[]
     // if (e instanceof couchbase.ScopeNotFoundError) {
-      console.log("The scope does not exist");
+    // end::pending-JSCBC-858[]
+    console.log("The scope does not exist");
+    // tag::pending-JSCBC-858[]
     // }
+    // end::pending-JSCBC-858[]
   }
   // end::drop-scope[]
 }
