@@ -185,5 +185,5 @@ The xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating from SDK2 to 3 pa
 Couchbase welcomes community contributions to the Node.js SDK.
 The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].
 
-https://v2.ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
+https://ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
 Ottoman's goal is to provide a better development experience while using Couchbase, bringing to developers a reliable tool to build systems that are easy to design, maintain, and scale.
