@@ -5,69 +5,77 @@
 :page-topic-type: tutorial
 :page-aliases: ROOT:sample-application,ROOT:tutorial4,ROOT:sample-app-backend
 
+:travel-sample-git-project: try-cb-nodejs
+:travel-sample-entrypoint: index.js
+
+// TODO: move these to attributes.adoc
+:name-sdk: Node.js SDK
+:version-sdk: 3.0
+
 [abstract]
 {description}
-This version also demonstrated the Developer Preview of the upcoming Collections feature.
-
-include::6.5@sdk:shared:partial$sample-application.adoc[tag=prereq]
+This version demonstrates various features of Couchbase, including the Collections feature new in Server 7.0.
 
 
-== Preparation
+== Quick Start
 
-As well as the xref:start-using-sdk.adoc[Node.js SDK 3.0] and Couchbase Server, 
-set up as described above, you will need `git` to fetch the travel sample application code:
+Fetch the https://github.com/couchbaselabs/{travel-sample-git-project}[Couchbase {name-sdk} travel-sample Application REST Backend] from github:
+
+[source,bash,subs="+attributes"]
+----
+git clone https://github.com/couchbaselabs/{travel-sample-git-project}.git
+cd {travel-sample-git-project}
+----
+
+With https://docs.docker.com/get-docker/[Docker] installed, you should now be able to run a bare-bones copy of Couchbase Server, load the travel-sample, add indexes, install the sample-application and its frontend, all by running a single command:
 
 [source,bash]
 ----
-git clone https://github.com/couchbaselabs/try-cb-nodejs.git
+docker-compose up
 ----
 
-Change directory into your cloned repository, and check out the latest branch (this will most probably be enabled as the default branch).
+== Running the code against your own development Couchbase server.
 
-[source,bash]
-----
-cd try-cb-nodejs
-git checkout 6.5
-npm install
-----
+// TODO: extract these to shared
+// tag::prereq[]
+For Couchbase Server {version-server}, make sure that you have at least one node each of data; query; index; and search.
+For a development box, mixing more than one of these on a single node (given enough memory resources) is perfectly acceptable.
 
+If you have yet to install Couchbase Server in your development environment
+xref:{version-server}@server:getting-started:do-a-quick-install.adoc[start here].
 
-== Running the Travel Sample Application
+Then load up the Travel Sample Bucket, using either the
+xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the
+xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+You will also need to
+xref:{version-server}@server:fts:fts-searching-from-the-ui.adoc#create-an-index[create a Search Index]
+-- Query indexes are taken care of by the Sample Bucket.
+// end::prereq[]
 
-Next, edit the https://github.com/couchbaselabs/try-cb-nodejs/blob/6.5/index.js[index.js] file to point to one for your containerised Couchbase Server (or localhost, 127.0.0.1, if appropriate), and any other configuration changes -- such as password.
-From here onwards, we'll assume the defaults.
-
-And run with
-
-[source,bash]
-----
-npm run start
-----
-
-After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
-
-
-// *PIC -- screenshot
-
+See the README at https://github.com/couchbaselabs/{travel-sample-git-project} for full details of how to run and tweak the {name-sdk} travel-sample app.
 
 
 == Using the Sample App
 
+// TODO: *PIC -- screenshot
+
 Give yourself a username and password and click *Register*.
 
-Now try out a few queries, and see Search in action for the hotel finder feature..
+Now try out a few queries, and see Search in action for the hotel finder feature.
 
 
 == Sample App Backend
 
-The backend code shows Couchbase Node.js SDK in action with Query and Search, 
-but also how to plug together all of the elements and build an application with Couchbase Server and the Node.js SDK.
+The backend code shows Couchbase {name-sdk} in action with Query and Search,
+but also how to plug together all of the elements and build an application with Couchbase Server and the {name-sdk}.
 
 Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation, and if not searches for it as an airport name:
 
+// TODO: discuss if we need source code example, and how we'll keep it up to date.
 [source,javascript]
 ----
- var qs;
+var qs;
   if (searchTerm.length === 3) {
     // FAA code
     qs = `SELECT airportname from \`travel-sample\` WHERE faa = '${searchTerm.toUpperCase()}';`;
@@ -95,9 +103,16 @@ Here's the airport search code, which checks to see whether the search term for 
   });
 ----
 
-The https://github.com/couchbaselabs/try-cb-nodejs/blob/6.5/index.js[index.js] file also contains the functions for handling users, registration, and N1QL queries.
+The https://github.com/couchbaselabs/{travel-sample-git-project}/blob/HEAD/{travel-sample-entrypoint}[{travel-sample-entrypoint}] file also contains the functions for handling users, registration, and N1QL queries.
 
 
 == Data Model
 
+// TODO, update the Data Model page!
 See the xref:ref:travel-app-data-model.adoc[Travel App Data Model] reference page for more information about the sample data set used.
+
+== REST API
+
+You can explore the REST API here in read-only mode, or once you are running the application, at the `/apidocs` endpoint.
+
+swagger_ui::https://raw.githubusercontent.com/couchbaselabs/{travel-sample-git-project}/HEAD/swagger.json[]
