@@ -9,7 +9,6 @@
 
 For a high-level overview of this feature, see our xref:concept-docs:encryption.adoc[Encryption] page.
 
-[#package]
 == Packaging
 The Node.js SDK works together with the https://github.com/couchbase/node-couchbase-encryption[Node Couchbase Encryption^] library to provide support for encryption and decryption of JSON fields.
 This library includes cryptographic algorithms you can use out of the box, and provides a framework for implementing your own crypto components.
@@ -127,7 +126,6 @@ The output is now:
 }
 ----
 
-[#migration-from-sdk2]
 == Migrating from SDK 2
 
 WARNING: SDK 2 cannot read fields encrypted by SDK 3.
@@ -140,7 +138,6 @@ For an online upgrade without downtime, consider a https://en.wikipedia.org/wiki
 SDK 3 requires additional configuration to read fields encrypted by SDK 2.
 The rest of this section describes how to configure Field-Level Encryption in SDK 3 for backwards compatibility with SDK 2.
 
-[#configure-field-name-prefix]
 === Changing the field name prefix
 
 In SDK 2, the default prefix for encrypted field names was `\__crypt_`.
@@ -161,7 +158,6 @@ SDK 3 allows encrypting fields at any depth.
 If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic N1QL statement.
 
 
-[#configure-legacy-decrypters]
 === Enabling decrypters for legacy algorithms
 
 The encryption algorithms used by SDK 2 are deprecated, and are no longer used for encrypting new data.
