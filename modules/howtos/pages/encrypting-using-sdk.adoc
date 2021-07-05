@@ -1,15 +1,173 @@
-= Field Level Encryption from the SDK
-:description: The Field Level Encryption library enables encryption and decryption of JSON fields, to support FIPS-140-2 compliance.
+= Field Level Encryption from the Node.js SDK
+:description:  A practical guide for getting started with Field-Level Encryption, showing how to encrypt and decrypt JSON fields using the Node.js SDK.
 :page-topic-type: howto
 :page-edition: Enterprise Edition
-:page-status: Developer Preview
-// // :page-aliases: ROOT:encrypting-using-sdk.adoc
+:page-aliases: ROOT:encrypting-using-sdk.adoc
 
 [abstract]
 {description}
 
+For a high-level overview of this feature, see our xref:concept-docs:encryption.adoc[Encryption] page.
 
-Client-side implementation of Field Level Encryption is available in the previous version of the SDK.
-It will be enabled in a future release of the third generation SDK.
+[#package]
+== Packaging
+The Node.js SDK works together with the https://github.com/couchbase/node-couchbase-encryption[Node Couchbase Encryption^] library to provide support for encryption and decryption of JSON fields.
+This library includes cryptographic algorithms you can use out of the box, and provides a framework for implementing your own crypto components.
 
-A _Developer Preview_ is available in the xref:3.0@java-sdk:howtos:encrypting-using-sdk.adoc[Java SDK].
+NOTE: The encryption code is packaged as an optional library because it is released under a https://github.com/couchbase/node-couchbase-encryption/blob/master/LICENSE[different license^] from the Couchbase Node SDK.
+To use the encryption library, you have to explicitly include this dependency in your project configuration.
+
+To get started with the Node encryption library you can fetch it using:
+
+[source,console]
+----
+$ npm i cbfieldcrypt
+----
+
+== Configuration
+The Node.js Field-Level Encryption library works on the principle of `Encrypters` and `Decrypters` which can be packaged within a `Provider`, as well as a custom xref:transcoders-nonjson.adoc[`Transcoder`].
+`Encrypters` and `Decrypters` are registered with a `CryptoManager` and are then used at serialization/deserialization time to encrypt and decrypt fields.
+
+Here we'll go through an example of setting up and using the Node Field-Level Encryption library.
+
+To begin we need to create a couple of keys, you should *not* use the `InsecureKeyring` other than for evaluation purposes and should keep your keys secure.
+
+[source,javascript,indent=0]
+----
+include::example$fle.js[tag=keys]
+----
+
+Now that we have keys we can create a `Provider` (here we use the `AeadAes256CbcHmacSha512` algorithm which is the default supplied by the library).
+The `Provider` gives us a way to easily create multiple encrypters for the same algorithm but different keys.
+At this point we also create `CryptoManager` and register our encrypters and decrypters with it.
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=provider]
+----
+
+== Usage
+
+Sensitive fields in your data classes can be encrypted by using a `CryptoSchema`. For example:
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=crypto-schema]
+----
+
+Now let's create a person document and save it to Couchbase:
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=upsert]
+----
+
+You can get the document to verify the fields were encrypted:
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=get]
+----
+
+The expected output is something like:
+
+[source,console]
+----
+{
+  firstName: 'Barry',
+  lastName: 'Sheen',
+  'encrypted$password': {
+    alg: 'AEAD_AES_256_CBC_HMAC_SHA512',
+    kid: 'mykey',
+    ciphertext: 'iO2fCmlRqY5D55j8MemFwhMDIAQ33j8XRpcpFANSXmI7HHmlHUopfu7plkH1K128XDDIbLtcaIM9yghmYNXoYA=='
+  },
+  'encrypted$addresses': {
+    alg: 'AEAD_AES_256_CBC_HMAC_SHA512',
+    kid: 'mykey',
+    ciphertext: '2T+W+xXVw6TnJJV5fOxpG7WMo26qScROtqc7qjkoSpPrhe4mrCOxfFBFSg8xDzIB/gG+jlWQp8zDWYGIbRVnnoL+sWINdL7Rr7x228fDGjQ4Cu2heqmBkCHueQusuFx1pxo1TLtrUomtqLZB46G3s4WOeg5T4Z9vRfbSwOu9ryf2LVo8rsWf05Vhz5901celbK5L8uX/+HcSULoG2f1C2Qkd5bV/P9ZaO7I9duaUbA0='
+  },
+  'encrypted$phone': {
+    alg: 'AEAD_AES_256_CBC_HMAC_SHA512',
+    kid: 'mykey',
+    ciphertext: 'M7ao4qp/8t4TKjmHU51xLNSa2h0ydiLfSvzauSfNDfnL/vAxOyYgNsvxMmbX33vMnD6BUe+zGCSo3v8C6fwM7g=='
+  }
+}
+----
+
+Now let's decrypt the person document and output the result.
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=decrypt]
+----
+
+The output is now:
+
+[source,console]
+----
+{
+  "firstName": "Barry",
+  "lastName": "Sheen",
+  "password": "bang!",
+  "addresses": [
+    {
+      "houseName": "my house",
+      "street": [
+        {
+          "firstLine": "my street",
+          "secondLine": "my second line"
+        }
+      ]
+    },
+    {
+      "houseName": "my other house"
+    }
+  ],
+  "phone": "123456"
+}
+----
+
+[#migration-from-sdk2]
+== Migrating from SDK 2
+
+WARNING: SDK 2 cannot read fields encrypted by SDK 3.
+
+It's inadvisable to have both the old and new versions of your application active at the same time.
+The simplest way to migrate is to do an offline upgrade during a scheduled maintenance window.
+For an online upgrade without downtime, consider a https://en.wikipedia.org/wiki/Blue-green_deployment[blue-green deployment^].
+
+
+SDK 3 requires additional configuration to read fields encrypted by SDK 2.
+The rest of this section describes how to configure Field-Level Encryption in SDK 3 for backwards compatibility with SDK 2.
+
+[#configure-field-name-prefix]
+=== Changing the field name prefix
+
+In SDK 2, the default prefix for encrypted field names was `\__crypt_`.
+This caused problems for Couchbase Sync Gateway, which does not like field names to begin with an underscore.
+In SDK 3, the default prefix is `encrypted$`.
+
+For compatibility with SDK 2, you can configure the `CryptoManager` to use the old `\__crypt_` prefix:
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=oldannotation]
+----
+
+Alternatively, you can https://forums.couchbase.com/t/replacing-field-name-prefix/28786[rename the existing fields using a N1QL statement].
+
+WARNING: In SDK 2, only top-level fields could be encrypted.
+SDK 3 allows encrypting fields at any depth.
+If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic N1QL statement.
+
+
+[#configure-legacy-decrypters]
+=== Enabling decrypters for legacy algorithms
+
+The encryption algorithms used by SDK 2 are deprecated, and are no longer used for encrypting new data.
+To enable decrypting fields written by SDK 2, register the legacy decrypters with the `CryptoManager`:
+
+[source,javascript,indent=0]
+----
+include::howtos:example$fle.js[tag=legacy]
+----
