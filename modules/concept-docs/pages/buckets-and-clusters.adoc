@@ -37,3 +37,5 @@ bucketMgr.createBucket({
 
 The default Collection & Default Scope will be used automatically.
 
+See xref:howtos:provisioning-cluster-resources.adoc[Provisioning Cluster Resources] for more details.
+

@@ -64,7 +64,7 @@ or xref:{version-server}@server:n1ql:n1ql-language-reference/update.adoc[N1QL UP
 
 [source,n1ql]
 ----
-update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
+update `travel-sample`.inventory.airline SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
 ====
 
@@ -72,14 +72,14 @@ include::{version-server}@sdk:shared:partial$documents.adoc[tag=get_generic]
 
 [source,n1ql]
 ----
-SELECT * FROM default USE KEYS ["docid"];
+SELECT * FROM `travel-sample`.inventory.airport USE KEYS ["airport_1254"];
 ----
 
 or
 
 [source,n1ql]
 ----
-SELECT * FROM default WHERE META(default).id = "docid";
+SELECT * FROM `travel-sample`.inventory.airport WHERE META().id = "airport_1254";
 ----
 
 You can also retrieve _parts_ of documents using xref:subdocument-operations.adoc[sub-document operations], by specifying one or more sections of the document to be retrieved

@@ -10,7 +10,7 @@ include::partial$attributes.adoc[]
 {description}
 
 
-include::{version-server}0@sdk:shared:partial$n1ql-queries.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$n1ql-queries.adoc[tag=intro]
 
 
 // Prepared Statements for Query Optimization
@@ -23,9 +23,9 @@ Do not turn off the `adhoc` flag for _every_ query to Server 6.0 and earlier, si
 ----
 async function queryNamed() {
   const query = `
-    SELECT airportname, city FROM \`travel-sample\`
-    WHERE type= 'airport'
-      AND city='London';
+    SELECT airportname, city
+    FROM \`travel-sample\`.inventory.airport
+    WHERE city='London';`
 
   try {
     let result = await cluster.query(query, { adhoc: false })
@@ -64,22 +64,24 @@ You can also define indexes over given document fields and then use those fields
 
 [source,n1ql]
 ----
-CREATE INDEX ix_name ON `users`(name);
-CREATE INDEX ix_email ON `users`(email);
+CREATE INDEX ix_name ON `travel-sample`.inventory.hotel(name);
+CREATE INDEX ix_email ON `travel-sample`.inventory.hotel(email);
 ----
 
-This would allow you to query the _users_ bucket regarding a document's `name` or `email` properties, thus:
+This would allow you to query the _travel-sample_ bucket's hotel collection regarding a document's `name` or `email` properties, thus:
 
 [source,n1ql]
 ----
-SELECT name, email FROM `users` WHERE name="Monty Python" OR email="monty@python.org";
+SELECT name, email
+FROM `travel-sample`.inventory.hotel
+WHERE name="Glasgow Grand Central" OR email="grandcentralhotel@example.com";
 ----
 
 Indexes help improve the performance of a query.
 When an index includes the actual values of all the fields specified in the query,
 the index _covers_ the query, and eliminates the need to fetch the actual values from the Data Service.
 An index, in this case, is called a _covering index_, and the query is called a _covered_ query.
-For more information, see xref:6.5@server:n1ql:n1ql-language-reference/covering-indexes.adoc[Covering Indexes].
+For more information, see xref:{version-server}@server:n1ql:n1ql-language-reference/covering-indexes.adoc[Covering Indexes].
 
 You can also create and define indexes in the SDK using:
 
@@ -100,10 +102,10 @@ The deferred indexes can be built together, rather than having to re-scan the en
 
 [source,n1ql]
 ----
-CREATE PRIMARY INDEX ON `users` WITH {"defer_build": true};
-CREATE INDEX ix_name ON `users`(name) WITH {"defer_build": true};
-CREATE INDEX ix_email ON `users`(email) WITH {"defer_build": true};
-BUILD INDEX ON `users`(`#primary`, `ix_name`, `ix_email`);
+CREATE PRIMARY INDEX ON `travel-sample`.inventory.hotel WITH {"defer_build": true};
+CREATE INDEX ix_name ON `travel-sample`.inventory.hotel(name) WITH {"defer_build": true};
+CREATE INDEX ix_email ON `travel-sample`.inventory.hotel(email) WITH {"defer_build": true};
+BUILD INDEX ON `travel-sample`.inventory.hotel(`#primary`, `ix_name`, `ix_email`);
 ----
 
 The indexes are not built until the `BUILD INDEX` statement is executed.
