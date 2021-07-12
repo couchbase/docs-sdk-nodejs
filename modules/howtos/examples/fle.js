@@ -13,7 +13,7 @@ async function oldAnnotation() {
   })
   // end::oldannotation[]
 
-  const key = new keyring.Key("mykey", keyB);
+  const key = new keyring.Key("mykey", keyBuffer);
   const insecureKeyring = new keyring.InsecureKeyring(key);
 
   // tag::legacy[]
@@ -39,16 +39,16 @@ async function go() {
   const collection = bucket.scope("tenant_agent_00").collection("users");
 
   // tag::keys[]
-  const keyB = Buffer.from(
+  const keyBuffer = Buffer.from(
     '000102030405060708090a0b0c0d0e0f' +
     '101112131415161718191a1b1c1d1e1f' +
     '202122232425262728292a2b2c2d2e2f' +
     '303132333435363738393a3b3c3d3e3f',
     'hex'
-  ); // 123456789:;<=>?
+  ); // output in string format: 123456789:;<=>?
 
-  const key1 = new keyring.Key("mykey", keyB);
-  const key2 = new keyring.Key("myotherkey", keyB);
+  const key1 = new keyring.Key("mykey", keyBuffer);
+  const key2 = new keyring.Key("myotherkey", keyBuffer);
 
   // Create an insecure keyring and add two keys.
   const insecureKeyring = new keyring.InsecureKeyring(key1, key2);
