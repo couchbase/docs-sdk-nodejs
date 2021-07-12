@@ -5,6 +5,8 @@
 //:page-aliases: ROOT:core-operations
 :page-aliases: ROOT:documents,ROOT:documents-basics,ROOT:documents-atomic
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -30,7 +32,7 @@ Although query and path-based (Sub-Document) services are available, the simplic
 
 
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=document]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=document]
 
 == Primitive Key-Value Operations
 
@@ -43,9 +45,9 @@ get(docid)
 remove(docid)
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=crud-overview]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=crud-overview]
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=store-update]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=store-update]
 
 [NOTE]
 ====
@@ -58,7 +60,7 @@ await collection.mutateIn('customer123', [
 ])
 ----
 
-or xref:7.0@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
+or xref:{version-server}@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
 
 [source,n1ql]
 ----
@@ -66,7 +68,7 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
 ====
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=get_generic]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=get_generic]
 
 [source,n1ql]
 ----
@@ -99,7 +101,7 @@ var res = await collection.get('user:kingarthur', {
 
 // Counters
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters1]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 
 [source,java]
 ----
@@ -114,7 +116,7 @@ collection.binary().decrement(counterDocId,
 DecrementOptions.decrementOptions().delta(5));
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters2]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
 ----
@@ -125,7 +127,7 @@ if should_increment_value(value):
   cb.upsert('counter_id', value + increment_amount, cas=cas)
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters3]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters3]
 
 
 === Use Cases
@@ -135,4 +137,4 @@ This enables you to work with counters using `get()` and `upsert()` operations -
 You will find several ways of working with counters https://docs.couchbase.com/sdk-api/couchbase-node-client/BinaryCollection.html[in the API docs].
 
 // Expiry
-include::7.0@sdk:shared:partial$documents.adoc[tag=expiration]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=expiration]
