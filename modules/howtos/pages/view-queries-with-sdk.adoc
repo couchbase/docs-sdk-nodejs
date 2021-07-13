@@ -4,26 +4,28 @@
 :page-topic-type: howto
 :page-aliases: ROOT:view-queries-with-sdk
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-include::6.5@sdk:shared:partial$views.adoc[tag=views-intro]
+include::{version-server}@sdk:shared:partial$views.adoc[tag=views-intro]
 
-include::6.5@sdk:shared:partial$views.adoc[tag=example-beer]
+include::{version-server}@sdk:shared:partial$views.adoc[tag=example-beer]
 
 [source,javascript,indent=0]
 ----
 include::../examples/views.js[tag=range-query]
 ----
 
-include::6.5@sdk:shared:partial$views.adoc[tag=example-travel]
+include::{version-server}@sdk:shared:partial$views.adoc[tag=example-travel]
 
 [source,javascript,indent=0]
 ----
 include::../examples/views.js[tag=key-query]
 ----
 
-include::6.5@sdk:shared:partial$views.adoc[tag=example-geo-travel]
+include::{version-server}@sdk:shared:partial$views.adoc[tag=example-geo-travel]
 
 [source,javascript]
 ----

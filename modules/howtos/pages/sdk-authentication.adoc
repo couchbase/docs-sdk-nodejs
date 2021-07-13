@@ -4,6 +4,8 @@
 :page-edition: Enterprise Edition
 :page-aliases: ROOT:sdk-authentication-overview
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -22,9 +24,9 @@ include::example$auth.js[tag=rbac-auth,indent=0]
 ----
 
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=rbac]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
 
 == Authenticating a Node.js Client by Certificate
@@ -39,4 +41,4 @@ include::example$auth.js[tag=cert-auth,indent=0]
 ----
 
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=ldap]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=ldap]

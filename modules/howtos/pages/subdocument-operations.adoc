@@ -4,6 +4,8 @@
 :page-topic-type: howto
 :page-aliases: ROOT:sdk-xattr-example.adoc
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -23,7 +25,8 @@ IMPORTANT: The sub-document operations described on this page are for _Key-Value
 (Sub-document N1QL queries are explained in the section xref:n1ql-queries-with-sdk.adoc[Querying with N1QL].)
 
 In order to use sub-document operations you need to specify a _path_ indicating the location of the sub-document.
-The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentation/server/current/sdk/subdocument-operations.html#story-h2-12[below^], and xref:7.0@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Queries and Results]).
+The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentation/server/current/sdk/subdocument-operations.html#story-h2-12[below^],
+and xref:{version-server}@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Queries and Results]).
 Considering the document:
 
 .customer123.json
@@ -316,7 +319,7 @@ include::../examples/subdoc.js[tag=mutate-persistto]
 ----
 
 In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Writes],
-which uses the concept of xref:7.0@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
+which uses the concept of xref:{version-server}@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
 
 [source,javascript,indent=0]
 ----
@@ -384,8 +387,7 @@ Considering the document
 {'literal[]bracket': {'literal.dot': true}}
 ----
 
-A path such as
- \`literal[]bracket`.\`literal.dot`.
+A path such as `\`literal[]bracket`.\`literal.dot``.
 You can use double-backticks (pass:c[``]) to reference a literal backtick.
 
 If you need to combine both JSON _and_ path-syntax literals you can do so by escaping the component from any JSON string characters (e.g.
@@ -394,7 +396,7 @@ a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
 
 // xattrs
-include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]
+include::{version-server}@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]
 
 
 == XDCR
