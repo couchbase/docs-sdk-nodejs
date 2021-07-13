@@ -1,11 +1,10 @@
-= Working with the  Collections
+= Working with Collections
 :description: Collections
 :nav-title: Collections
 :content-type: howto
 :page-topic-type: howto
 
 [abstract]
-{description}
 The 3.0 API SDKs all work with Collections and Scopes.
 As a practical demonstration, we have a collections-enabled version of the Travel Sample application.
 
