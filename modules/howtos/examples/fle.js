@@ -81,7 +81,7 @@ async function go() {
 
   // We only set one decrypter per algorithm.
   // The crypto manager will work out which decrypter to use based on the `alg` field embedded in the field data.
-  // The decrypter will use the key embedded in the field data to determine which key to fetch from the key store for decryption
+  // The decrypter will use the key ID embedded in the field data to determine which key to fetch from the key store for decryption
   mgr.registerDecrypter(provider.decrypter());
   // end::provider[]
 
