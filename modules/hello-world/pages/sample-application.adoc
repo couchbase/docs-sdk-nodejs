@@ -8,62 +8,21 @@
 :travel-sample-git-project: try-cb-nodejs
 :travel-sample-entrypoint: index.js
 
-// TODO: move these to attributes.adoc
-:name-sdk: Node.js SDK
-:version-sdk: 3.0
+include::project-docs:partial$attributes.adoc[]
 
-[abstract]
-{description}
-This version demonstrates various features of Couchbase, including the Collections feature new in Server 7.0.
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=abstract]
 
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=quick-start]
 
-== Quick Start
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=bring-your-own]
 
-Fetch the https://github.com/couchbaselabs/{travel-sample-git-project}[Couchbase {name-sdk} travel-sample Application REST Backend] from github:
-
-[source,bash,subs="+attributes"]
-----
-git clone https://github.com/couchbaselabs/{travel-sample-git-project}.git
-cd {travel-sample-git-project}
-----
-
-With https://docs.docker.com/get-docker/[Docker] installed, you should now be able to run a bare-bones copy of Couchbase Server, load the travel-sample, add indexes, install the sample-application and its frontend, all by running a single command:
-
-[source,bash]
-----
-docker-compose up
-----
-
-== Running the code against your own development Couchbase server.
-
-// TODO: extract these to shared
-// tag::prereq[]
-For Couchbase Server {version-server}, make sure that you have at least one node each of data; query; index; and search.
-For a development box, mixing more than one of these on a single node (given enough memory resources) is perfectly acceptable.
-
-If you have yet to install Couchbase Server in your development environment
-xref:{version-server}@server:getting-started:do-a-quick-install.adoc[start here].
-
-Then load up the Travel Sample Bucket, using either the
-xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
-or the
-xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
-You will also need to
-xref:{version-server}@server:fts:fts-searching-from-the-ui.adoc#create-an-index[create a Search Index]
--- Query indexes are taken care of by the Sample Bucket.
-// end::prereq[]
-
-See the README at https://github.com/couchbaselabs/{travel-sample-git-project} for full details of how to run and tweak the {name-sdk} travel-sample app.
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=using]
 
 
-== Using the Sample App
-
-// TODO: *PIC -- screenshot
-
-Give yourself a username and password and click *Register*.
-
-Now try out a few queries, and see Search in action for the hotel finder feature.
-
+// TODO this section needs work, possibly inspired by 2.7 docs, to do more
+// step-by-step introduction of the backend.
+// for now, we'll leave it inline in this doc instead of extracting to
+// shared
 
 == Sample App Backend
 
@@ -72,7 +31,6 @@ but also how to plug together all of the elements and build an application with 
 
 Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation, and if not searches for it as an airport name:
 
-// TODO: discuss if we need source code example, and how we'll keep it up to date.
 [source,javascript]
 ----
 var qs;
@@ -106,13 +64,6 @@ var qs;
 The https://github.com/couchbaselabs/{travel-sample-git-project}/blob/HEAD/{travel-sample-entrypoint}[{travel-sample-entrypoint}] file also contains the functions for handling users, registration, and N1QL queries.
 
 
-== Data Model
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=data-model]
 
-// TODO, update the Data Model page!
-See the xref:ref:travel-app-data-model.adoc[Travel App Data Model] reference page for more information about the sample data set used.
-
-== REST API
-
-You can explore the REST API here in read-only mode, or once you are running the application, at the `/apidocs` endpoint.
-
-swagger_ui::https://raw.githubusercontent.com/couchbaselabs/{travel-sample-git-project}/HEAD/swagger.json[]
+include::{version-server}@sdk:shared:partial$sample-application.adoc[tag=rest-api]
