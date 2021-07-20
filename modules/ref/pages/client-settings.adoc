@@ -4,15 +4,17 @@
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-Beyond the connection string, most settings are changed by calls to libcouchbase -- 
-refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cmtl()`] 
+Beyond the connection string, most settings are changed by calls to libcouchbase --
+refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cmtl()`]
 and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
 
 // == Timeout Options
 
 // section on wide area network support
 
-include::6.5@sdk:shared:partial$client-settings-wide-network.adoc[]
+include::{version-server}@sdk:shared:partial$client-settings-wide-network.adoc[]

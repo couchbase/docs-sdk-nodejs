@@ -3,42 +3,44 @@
 :nav-title: Error Codes
 :page-topic-type: ref
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=intro]
 
-== Shared Error Definitions 
+== Shared Error Definitions
 
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=shared]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=shared]
 
 
 == KeyValue Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=kv]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=kv]
 
 
 == Query Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=query]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=query]
 
 
 == Analytics Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=analytics]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=analytics]
 
 
 == Search Error Definition
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=search]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=search]
 
 
 == View Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=views]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=views]
 
 
 == Management API Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
 
 
 == Field-Level Encryption Error Definitions
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=fle]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=fle]
 
 
 ////
@@ -52,32 +54,32 @@ This range is reserved for sdk-specific error codes which are not standardized, 
 
 
 == Connecting to Cloud
-include::6.5@sdk:shared:partial$error-ref.adoc[tag=cloud]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=cloud]
 
-[source,terminal] 
+[source,terminal]
 ----
 couchnode:lcb:info (instance @ ../deps/lcb/src/instance.cc:202) DNS SRV lookup failed: LCB_ERR_UNKNOWN_HOST (1049). Ignore this if not relying on DNS SRV records +0ms
 ----
 
 .Couldn't look up
-[source,terminal] 
+[source,terminal]
 ----
 couchnode:lcb:error (connection @ ../deps/lcb/src/lcbio/connect.cc:503) <8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com:11207> (SOCK=23609f0e7a32db36) Couldn't look up 8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com (nodename nor servname provided, or not known) [EAI=8] +0ms
 ----
 
 .Failed to establish connection
-[source,terminal] 
+[source,terminal]
 ----
 couchnode:lcb:error (connection @ ../deps/lcb/src/lcbio/connect.cc:164) <8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com:11207> (SOCK=23609f0e7a32db36) Failed to establish connection: LCB_ERR_UNKNOWN_HOST (1049), os errno=0 +0ms
 ----
 
-[source,terminal] 
+[source,terminal]
 ----
 couchnode:lcb:debug (lcbio_mgr @ ../deps/lcb/src/lcbio/manager.cc:349) <8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com:11207> (HE=0x102b11cd0) Received result for I=0x102b13d30,C=0x0; E=0x419 +0ms
 ----
 
 .Could not get configuration
-[source,terminal] 
+[source,terminal]
 ----
 couchnode:lcb:error (cccp @ ../deps/lcb/src/bucketconfig/bc_cccp.cc:171) <NOHOST:NOPORT> (CTX=0x0,) Could not get configuration: LCB_ERR_UNKNOWN_HOST (1049) +0ms
 ----

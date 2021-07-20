@@ -12,7 +12,7 @@ Latencies come and go, so do connections in their entirety.
 Is it a network glitch, or is the remote cluster down?
 Sometimes just knowing the likely cause is enough to get a good start on a workaround, or at least avoid hours wasted on an inappropriate solution.
 
-Health Check enables useful diagnostics on the state of Couchbase Clusters across networks. 
+Health Check enables useful diagnostics on the state of Couchbase Clusters across networks.
 `Ping` and `diagnostics` methods on the bucket and cluster objects respectively, can give us information about the current state of nodes, and their connections.
 
 == Uses
@@ -65,9 +65,9 @@ console.log(result);
 */
 ----
 
-This will print the latency for each socket (endpoint) connected per service. More information is available on the classes. 
+This will print the latency for each socket (endpoint) connected per service. More information is available on the classes.
 
-By default the SDK will ping all services available on the target cluster. 
+By default the SDK will ping all services available on the target cluster.
 You can customize the type of services to ping through the `PingOptions`:
 
 [source,javascript]
@@ -81,8 +81,8 @@ const result = await cluster.ping({
 
 In this example, only the Query Service is included in the ping report.
 
-Note that `ping` is available both on the `Cluster` and the `Bucket` level. 
-The difference is that at the cluster level, the key-value service might not be included based on the Couchbase Server version in use. 
+Note that `ping` is available both on the `Cluster` and the `Bucket` level.
+The difference is that at the cluster level, the key-value service might not be included based on the Couchbase Server version in use.
 If you want to make sure the key-value service is included, perform it at the bucket level.
 
 
@@ -128,5 +128,5 @@ console.log(result)
 ----
 
 
-// Once ping() is implemeted, replace above with:
-// include::6.5@sdk:pages:partial$health-check.adoc[]
+// Once ping() is implemented, replace above with:
+// include::{version-server}@sdk:pages:partial$health-check.adoc[]
