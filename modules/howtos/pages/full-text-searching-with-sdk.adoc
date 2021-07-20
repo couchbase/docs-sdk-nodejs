@@ -3,6 +3,7 @@
 :navtitle: Searching from the SDK
 :page-topic-type: howto
 
+include::partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -24,7 +25,7 @@ Search queries are executed at the cluster level (not bucket or collection). All
 
 .Match
 
-Using the `travel-sample` xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
+Using the `travel-sample` xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
 
 [source,javascript,indent=0]
 ----
@@ -58,7 +59,7 @@ If you run this code, notice that we matched `"10-minute"` with three additional
 
 .Date Range
 
-Using the `beer-sample` xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
+Using the `beer-sample` xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript,indent=0]
 ----

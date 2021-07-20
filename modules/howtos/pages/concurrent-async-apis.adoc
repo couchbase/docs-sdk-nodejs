@@ -1,6 +1,5 @@
 = Choosing an API
-:description: The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of \
-result handling.
+:description: The Couchbase Node.js SDK allows the use, and mixing, of two distinct forms of result handling.
 :navtitle: Choosing an API
 :page-topic-type: howto
 :source-language: javascript
@@ -19,7 +18,7 @@ The Node.js SDK provides two APIs, which can be freely mixed:
 
 == Using the Promises API
 
-This is the simplest API, in which all operations can be directly waited upon.  
+This is the simplest API, in which all operations can be directly waited upon.
 A simple upsert example looks like this:
 
 [source,javascript]
@@ -70,6 +69,6 @@ include::devguide:example$nodejs/kv-operations.js[tag=batch,indent=0]
 == Choosing an API
 So which API should you choose?
 
-It's really down to you and the needs of your application.  
+It's really down to you and the needs of your application.
 If you're already writing code using promises, then it makes sense to continue that way.
 If you working with a legacy application which is still using the standard callback approach, it may make sense to continue using callbacks.

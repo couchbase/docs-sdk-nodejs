@@ -3,8 +3,10 @@
 :navtitle: ACID Transactions
 :page-topic-type: howto
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 
 Distributed ACID Transactions are not currently available for the Node.js SDK.
-include::6.5@sdk:shared:partial$acid-transactions.adoc[tag=other]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=other]

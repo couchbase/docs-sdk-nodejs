@@ -4,6 +4,8 @@
 :page-topic-type: howto
 :page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
 
+include::partial$attributes.adoc[]
+
 [abstract]
 {description}
 It contains best practices as well as information on TLS/SSL and other advanced connection options.
@@ -76,16 +78,16 @@ Before your application stops, gracefully shut down the client by calling the `d
 
 == Alternate Addresses and Custom Ports
 
-If your Couchbase Server cluster is running in a containerized, port mapped, or otherwise NAT'd environment like Docker or Kubernetes, 
-a client running outside that environment may need additional information in order to connect to the cluster. 
+If your Couchbase Server cluster is running in a containerized, port mapped, or otherwise NAT'd environment like Docker or Kubernetes,
+a client running outside that environment may need additional information in order to connect to the cluster.
 Both the client and server require special configuration in this case.
 
-On the server side, each server node must be configured to advertize its external address as well as any custom port mapping. 
-This is done with the `setting-alternate-address` CLI command introduced in Couchbase Server 6.5. 
-A node configured in this way will advertise two addresses: 
+On the server side, each server node must be configured to advertize its external address as well as any custom port mapping.
+This is done with the `setting-alternate-address` CLI command introduced in Couchbase Server 6.5.
+A node configured in this way will advertise two addresses:
 one for connecting from the same network, and another for connecting from an external network.
 
-On the client side, the externally visible ports must be used when connecting. 
+On the client side, the externally visible ports must be used when connecting.
 If the external ports are not the default, you can specify custom ports by explicitly specifying them in the connection string:
 
 [source,javascript]
@@ -126,8 +128,8 @@ NOTE: Any TLS certificates must be set up at the point where the connections are
 [#ssl]
 == Secure Connections
 
-Couchbase Server Enterprise Edition supports full encryption of client-side traffic using Transport Layer Security (TLS). 
-This includes key-value type operations, queries, and configuration communication.  
+Couchbase Server Enterprise Edition supports full encryption of client-side traffic using Transport Layer Security (TLS).
+This includes key-value type operations, queries, and configuration communication.
 Make sure you have the Enterprise Edition of Couchbase Server before proceeding with configuring encryption on the client side.
 
 To configure encryption for the C SDK (libcouchbase):
@@ -142,7 +144,7 @@ If you are running on `localhost` and just want to enable TLS for a development 
 This is because the certificate will not match the name _localhost_.
 Setting `TLSSkipVerify` is a workaround if you need to use ` couchbases://localhost`.
 
-Navigate in the admin UI to menu:Settings[Cluster] and copy the input box of the TLS certificate into a file on your machine (which we will refer to as `cluster.cert`). 
+Navigate in the admin UI to menu:Settings[Cluster] and copy the input box of the TLS certificate into a file on your machine (which we will refer to as `cluster.cert`).
 It looks similar to this:
 
 ----
@@ -159,8 +161,8 @@ F4+FjEqAEIr1mQepDaNM0gEfVcgd2SzGhC3yhYFBAH//8W4DUot5ciEhoBs=
 -----END CERTIFICATE-----
 ----
 
-The next step is to enable encryption and pass it the path to the certificate file 
-(note the connection string scheme is `couchbases://` rather than the non-TLS `couchbase://`). 
+The next step is to enable encryption and pass it the path to the certificate file
+(note the connection string scheme is `couchbases://` rather than the non-TLS `couchbase://`).
 Additionally, you need to provide your `username` and `password`:
 
 [source,javascript]
@@ -188,7 +190,7 @@ E.....@.@.............+....Z.'yZ..#........
 
 // == Using DNS SRV records
 
-include::6.5@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
+include::{version-server}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
 
 The Node.js SDK always tries to use the SRV records, if the connection string contains a single hostname and the feature is not disabled explicitly with connection string option `dnssrv=off`.
 
@@ -204,4 +206,4 @@ If the DNS SRV records could not be loaded properly you'll get an exception logg
 81ms [If1e0caf208c1ff41] {11763} [INFO] (instance - L:202) DNS SRV lookup failed: LCB_ERR_UNKNOWN_HOST (1049). Ignore this if not relying on DNS SRV records
 ----
 
-include::6.5@sdk:shared:partial$managing-connections.adoc[tag=cloud]
+include::{version-server}@sdk:shared:partial$managing-connections.adoc[tag=cloud]

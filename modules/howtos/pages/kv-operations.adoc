@@ -3,6 +3,7 @@
 :page-topic-type: howto
 :page-aliases: document-operations.adoc
 
+include::partial$attributes.adoc[]
 
 ////
 The complete code sample used on this page can be downloaded from
@@ -55,7 +56,7 @@ include::devguide:example$nodejs/kv-operations.js[tag=replace,indent=0]
 Expiration sets an explicit time to live (TTL) for a document.
 We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
 For a discussion of item (Document) _vs_ Bucket expiration, see the
-xref:7.0@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
+xref:{version-server}@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
 
 == Durability
@@ -145,7 +146,7 @@ A network timeout can be set with the options, in the same fashion as earlier ex
 include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=exp-note]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=exp-note]
 
 
 == Atomic Counters
@@ -180,11 +181,7 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API and as s
 
 == Scoped KV Operations
 
-It is possible to perform scoped key-value operations on named xref:7.0@server:learn:data/scopes-and-collections.adoc[`Collections`] _with the beta version of the next Couchbase Server release, 7.0β_.
-See the https://docs.couchbase.com/sdk-api/couchbase-node-client/Collection.html[API docs] for more information.
-
-CAUTION: This feature is marked xref:project-docs:compatibility.adoc#interface-stability[_Uncommitted_].
-Expect a promotion to _Committed_ API in a future minor release.
+It is possible to perform scoped key value operations on named xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release, 7.0_.
 
 Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:
 

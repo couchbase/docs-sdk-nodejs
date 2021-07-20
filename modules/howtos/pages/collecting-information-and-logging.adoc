@@ -7,22 +7,22 @@
 
 == Library logging
 
-Note that customization of logging levels via console_log_level or LCB_LOGLEVEL will not take 
-effect if a custome logging function has been provided in the sdk 'options' argument. 
-As of Node SDK 3.0.1, the connection library provides a logging function if one is not provided, 
+Note that customization of logging levels via `console_log_level` or `LCB_LOGLEVEL` will not take
+effect if a customer logging function has been provided in the sdk `options` argument.
+As of Node SDK 3.0.1, the connection library provides a logging function if one is not provided,
 so there will always be a provided logging function, and the DEBUG environment variable should
 be used to obtain logging output.
 
-The Node.js SDK offers a basic logging facility through which its various subsystems can output 
+The Node.js SDK offers a basic logging facility through which its various subsystems can output
 debug and error information.
-This information provides details of the library's internals and additional error information 
+This information provides details of the library's internals and additional error information
 which may otherwise not be accessible via other APIs.
 Logging may be enabled via the `debug` library, an environment variable, or a connection string directive.
 
-The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.  
-Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5, 
-with 5 being the most verbose and 1 being the least verbose.  Also, the query parameter 
-console_log_level can be used to set the log level.
+The most common way to enable logging is to set the `DEBUG` environment variable to `couchnode*`.
+Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5,
+with 5 being the most verbose and 1 being the least verbose.  Also, the query parameter
+`console_log_level` can be used to set the log level.
 Note that these logs will go to `stdout` (standard output):
 
 [source,console]
@@ -47,7 +47,7 @@ Creating new connection because none are available in the pool
 ----
 
 NOTE: The output format is subject to change.
-It is intended for human consumption and is not designed to be parseable. Different formats 
+It is intended for human consumption and is not designed to be parseable. Different formats
 can be specified by providing a custom logging function in the 'options' argument.
 
 The following table describes the components of the log entries:
@@ -83,5 +83,5 @@ This is supplied for messages that relate to the state of a particular connectio
 
 == Additional Information
 
-The Node.js SDK internally uses the Couchbase C SDK to perform operations. 
-If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:2.10@c-sdk::collecting-information-and-logging.adoc[the C SDK documentation].
+The Node.js SDK internally uses the Couchbase C SDK to perform operations.
+If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:c-sdk:howtos:collecting-information-and-logging.adoc[the C SDK documentation].

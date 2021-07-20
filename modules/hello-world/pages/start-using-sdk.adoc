@@ -6,9 +6,9 @@
 [abstract]
 The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js language].
 
-The Couchbase Node.js SDK 3._x_ is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as xref:concept-docs:collections.adoc[a developer preview]).
+The Couchbase Node.js SDK 3._x_ is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
 
-The 3.0 SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options
+The 3.x SDK also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options
 
 // tag::prep[]
 
@@ -39,7 +39,7 @@ Note: We have used the `-y` flag to take the initialization defaults. To change 
 
 [source,json,indent=0]
 ----
-include::../examples/getting-started/package.json[tag=start-using-package-json]
+include::../examples/getting-started/package.json[tags=**]
 ----
 
 == Installing the SDK
@@ -71,7 +71,7 @@ include::../examples/getting-started/index.js[tag=connect]
 
 If you are connecting to Couchbase Cloud rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
 
-Couchbase uses xref:7.0@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
 For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 Since we are running this locally, we are using the Couchbase alias for localhost.
 
@@ -82,14 +82,17 @@ include::../examples/getting-started/index.js[tag=bucket]
 
 If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your _bucket-name_.
 
+The 3.2 SDK is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of the Couchbase Data Platform.
+The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
+
+include::../examples/getting-started/index.js[tag=collection]
+
+NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
+
 [source,javascript,indent=0]
 ----
 include::../examples/getting-started/index.js[tag=default-collection]
 ----
-
-The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_.
-For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, which includes all documents in a bucket, and is forwards and backwards compatible with all supported versions of Couchbase Server.
-Once the _Collections_ feature is generally available, the best practice will be to group documents into collections by type.
 
 Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
