@@ -38,7 +38,8 @@ async function queryNamed() {
 }
 ----
 
-CAUTION: *When running an application using Prepared Statements through the Node.js SDK* -- if you plan to upgrade Couchbase Server from 6.0.x or earlier to 6.5.0 or later, and are running a version of the Node.js SDK with an underlying LCB prior to 2.10.6, you will need to xref:{version-server}@server:install:upgrade-strategy-for-features.adoc#prepared-statements[restart the app or otherwise work around] a change in the Server's behaviour.
+// NB: xref:6.5@server as document does not exist in 7.0 branch.
+CAUTION: *When running an application using Prepared Statements through the Node.js SDK* -- if you plan to upgrade Couchbase Server from 6.0.x or earlier to 6.5.0 or later, and are running a version of the Node.js SDK with an underlying LCB prior to 2.10.6, you will need to xref:6.5@server:install:upgrade-strategy-for-features.adoc#prepared-statements[restart the app or otherwise work around] a change in the Server's behaviour.
 
 
 == Indexes
