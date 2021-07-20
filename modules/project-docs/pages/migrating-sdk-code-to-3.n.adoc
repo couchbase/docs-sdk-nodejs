@@ -203,7 +203,7 @@ In SDK 2 the main method to control transcoding was through providing different 
 This only worked for the KV APIs though -- Query, Search, Views, and other services exposed their JSON rows/hits in different ways.
 All of this has been unified in SDK 3 under a single concept: serializers and transcoders.
 
-By default, all KV APIs transcode to and from JSON -- you can also provide java POJOs which you couldn't in the past.
+By default, all KV APIs transcode to and from JSON -- you can also provide Javascript objects which you couldn't in the past.
 
 [source,javascript]
 ----
