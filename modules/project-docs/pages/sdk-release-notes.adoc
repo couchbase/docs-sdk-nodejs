@@ -26,16 +26,16 @@ $ npm install couchbase@2.6.1
 ----
 
 
-== Version 3.2.0-beta.1 (17 May 2021)
+== Version 3.2.0 (21 July 2021)
 
-Version 3.2.0-beta.1 is a beta release of the third generation Node.js SDK, bringing a number of improvements.
+Version 3.2.0 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
-$ npm install couchbase@3.2.0-beta.1
+$ npm install couchbase@3.2.0
 ----
 
-http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0-beta.1/[API Reference]
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0/[API Reference]
 
 === New Features
 
@@ -45,6 +45,26 @@ Reimplemented the library with TypeScript.
 Added ability to specify collections to search query.
 * http://issues.couchbase.com/browse/JSCBC-886[JSCBC-886]:
 Added ability to specify raw search query options.
+* http://issues.couchbase.com/browse/JSCBC-770[JSCBC-770]/
+  http://issues.couchbase.com/browse/JSCBC-838[JSCBC-838]:
+Implemented metrics and tracing.
+* http://issues.couchbase.com/browse/JSCBC-707[JSCBC-707]:
+Added test to confirm query streaming works properly.
+* http://issues.couchbase.com/browse/JSCBC-900[JSCBC-900]:
+Fixed issue with some search query options.
+* http://issues.couchbase.com/browse/JSCBC-901[JSCBC-901]:
+Added workaround for deferring HTTP operations.
+* http://issues.couchbase.com/browse/JSCBC-858[JSCBC-858]:
+Fixed issue where FeatureNotAvailable was thrown in error.
+* http://issues.couchbase.com/browse/JSCBC-903[JSCBC-903]:
+Fixed issue with incorrect subdocument macro value.
+* http://issues.couchbase.com/browse/JSCBC-832[JSCBC-832]:
+Implemented preserveExpiry functionality.
+* http://issues.couchbase.com/browse/JSCBC-762[JSCBC-762]:
+Added support for managing analytics remote links.
+* http://issues.couchbase.com/browse/JSCBC-763[JSCBC-763]:
+Added support for compound data-verse names.
+
 
 === Fixed Issues
 
@@ -80,6 +100,11 @@ Fixed export typo causing failed query index manager construction.
 Added missing getAllScopes method to CollectionManager.
 * http://issues.couchbase.com/browse/JSCBC-811[JSCBC-811]:
 Updated scopes/collections APIs to match latest specification.
+* Added deprecation warning to calling Cluster constructor.
+* Fixed deprecation warning caused by callback invocation.
+* Added Mac arm64 config to allow test builds with M1.
+* Fixed issue where bucket manager tests would fail in error.
+* Fixed issue with test cleanup handling.
 * Refactored LookupInMacro / MutateInMacro to work better with TypeScript.
 * Fixed HTTP errors not containing context in some cases.
 * Fixed some IndexMissing errors appearing as undefined errors.
@@ -91,6 +116,8 @@ Updated scopes/collections APIs to match latest specification.
 * Switched to using typedoc rather than jsdoc.
 * Deprecated Node.js 8 support as it is now EOL.
 * Updated all dependencies to latest versions.
+* Updated to the latest Typescript version.
+* Updated to libcouchbase 3.2.0.
 
 
 == Version 3.1.3 (5 May 2021)
