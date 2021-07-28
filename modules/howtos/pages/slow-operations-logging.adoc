@@ -31,34 +31,27 @@ Metrics fall into the following categories:
 
 == Configuring Metrics Logging
 
-The information logged can be configured, although configurability does vary slightly between SDKs.
-
-// Please add (here, and further down) the settings info that users need here for your SDK  :)
+To configure metrics logging, swap out the default `LoggingMeter` with your own instance of `LoggingMeter`,
+configured with the custom options you wish to use (via the `LoggingMeterOptions`).
 
 Advanced users can build their own implementations of the interface:
 
-[source,java]
+[source,javascript]
 ----
 interface Meter {
-    Counter counter(String name, Map<String, String> tags)
-    ValueRecorder valueRecorder(String name, Map<String, String> tags)
-}
-
-interface Counter {
-    void incrementBy(ulong number)
+  valueRecorder(name: string, tags: { [key: string]: string }): ValueRecorder
 }
 
 interface ValueRecorder {
-    void recordValue(ulong value)
+  recordValue(value: number): void
 }
 ----
 
-// The different Meter implementation names are heavily based on their _OpenTelemetry_ counterparts.
-
-At each emit/log interval, the AggregatingMeter outputs a JSON structure that is very similar to the `ThresholdRequestTracer` or the `OrphanResponseReporter`.
-The default value for the `emitInterval` is 600 seconds (10 minutes).
 
 ==== JSON Output Format & Logging
+
+At each emit/log interval, the `LoggingMeter` outputs a JSON structure that is very similar to the `ThresholdRequestTracer` or the `OrphanResponseReporter`.
+The default value for the `emitInterval` is 600 seconds (10 minutes).
 
 The overall structure looks like this (here prettified for readability):
 
@@ -91,6 +84,7 @@ The `emit_interval_s` is reported in the meta section of the JSON output since t
 Since the configuration property is not always available when debugging logs it is included to make it simple.
 
 
+
 == Threshold Logging Reporting
 
 Threshold logging is the recording of slow operations -- useful for diagnosing when and where problems occur in a distributed environment.
@@ -98,7 +92,25 @@ Threshold logging is the recording of slow operations -- useful for diagnosing w
 
 === Configuring Threshold Logging
 
-To configure threshold logging, adjust the xref:ref:client-settings.adoc#general-options[ThresholdRequestTracer].
+To configure threshold logging, swap out the default tracer (`ThresholdLoggingTracer`) with your own instance of `ThresholdLoggingTracer` with the custom options you wish to use (via the `ThresholdLoggingTracerOptions`).
+
+Advanced users can build their own implementations of the interface:
+
+[source,javascript]
+----
+interface RequestTracer {
+  requestSpan(name: string, parent: RequestSpan | undefined): RequestSpan
+}
+
+interface RequestSpan {
+  addTag(key: string, value: string | number | boolean): void
+  end(): void
+}
+----
+
+
+==== JSON Output Format & Logging
+
 You should expect to see output in JSON format in the logs for the services encountering problems:
 
 [source,json]
