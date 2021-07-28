@@ -31,8 +31,8 @@ Metrics fall into the following categories:
 
 == Configuring Metrics Logging
 
-To configure metrics logging, swap out the default LoggingMeter with your own instance of LoggingMeter 
-configured with the custom options you wish to use (via the LoggingMeterOptions).
+To configure metrics logging, swap out the default `LoggingMeter` with your own instance of `LoggingMeter`,
+configured with the custom options you wish to use (via the `LoggingMeterOptions`).
 
 Advanced users can build their own implementations of the interface:
 
@@ -50,7 +50,7 @@ interface ValueRecorder {
 
 ==== JSON Output Format & Logging
 
-At each emit/log interval, the LoggingMeter outputs a JSON structure that is very similar to the `ThresholdRequestTracer` or the `OrphanResponseReporter`.
+At each emit/log interval, the `LoggingMeter` outputs a JSON structure that is very similar to the `ThresholdRequestTracer` or the `OrphanResponseReporter`.
 The default value for the `emitInterval` is 600 seconds (10 minutes).
 
 The overall structure looks like this (here prettified for readability):
@@ -92,8 +92,7 @@ Threshold logging is the recording of slow operations -- useful for diagnosing w
 
 === Configuring Threshold Logging
 
-To configure threshold logging, swap out the default tracer (ThresholdLoggingTracer) with your own instance of ThresholdLoggingTracer with 
-the custom options you wish to use (via the ThresholdLoggingTracerOptions).
+To configure threshold logging, swap out the default tracer (`ThresholdLoggingTracer`) with your own instance of `ThresholdLoggingTracer` with the custom options you wish to use (via the `ThresholdLoggingTracerOptions`).
 
 Advanced users can build their own implementations of the interface:
 
