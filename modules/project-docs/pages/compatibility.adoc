@@ -97,7 +97,7 @@ The 3.2 Node.js SDK is compatible with https://ottomanjs.com/#introduction[versi
 [.table-merge-cells]
 [cols="7,7,5,6,5"]
 |===
-| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0β
+| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0
 
 | Enhanced Durability
 4+| All SDK versions
@@ -110,14 +110,22 @@ The 3.2 Node.js SDK is compatible with https://ottomanjs.com/#introduction[versi
 | DP in 5.5 with 2.4.2
 3+| Since 2.6
 
-| Collections
+| Default Collections
 2+| Not Supported
-| SDK 3.0 for Developer Preview in Server 6.5 & 6.6
-| Since 3.0
+| Developer Preview in 6.5-6.6, SDK 3.0
+| Since 3.0.7
 
-| Scope-Level N1QL Queries
+| Scope-Level N1QL Queries & all Collections features
 3+| Not Supported
-| Developer Preview in 7.0β, SDK 3.0.7
+| Since SDK 3.2.0
+
+| Field Level Encryption v2
+2+| Not Supported
+2+| Since SDK 3.2.0footnote:[Field Level Encryption distributed as separate library.]
+
+| Request Tracing
+2+| Not Supported
+2+| Since SDK 3.2.0
 |===
 
 include::{version-server}@sdk:shared:partial$network-requirements.adoc[]
