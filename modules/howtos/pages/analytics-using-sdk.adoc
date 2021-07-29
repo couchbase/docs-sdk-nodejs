@@ -137,7 +137,7 @@ include::../examples/analytics.js[tag=handle-scope]
 
 == Advanced Analytics Topics
 
-From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
+From Couchbase Data Platform 6.5, _KV Ingestion_ is added to CBAS.
 
 
 ////
