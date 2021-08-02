@@ -79,10 +79,12 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client[API Docs^]
 .What's Hot?
 
 [.content]
-The Couchbase Node.js SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area
--- and introducing a xref:howtos:concurrent-async-apis.adoc[promises API] to reduce the complexity of asynchronous JavaScript in client apps.
-From xref:project-docs:sdk-release-notes.adoc#version-3-0-6-3-september-2020[SDK 3.0.6], improved TypeScript support.
-// It can be paired with the 3.0-compatible https://v2.ottomanjs.com/#introduction[updated Ottoman ODM^] for speedier, scalable development.
+
+Leverage the new Couchbase Server Scopes and Collection features to build multi-tenant micro-service application.
+// Integrate with Open Telemetry API to instrument telemetry data for your mission critical workloads that will make troubleshooting and debugging of your applications easier than ever.
+Add an additional layer of security and protect your sensitive workloads using our Client Side Field Level Encryption capability. 
+
+// It can be paired with the 3.0-compatible https://ottomanjs.com/#introduction[updated Ottoman ODM^] for speedier, scalable development.
 
 [.column]
 ====== {empty}
