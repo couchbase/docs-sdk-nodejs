@@ -4,7 +4,7 @@
 :page-topic-type: howto
 :page-aliases: n1ql-query
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}

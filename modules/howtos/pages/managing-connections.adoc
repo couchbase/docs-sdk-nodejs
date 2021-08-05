@@ -4,7 +4,7 @@
 :page-topic-type: howto
 :page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}

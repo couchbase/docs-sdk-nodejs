@@ -3,7 +3,7 @@
 :navtitle: ACID Transactions
 :page-topic-type: howto
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}

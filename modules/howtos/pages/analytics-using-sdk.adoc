@@ -4,7 +4,7 @@
 :page-edition: Enterprise Edition:
 // no source code for query analytics in sdk-examples/nodejs
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}

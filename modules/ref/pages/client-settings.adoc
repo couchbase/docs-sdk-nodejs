@@ -4,7 +4,7 @@
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
