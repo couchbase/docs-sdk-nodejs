@@ -5,7 +5,7 @@
 //:page-aliases: ROOT:core-operations
 :page-aliases: ROOT:documents,ROOT:documents-basics,ROOT:documents-atomic
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}

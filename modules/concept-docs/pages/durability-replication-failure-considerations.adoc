@@ -3,7 +3,7 @@
 :page-topic-type: concept
 // :page-aliases: ROOT:failure-considerations,ROOT:durability,ROOT:enhanced-durability
 
-include::partial$attributes.adoc[]
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
