@@ -53,7 +53,7 @@ include::devguide:example$nodejs/n1ql-queries-scoped.js[tag=queryresults,indent=
 == CAS and N1QL
 
 If you are performing an operation with N1QL that requires CAS to be used, in combination with using CAS from regular KV operations for example,
-then you need to be aware of the xref:howtos/concurrent-document-mutations.adoc#cas-value-format[CAS type].
+then you need to be aware of the xref:howtos:concurrent-document-mutations.adoc#cas-value-format[CAS type].
 CAS is stored as a 64-bit integer, which cannot be represented safely in javaScript -- thus you must convert to a string:
 
 [source,javascript]
