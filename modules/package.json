@@ -1,0 +1,11 @@
+{
+  "name": "docs-nodejs-examples",
+  "dependencies": {
+    "devguide": "file:devguide/examples/nodejs",
+    "hello-world": "file:hello-world/examples",
+    "howtos": "file:howtos/examples"
+  },
+  "devDependencies": {
+    "bats": "file:test"
+  }
+}

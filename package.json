@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "couchbase": "github:couchbase/couchnode#master"
-  }
-}

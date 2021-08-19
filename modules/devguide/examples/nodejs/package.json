@@ -1,8 +1,6 @@
 {
-  "name": "site2",
+  "name": "docs-devguide-examples",
   "version": "1.0.0",
-  "description": "Hapi.js site2",
-  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,10 +8,9 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^20.1.2",
-    "couchbase": "^3.1.1",
+    "couchbase": "^3.2.0",
     "joi": "^14.3.1",
     "uuid": "^3.3.3"
   },
-  "devDependencies": {},
   "keywords": []
 }
