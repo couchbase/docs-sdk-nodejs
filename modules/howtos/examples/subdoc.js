@@ -252,7 +252,7 @@ async function go() {
   });
   // end::cas[]
 
-  /* These examples currently blocked JSCBC-927
+  /* These examples currently blocked JSCBC-637
   console.log("mutate-persistto")
   // tag::mutate-persistto[]
   await collection.mutateIn(

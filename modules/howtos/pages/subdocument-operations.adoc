@@ -307,7 +307,8 @@ Sometimes it's important to ensure the entire document didn't change state since
 include::example$subdoc.js[tag=cas]
 ----
 
-
+////
+// not working pending JSCBC-637
 == Durability
 
 Couchbase's xref:2.6@nodejs-sdk::durability.adoc[traditional durability], using `persistTo` and `replicateTo`, is
@@ -325,6 +326,7 @@ which uses the concept of xref:{version-server}@server:learn:data/durability.ado
 ----
 include::../examples/subdoc.js[tag=mutate-durability]
 ----
+////
 
 == Error handling
 
