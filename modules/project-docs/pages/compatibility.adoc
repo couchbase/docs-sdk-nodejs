@@ -100,7 +100,7 @@ The 3.1 Node.js SDK is compatible with https://ottomanjs.com/#introduction[versi
 [.table-merge-cells]
 [cols="7,7,5,6,5"]
 |===
-| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0β
+| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0
 
 | Enhanced Durability
 4+| All SDK versions
@@ -120,7 +120,7 @@ The 3.1 Node.js SDK is compatible with https://ottomanjs.com/#introduction[versi
 
 | Scope-Level N1QL Queries
 3+| Not Supported
-| Developer Preview in 7.0β, SDK 3.0.7
+| Since SDK 3.0.7
 |===
 
 include::6.6@sdk:shared:partial$network-requirements.adoc[]
