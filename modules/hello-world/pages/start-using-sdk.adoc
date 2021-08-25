@@ -164,7 +164,7 @@ Get Result:
 == Cloud Connections
 
 For developing on Couchbase Cloud, 
-try the https://github.com/couchbase/docs-sdk-nodejs/blob/release/3.0/modules/devguide/examples/nodejs/cloud.js[Cloud-based Hello World program], 
+try the https://github.com/couchbase/docs-sdk-nodejs/blob/release/3.1/modules/devguide/examples/nodejs/cloud.js[Cloud-based Hello World program], 
 
 If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
 
