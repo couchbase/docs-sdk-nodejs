@@ -27,8 +27,10 @@ async function go() {
       pending: [],
       abandoned: [],
     },
+    tags: []
   });
 
+  console.log("lookup-get")
   // tag::lookup-get[]
   var result = await collection.lookupIn("customer123", [
     couchbase.LookupInSpec.get("addresses.delivery.country"),
@@ -36,6 +38,7 @@ async function go() {
   var country = result.content[0].value; //'United Kingdom'
   // end::lookup-get[]
 
+  console.log("lookup-exists")
   // tag::lookup-exists[]
   var result = await collection.lookupIn("customer123", [
     couchbase.LookupInSpec.exists("purchases.pending[-1]"),
@@ -45,6 +48,7 @@ async function go() {
   // Path exists? false
   // end::lookup-exists[]
 
+  console.log("lookup-multi")
   // tag::lookup-multi[]
   var result = await collection.lookupIn("customer123", [
     couchbase.LookupInSpec.get("addresses.delivery.country"),
@@ -55,12 +59,14 @@ async function go() {
   console.log("Path exists?", result.content[1].value); // false
   // end::lookup-multi[]
 
+  console.log("mutate-upsert")
   // tag::mutate-upsert[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.upsert("fax", "311-555-0151"),
   ]);
   // end::mutate-upsert[]
 
+  console.log("mutate-insert")
   // tag::mutate-insert[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.insert("purchases.complete", [42, true, "None"]),
@@ -76,6 +82,7 @@ async function go() {
   }
   // end::mutate-insert[]
 
+  console.log("mutate-multi")
   // tag::mutate-multi[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.remove("addresses.billing"),
@@ -83,6 +90,7 @@ async function go() {
   ]);
   // end::mutate-multi[]
 
+  console.log("mutate-arrayappend")
   // tag::mutate-arrayappend[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayAppend("purchases.complete", 777),
@@ -91,6 +99,7 @@ async function go() {
   // purchases.complete is now [339, 976, 442, 666, 777]
   // end::mutate-arrayappend[]
 
+  console.log("mutate-arrayprepend")
   // tag::mutate-arrayprepend[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayPrepend("purchases.abandoned", 18),
@@ -99,6 +108,7 @@ async function go() {
   // purchases.abandoned is now [18, 157, 49, 999]
   // end::mutate-arrayprepend[]
 
+  console.log("mutate-tl-arrayappend")
   // tag::mutate-tl-arrayappend[]
   await collection.upsert("my_array", []);
   await collection.mutateIn("my_array", [
@@ -108,14 +118,16 @@ async function go() {
   // the document my_array is now ['some element']
   // end::mutate-tl-arrayappend[]
 
+  console.log("mutate-tl-arrayappend-multi")
   // tag::mutate-tl-arrayappend-multi[]
   await collection.mutateIn("my_array", [
-    couchbase.MutateInSpec.arrayAppend(false, "", "elem1", "elem2", "elem3"),
+    couchbase.MutateInSpec.arrayAppend("", ["elem1", "elem2", "elem3"], { multi: true }),
   ]);
 
   // the document my_array is now ['some_element', 'elem1', 'elem2', 'elem3']
   // end::mutate-tl-arrayappend-multi[]
 
+  console.log("mutate-tl-arrayappend-array")
   // tag::mutate-tl-arrayappend-array[]
   await collection.mutateIn("my_array", [
     couchbase.MutateInSpec.arrayAppend("", ["elem1", "elem2", "elem3"]),
@@ -124,6 +136,7 @@ async function go() {
   // the document my_array is now ['some_element', ['elem1', 'elem2', 'elem3']]
   // end::mutate-tl-arrayappend-array[]
 
+  console.log("mutate-tl-arrayappend-multibad")
   // tag::mutate-tl-arrayappend-multibad[]
   await collection.mutateIn("my_array", [
     couchbase.MutateInSpec.arrayAppend("", "elem1"),
@@ -132,14 +145,16 @@ async function go() {
   ]);
   // end::mutate-tl-arrayappend-multibad[]
 
+  console.log("mutate-createpaths")
   // tag::mutate-createpaths[]
-  await collection.mutateIn("some_doc", [
-    couchbase.MutateInSpec.arrayAppend("some.array", "Hello", "World", {
+  await collection.mutateIn("customer123", [
+    couchbase.MutateInSpec.arrayAppend("some.path", "Hello World", {
       createPath: true,
     }),
   ]);
   // end::mutate-createpaths[]
 
+  console.log("mutate-arrayaddunique")
   // tag::mutate-arrayaddunique[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayAddUnique("purchases.complete", 95),
@@ -147,19 +162,29 @@ async function go() {
 
   // => Success
 
-  await collection.mutateIn("customer123", [
-    couchbase.MutateInSpec.arrayAddUnique("purchases.complete", 95),
-  ]);
+  try {
+    await collection.mutateIn("customer123", [
+      couchbase.MutateInSpec.arrayAddUnique("purchases.complete", 95),
+    ])
+  }
+  catch (e) {
+    if (e instanceof couchbase.PathExistsError) {
+      console.log("Path already exists, not adding unique value")
+    }
+    else {
+      throw(e);
+    }
+  }
+  // end::mutate-arrayaddunique[]
 
-  // => SubdocPathExists exception!
-  // end::mutate-arrayaddunique-fail[]
-
+  console.log("mutate-arrayinsert")
   // tag::mutate-arrayinsert[]
-  await collection.mutateIn("array", [
-    couchbase.MutateInSpec.arrayInsert("[1]", "cruel"),
+  await collection.mutateIn("customer123", [
+    couchbase.MutateInSpec.arrayInsert("tags[0]", "cruel"),
   ]);
   // end::mutate-arrayinsert[]
 
+  console.log("mutate-increment")
   // tag::mutate-increment[]
   var result = await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.increment("logins", 1),
@@ -168,8 +193,9 @@ async function go() {
   console.log(result.content[0]); // 1
   // end::mutate-increment[]
 
+  console.log("mutate-decrement")
   // tag::mutate-decrement[]
-  await bucket.upsert("player432", {
+  await collection.upsert("player432", {
     gold: 1000,
   });
 
@@ -179,6 +205,7 @@ async function go() {
   // => player 432 now has 850 gold remaining
   // end::mutate-decrement[]
 
+  console.log("mutate-upsert-parents")
   // tag::mutate-upsert-parents[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.upsert(
@@ -194,6 +221,8 @@ async function go() {
   ]);
   // end::mutate-upsert-parents[]
 
+  console.log("mutate-cas")
+  const SOME_ID = "100"
   // tag::mutate-cas[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayAppend("purchases.complete", {
@@ -202,6 +231,8 @@ async function go() {
   ]);
   // end::mutate-cas[]
 
+  console.log("mutate-cas-noconflict")
+  const SOME_OTHER_ID = "200"
   // tag::mutate-cas-noconflict[]
   await collection.mutateIn("customer123", [
     couchbase.MutateInSpec.arrayAppend("purchases.abandoned", {
@@ -210,17 +241,22 @@ async function go() {
   ]);
   // end::mutate-cas-noconflict[]
 
+  console.log("cas")
+  var res = await collection.get("customer123")
+  var SOME_CAS = res.cas
   // tag::cas[]
   await collection.mutateIn("customer123", [
-    couchbase.MutateInSpec.arrayAppend("addresses", "17 Olcott St"),
+    couchbase.MutateInSpec.insert("addresses.delivery.line1", "17 Olcott St"),
   ], {
     cas: SOME_CAS
   });
   // end::cas[]
 
+  /* These examples currently blocked JSCBC-637
+  console.log("mutate-persistto")
   // tag::mutate-persistto[]
   await collection.mutateIn(
-    "couchbase123",
+    "customer123",
     [couchbase.MutateInSpec.insert("name", "mike")],
     {
       durabilityPersistTo: 1,
@@ -229,6 +265,7 @@ async function go() {
   );
   // end::mutate-persistto[]
 
+  console.log("mutate-durability")
   // tag::mutate-durability[]
   await collection.mutateIn(
     "couchbase123",
@@ -238,6 +275,9 @@ async function go() {
     }
   );
   // end::mutate-durability[]
+   */
+
+  cluster.close()
 }
 go()
   .then((res) => console.log("DONE:", res))
