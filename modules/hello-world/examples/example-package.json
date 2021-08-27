@@ -1,8 +1,8 @@
 {
-  "name": "examples",
+  "name": "node-couchbase-project",
   "version": "1.0.0",
   "description": "",
-  "main": "start-using.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

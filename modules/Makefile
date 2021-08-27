@@ -6,8 +6,6 @@ LOCAL_IMAGE_NAME=cb7-sdk3-nodejs-ub20
 
 TEST_NAME=""
 
-NODE_SDK_VERSION ?="3.2.0"
-
 # --------------------------
 # BUILD
 # --------------------------
