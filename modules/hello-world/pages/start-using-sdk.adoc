@@ -39,7 +39,7 @@ Note: We have used the `-y` flag to take the initialization defaults. To change 
 
 [source,json,indent=0]
 ----
-include::../examples/package.json[tags=**]
+include::../examples/example-package.json[]
 ----
 
 == Installing the SDK

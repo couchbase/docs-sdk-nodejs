@@ -21,19 +21,6 @@ build:
 	# no examples in concept-docs yet (could change in future)
 	# @./test/scripts/build-examples.sh concept-docs/examples
 
-# Utility script to update the couchbase versions for all code examples.
-# Avoids having to manually change each package.json file in every examples directory.
-update-versions:
-	$(info ************ UPDATING DOC EXAMPLE VERSIONS ************)
-	@./test/scripts/update-versions.sh devguide/examples/nodejs ${NODE_SDK_VERSION}
-	@./test/scripts/update-versions.sh hello-world/examples ${NODE_SDK_VERSION}
-	@./test/scripts/update-versions.sh howtos/examples ${NODE_SDK_VERSION}
-	# no examples in project-docs yet (could change in future)
-	# @./test/scripts/update-versions.sh project-docs/examples ${NODE_SDK_VERSION}
-	# no examples in concept-docs yet (could change in future)
-	# @./test/scripts/update-versions.sh concept-docs/examples ${NODE_SDK_VERSION}
-
-
 # -------------------------------------------
 # DOCKER
 # -------------------------------------------
