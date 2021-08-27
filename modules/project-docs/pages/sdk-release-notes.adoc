@@ -26,6 +26,41 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.2.1 (26 Aug 2021)
+
+Version 3.2.1 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.1/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-744[JSCBC-744]:
+Added support for worker threads.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-910[JSCBC-910]:
+Fixed segfault on connection GC.
+* http://issues.couchbase.com/browse/JSCBC-933[JSCBC-933]:
+Fixed issue with null/undefined logger callbacks.
+* http://issues.couchbase.com/browse/JSCBC-918[JSCBC-918]:
+Fixed issue with watchIndexes not returning.
+* http://issues.couchbase.com/browse/JSCBC-913[JSCBC-913]:
+Fixed issue with incorrect role names being returned from user management APIs.
+* http://issues.couchbase.com/browse/JSCBC-911[JSCBC-911]:
+Fixed MutateInSpec.insert options not being optional.
+* http://issues.couchbase.com/browse/JSCBC-905[JSCBC-905]:
+Fixed drop collection returning FeatureNotAvailable in error.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.2.1.
+
+
+
 == Version 3.2.0 (21 July 2021)
 
 Version 3.2.0 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
