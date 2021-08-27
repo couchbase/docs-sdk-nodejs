@@ -3,8 +3,8 @@
 // tag::connect[]
 const couchbase = require("couchbase");
 
-async function main () {
-  const cluster = new couchbase.Cluster("couchbase://localhost", {
+async function main() {
+  const cluster = await couchbase.connect("couchbase://localhost", {
     username: "Administrator",
     password: "password",
   });
@@ -15,12 +15,12 @@ async function main () {
   const bucket = cluster.bucket("travel-sample");
   // end::bucket[]
 
-   // tag::collection[]
+  // tag::collection[]
   // get a reference to a collection
   const collection = bucket.scope("inventory").collection("airline");
   // end::collection[]
 
-    // tag::default-collection[]
+  // tag::default-collection[]
   // get a reference to the default collection, required for older Couchbase server versions
   const collection_default = bucket.defaultCollection();
   // end::default-collection[]

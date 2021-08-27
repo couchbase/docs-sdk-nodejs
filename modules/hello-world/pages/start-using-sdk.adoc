@@ -39,7 +39,7 @@ Note: We have used the `-y` flag to take the initialization defaults. To change 
 
 [source,json,indent=0]
 ----
-include::../examples/getting-started/package.json[tags=**]
+include::../examples/example-package.json[]
 ----
 
 == Installing the SDK
@@ -66,7 +66,7 @@ Let's now create an empty file named `index.js` and walk through step by step ad
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=connect]
+include::../examples/start-using.js[tag=connect]
 ----
 
 If you are connecting to Couchbase Cloud rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
@@ -77,7 +77,7 @@ Since we are running this locally, we are using the Couchbase alias for localhos
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=bucket]
+include::../examples/start-using.js[tag=bucket]
 ----
 
 If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your _bucket-name_.
@@ -85,41 +85,41 @@ If you are not working with the `travel-sample` data bucket, substitute _travel-
 The 3.2 SDK is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of the Couchbase Data Platform.
 The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
 
-include::../examples/getting-started/index.js[tag=collection]
+include::../examples/start-using.js[tag=collection]
 
 NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=default-collection]
+include::../examples/start-using.js[tag=default-collection]
 ----
 
 Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=test-doc]
+include::../examples/start-using.js[tag=test-doc]
 ----
 
 Now we will create a function that will take care of upserting that document. This function is of type `async` and simply awaits the result of the upsert and either logs out the result or error in our console:
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=upsert-func]
+include::../examples/start-using.js[tag=upsert-func]
 ----
 
 Now, we can simply call the `upsertDocument` function passing in our `airline` document:
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=upsert-invoke]
+include::../examples/start-using.js[tag=upsert-invoke]
 ----
 
 We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key that is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=get-func]
+include::../examples/start-using.js[tag=get-func]
 ----
 
 KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
@@ -128,7 +128,7 @@ Now, we can simply call the `getAirlineByKey` function passing in our valid docu
 
 [source,javascript,indent=0]
 ----
-include::../examples/getting-started/index.js[tag=get-invoke]
+include::../examples/start-using.js[tag=get-invoke]
 ----
 
 Now we can run our code using the following command:
