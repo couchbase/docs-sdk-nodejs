@@ -37,6 +37,7 @@ async function main() {
   // end::test-doc[]
 
   // tag::upsert-func[]
+  // upsert document function
   const upsertDocument = async (doc) => {
     try {
       // key will equal: "airline_8091"
@@ -51,6 +52,7 @@ async function main() {
   // end::upsert-func[]
 
   // tag::upsert-invoke[]
+  // call upsert document function
   await upsertDocument(airline)
   // end::upsert-invoke[]
 
