@@ -131,6 +131,13 @@ Now, we can simply call the `getAirlineByKey` function passing in our valid docu
 include::../examples/start-using.js[tag=get-invoke]
 ----
 
+To ensure that we can run the main function, we add this last line of code:
+
+[source,javascript,indent=0]
+----
+include::../examples/start-using.js[tag=run-main]
+----
+
 Now we can run our code using the following command:
 
 [source,bash]
@@ -142,24 +149,25 @@ The results you should expect are as follows:
 
 [source,bash]
 ----
-Upsert Result:
-{
-  cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
+Upsert Result: 
+MutationResult {
+  cas: CbCas { '0': <Buffer 00 00 3e b7 72 65 a0 16> },
   token: CbMutationToken {
-    '0': <Buffer cc 6d 45 09 c2 ce 00 00 2c 00 00 00 00 00 00 00 a9 03 00 00 00 00 00 00 74 72 61 76 65 6c 2d 73 61 6d 70 6c 65 00 00 00 50 6b bf ef fe 7f 00 00 28 2e ... 230 more bytes>
+    '0': <Buffer bf 02 e0 23 a7 4d 00 00 58 00 00 00 00 00 00 00 a9 03 00 00 00 00 00 00 74 72 61 76 65 6c 2d 73 61 6d 70 6c 65 00 00 00 48 54 83 05 01 00 00 00 30 54 ... 230 more bytes>
   }
 }
-Get Result:
-{
-  cas: CbCas { '0': <Buffer 00 00 13 13 f4 32 10 16> },
-  value: {
+Get Result: 
+GetResult {
+  content: {
     type: 'airline',
     id: 8091,
     callsign: 'CBS',
     iata: null,
     icao: null,
     name: 'Couchbase Airways'
-  }
+  },
+  cas: CbCas { '0': <Buffer 00 00 3e b7 72 65 a0 16> },
+  expiryTime: undefined
 }
 ----
 
