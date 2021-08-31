@@ -37,7 +37,6 @@ async function main() {
   // end::test-doc[]
 
   // tag::upsert-func[]
-  // upsert document function
   const upsertDocument = async (doc) => {
     try {
       // key will equal: "airline_8091"
@@ -52,12 +51,10 @@ async function main() {
   // end::upsert-func[]
 
   // tag::upsert-invoke[]
-  // call upsert document function
   await upsertDocument(airline)
   // end::upsert-invoke[]
 
   // tag::get-func[]
-  // get document function
   const getAirlineByKey = async (key) => {
     try {
       const result = await collection.get(key)
@@ -70,7 +67,6 @@ async function main() {
   // end::get-func[]
 
   // tag::get-invoke[]
-  // call get document function
   await getAirlineByKey('airline_8091')
 }
 // end::get-invoke[]
