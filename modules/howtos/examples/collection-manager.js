@@ -3,7 +3,7 @@
 const couchbase = require('couchbase')
 
 async function go() {
-  const clusterAdm = new couchbase.Cluster('couchbase://localhost', {
+  const clusterAdm = await couchbase.connect('couchbase://localhost', {
     username: 'Administrator',
     password: 'password',
   })
@@ -23,7 +23,7 @@ async function go() {
   })
   // end::scopeAdmin[]
 
-  const cluster = new couchbase.Cluster('couchbase://localhost', {
+  const cluster = await couchbase.connect('couchbase://localhost', {
     username: 'scope_admin',
     password: 'password',
   })
@@ -45,21 +45,20 @@ async function go() {
   }
   // end::create-scope[]
 
-  // Note: some parts of following examples are pending https://issues.couchbase.com/browse/JSCBC-858
-
   // tag::create-collection[]
   try {
-    await collectionMgr.createCollection('example-collection', 'example-scope')
+    var collectionSpec = new couchbase.CollectionSpec({
+      name: 'example-collection',
+      scopeName: 'example-scope',
+    })
+
+    await collectionMgr.createCollection(collectionSpec)
   } catch (e) {
     if (e instanceof couchbase.CollectionExistsError) {
       console.log('The collection already exists')
-    }
-    // tag::pending-JSCBC-858[]
-    // else if (e instanceof couchbase.ScopeNotFoundError) {
-    //   console.log("The scope does not exist");
-    // }
-    // end::pending-JSCBC-858[]
-    else {
+    } else if (e instanceof couchbase.ScopeNotFoundError) {
+      console.log('The scope does not exist')
+    } else {
       throw e
     }
   }
@@ -69,16 +68,11 @@ async function go() {
   try {
     await collectionMgr.dropCollection('example-collection', 'example-scope')
   } catch (e) {
-    // tag::pending-JSCBC-858[]
-    // if (e instanceof couchbase.CollectionNotFoundError) {
-    // end::pending-JSCBC-858[]
-    console.log('The collection does not exist')
-    // tag::pending-JSCBC-858[]
-    // }
-    // else if (e instanceof couchbase.ScopeNotFoundError) {
-    //   console.log("The scope does not exist");
-    // }
-    // end::pending-JSCBC-858[]
+    if (e instanceof couchbase.CollectionNotFoundError) {
+      console.log('The collection does not exist')
+    } else if (e instanceof couchbase.ScopeNotFoundError) {
+      console.log('The scope does not exist')
+    }
   }
   // end::drop-collection[]
 
@@ -86,18 +80,13 @@ async function go() {
   try {
     await collectionMgr.dropScope('example-scope')
   } catch (e) {
-    // tag::pending-JSCBC-858[]
-    // if (e instanceof couchbase.ScopeNotFoundError) {
-    // end::pending-JSCBC-858[]
-    console.log('The scope does not exist')
-    // tag::pending-JSCBC-858[]
-    // }
-    // end::pending-JSCBC-858[]
+    if (e instanceof couchbase.ScopeNotFoundError) {
+      console.log('The scope does not exist')
+    }
   }
   // end::drop-scope[]
 }
 
 go()
   .then((res) => console.log('DONE:', res))
-  .catch((err) => console.error('ERR:', err))
   .then(process.exit)

@@ -3,7 +3,7 @@
 const couchbase = require('couchbase')
 
 async function go() {
-  const cluster = new couchbase.Cluster('couchbase://localhost', {
+  const cluster = await couchbase.connect('couchbase://localhost', {
     username: 'Administrator',
     password: 'password',
   })
@@ -11,7 +11,7 @@ async function go() {
   // Open a bucket to allow cluster-level querying
   var bucket = cluster.bucket('travel-sample')
 
-  var collection = bucket.defaultCollection()
+  var collection = bucket.scope('tenant_agent_00').collection('users')
 
   await collection.upsert('customer123', {
     email: 'hello@test.com',
@@ -283,4 +283,4 @@ async function go() {
 }
 go()
   .then((res) => console.log('DONE:', res))
-  .catch((err) => console.error('ERR:', err))
+  .then(process.exit)

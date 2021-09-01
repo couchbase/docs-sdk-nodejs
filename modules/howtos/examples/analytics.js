@@ -6,18 +6,18 @@
 //    3) a Dataset created in Analytics:
 //          CREATE DATASET airports ON `travel-sample` where `type` = 'airport';
 //    4) a Dataset on a collection:
-//          CREATE DATASET `airports-collection` ON `travel-sample`.inventory.airport;
+//          ALTER COLLECTION `travel-sample`.`inventory`.`airport` ENABLE ANALYTICS;
 
 const couchbase = require('couchbase')
 
 async function go() {
-  const cluster = new couchbase.Cluster('couchbase://localhost', {
+  const cluster = await couchbase.connect('couchbase://localhost', {
     username: 'Administrator',
     password: 'password',
   })
 
   // Open a bucket to allow cluster-level querying
-  var bucket = cluster.bucket('travel-sample')
+  const bucket = cluster.bucket('travel-sample')
 
   // tag::basic-query[]
   var result = await cluster.analyticsQuery('SELECT "hello" AS greeting')
@@ -27,8 +27,8 @@ async function go() {
   // end::basic-query[]
   console.log()
 
-  function logResult(result) {
-    result.rows.forEach((row) => {
+  function logResult(res) {
+    res.rows.forEach((row) => {
       console.log(row)
     })
     console.log()
@@ -88,18 +88,17 @@ async function go() {
 
   // tag::handle-collection[]
   var result = await cluster.analyticsQuery(
-    'SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3'
+    'SELECT airportname, country FROM `travel-sample`.inventory.airport WHERE country="France" LIMIT 3'
   )
   // end::handle-collection[]
   logResult(result)
 
   // // tag::handle-scope[]
   // var scope = bucket.scope("inventory");
-  // var result = await scope.analyticsQuery('SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3');
+  // var result = await scope.analyticsQuery('SELECT airportname, country FROM `airport` WHERE country="France" LIMIT 3');
   // // end::handle-scope[]
   // logResult(result);
 }
 go()
   .then((res) => console.log('DONE:', res))
-  .catch((err) => console.error('ERR:', err))
   .then(process.exit)

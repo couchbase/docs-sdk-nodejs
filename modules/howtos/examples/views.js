@@ -27,4 +27,4 @@ async function go() {
 }
 go()
   .then((res) => console.log('DONE:', res))
-  .catch((err) => console.error('ERR:', err))
+  .then(process.exit)

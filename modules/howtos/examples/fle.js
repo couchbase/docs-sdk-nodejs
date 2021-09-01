@@ -33,7 +33,7 @@ async function oldAnnotation() {
 }
 
 async function go() {
-  const cluster = new couchbase.Cluster('couchbase://localhost', {
+  const cluster = await couchbase.connect('couchbase://localhost', {
     username: 'Administrator',
     password: 'password',
   })
@@ -168,5 +168,4 @@ async function go() {
 
 go()
   .then((res) => console.log('DONE:', res))
-  .catch((err) => console.error('ERR:', err))
   .then(process.exit)
