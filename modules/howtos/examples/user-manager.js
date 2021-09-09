@@ -8,9 +8,10 @@ async function go() {
         password: "password",
     })
     const bucketName = "travel-sample"
-    const bucketAdm = clusterAdm.bucket();
+    const bucketAdm = clusterAdm.bucket()
     
     await example1(clusterAdm, "username", "password", bucketName)
+    await example2(clusterAdm)
 }
 
 async function example1(clusterAdm, testUsername, testPassword, bucketName) {
@@ -36,6 +37,23 @@ async function example1(clusterAdm, testUsername, testPassword, bucketName) {
         ]
     })
     // end::usermanagement_1[]
+}
+
+async function example2(cluster) {
+    // List current users.
+    console.log("Listing current users.");
+    // tag::usermanagement_2[]
+    const listOfUsers = await cluster.users().getAllUsers();
+
+    for (const currentUser of listOfUsers) {
+        console.log(`User's display name is: ${ currentUser.displayName }`);
+        const currentRoles = currentUser.effectiveRoles;
+        for (const role of currentRoles) {
+            // JSCBC-944
+            console.log(`   User has the role: ${ role.name }, applicable to bucket ${ role.bucket }`);
+        }
+    }
+    // end::usermanagement_2[]
 }
 
 go()
