@@ -72,6 +72,8 @@ async function go() {
       console.log('The collection does not exist')
     } else if (e instanceof couchbase.ScopeNotFoundError) {
       console.log('The scope does not exist')
+    } else {
+      throw e
     }
   }
   // end::drop-collection[]
@@ -82,6 +84,8 @@ async function go() {
   } catch (e) {
     if (e instanceof couchbase.ScopeNotFoundError) {
       console.log('The scope does not exist')
+    } else {
+      throw e
     }
   }
   // end::drop-scope[]

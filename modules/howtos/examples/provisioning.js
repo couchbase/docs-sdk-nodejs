@@ -30,6 +30,8 @@ async function go() {
   } catch (e) {
     if (e instanceof couchbase.BucketExistsError) {
       console.log('Bucket already exists, carrying on...')
+    } else {
+      throw e
     }
   }
 

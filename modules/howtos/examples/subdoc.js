@@ -78,7 +78,11 @@ async function go() {
       couchbase.MutateInSpec.insert('purchases.complete', [42, true, 'None']),
     ])
   } catch (e) {
-    // e == SubdocPathExistsError
+    if (e instanceof couchbase.PathExistsError) {
+      console.log('Path already exists...')
+    } else {
+      throw e
+    }
   }
   // end::mutate-insert[]
 

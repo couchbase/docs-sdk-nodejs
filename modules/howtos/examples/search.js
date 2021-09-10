@@ -78,6 +78,8 @@ async function go() {
       // so we are ignoring the error for now.
       // TODO: Remove try/catch once resolved.
       console.log(e)
+    } else {
+      throw e
     }
   }
 
