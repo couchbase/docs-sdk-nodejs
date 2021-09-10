@@ -115,7 +115,11 @@ Given a dataset created against a collection, for example:
 
 [source,n1ql]
 ----
-CREATE DATASET `airports-collection` ON `travel-sample`.inventory.airport;
+ALTER COLLECTION `travel-sample`.inventory.airport ENABLE ANALYTICS;
+
+-- NB: this is more or less equivalent to:
+CREATE DATAVERSE `travel-sample`.inventory;
+CREATE DATASET `travel-sample`.inventory.airport ON `travel-sample`.inventory.airport;
 ----
 
 You can run a query as follows:

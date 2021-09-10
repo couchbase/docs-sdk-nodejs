@@ -14,7 +14,7 @@ It contains best practices as well as information on TLS/SSL and other advanced 
 
 A connection to a Couchbase Server cluster is represented by a `Cluster` object.
 A `Cluster` provides access to Buckets, Scopes, and Collections, as well as various Couchbase services and management interfaces.
-The simplest way to create a `Cluster` object is to `const cluster = new couchbase.Cluster` with a username, and password:
+The simplest way to create a `Cluster` object is to `const cluster = couchbase.connect` with a username, and password:
 
 [source,javascript]
 ----
