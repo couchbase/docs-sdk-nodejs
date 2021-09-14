@@ -72,3 +72,6 @@ echo "Installing bats test framework..."
 npm install -g bats
 export TERM=xterm-256color
 echo
+
+echo "Setting reserved domain names for multinode examples..."
+echo "127.0.0.1 node2.example.com" >>/etc/hosts

@@ -35,7 +35,7 @@ include::../examples/search.js[tag=search-query-match]
 
 .Match Phrase
 
-An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: `"Yosemite Valley"`.
+An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: `"10-minute walk from the"`.
 
 [source,javascript,indent=0]
 ----
@@ -55,25 +55,25 @@ hits:
 ----
 
 
-If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, ee get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and `"walk to the"` (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
+If you run this code, notice that we matched `"10-minute"` with three additional hits on `"10 minute"` (without the dash). So, we get some of the same matches on variations of that term just as we would with a regular `match()` method search, however;  notice that `"walk from the"` hits on several variations of this phrase: `"walk from"` (where `"the"` was removed) and `"walk to the"` (where `"from"` was removed). This is specific to searching phrases and helps provide us with various matches relevant to our search.
 
 .Date Range
 
-Using the `beer-sample` xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery that uses the `dateRange()` method to search for breweries where the updated field (`datetime`) falls within a specified date range.
+Here we define an FTS SearchQuery that uses the `dateRange()` method to search for hotels where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=search-query-dateRange]
+include::../examples/search.js[tags=search-query-dateRange;!mutation-state;!consistent-with]
 ----
 
 
 .Conjunction
 
-A query satisfying multiple child queries. The example below will only return one document hitting on the term `"five-star"` and the phrase `"luxury hotel"` while no other documents match both criteria.
+A query satisfying multiple child queries. The example below will only return two documents hitting on the term `"five-star"` and the phrase `"luxury hotel"` while no other documents match both criteria.
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=search-query-conjuncts]
+include::../examples/search-conjuncts-disjuncts.js[tag=search-query-conjuncts]
 ----
 
 Note: Our match for `"five-star"` was not exact, but still produced a result because a similar term was found `"Five star"`, we could have potentially matched `"5 star"` or the word `"five"`. When you work with any full-text search the number of hits you get and their score are variable.
@@ -85,7 +85,7 @@ A query satisfying (by default) one query or another. If a conjunction query can
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=search-query-disjuncts]
+include::../examples/search-conjuncts-disjuncts.js[tag=search-query-disjuncts]
 ----
 
 
@@ -99,24 +99,34 @@ Metadata holds additional information not directly related to your query, such a
 
 [source,javascript,indent=0]
 ----
-include::../examples/search.js[tag=handle-hits]
+include::../examples/search-conjuncts-disjuncts.js[tag=handle-hits]
 ----
 
-// .Iterating facets
+.Facets
 
-// [source,javascript,indent=0]
-// ----
-// include::../examples/search.js[tag=handle-facets]
-// ----
+[source,javascript,indent=0]
+----
+include::../examples/search-conjuncts-disjuncts.js[tag=handle-facets]
+----
 
 
-== Consistency
+== Scan Consistency and ConsistentWith
+By default, all Search queries will return the data from whatever is in the index at the time of query.
+These semantics can be tuned if needed so that the hits returned include the most recently performed mutations, at the cost of slightly higher latency since the index needs to be updated first.
 
+There are two ways to control consistency: either by supplying a custom `SearchScanConsistency` or using `consistentWith`.
 Like the majority of Couchbase query services, FTS allows `RequestPlus` queries --
 _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from
 updated indexes:
 
+.Scan consistency example:
 [source,javascript,indent=0]
 ----
 include::../examples/search.js[tag=ryow-query]
+----
+
+.ConsistentWith consistency example:
+[source,javascript,indent=0]
+----
+include::../examples/search.js[tag=search-query-dateRange]
 ----
