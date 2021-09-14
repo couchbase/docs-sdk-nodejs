@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 // NB: To run this file you will need:
 //    1) the travel-sample sample bucket loaded.
@@ -6,57 +6,56 @@
 //    3) a Dataset created in Analytics:
 //          CREATE DATASET airports ON `travel-sample` where `type` = 'airport';
 //    4) a Dataset on a collection:
-//          CREATE DATASET `airports-collection` ON `travel-sample`.inventory.airport;
+//          ALTER COLLECTION `travel-sample`.`inventory`.`airport` ENABLE ANALYTICS;
 
-const couchbase = require("couchbase");
+const couchbase = require('couchbase')
 
 async function go() {
-  const cluster = new couchbase.Cluster("couchbase://localhost", {
-    username: "Administrator",
-    password: "password",
-  });
+  const cluster = await couchbase.connect('couchbase://localhost', {
+    username: 'Administrator',
+    password: 'password',
+  })
 
   // Open a bucket to allow cluster-level querying
-  var bucket = cluster.bucket("travel-sample");
+  const bucket = cluster.bucket('travel-sample')
 
   // tag::basic-query[]
-  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting');
+  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting')
   result.rows.forEach((row) => {
-    console.log(row);
-  });
+    console.log(row)
+  })
   // end::basic-query[]
-  console.log();
+  console.log()
 
-  function logResult (result) {
-    result.rows.forEach((row) => {
-      console.log(row);
-    });
-    console.log();
+  function logResult(res) {
+    res.rows.forEach((row) => {
+      console.log(row)
+    })
+    console.log()
   }
 
   // tag::simple-query[]
   var result = await cluster.analyticsQuery(
     'SELECT airportname, country FROM airports WHERE country="France" LIMIT 3'
-  );
+  )
   // end::simple-query[]
-  logResult(result);
+  logResult(result)
 
   // tag::posparam-query[]
   var result = await cluster.analyticsQuery(
-    "SELECT airportname, country FROM airports WHERE country = ? LIMIT 3",
-    { parameters: ["France"] }
-  );
+    'SELECT airportname, country FROM airports WHERE country = ? LIMIT 3',
+    { parameters: ['France'] }
+  )
   // end::posparam-query[]
-  logResult(result);
+  logResult(result)
 
   // tag::namedparam-query[]
   var result = await cluster.analyticsQuery(
-    "SELECT airportname, country FROM airports WHERE country = $country LIMIT 3",
-   { parameters:
-      { country: "France" } }
-  );
+    'SELECT airportname, country FROM airports WHERE country = $country LIMIT 3',
+    { parameters: { country: 'France' } }
+  )
   // end::namedparam-query[]
-  logResult(result);
+  logResult(result)
 
   // tag::priority-query[]
   var result = await cluster.analyticsQuery(
@@ -65,40 +64,41 @@ async function go() {
       priority: true,
       timeout: 100, // seconds
     }
-  );
+  )
   // end::priority-query[]
-  logResult(result);
+  logResult(result)
 
   // tag::handle-rows[]
-  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting');
+  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting')
 
   result.rows.forEach((row) => {
-    console.log("Greeting: %s", row.greeting);
-  });
+    console.log('Greeting: %s', row.greeting)
+  })
   // end::handle-rows[]
-  console.log();
+  console.log()
 
   // tag::handle-meta[]
-  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting');
+  var result = await cluster.analyticsQuery('SELECT "hello" AS greeting')
 
-  console.log("Elapsed time: %d", result.meta.metrics.elapsedTime);
-  console.log("Execution time: %d", result.meta.metrics.executionTime);
-  console.log("Result count: %d", result.meta.metrics.resultCount);
-  console.log("Error count: %d", result.meta.metrics.errorCount);
+  console.log('Elapsed time: %d', result.meta.metrics.elapsedTime)
+  console.log('Execution time: %d', result.meta.metrics.executionTime)
+  console.log('Result count: %d', result.meta.metrics.resultCount)
+  console.log('Error count: %d', result.meta.metrics.errorCount)
   // end::handle-meta[]
 
   // tag::handle-collection[]
-  var result = await cluster.analyticsQuery('SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3');
+  var result = await cluster.analyticsQuery(
+    'SELECT airportname, country FROM `travel-sample`.inventory.airport WHERE country="France" LIMIT 3'
+  )
   // end::handle-collection[]
-  logResult(result);
+  logResult(result)
 
   // // tag::handle-scope[]
   // var scope = bucket.scope("inventory");
-  // var result = await scope.analyticsQuery('SELECT airportname, country FROM `airports-collection` WHERE country="France" LIMIT 3');
+  // var result = await scope.analyticsQuery('SELECT airportname, country FROM `airport` WHERE country="France" LIMIT 3');
   // // end::handle-scope[]
   // logResult(result);
 }
 go()
-  .then((res) => console.log("DONE:", res))
-  .catch((err) => console.error("ERR:", err))
+  .then((res) => console.log('DONE:', res))
   .then(process.exit)

@@ -54,18 +54,18 @@ echo "sleep 10 to allow stabilization..."
 sleep 10
 
 echo
-echo "create travel-sample-index"
+echo "create index-hotel-description"
 curl --fail -s -u ${CB_USER}:${CB_PSWD} -X PUT \
-    http://${CB_HOST}:8094/api/index/travel-sample-index \
+    http://${CB_HOST}:8094/api/index/index-hotel-description \
     -H 'cache-control: no-cache' \
     -H 'content-type: application/json' \
-    -d @/init-couchbase/travel-sample-index.json
+    -d @/init-couchbase/index-hotel-description.json
 
 echo
-echo "Waiting for travel-sample-index to be ready..."
-until curl --fail -s -u ${CB_USER}:${CB_PSWD} http://${CB_HOST}:8094/api/index/travel-sample-index/count |
-    jq -e '.count' | grep 31591 >/dev/null; do # there are 31591 docs to be processed in this index...
-    echo "Waiting for travel-sample-index to be ready. Trying again in 10 seconds."
+echo "Waiting for index-hotel-description to be ready..."
+until curl --fail -s -u ${CB_USER}:${CB_PSWD} http://${CB_HOST}:8094/api/index/index-hotel-description/count |
+    jq -e '.count' | grep 917 >/dev/null; do # there are 917 docs to be processed in this index...
+    echo "Waiting for index-hotel-description to be ready. Trying again in 10 seconds."
     sleep 10
 done
 

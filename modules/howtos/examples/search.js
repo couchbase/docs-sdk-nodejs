@@ -1,137 +1,104 @@
-"use strict"
+// Requires an index called `index-hotel-description` to be created
+// See modules/test/scripts/init-couchbase/init-buckets.sh(line 57)
 
-const couchbase = require("couchbase")
+'use strict'
+
+const couchbase = require('couchbase')
 
 async function go() {
-  const cluster = new couchbase.Cluster("couchbase://localhost", {
-    username: "Administrator",
-    password: "password",
+  const cluster = await couchbase.connect('couchbase://localhost', {
+    username: 'Administrator',
+    password: 'password',
   })
 
-  // Open a bucket to allow cluster-level querying
-  var bucket = cluster.bucket("travel-sample")
+  const bucket = cluster.bucket('travel-sample')
+
+  const collection = bucket.scope('inventory').collection('hotel')
 
   // tag::search-query-match[]
   async function ftsMatchWord(term) {
-    try {
-      return await cluster.searchQuery(
-        "index-hotel-description", 
-        couchbase.SearchQuery.match(term),
-        { limit: 5 }
-      )
-    } catch (error) {
-      console.error(error)
-    }
+    return await cluster.searchQuery(
+      'index-hotel-description',
+      couchbase.SearchQuery.match(term),
+      { limit: 5 }
+    )
   }
-  
-  ftsMatchWord("five-star")
-    .then((result) => console.log(result))
+
+  var result = await ftsMatchWord('five-star')
+  console.log('RESULT:', result)
   // end::search-query-match[]
+  console.log('[search-query-match] result count:', result.rows.length)
 
   // tag::search-query-matchPhrase[]
   async function ftsMatchPhrase(phrase) {
-    try {
-      return await cluster.searchQuery(
-        "index-hotel-description", 
-        couchbase.SearchQuery.matchPhrase(phrase),
-        { limit: 10 }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  
-  ftsMatchPhrase("10-minute walk from the")
-    .then((result) => console.log(result))
-  // end::search-query-matchPhrase[]
-
-  // tag::search-query-dateRange[]
-  async function ftsBreweryUpdatedByDateRange(startDate, endDate) {
-    try {
-      return await cluster.searchQuery(
-        "index-brewery-by-daterange", 
-        couchbase.SearchQuery.dateRange()
-          .start(startDate)
-          .end(endDate),
-        { limit: 5 }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  
-  ftsBreweryUpdatedByDateRange("2010-11-10", "2010-11-20")
-    .then((result) => console.log(result))
-  // end::search-query-dateRange[]
-
-  // tag::search-query-conjuncts[]
-  async function ftsConjunction() {
-    try {
-      return await cluster.searchQuery(
-        "index-hotel-description",
-        couchbase.SearchQuery.conjuncts(
-          couchbase.SearchQuery.match("five-star"),
-          couchbase.SearchQuery.matchPhrase("luxury hotel")
-        )
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  
-  ftsConjunction()
-    .then((result) => console.log(result))
-  // end::search-query-conjuncts[]
-
-  // tag::search-query-disjuncts[]
-  async function ftsDisjunction() {
-    try {
-      return await cluster.searchQuery(
-        "index-hotel-description",
-        couchbase.SearchQuery.disjuncts(
-          couchbase.SearchQuery.match("Louvre"),
-          couchbase.SearchQuery.match("Eiffel")
-        )
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  
-  ftsDisjunction()
-    .then((result) => console.log(result))
-  // end::search-query-disjuncts[]
-
-  // tag::handle-hits[]
-  ftsDisjunction()
-    .then(
-      (result) => {
-        result.rows.forEach((hit, index) => {
-          const docId = hit.id
-          const score = hit.score
-          const result = index+1
-          console.log(`Result #${result} ID: ${docId} Score: ${score}`)
-        })
-      }
+    return await cluster.searchQuery(
+      'index-hotel-description',
+      couchbase.SearchQuery.matchPhrase(phrase),
+      { limit: 10 }
     )
-  // end::handle-hits[]
+  }
 
-  // tag::handle-facets[]
-  result.meta.facets.forEach((facet) => {
-    var name = facet.name
-    var total = facet.total
-    // ...
-  })
-  // end::handle-facets[]
+  result = await ftsMatchPhrase('10-minute walk from the')
+  console.log('RESULT:', result)
+  // end::search-query-matchPhrase[]
+  console.log('[search-query-matchPhrase] result count:', result.rows.length)
 
-  // tag::ryow-query[]
-  var result = cluster.searchQuery(
-    "index-hotel-description",
-    couchbase.SearchQuery.match("swanky"),
-    { consistency: couchbase.Consistency.RequestPlus }
-  )
-  // end::ryow-query[]
+  try {
+    // tag::search-query-dateRange[]
+    async function ftsHotelByDateRange(startDate, endDate) {
+      const upsertResult = await collection.upsert('hotel_fts_123', {
+        name: 'HotelFTS',
+        updated: new Date('2010-11-10 18:33:50 +0300'),
+        description: 'a fancy hotel',
+        type: 'hotel',
+      })
+
+      // tag::mutation-state[]
+      const mutationState = new couchbase.MutationState(upsertResult.token)
+      // end::mutation-state[]
+      return await cluster.searchQuery(
+        'index-hotel-description',
+        couchbase.SearchQuery.dateRange().start(startDate).end(endDate),
+        {
+          limit: 5,
+          // tag::consistent-with[]
+          consistentWith: mutationState,
+          // end::consistent-with[]
+        }
+      )
+    }
+
+    result = await ftsHotelByDateRange('2010-11-10', '2010-11-20')
+    console.log('RESULT:', result)
+    // end::search-query-dateRange[]
+    console.log('[search-query-dateRange] result count:', result.rows.length)
+  } catch (e) {
+    if (e instanceof couchbase.ParsingFailureError) {
+      // https://issues.couchbase.com/browse/JSCBC-942 has been raised
+      // so we are ignoring the error for now.
+      // TODO: Remove try/catch once resolved.
+      console.log(e)
+    } else {
+      throw e
+    }
+  }
+
+  try {
+    // tag::ryow-query[]
+    result = await cluster.searchQuery(
+      'index-hotel-description',
+      couchbase.SearchQuery.match('swanky'),
+      { consistency: couchbase.SearchScanConsistency.RequestPlus }
+    )
+    // end::ryow-query[]
+  } catch (e) {
+    // https://issues.couchbase.com/browse/JSCBC-942 has been raised
+    // so we are ignoring the error for now.
+    // TODO: Remove try/catch once resolved.
+    console.log(e)
+  }
 }
+
 go()
-  .then((res) => console.log("DONE:", res))
-  .catch((err) => console.error("ERR:", err))
+  .then((res) => console.log('DONE:', res))
+  .then(process.exit)

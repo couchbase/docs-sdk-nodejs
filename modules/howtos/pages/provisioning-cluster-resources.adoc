@@ -116,16 +116,17 @@ You can then create a collection within that scope:
 
 [source,javascript]
 ----
-include::example$collection-manager.js[tags=create-collection;!pending-JSCBC-858,indent=0]
+include::example$collection-manager.js[tags=create-collection,indent=0]
 ----
 
 Finally, you can drop unneeded collections and scopes:
 
 [source,javascript]
 ----
-include::example$collection-manager.js[tags=drop-collection;!pending-JSCBC-858,indent=0]
+include::example$collection-manager.js[tags=drop-collection,indent=0]
 
-include::example$collection-manager.js[tags=drop-scope;!pending-JSCBC-858,indent=0]
+include::example$collection-manager.js[tags=drop-scope,indent=0]
+
 ----
 
 Note that the most minimal permissions to create and drop a Scope or Collection is
