@@ -94,5 +94,4 @@ async function example4(clusterAdm, testUsername) {
 
 go()
     .then((res) => console.log("DONE:", res))
-    .catch((err) => console.error("ERR:", err))
     .then(process.exit)
