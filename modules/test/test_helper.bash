@@ -5,8 +5,8 @@ setup() {
 	HELLO_WORLD_DIR=../modules/hello-world/examples
 	CONCEPT_DOCS_DIR=../modules/concept-docs/examples
 
-	load '../node_modules/bats-support/load'
-	load '../node_modules/bats-assert/load'
+	load '../../node_modules/bats-support/load'
+	load '../../node_modules/bats-assert/load'
 }
 
 function runExample() {

@@ -10,7 +10,7 @@ FROM $CB_IMAGE
 
 RUN apt-get update && \
 	apt-get install -y \
-	curl wget jq psmisc \
+	curl wget jq psmisc git \
 	build-essential cmake libssl-dev \
 	vim python3.9
 
@@ -31,6 +31,9 @@ RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
 RUN mkdir -p /init-couchbase
 COPY test/scripts/init-couchbase /init-couchbase
 RUN chmod +x /init-couchbase/*.sh
+
+# Set node_modules path for container Node dependencies
+ENV NODE_PATH=/node_modules
 
 # Append to /opt/couchbase/etc/couchbase/static_config...
 
