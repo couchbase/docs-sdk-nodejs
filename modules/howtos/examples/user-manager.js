@@ -3,7 +3,7 @@
 const couchbase = require("couchbase");
 
 async function go() {
-    const clusterAdm = new couchbase.Cluster("couchbase://localhost", {
+    const clusterAdm = await couchbase.connect("couchbase://localhost", {
         username: "Administrator",
         password: "password",
     })
@@ -51,7 +51,6 @@ async function example2(clusterAdm) {
         console.log(`User's display name is: ${ currentUser.displayName }`);
         const currentRoles = currentUser.effectiveRoles;
         for (const role of currentRoles) {
-            // JSCBC-944
             console.log(`   User has the role: ${ role.name }, applicable to bucket ${ role.bucket }`);
         }
     }
@@ -63,7 +62,7 @@ async function example3(testUsername, testPassword, bucketName) {
     // the username and password already assigned by the administrator
 
     // tag::usermanagement_3[]
-    const userCluster = new couchbase.Cluster(
+    const userCluster = await couchbase.connect(
         "couchbase://localhost", {
         username: testUsername,
         password: testPassword,
@@ -94,4 +93,8 @@ async function example4(clusterAdm, testUsername) {
 
 go()
     .then((res) => console.log("DONE:", res))
+    .catch((err) => {
+        console.log("ERR:", err)
+        process.exit(1)
+    })
     .then(process.exit)
