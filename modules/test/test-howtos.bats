@@ -116,6 +116,11 @@ mutate-increment
 EOF
 }
 
+@test "[howtos] - user-manager.js" {
+    runExample $HOWTOS_DIR user-manager.js
+    assert_success
+}
+
 @test "[howtos] - views.js" {
     runExample $HOWTOS_DIR views.js
     assert_success
