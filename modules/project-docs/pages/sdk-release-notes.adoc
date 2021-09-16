@@ -26,6 +26,42 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.2.2 (16 Sept 2021)
+
+Version 3.2.2 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.2/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-805[JSCBC-805]:
+Implemented eventing management APIs.
+* http://issues.couchbase.com/browse/JSCBC-894[JSCBC-894]:
+Improved SSL failure error message.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-937[JSCBC-937]:
+Fixed segfault during connection GC.
+* http://issues.couchbase.com/browse/JSCBC-938[JSCBC-938]:
+Fixed segfault during v8 interpreter shutdown.
+* http://issues.couchbase.com/browse/JSCBC-939[JSCBC-939]:
+Fixed segfault related to logging after shutdown.
+* http://issues.couchbase.com/browse/JSCBC-949[JSCBC-949]:
+Fixed query getAllIndexes and watchIndexes to work with collection indexes.
+* http://issues.couchbase.com/browse/JSCBC-948[JSCBC-948]:
+Corrected issue with diagnostics calls failing on brand new connections.
+* http://issues.couchbase.com/browse/JSCBC-945[JSCBC-945]:
+Fixed some methods failing to parse optional callbacks correctly.
+* Updated libcouchbase to pick up some important fixes.
+
+
+
 == Version 3.2.1 (26 Aug 2021)
 
 Version 3.2.1 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
