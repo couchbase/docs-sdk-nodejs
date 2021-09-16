@@ -29,7 +29,7 @@ cb-build:
 # which will ensure the container is deleted when stopped.
 cb-start:
 	@rm -fr node_modules
-	@docker run -t --rm -v ${PWD}:/modules -d --name cb-test -p 8091-8096:8091-8096 ${LOCAL_IMAGE_NAME}
+	@docker run -t --rm -v ${PWD}:/modules -d --name cb-test -p 8091-8096:8091-8096 -p 11210:11210 -p 9102:9102 ${LOCAL_IMAGE_NAME}
 	@docker exec -t cb-test bin/bash -c "/init-couchbase/init.sh"
 	@docker exec -t cb-test bin/bash -c "/init-couchbase/init-buckets.sh"
 
