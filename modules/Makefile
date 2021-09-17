@@ -37,7 +37,7 @@ cb-start:
 npm-deps:
 	@docker cp ../package.json cb-test:/package.json
 	@docker cp ../package-lock.json cb-test:/package-lock.json
-	@docker exec -t cb-test bin/bash -c "npm i"
+	@docker exec -t cb-test bin/bash -c "npm install"
 
 # Run all tests
 tests: npm-deps

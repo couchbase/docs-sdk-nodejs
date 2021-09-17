@@ -32,9 +32,6 @@ RUN mkdir -p /init-couchbase
 COPY test/scripts/init-couchbase /init-couchbase
 RUN chmod +x /init-couchbase/*.sh
 
-# Set node_modules path for container Node dependencies
-ENV NODE_PATH=/node_modules
-
 # Append to /opt/couchbase/etc/couchbase/static_config...
 
 RUN if [ ! -d /opt/couchbase/etc/couchbase ]; then mkdir -p /opt/couchbase/etc/couchbase; fi \
