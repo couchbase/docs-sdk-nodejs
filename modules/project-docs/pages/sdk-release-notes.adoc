@@ -58,7 +58,8 @@ Fixed query getAllIndexes and watchIndexes to work with collection indexes.
 Corrected issue with diagnostics calls failing on brand new connections.
 * http://issues.couchbase.com/browse/JSCBC-945[JSCBC-945]:
 Fixed some methods failing to parse optional callbacks correctly.
-* Updated libcouchbase to pick up some important fixes.
+* Updated libcouchbase to include the following fixes: 
+https://issues.couchbase.com/browse/CCBC-1494[CCBC-1494], https://issues.couchbase.com/browse/CCBC-1487[CCBC-1487], https://issues.couchbase.com/browse/CCBC-1488[CCBC-1488].
 
 
 
