@@ -29,18 +29,24 @@ cb-build:
 # which will ensure the container is deleted when stopped.
 cb-start:
 	@rm -fr node_modules
-	@docker run -t --rm -v ${PWD}:/modules -d --name cb-test -p 8091-8096:8091-8096 ${LOCAL_IMAGE_NAME}
+	@docker run -t --rm -v ${PWD}:/modules -d --name cb-test -p 8091-8096:8091-8096 -p 11210:11210 -p 9102:9102 ${LOCAL_IMAGE_NAME}
 	@docker exec -t cb-test bin/bash -c "/init-couchbase/init.sh"
 	@docker exec -t cb-test bin/bash -c "/init-couchbase/init-buckets.sh"
 
+# Install npm dependencies for docker container
+npm-deps:
+	@docker cp ../package.json cb-test:/package.json
+	@docker cp ../package-lock.json cb-test:/package-lock.json
+	@docker exec -t cb-test bin/bash -c "npm install"
+
 # Run all tests
-tests:
-	@docker exec -t cb-test bin/bash -c "cd modules && npm i && bats -T ./test"
+tests: npm-deps
+	@docker exec -t cb-test bin/bash -c "cd modules && bats -T ./test"
 
 # Run a single test
 # i.e make TEST_NAME="startusing.js" single-test
-single-test:
-	@docker exec -t cb-test bin/bash -c "cd modules && npm i && bats -T ./test -f ${TEST_NAME}"
+single-test: npm-deps
+	@docker exec -t cb-test bin/bash -c "cd modules && bats -T ./test -f ${TEST_NAME}"
 	
 # Stop the server container
 cb-stop:

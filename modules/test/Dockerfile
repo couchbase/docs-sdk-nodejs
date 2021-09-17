@@ -10,7 +10,7 @@ FROM $CB_IMAGE
 
 RUN apt-get update && \
 	apt-get install -y \
-	curl wget jq psmisc \
+	curl wget jq psmisc git \
 	build-essential cmake libssl-dev \
 	vim python3.9
 
