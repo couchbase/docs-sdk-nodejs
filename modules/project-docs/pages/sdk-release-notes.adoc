@@ -40,9 +40,9 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.2/[API Reference]
 === New Features
 
 * http://issues.couchbase.com/browse/JSCBC-805[JSCBC-805]:
-Implemented eventing management APIs.
+Users can now manage the Couchbase Eventing Service from the Node.js SDK client.
 * http://issues.couchbase.com/browse/JSCBC-894[JSCBC-894]:
-Improved SSL failure error message.
+Updated SSL failure error messaging to improve debugging experience.
 
 === Fixed Issues
 
