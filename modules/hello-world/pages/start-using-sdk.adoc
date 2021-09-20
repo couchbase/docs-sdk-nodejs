@@ -57,17 +57,58 @@ Note: This will download the latest Couchbase Node.js SDK, and add a dependency 
 
 Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes].
 
+=== TypeScript Support
+
+NOTE: Follow this section only if you intend to use `TypeScript` instead of `JavaScript`.
+
+Since release 3.2, the Node.js SDK has added full support for the link:https://www.typescriptlang.org/[TypeScript] programming language. 
+
+[source,console]
+----
+$ npm install -g typescript ts-node
+----
+
+This will install TypeScript globally on your machine and allow you to run commands with the `tsc` cli. You will have noticed that we also install link:https://typestrong.org/ts-node/[ts-node] which is a handy execution utility that will help us run the example later on.
+
+Before we can get started, run `tsc --init` in the `node-couchbase-project` directory
+to generate a `tsconfig.json` file. This will set you up with some initial configurations, which should suffice for our purposes. 
+
+Should you wish to make changes in future you can simply edit the file:
+
+[source,json,indent=0]
+----
+include::../examples/example-tsconfig.json[]
+----
+
+Note that the example above does not include the generated comments for readability.
+
+
 == Hello Couchbase
 
 At this point we want to transition from the terminal to your code editor of choice and point to the directory we have just created named `node-couchbase-project`.
 
-Let's now create an empty file named `index.js` and walk through step by step adding code to enable us to connect to a bucket, add a document and retrieve it using a key-value get operation:
+Let's now create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step adding code to enable us to connect to a bucket, add a document and retrieve it using a key-value get operation:
 
-
+[{tabs}]
+====
+JS::
++ 
+-- 
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=connect]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-connect]
+----
+--
+====
 
 If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella] rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
 
@@ -75,75 +116,238 @@ Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based
 For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 Since we are running this locally, we are using the Couchbase alias for localhost.
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=bucket]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-bucket]
+----
+--
+====
 
 If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your _bucket-name_.
 
 The 3.2 SDK is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of the Couchbase Data Platform.
 The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
 
+[{tabs}]
+====
+JS::
++ 
+--
+[source,javascript,indent=0]
+----
 include::../examples/start-using.js[tag=collection]
+----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-collection]
+----
+--
+====
 
 NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=default-collection]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-default-collection]
+----
+--
+====
 
 Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=test-doc]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-test-doc]
+----
+--
+====
 
 Now we will create a function that will take care of upserting that document. This function is of type `async` and simply awaits the result of the upsert and either logs out the result or error in our console:
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=upsert-func]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-upsert-func]
+----
+--
+====
 
 Now, we can simply call the `upsertDocument` function passing in our `airline` document:
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=upsert-invoke]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-upsert-invoke]
+----
+--
+====
 
 We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key that is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=get-func]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-get-func]
+----
+--
+====
 
 KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
 
 Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091` and close our `main` function:
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=get-invoke]
 ----
+--
+
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-get-invoke]
+----
+--
+====
 
 To ensure that we can run the main function, we add this last line of code:
 
+[{tabs}]
+====
+JS::
++ 
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using.js[tag=run-main]
 ----
+--
 
-Now we can run our code using the following command:
+TS::
++ 
+--
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tag=ts-run-main]
+----
+--
+====
 
-[source,bash]
+Now we can run our code: 
+
+[{tabs}]
+====
+JS::
++ 
+--
+[source,console]
 ----
-npm rebuild && node index.js
+$ node index.js
 ----
+--
+
+TS::
++ 
+--
+[source,console]
+----
+$ ts-node index.ts
+----
+--
+====
 
 The results you should expect are as follows:
 
@@ -178,7 +382,7 @@ If you want to copy and paste to run the full example, here it is:
 
 [{tabs}] 
 ==== 
-Local Couchbase Server::
+JS::
 + 
 -- 
 [source.try-it,nodejs,indent=0]
@@ -187,7 +391,16 @@ include::../examples/start-using.js[tags=**]
 ----
 --
 
-Couchbase Capella Sample::
+TS::
++ 
+-- 
+[source,typescript,indent=0]
+----
+include::../examples/start-using.ts[tags=**]
+----
+--
+
+Couchbase Cloud Sample::
 +
 --
 If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.

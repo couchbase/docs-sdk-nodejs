@@ -1,5 +1,6 @@
 'use strict'
 
+// tag::ts-connect[]
 import {
   Bucket,
   Cluster,
@@ -14,9 +15,12 @@ async function main() {
     username: 'Administrator',
     password: 'password',
   })
+  // end::ts-connect[]
 
+  // tag::ts-bucket[]
   // get a reference to our bucket
   const bucket: Bucket = cluster.bucket('travel-sample')
+  // end::ts-bucket[]
 
   // tag::ts-collection[]
   // get a reference to a collection
@@ -84,7 +88,6 @@ async function main() {
 // end::ts-get-invoke[]
 
 // tag::ts-run-main[]
-
 // Run the main function
 main()
   .catch((err) => {
