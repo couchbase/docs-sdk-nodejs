@@ -38,5 +38,5 @@ RUN if [ ! -d /opt/couchbase/etc/couchbase ]; then mkdir -p /opt/couchbase/etc/c
 	&& cat /init-couchbase/init-static-config.txt >> \
 	/opt/couchbase/etc/couchbase/static_config
 
-# Install Typescript and ts-node utility to run tsc files.
+# Install typescript and ts-node utility to run .ts files.
 RUN npm install -g typescript ts-node

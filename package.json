@@ -9,6 +9,7 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@types/node": "^16.9.4",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-support": "github:ztombol/bats-support"
   }
