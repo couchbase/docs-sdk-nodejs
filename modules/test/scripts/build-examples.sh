@@ -14,3 +14,8 @@ for i in *.js; do
 	echo "Building file: ${i}"
 	node --check ${i}
 done
+
+echo "-- Building .ts files in directory ==> ${EXAMPLES_DIR}"
+# Do not emit compiler output files (i.e transpiled JS),
+# we just want to check the Typescript files can compile.
+tsc --noEmit
