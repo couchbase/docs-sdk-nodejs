@@ -37,3 +37,6 @@ RUN chmod +x /init-couchbase/*.sh
 RUN if [ ! -d /opt/couchbase/etc/couchbase ]; then mkdir -p /opt/couchbase/etc/couchbase; fi \
 	&& cat /init-couchbase/init-static-config.txt >> \
 	/opt/couchbase/etc/couchbase/static_config
+
+# Install Typescript and ts-node utility to run tsc files.
+RUN npm install -g typescript ts-node
