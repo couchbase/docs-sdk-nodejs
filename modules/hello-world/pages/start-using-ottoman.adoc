@@ -242,11 +242,7 @@ You can also find more in-depth information on some of the topics we touched on:
 
 If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/guides/faq.html[here] should also answer some questions.
 
-////
-// We don't have these yet.
-Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].
+Links to each release are to be found in the xref:project-docs:ottoman-release-notes.adoc[individual release notes].
 
-// Will this be moved out of couchbaselabs?
 Couchbase welcomes community contributions to the Ottoman ODM.
 The Ottoman ODM source code is available on https://github.com/couchbaselabs/node-ottoman[GitHub].
-////

@@ -1,0 +1,28 @@
+= Ottoman ODM Release Notes and Archives
+:description: Release notes, installation instructions, and download archive for the Ottoman ODM.
+:navtitle: Release Notes
+:page-topic-type: project-doc
+
+[abstract]
+{description}
+
+These pages cover the 2._x_ versions of the Ottoman ODM. 
+
+The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
+
+== Version 2.0.0 (30 Sept 2021)
+
+This is the first GA release of the Ottoman Object Document Mapper(ODM) library.
+
+[source,console]
+----
+$ npm install ottoman@2.0.0
+----
+
+https://ottomanjs.com/#installation[Ottoman page]
+
+=== New Features
+
+
+=== Fixed Issues
+
