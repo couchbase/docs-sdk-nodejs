@@ -78,7 +78,6 @@ async function main() {
 }
 ----
 
-
 Now, let's create a connection to our Couchbase Server.
 
 [source,javascript,indent=0]
@@ -186,6 +185,15 @@ Query Result:  [
     type: 'airline'
   }
 ]
+----
+
+== Full Example
+
+If you want to copy and paste to run the full example, here it is:
+
+[source.try-it,nodejs,indent=0]
+----
+include::../examples/start-using-ottoman.js[tags=**]
 ----
 
 == Additional Resources
