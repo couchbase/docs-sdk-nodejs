@@ -1,6 +1,6 @@
 .Getting Started
 * xref:hello-world:start-using-sdk.adoc[Start Using the Node.js SDK]
-* xref:hello-world:start-using-ottoman.adoc[Start Using the Ottoman ODM]
+// * xref:hello-world:start-using-ottoman.adoc[Start Using the Ottoman ODM]
 * xref:hello-world:sample-application.adoc[Sample Application]
 
 .Working with Data
