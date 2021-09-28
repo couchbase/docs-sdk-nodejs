@@ -33,7 +33,7 @@ async function main() {
   // end::schema[]
 
   // tag::model[]
-  const Airline = connection.model('otto_airline', airlineSchema, {
+  const Airline = connection.model('airline', airlineSchema, {
     scopeName: 'inventory',
   })
   // end::model[]
@@ -58,9 +58,9 @@ async function main() {
   // end::save[]
 
   // tag::alt-save[]
-  Airline.create({
+  await Airline.create({
     type: 'airline',
-    id: 'airline_8092',
+    id: 8092,
     callsign: 'CBS2',
     name: 'Couchbase Airways 2',
     icao: 'CBICAO2',
