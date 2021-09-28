@@ -227,7 +227,7 @@ You can also find more in-depth information on some of the topics we touched on:
 * https://ottomanjs.com/guides/document.html[Documents]
 * https://ottomanjs.com/guides/query-builder.html[Query Builder]
 
-If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/guides/query-builder.html[here] should also answer some questions.
+If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/guides/faq.html[here] should also answer some questions.
 
 ////
 // We don't have these yet.
