@@ -6,8 +6,9 @@ include::project-docs:partial$attributes.adoc[]
 
 
 [abstract]
-Ottoman is an open-source Object Document Mapper(ODM) library, built for Node.js and Couchbase, that aspires to give developers an even better experience when building modern applications.
+{description}
 
+Ottoman is an open-source Object Document Mapper(ODM) library, built for Node.js and Couchbase, that aspires to give developers an even better experience when building modern applications.
 
 Ottoman ODM adds an abstraction layer over Couchbase Node.js SDK and significantly reduces the level of boilerplate needed during application development. 
 It provides features such as the ability to define document schemas and perform validations on your data in a NoSQL landscape -- 
