@@ -67,14 +67,13 @@ To change any of these defaults, just open the `package.json` and manually make 
 
 Before installing Ottoman, you will need to ensure that you meet the minimum requirements shown in the compatibility table below:
 
-[cols="10,8,8,8", options="header"]
+[cols="8,8,8,8", options="header"]
 |===
-|  | Node.js | Couchbase SDK | Couchbase Server
-
-| *Ottoman 2.0.0*
+| Ottoman | Node.js | Couchbase SDK | Couchbase Server
+| *^2.0.0*
 | *^8.0.0*
 | *^3.2.2*
-| *^7.0.0*
+| *^6.5.0*
 |===
 
 [source,console]
@@ -226,7 +225,7 @@ Query Result:  [
 
 If you want to copy and paste to run the full example, here it is:
 
-[source.try-it,nodejs,indent=0]
+[source,nodejs,indent=0]
 ----
 include::../examples/start-using-ottoman.js[tags=**]
 ----
