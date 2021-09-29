@@ -14,10 +14,12 @@ Ottoman ODM adds an abstraction layer over Couchbase Node.js SDK and significant
 It provides features such as the ability to define document schemas and perform validations on your data in a NoSQL landscape -- 
 which is inherently schema-less or schema-flexible by nature. 
 
+NOTE: Whether you are building your application with JavaScript or TypeScript, Ottoman will work seamlessly with either.
+
 Ottoman fully supports the xref:{version-server}@server:learn:data/scopes-and-collections.adoc[Scopes and Collections] features introduced in Couchbase Sever 7.0. 
 We recomend familiarizing yourself with these concepts before proceeding with this guide.
 
-NOTE: Whether you are building your application with JavaScript or TypeScript, Ottoman will work seamlessly with either.
+For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK you can read more https://ottomanjs.com/guides/sdk-comparison.html#ottoman-vs-sdk-comparison[here].
 
 
 == Creating a New Ottoman Project
@@ -62,6 +64,18 @@ To change any of these defaults, just open the `package.json` and manually make 
 
 
 == Installing the Ottoman ODM
+
+Before installing Ottoman, you will need to ensure that you meet the minimum requirements shown in the compatibility table below:
+
+[cols="10,8,8,8", options="header"]
+|===
+|  | Node.js | Couchbase SDK | Couchbase Server
+
+| *Ottoman 2.0.0*
+| *^8.0.0*
+| *^3.2.2*
+| *^7.0.0*
+|===
 
 [source,console]
 ----
@@ -219,7 +233,7 @@ include::../examples/start-using-ottoman.js[tags=**]
 
 == Additional Resources
 
-To learn more about Ottoman ODM you can head over to the official link:https://ottomanjs.com/[Ottoman] page. 
+To learn more about Ottoman ODM you can head over to the official https://ottomanjs.com/[Ottoman] page.
 You can also find more in-depth information on some of the topics we touched on:
 
 * https://ottomanjs.com/guides/schema.html[Schemas]
