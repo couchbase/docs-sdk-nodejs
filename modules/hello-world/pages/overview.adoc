@@ -47,7 +47,7 @@ queryResult.rows.forEach((row)=>{
 .Getting Started
 
 [.content]
-Dive right in with a xref:start-using-sdk.adoc[quick install and Hello World].
+Dive right in with a quick install and Hello World guide for xref:start-using-sdk.adoc[Node.js SDK] or xref:start-using-ottoman.adoc[Ottoman ODM]. 
 Try out our xref:sample-application.adoc[Travel Sample Application].
 And take a look at the xref:howtos:working-with-collections.adoc[Scopes and Collections].
 
