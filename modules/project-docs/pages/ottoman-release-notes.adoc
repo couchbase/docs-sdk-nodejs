@@ -23,6 +23,48 @@ https://ottomanjs.com/#installation[Ottoman page]
 
 === New Features
 
+* Exposed various SDK types to use directly from Ottoman.
+
+* Added start option `ignoreWatchIndexes`. The `start()` function will wait for indexes by default, but this can be disabled by setting `ignoreWatchIndexes` to true.
+
+* Enforced referenced document option.
+
+* Ottoman now returns the document id reference if it doesn't exist.
+
+* Added event to listen for index readiness.
+
+* Added examples for find methods and bulk operations.
+
+* Improved from clause value escape behavior in the QueryBuilder.
+
+* Upgraded embedded Couchbase SDK to version `3.2.2`.
 
 === Fixed Issues
 
+* Refactored lean and populate code.
+
+* Fixed broken links.
+
+* Fixed model links for statics methods.
+
+=== Documentation Fixes
+
+* Fixed typo in the major word.
+
+* Updated quickstart example.
+
+* Updated getting started example.
+
+* Updated docs for async connect function.
+
+* Added metrics to Ottoman vs NodeJS SDK documentation.
+
+* Updated FAQ benefits section.
+
+* Fixed broken links to new sdk docs.
+
+* Downgraded typedoc.
+
+* Added api documentation for namespace.
+
+* Update FAQ page.
