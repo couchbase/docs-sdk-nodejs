@@ -19,7 +19,7 @@ NOTE: Whether you are building your application with JavaScript or TypeScript, O
 Ottoman fully supports the xref:{version-server}@server:learn:data/scopes-and-collections.adoc[Scopes and Collections] features introduced in Couchbase Sever 7.0. 
 We recomend familiarizing yourself with these concepts before proceeding with this guide.
 
-For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK you can read more https://ottomanjs.com/guides/sdk-comparison.html#ottoman-vs-sdk-comparison[here].
+For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK you can read more https://ottomanjs.com/guides/sdk-comparison.html#ottoman-vs-sdk-comparison[here^].
 
 
 == Creating a New Ottoman Project
@@ -127,7 +127,7 @@ Since we are running this locally, we will use the Couchbase alias for localhost
 
 NOTE: If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your bucket name.
 
-=== Schemas, Models and Documents
+=== Schemas, Models, and Documents
 
 Everything in Ottoman starts with a _Schema_. 
 A Schema maps to a Collection and defines the shape of the documents within that Collection.
@@ -232,17 +232,17 @@ include::../examples/start-using-ottoman.js[tags=**]
 
 == Additional Resources
 
-To learn more about Ottoman ODM you can head over to the official https://ottomanjs.com/[Ottoman] page.
+To learn more about Ottoman ODM you can head over to the official https://ottomanjs.com/[Ottoman^] page.
 You can also find more in-depth information on some of the topics we touched on:
 
-* https://ottomanjs.com/guides/schema.html[Schemas]
-* https://ottomanjs.com/guides/model.html[Models]
-* https://ottomanjs.com/guides/document.html[Documents]
-* https://ottomanjs.com/guides/query-builder.html[Query Builder]
+* https://ottomanjs.com/guides/schema.html[Schemas^]
+* https://ottomanjs.com/guides/model.html[Models^]
+* https://ottomanjs.com/guides/document.html[Documents^]
+* https://ottomanjs.com/guides/query-builder.html[Query Builder^]
 
 If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/guides/faq.html[here] should also answer some questions.
 
 Links to each release are to be found in the xref:project-docs:ottoman-release-notes.adoc[individual release notes].
 
 Couchbase welcomes community contributions to the Ottoman ODM.
-The Ottoman ODM source code is available on https://github.com/couchbaselabs/node-ottoman[GitHub].
+The Ottoman ODM source code is available on https://github.com/couchbaselabs/node-ottoman[GitHub^].
