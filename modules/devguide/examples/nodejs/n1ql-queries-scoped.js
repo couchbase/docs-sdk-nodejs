@@ -11,7 +11,7 @@ async function start() {
   console.log('start')
 }
 
-// #tag::queryscope[]
+// tag::queryscope[]
 const scope = bucket.scope("inventory");
 
 async function queryScope() {
@@ -28,9 +28,9 @@ async function queryScope() {
     console.error('Query failed: ', error)
   }
 }
-// #end::queryscope[]
+// end::queryscope[]
 
-// #tag::queryplaceholders[]
+// tag::queryplaceholders[]
 async function queryPlaceholders() {
   const query = `
   SELECT airportname, city FROM \`travel-sample\`.inventory.airport
@@ -46,9 +46,9 @@ async function queryPlaceholders() {
     console.error('Query failed: ', error)
   }
 }
-// #end::queryplaceholders[]
+// end::queryplaceholders[]
 
-// #tag::queryresults[]
+// tag::queryresults[]
 async function queryResults() {
   const query = `
   SELECT airportname, city FROM \`travel-sample\`.inventory.airport
@@ -65,9 +65,9 @@ async function queryResults() {
     console.error('Query failed: ', error)
   }
 }
-// #end::queryresults[]
+// end::queryresults[]
 
-// #tag::querynamed[]
+// tag::querynamed[]
 async function queryNamed() {
   const query = `
     SELECT airportname, city FROM \`travel-sample\`.inventory.airport
@@ -83,7 +83,7 @@ async function queryNamed() {
     console.error('Query failed: ', error)
   }
 }
-// #end::querynamed[]
+// end::querynamed[]
 
 start()
   .then(queryScope)
