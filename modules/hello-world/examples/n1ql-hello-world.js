@@ -11,7 +11,7 @@ async function go() {
   result.rows.forEach((row) => {
     console.log(row)
   })
-  // tag::n1ql-query[]
+  // end::n1ql-query[]
 }
 
 go()
