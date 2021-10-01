@@ -62,8 +62,7 @@ To change any of these defaults, just open the `package.json` and manually make 
 }
 ----
 
-
-== Installing the Ottoman ODM
+== Compatibility 
 
 Before installing Ottoman, you will need to ensure that you meet the minimum requirements shown in the compatibility table below:
 
@@ -75,6 +74,8 @@ Before installing Ottoman, you will need to ensure that you meet the minimum req
 | *^3.2.2*
 | *^6.5.0*
 |===
+
+== Installing the Ottoman ODM
 
 [source,console]
 ----
