@@ -40,3 +40,10 @@ Query Result:  [
 ]
 EOF
 }
+
+@test "[hello-world] - n1ql-hello-world.js" {
+    runExample $HELLO_WORLD_DIR n1ql-hello-world.js
+    assert_success
+
+    assert_output --partial "{ greeting: 'Hello World' }"
+}
