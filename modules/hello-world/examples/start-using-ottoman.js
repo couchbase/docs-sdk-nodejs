@@ -72,7 +72,6 @@ async function main() {
   const result = await Airline.find(
     { callsign: 'CBS' },
     { consistency: SearchConsistency.LOCAL }
-    // end::scan[]
   )
   console.log('Query Result: ', result.rows)
   // end::find[]
