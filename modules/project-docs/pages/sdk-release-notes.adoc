@@ -26,6 +26,32 @@ $ npm install couchbase@2.6.1
 ----
 
 
+== Version 3.2.3 (5 October 2021)
+
+Version 3.2.3 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.3/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-930[JSCBC-930]:
+Added support for AWS AWS Graviton2
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-954[JSCBC-954]:
+Fixed getAllScopes using the incorrect method.
+* http://issues.couchbase.com/browse/JSCBC-952[JSCBC-952]:
+Updated typescript config to target Node10 specifically.
+* http://issues.couchbase.com/browse/JSCBC-951[JSCBC-951]:
+Fixed view query serialization of booleans.
+
+
 == Version 3.2.2 (16 Sept 2021)
 
 Version 3.2.2 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
