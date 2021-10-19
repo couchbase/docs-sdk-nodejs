@@ -12,8 +12,25 @@ GetResult {
     type: 'airline',
     id: 8091,
     callsign: 'CBS',
-    iata: null,
-    icao: null,
+    iata: 'IATA',
+    icao: 'ICAO',
+    name: 'Couchbase Airways'
+  },
+EOF
+}
+
+@test "[hello-world] - start-using.ts" {
+    runTSExample $HELLO_WORLD_DIR start-using.ts
+    assert_success
+
+    assert_output --partial <<-EOF
+GetResult {
+  content: {
+    type: 'airline',
+    id: 8091,
+    callsign: 'CBS',
+    iata: 'IATA',
+    icao: 'ICAO',
     name: 'Couchbase Airways'
   },
 EOF

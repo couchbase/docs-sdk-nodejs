@@ -2,13 +2,14 @@
   "name": "docs-nodejs-examples",
   "dependencies": {
     "@hapi/hapi": "^20.1.2",
-    "cbfieldcrypt": "github:couchbase/node-couchbase-encryption#master",
+    "cbfieldcrypt": "^2.0.0",
     "couchbase": "^3.2.2",
     "joi": "^14.3.1",
     "ottoman": "^2.0.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@types/node": "^16.9.4",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-support": "github:ztombol/bats-support"
   }
