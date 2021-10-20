@@ -400,7 +400,7 @@ include::../examples/start-using.ts[tags=**]
 ----
 --
 
-Couchbase Cloud Sample::
+Couchbase Capella Sample::
 +
 --
 If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
