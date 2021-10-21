@@ -7,7 +7,7 @@ async function go() {
   })
 
   // tag::n1ql-query[]
-  // To execute the query, we call the query() function on our cluster object and store the result.
+  // Call the query() function on the cluster object and store the result.
   const result = await cluster.query('SELECT "Hello World" as greeting')
 
   // The result object will include an array of rows found.
