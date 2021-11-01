@@ -64,3 +64,13 @@ EOF
 
     assert_output --partial "{ greeting: 'Hello World' }"
 }
+
+@test "[hello-world] - kv-hello-world-scoped.js" {
+    runExample $HELLO_WORLD_DIR kv-hello-world-scoped.js
+    assert_success
+}
+
+@test "[hello-world] - kv-bulk-hello-world.js" {
+    runExample $HELLO_WORLD_DIR kv-bulk-hello-world.js
+    assert_success
+}
