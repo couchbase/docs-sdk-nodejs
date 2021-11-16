@@ -27,7 +27,7 @@ async function runExamples() {
     var result = await collection.get("key-which-does-not-exist");
   } catch (e) {
     if (e instanceof couchbase.DocumentNotFoundError) {
-      // we can decide what to do for a missing document here.
+      console.log("the document is missing")
     }
   }
   // end::notfound[]
@@ -37,17 +37,17 @@ async function runExamples() {
     var result = await collection.insert("key-which-exists", "hello");
   } catch (e) {
     if (e instanceof couchbase.DocumentExistsError) {
-      // we can decide what to do for a missing document here.
+      console.log("document unexpectedly exists")
     }
   }
   // end::exists[]
 
   // tag::query[]
   try {
-    var results = cluster.query("SELECT * FROM default");
+    var results = cluster.query("SELECT * FROM `travel-sample`");
   } catch (e) {
     if (e instanceof couchbase.IndexFailureError) {
-      // our index probably did not exist, maybe we should create them?
+      console.log("index doesn't exist, do we need to create it")
     }
 
     if (e.context instanceof couchbase.QueryErrorContext) {
@@ -76,7 +76,8 @@ async function runExamples() {
       break;
     } catch (e) {
       if (e instanceof couchbase.CasMismatchError) {
-        // we can simply try the cas operation again...
+        console.log("CAS mismatch")
+        // We could now re-fetch the document and try again
         continue;
       }
 
@@ -85,37 +86,39 @@ async function runExamples() {
     }
   }
   // end::cas[]
+}
 
-  // tag::insert[]
-  for (var retryNum = 0; retryNum < 10; ++i) {
-    try {
-      var result = await collection.insert(docKey, "some value", {
-        durabilityLevel: couchbase.DurabilityLevel.PersistToMajority,
-      });
-
-      // success!
-      break;
-    } catch (e) {
-      if (e instanceof couchbase.DocumentExistsError) {
-        if (retryNum > 0) {
-          // If this is a retry and the document now exists, we can assume it was
-          // written successfully by a previously ambiguous error.
+// TODO, we need to run this
+async function insertExample() {
+    // tag::insert[]
+    for (var retryNum = 0; retryNum < 10; ++i) {
+      try {
+        var result = await collection.insert(docKey, "some value", {
+          durabilityLevel: couchbase.DurabilityLevel.PersistToMajority,
+        });
+  
+        // success!
+        break;
+      } catch (e) {
+        if (e instanceof couchbase.DocumentExistsError) {
+          if (retryNum > 0) {
+            // If this is a retry and the document now exists, we can assume it was
+            // written successfully by a previously ambiguous error.
+            continue;
+          }
+        }
+        if (e instanceof couchbase.DurabilityAmbiguousError) {
+          // we can simply try the durable operation again...
           continue;
         }
+  
+        // if we ran into another kind of error, let's re-throw it...
+        throw e;
       }
-      if (e instanceof couchbase.DurabilityAmbiguousError) {
-        // we can simply try the durable operation again...
-        continue;
-      }
-
-      // if we ran into another kind of error, let's re-throw it...
-      throw e;
     }
-  }
-  // end::insert[]
+    // end::insert[]
 }
 
 runExamples()
   .then((res) => console.log("DONE:", res))
-  .catch((err) => console.error("ERR:", err))
   .then(process.exit);

@@ -27,6 +27,12 @@ load 'test/test_helper.bash'
 @test "[howtos] - error-handling.js" {
     runExample $HOWTOS_DIR error-handling.js
     assert_success
+
+    # Expected error for tag::notfound[]
+    assert_output --partial "the document is missing"
+
+    # Expected error for tag::exists[]
+    assert_output --partial "document unexpectedly exists"
 }
 
 @test "[howtos] - fle.js" {
