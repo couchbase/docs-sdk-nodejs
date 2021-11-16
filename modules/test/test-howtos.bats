@@ -24,6 +24,11 @@ load 'test/test_helper.bash'
     assert_success
 }
 
+@test "[howtos] - error-handling.js" {
+    runExample $HOWTOS_DIR error-handling.js
+    assert_success
+}
+
 @test "[howtos] - fle.js" {
     # It's unclear how to import the cbfieldcrypt V2 library because it has not been published.
     # The required files to import the library are not transpiled to JS (even when importing the master branch version).

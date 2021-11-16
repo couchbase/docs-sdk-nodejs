@@ -57,6 +57,9 @@ async function main() {
   console.log(`Success: airline ${airlineDoc.name} added!\n`)
   // end::save[]
 
+  // cleanup
+  await Airline.removeById(8092).catch(e => undefined)
+  
   // tag::alt-save[]
   await Airline.create({
     type: 'airline',
