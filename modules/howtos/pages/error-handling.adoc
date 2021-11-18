@@ -14,7 +14,7 @@ Couchbase gives you a lot of flexibility, but it is recommended that you equip y
 == Handling Errors
 
 The Node.js SDK works directly with the built in exception handling available in Javascript. 
-This enables you to catch, interogate, and handle or log them and continue. 
+This enables you to catch, interrogate, and handle or log them and continue. 
 Depending on the type of the exception you catch, there are a number of properties which will be available to you.
 
 [source,javascript,indent=0]
