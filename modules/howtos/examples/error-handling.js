@@ -1,19 +1,22 @@
 // Require Couchbase Module
 var couchbase = require("couchbase");
 
-// Setup Cluster Connection Object
-var connString = "couchbase://localhost";
-const options = { username: "Administrator", password: "password" };
-var cluster = new couchbase.Cluster(connString, options);
-
-// Setup Bucket object to be reused within the code
-var bucket = cluster.bucket("travel-sample");
-const collection = bucket.defaultCollection();
-
-// Attempt to fetch a document which does not exist
-const docKey = "airport_1254";
 
 async function runExamples() {
+  
+  // Setup Cluster Connection Object
+  var connString = "couchbase://localhost";
+  const options = { username: "Administrator", password: "password" };
+  var cluster = await couchbase.connect(connString, options);
+
+  console.log(cluster)
+  // Setup Bucket object to be reused within the code
+  var bucket = cluster.bucket("travel-sample");
+  const collection = bucket.defaultCollection();
+
+  // Attempt to fetch a document which does not exist
+  const docKey = "airport_1254";
+
   // tag::catch[]
   try {
     var result = await collection.get(docKey);
