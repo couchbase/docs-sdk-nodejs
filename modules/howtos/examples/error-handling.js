@@ -35,6 +35,8 @@ async function runExamples() {
   }
   // end::notfound[]
 
+  await collection.upsert("key-which-exists", "hello");
+  
   // tag::exists[]
   try {
     var result = await collection.insert("key-which-exists", "hello");
