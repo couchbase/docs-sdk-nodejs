@@ -35,7 +35,7 @@ Version 3.2.2 is the next minor release of the third generation Node.js SDK, bri
 $ npm install couchbase@3.2.2
 ----
 
-http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.2/[API Reference]
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.2/modules.html[API Reference]
 
 === New Features
 
@@ -72,7 +72,7 @@ Version 3.2.1 is the next minor release of the third generation Node.js SDK, bri
 $ npm install couchbase@3.2.1
 ----
 
-http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.1/[API Reference]
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.1/modules.html[API Reference]
 
 === New Features
 
@@ -107,7 +107,7 @@ Version 3.2.0 is the next minor release of the third generation Node.js SDK, bri
 $ npm install couchbase@3.2.0
 ----
 
-http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0/[API Reference]
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0/modules.html[API Reference]
 
 === New Features
 
