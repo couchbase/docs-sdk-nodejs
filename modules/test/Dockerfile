@@ -4,7 +4,7 @@ ARG CB_IMAGE=$CB_EDITION-$CB_BUILD
 
 # SDK related images...
 
-FROM node AS node
+FROM node:16.13.0 AS node
 
 FROM $CB_IMAGE
 
