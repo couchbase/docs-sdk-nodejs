@@ -179,7 +179,7 @@ Here is the SDK 3 equivalent:
 
 [source,javascript]
 ----
-include::devguide:example$nodejs/migrating.js[tag=simpleget,indent=0]
+include::devguide:example$nodejs/migrating.js[tags=simpleget;connect;shutdown,indent=0]
 ----
 
 `Collections` is generally available from Couchbase Server 7.0 release, but the SDK already encoded it in its API to be future-proof.
