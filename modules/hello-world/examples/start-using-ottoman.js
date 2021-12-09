@@ -16,6 +16,7 @@ async function main() {
   // end::connect[]
 
   // tag::alt-connect[]
+  // alternate connect syntax
   connection = await ottoman.connect(
     'couchbase://localhost/travel-sample@Administrator:password'
   )
@@ -56,9 +57,6 @@ async function main() {
   await airlineDoc.save()
   console.log(`Success: airline ${airlineDoc.name} added!\n`)
   // end::save[]
-
-  // cleanup
-  await Airline.removeById(8092).catch(e => undefined)
   
   // tag::alt-save[]
   await Airline.create({
@@ -78,6 +76,9 @@ async function main() {
   )
   console.log('Query Result: ', result.rows)
   // end::find[]
+  
+  // cleanup
+  await Airline.removeById(8092).catch(e => undefined)
 }
 
 // tag::run-main[]
