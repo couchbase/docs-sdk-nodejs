@@ -263,8 +263,8 @@ There have been changes made in the following areas:
 
 === Exception hierachy
 
-The exception hierachy is now flat and unified under a `CouchbaseException`.
-Each `CouchbaseException` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
+The exception hierachy is now flat and unified under a `CouchbaseError`.
+Each `CouchbaseError` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
 
 Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
 
@@ -301,6 +301,7 @@ As a result, many transient cases -- such as locked documents, or temporary fail
 It also means, when migrating to the new SDK API, you may observe a longer period of time until an error is returned by default.
 
 NOTE: Operations are retried by default as described above with the default `BestEffortRetryStrategy`.
+
 ////
 + java only, not nodejs
 Like in SDK 2 you can configure fail-fast retry strategies to not retry certain or all operations.
@@ -510,7 +511,7 @@ Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,
 	at com.couchbase.client.java.Cluster.query(Cluster.java:225)
 ----
 
-Not only does it throw a `CouchbaseException`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
+Not only does it throw a `CouchbaseError`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
 
 ////
 // surely this doesn't apply to Node??
