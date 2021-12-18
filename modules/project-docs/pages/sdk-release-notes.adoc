@@ -40,15 +40,15 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.4/[API Reference]
 === Fixed Issues
 
 * http://issues.couchbase.com/browse/JSCBC-923[JSCBC-923]:
-Implemented FTS includeLocations and match operators.
+Implemented FTS `includeLocations` and match operators.
 * http://issues.couchbase.com/browse/JSCBC-919[JSCBC-919]:
 Added support for XDCR custom conflict resolution.
 * http://issues.couchbase.com/browse/JSCBC-955[JSCBC-955]:
-Implemented storageBackend option in bucket management.
+Implemented `storageBackend` option in bucket management.
 * http://issues.couchbase.com/browse/JSCBC-921[JSCBC-921]:
 Added support for rate and quota limiting errors.
 * http://issues.couchbase.com/browse/JSCBC-967[JSCBC-967]:
-Use correct arguments indices for options
+Use correct arguments indices for options.
 * Fixed crash that could occur during the shutdown of the Node.js runtime.
 * Improved handling of initial connection process.
 * Improved some tests to work more reliably.
