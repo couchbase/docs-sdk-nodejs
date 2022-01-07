@@ -46,6 +46,11 @@ load 'test/test_helper.bash'
     assert_success
 }
 
+@test "[howtos] - import.js" {
+    runExample $HOWTOS_DIR import.js
+    assert_success
+}
+
 @test "[howtos] - provisioning.js" {
     runExample $HOWTOS_DIR provisioning.js
     assert_success
