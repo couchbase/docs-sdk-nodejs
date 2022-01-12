@@ -1,7 +1,6 @@
 'use strict'
 
 const couchbase = require('couchbase')
-const { StoreSemantics } = couchbase
 
 async function go() {
   const cluster = await couchbase.connect('couchbase://localhost', {
@@ -237,7 +236,7 @@ async function go() {
         couchbase.MutateInSpec.upsert('email', 'alice@test.com'),
       ],
       {
-        storeSemantics: StoreSemantics.Upsert,
+        storeSemantics: couchbase.StoreSemantics.Upsert,
       }
     )
   } catch (e) {
