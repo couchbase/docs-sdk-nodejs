@@ -225,6 +225,29 @@ async function go() {
   ])
   // end::mutate-upsert-parents[]
 
+  console.log('mutate-store-semantics')
+  // tag::mutate-store-semantics[]
+  try {
+    // Mutate fields in a document that may or may not exist.
+    await collection.mutateIn(
+      'alice-123',
+      [
+        couchbase.MutateInSpec.insert('name', 'Alice'),
+        couchbase.MutateInSpec.upsert('email', 'alice@test.com'),
+      ],
+      {
+        storeSemantics: couchbase.StoreSemantics.Upsert,
+      }
+    )
+  } catch (e) {
+    if (e instanceof couchbase.PathExistsError) {
+      console.log('Path already exists, not adding unique value')
+    } else {
+      throw e
+    }
+  }
+  // end::mutate-store-semantics[]
+
   console.log('mutate-cas')
   const SOME_ID = '100'
   // tag::mutate-cas[]
