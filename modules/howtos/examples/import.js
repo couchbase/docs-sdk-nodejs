@@ -98,12 +98,12 @@ async function main() {
   const path_to_import_json = `${__dirname}/import.json`
   const path_to_import_jsonl = `${__dirname}/import.jsonl`
   
-  importStream(csvStream(path_to_import_csv))
-  importStream(tsvStream(path_to_import_tsv ))
-  importStream(jsonStream(path_to_import_json))
-  importStream(jsonlStream(path_to_import_jsonl))
+  await importStream(csvStream(path_to_import_csv))
+  await importStream(tsvStream(path_to_import_tsv ))
+  await importStream(jsonStream(path_to_import_json))
+  await importStream(jsonlStream(path_to_import_jsonl))
     
 }
 
 
-main()
+main().then(process.exit)
