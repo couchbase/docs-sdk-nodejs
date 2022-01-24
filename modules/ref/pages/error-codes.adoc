@@ -8,10 +8,9 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=intro-error]
 
 == Shared Error Definitions
-
 include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=shared]
 
 
@@ -41,16 +40,6 @@ include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
 
 == Field-Level Encryption Error Definitions
 include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=fle]
-
-
-////
-=== SDK-Specific Error Definitions
-
-ID Range 1000 - 2000
-
-This range is reserved for sdk-specific error codes which are not standardized, but might be used later.
-////
-
 
 
 == Connecting to Cloud

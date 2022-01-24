@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "disableReferencedProjectLoad": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+    "include": ["./**/*.ts"],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "./**/*.js",
+    ]
+}

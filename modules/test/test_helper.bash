@@ -14,3 +14,8 @@ function runExample() {
 	cd $1
 	run node $2
 }
+
+function runTSExample() {
+	cd $1
+	run ts-node $2
+}

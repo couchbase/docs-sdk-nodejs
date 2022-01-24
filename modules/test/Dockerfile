@@ -4,7 +4,7 @@ ARG CB_IMAGE=$CB_EDITION-$CB_BUILD
 
 # SDK related images...
 
-FROM node AS node
+FROM node:16.13.0 AS node
 
 FROM $CB_IMAGE
 
@@ -37,3 +37,6 @@ RUN chmod +x /init-couchbase/*.sh
 RUN if [ ! -d /opt/couchbase/etc/couchbase ]; then mkdir -p /opt/couchbase/etc/couchbase; fi \
 	&& cat /init-couchbase/init-static-config.txt >> \
 	/opt/couchbase/etc/couchbase/static_config
+
+# Install typescript and ts-node utility to run .ts files.
+RUN npm install -g typescript ts-node

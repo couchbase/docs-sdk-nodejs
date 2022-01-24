@@ -114,6 +114,16 @@ Here's an example of one which replaces one path and removes another.
 include::../examples/subdoc.js[tag=mutate-multi]
 ----
 
+.Mutate with store semantics
+The `storeSemantics` option can be used to define the document storage semantics for a _mutate-in_ operation.
+In this particular example we use the `Upsert` semantics, which means the document will be updated if it exists, and created if it doesn't. 
+Note that when a document is updated, only the specified paths will be modified.
+
+[source,javascript,indent=0]
+----
+include::../examples/subdoc.js[tag=mutate-store-semantics]
+----
+
 NOTE: `mutateIn` is an _atomic_ operation.
 If any single `ops` fails, then the entire document is left unchanged.
 

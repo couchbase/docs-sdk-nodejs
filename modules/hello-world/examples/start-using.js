@@ -30,8 +30,8 @@ async function main() {
     type: 'airline',
     id: 8091,
     callsign: 'CBS',
-    iata: null,
-    icao: null,
+    iata: 'IATA',
+    icao: 'ICAO',
     name: 'Couchbase Airways',
   }
   // end::test-doc[]
@@ -73,5 +73,10 @@ async function main() {
 
 // tag::run-main[]
 // Run the main function
-main().then(process.exit)
+main()
+  .catch((err) => {
+    console.log('ERR:', err)
+    process.exit(1)
+  })
+  .then(process.exit)
 // end::run-main[]
