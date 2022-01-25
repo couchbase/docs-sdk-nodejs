@@ -11,19 +11,20 @@ var bucket;
 var collection;
 
 start()
- .then(connect)
- //.then(connstr)
- .then(simpleget)
- .then(upsertandget)
- .then(rawbinary)
- .then(customtimeout)
- .then(querysimple)
-// .then(analyticssimple) // don't have dataset
-// .then(analyticsparameterized) // don't have dataset
- .then(searchsimple) 
- .then(searchcheck)
- .then(viewquery)
- .then(shutdown)
+  .then(connect)
+  //.then(connstr)
+  .then(simpleget)
+  .then(upsertandget)
+  .then(rawbinary)
+  .then(customtimeout)
+  .then(querysimple)
+  // .then(analyticssimple) // don't have dataset
+  // .then(analyticsparameterized) // don't have dataset
+  .then(searchsimple) 
+  .then(searchcheck)
+  // .then(viewquery)
+  .then(shutdown)
+  .then(process.exit)
 
 
 
@@ -38,26 +39,12 @@ async function timeoutbuilder_java_only(){
 }
 
 async function connect(){
-      // #tag::connect[]
-      const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1", options);
-      bucket = cluster.bucket("travel-sample");
-      collection = bucket.defaultCollection();
-      // #end::connect[]
-}
-
-async function shutdown(){
-      if(cluster && cluster.name && cluster.name == 'Error') {
-        throw cluster;
-      }
-      if(cluster) {
-      // #tag::shutdown[]
-        cluster.close();
-      // #end::shutdown[]
-      } else {
-        console.log(new Error("cluster undefined - never opened"));
-      }
-      cluster = new Error("cluster already closed here");
+  // #tag::connect[]
+  const options = { username:"Administrator", password:"password"};
+  cluster = await couchbase.connect( "http://127.0.0.1", options);
+  bucket = cluster.bucket("travel-sample");
+  collection = bucket.scope("inventory").collection("airport");
+  // #end::connect[]
 }
 
 async function sysprops_java_only(){
@@ -78,7 +65,7 @@ async function connstr(){
       if(cluster) cluster.close();
       // #tag::connstr[]
       const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1/?query_timeout=2000", options);
+      cluster = await couchbase.connect( "http://127.0.0.1/?query_timeout=2000", options);
       // #end::connstr[]
 }
 
@@ -104,20 +91,16 @@ async function certauth(){ // use one in  connecting-cert-auth.js
       // #end::certauth[]
 }
 
-async function simpleget(){
-      shutdown();
-      console.log("simpleget:");
-      // #tag::simpleget[]
-      const options = { username:"Administrator", password:"password"};
-      cluster = new couchbase.Cluster( "http://127.0.0.1", options);
-      bucket = cluster.bucket("travel-sample");
-      collection = bucket.defaultCollection();
-      const getResult = await collection.get("airport_1254");
-      console.log(getResult);
-      cluster.close();
-      // #end::simpleget[]
-      connect();
-    }
+async function simpleget() {
+  console.log("simpleget:");
+  
+  // tag::simpleget[]
+  
+  const getResult = await collection.get("airport_1254");
+  
+  // end::simpleget[]
+  console.log(getResult);
+}
 
 
 async function upsertandget(){
@@ -219,9 +202,9 @@ async function searchsimple(){
       // SDK 3 search query
       const ftsQuery =  couchbase.SearchQuery.match("airport");
       const searchResult = await cluster.searchQuery(
+        "hotels",
         ftsQuery,
-        { indexName: "hotels",
-          timeout:2000,
+        { timeout:2000,
           limit:5,
           fields : ["a", "b", "c"] },
         (err, res) => {
@@ -240,9 +223,9 @@ async function searchcheck(){
       // #tag::searchcheck[]
       const ftsQuery =  couchbase.SearchQuery.match("airport");
       const searchResult = await cluster.searchQuery(
+        "hotels",
         ftsQuery,
-        { indexName: "hotels",
-          timeout:2000,
+        { timeout:2000,
           limit:5}
       ).catch((e)=>{console.log(e); throw e;});
       console.log(searchResult);
@@ -268,3 +251,18 @@ async function viewquery(){
       });
       // #end::viewquery[]
     }
+
+async function shutdown(){
+  console.log("shutdown");
+  if (cluster && cluster.name && cluster.name == 'Error') {
+    throw cluster;
+  }
+  if (cluster) {
+  // tag::shutdown[]
+  cluster.close();
+  // end::shutdown[]
+  } else {
+    console.log(new Error("cluster undefined - never opened"));
+  }
+  cluster = new Error("cluster already closed here");
+}
