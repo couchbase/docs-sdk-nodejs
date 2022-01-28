@@ -36,7 +36,7 @@ Javadocs are available https://docs.couchbase.com/sdk-api/couchbase-transactions
 == Requirements
 
 * Couchbase Server 6.6.1 or above.
-* Couchbase Java client 3.1.5 or above.
+* Couchbase Node.js client 4.0.0 or above.
 It is recommended to follow the transitive dependency for the transactions library from Maven.
 include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 
@@ -44,89 +44,31 @@ include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 == Getting Started
 
 Couchbase transactions require no additional components or services to be configured. 
-Simply add the transactions library into your project.
-The latest version, as of November 2021, is 1.2.2.
-
-With Gradle this can be accomplished by modifying these sections of your build.gradle file like so:
-
-[source,gradle]
-----
-dependencies {
-    compile group: 'com.couchbase.client', name: 'couchbase-transactions', version: '1.2.2'
-}
-----
-
-Or with Maven:
-
-[source,maven]
-----
-<dependency>
-    <groupId>com.couchbase.client</groupId>
-    <artifactId>couchbase-transactions</artifactId>
-    <version>1.2.2</version>
-</dependency>
-----
-
-This will automatically pull in any transitive dependencies of this library, including a compatible version of the Couchbase Java SDK.
-
-A complete simple gradle project is available on our https://github.com/couchbaselabs/couchbase-transactions-java-examples[transactions examples repository].
-
-
-== Initializing Transactions
-
-To make it easy to use any of the following examples, here are all the imports used by them:
-
-[source,java]
-----
-include::example$TransactionsExample.java[tag=imports,indent=0]
-----
-
-The starting point is the `Transactions` object.  
-It is very important that the application ensures that only one of these is created, as it performs automated background processes that should not be duplicated.
-
-[source,java]
-----
-include::example$TransactionsExample.java[tag=init,indent=0]
-----
-
-=== Multiple Transactions Objects
-Generally an application will need just one `Transactions` object, and in fact the library will usually warn if more are created.
-Each `Transactions` object uses some resources, including a thread-pool.
-
-There is one rare exception where an application may need to create multiple `Transactions` objects, which is covered in <<Custom Metadata Collections>>.
+Simply `npm install` the most recent version of the SDK.
+You may, on occasion, need to import some enumerations for particular settings, but in basic cases nothing is needed.
 
 == Configuration
 
-Transactions can optionally be globally configured at the point of creating the `Transactions` object:
+Transactions can optionally be globally configured when configuring the `Cluster`.
+For example, if you want to change the level of durability which must be attained, this can be configured as part of the connect options:
 
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=config,indent=0]
+include::example$transactions-example.ts[tag=config,indent=0]
 ----
 
 include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=config]
 
-
+// TODO: this partial needs to change a bit, owing to library references.
 include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=creating]
 
-As with the Couchbase Java Client, you can use the library in either synchronous mode:
-
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=create,indent=0]
+include::example$transactions-example.ts[tag=create,indent=0]
 ----
 
-or asynchronous modes, using the Project Reactor reactive library:
-
-[source,java]
-----
-include::example$TransactionsExample.java[tag=createReactive,indent=0]
-----
-
-The synchronous mode is the easiest to write and understand.
-The asynchronous API allows you to build your application in a reactive style, which can help you scale with excellent efficiency.
-Those new to reactive programming may want to check out https://projectreactor.io/[the Project Reactor site] for more details on this powerful paradigm.
-
+// TODO: this partial may need to be reviewed
+// TODO: see https://docs.couchbase.com/java-sdk/current/howtos/distributed-acid-transactions-from-the-sdk.html#:~:text=The%20lambda%20gets%20passed%20an%20AttemptContext%20object%2C%20generally%20referred%20to%20as%20ctx%20here.
 include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
 
 == Examples
@@ -134,16 +76,9 @@ A code example is worth a thousand words, so here is a quick summary of the main
 They are described in more detail below. 
 
 .With the synchronous API
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=examples,indent=0]
-----
-
-
-.With the asynchronous API
-[source,java]
-----
-include::example$TransactionsExample.java[tag=examplesReactive,indent=0]
+include::example$transactions-example.ts[tag=examples,indent=0]
 ----
 
 
