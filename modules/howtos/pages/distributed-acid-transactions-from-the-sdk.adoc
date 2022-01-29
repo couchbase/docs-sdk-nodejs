@@ -75,13 +75,13 @@ include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
 A code example is worth a thousand words, so here is a quick summary of the main transaction operations.
 They are described in more detail below. 
 
-.With the synchronous API
 [source,typescript]
 ----
 include::example$transactions-example.ts[tag=examples,indent=0]
 ----
 
-
+// TODO: this partial references things that are Java implmentation specific
+//       like a Transactions object
 include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=mechanics]
 
 
@@ -90,20 +90,14 @@ include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=mechanics]
 === Replacing
 
 Replacing a document requires a `ctx.get()` call first.
-This is necessary so that the transactions library can check that the document is not involved in another transaction.
-If it is, then the transactions library will handle this at the `ctx.replace()` point.  
+This is necessary so the transaction can check that the document is not involved in another transaction.
+If it is, then the transaction will handle this at the `ctx.replace()` point.
 Generally, this involves rolling back what has been done so far, and retrying the lambda.
+Handling errors should be done through try/catch as in the example above.
 
-.With the synchronous API:
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=replace,indent=0]
-----
-
-.Asynchronous API:
-[source,java]
-----
-include::example$TransactionsExample.java[tag=replaceReactive,indent=0]
+include::example$transactions-example.ts[tag=replace,indent=0]
 ----
 
 === Removing

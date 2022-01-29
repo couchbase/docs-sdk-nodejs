@@ -11,7 +11,6 @@ import {
   TransactionDurabilityLevel,
   Transactions,
 } from 'couchbase'
-import { Couchbase } from 'ottoman'
 
 async function main() {
   // tag::config[]
@@ -55,6 +54,7 @@ async function main() {
   //  await collection.upsert("doc-a", {})
    await collection.upsert("doc-b", {})
    await collection.upsert("doc-c", {})
+   await collection.upsert("doc-id", {})
 
 
 
@@ -130,13 +130,49 @@ async function main() {
   }
   // tag::examples[]
 
-  //}
-
+  // execute other exmaples
+  try {
+    await replace()
+  } catch (error) {
+    console.error("****** Error running examples: \n" +  JSON.stringify)
+  }
  
 }
 
-// tag::ts-run-main[]
-// Run the main function
+async function getCluster() {
+  const exampleCluster: Cluster = await connect('couchbase://192.168.1.228', {
+    username: 'username',
+    password: 'password',
+    transactions: {
+      durabilityLevel: TransactionDurabilityLevel.PersistToMajority,
+    },
+  })
+
+  return exampleCluster
+
+}
+
+async function getCollection() {
+  const exampleCollection: Collection = (await getCluster()).bucket("travel-sample").scope('inventory').collection('airline')
+  return exampleCollection
+}
+
+async function replace() {
+  let cluster = await getCluster()
+  let collection = await getCollection()
+  // tag::replace[]
+  cluster.transactions().run(async ctx => {
+    const doc = await ctx.get(collection, "doc-id")
+    const content = doc.content
+    const newContent = {
+      transactions: "are awesome",
+      ...content,
+    }
+    await ctx.replace(doc, newContent)
+  })
+  // end::replace[]
+}
+
 main()
   .catch((err) => {
     console.log('ERR:', err)
@@ -145,4 +181,3 @@ main()
   .then(() => {
     process.exit(0)
   })
-// end::ts-run-main[]
