@@ -133,8 +133,9 @@ async function main() {
   // execute other exmaples
   try {
     await replace()
+    await remove()
   } catch (error) {
-    console.error("****** Error running examples: \n" +  JSON.stringify)
+    console.error("****** Error running examples: \n" +  JSON.stringify(error))
   }
  
 }
@@ -171,6 +172,17 @@ async function replace() {
     await ctx.replace(doc, newContent)
   })
   // end::replace[]
+}
+
+async function remove() {
+  let cluster = await getCluster()
+  let collection = await getCollection()
+  // tag::remove[]
+  cluster.transactions().run(async ctx => {
+    const doc = await ctx.get(collection, "doc-id")
+    await ctx.remove(doc)
+  })
+  // end::remove[]
 }
 
 main()

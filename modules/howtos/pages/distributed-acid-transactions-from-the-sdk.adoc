@@ -104,22 +104,10 @@ include::example$transactions-example.ts[tag=replace,indent=0]
 
 As with replaces, removing a document requires a `ctx.get()` call first.
 
-.Synchronous API:
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=remove,indent=0]
+include::example$transactions-example.ts[tag=remove,indent=0]
 ----
-
-.With the asynchronous API:
-[source,java]
-----
-include::example$TransactionsExample.java[tag=removeReactive,indent=0]
-----
-
-NOTE: For those using the asynchronous API - some `ctx` methods, notably `ctx.remove()`, return `Mono<Void>`.
-There is a common 'gotcha' with `Mono<Void>` in that it does not trigger a 'next' reactive event - only a 'completion' event.
-This means that some reactive operators chained afterwards - including the common `flatMap` - will not trigger.
-Generally, you will to do `ctx.remove(...).then(...)` rather than `ctx.remove(...).flatMap(...)`.
 
 === Inserting
 
