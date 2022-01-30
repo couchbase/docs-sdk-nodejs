@@ -111,15 +111,8 @@ include::example$transactions-example.ts[tag=remove,indent=0]
 
 === Inserting
 
-.With the asynchronous API:
-[source,java]
-----
-include::example$TransactionsExample.java[tag=insert,indent=0]
-----
-
-.With the synchronous API:
-----
-include::example$TransactionsExample.java[tag=insertReactive,indent=0]
+[source,typescript]
+----include::example$transactions-example.js[tag=insert,indent=0]
 ----
 
 == Key-Value Reads

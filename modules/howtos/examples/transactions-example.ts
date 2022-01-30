@@ -134,6 +134,7 @@ async function main() {
   try {
     await replace()
     await remove()
+    await insert()
   } catch (error) {
     console.error("****** Error running examples: \n" +  JSON.stringify(error))
   }
@@ -183,6 +184,16 @@ async function remove() {
     await ctx.remove(doc)
   })
   // end::remove[]
+}
+
+async function insert() {
+  let cluster = await getCluster()
+  let collection = await getCollection()
+  // tag::insert[]
+  cluster.transactions().run(async ctx => {
+    await ctx.insert(collection, "docId", {})
+  })
+  // end::insert[]
 }
 
 main()
