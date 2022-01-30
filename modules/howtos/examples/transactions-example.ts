@@ -132,11 +132,14 @@ async function main() {
 
   // execute other exmaples
   try {
+    await get()
+    await getReadOwnWrites()
     await replace()
     await remove()
     await insert()
   } catch (error) {
     console.error("****** Error running examples: \n" +  JSON.stringify(error))
+    console.trace()
   }
  
 }
@@ -194,6 +197,31 @@ async function insert() {
     await ctx.insert(collection, "docId", {})
   })
   // end::insert[]
+}
+
+async function get() {
+  let cluster = await getCluster()
+  let collection = await getCollection()
+  // tag::get[]
+  cluster.transactions().run(async ctx => {
+    const aDoc = await ctx.get(collection, "a-doc")
+  })
+  // end::get[]
+  // TODO: should this show nullable/optional in an example?
+}
+
+async function getReadOwnWrites() {
+  let cluster = await getCluster()
+  let collection = await getCollection()
+  // tag::getReadOwnWrites[]
+  cluster.transactions().run(async ctx => {
+    const docId = "docId"
+
+    ctx.insert(collection, docId, {})
+
+    const doc = await ctx.get(collection, docId)
+  })
+  // end::getReadOwnWrites[]
 }
 
 main()

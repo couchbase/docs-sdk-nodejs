@@ -117,11 +117,11 @@ include::example$transactions-example.ts[tag=remove,indent=0]
 
 == Key-Value Reads
 
-There are two ways to get a document with Key-Value, `get` and `getOptional`:
+From a transaction context you may get a document:
 
-[source,java]
+[source,typescript]
 ----
-include::example$TransactionsExample.java[tag=get,indent=0]
+include::example$transactions-example.ts[tag=get,indent=0]
 ----
 
 `get` will cause the transaction to fail with `TransactionFailed` (after rolling back any changes, of course).
@@ -131,7 +131,7 @@ Gets will 'read your own writes', e.g. this will succeed:
 
 [source,java]
 ----
-include::example$TransactionsExample.java[tag=getReadOwnWrites,indent=0]
+include::example$transactions-example.ts[tag=getReadOwnWrites,indent=0]
 ----
 
 include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=query-intro]
