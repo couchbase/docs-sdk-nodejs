@@ -2,9 +2,9 @@ name: Build Code Samples
 
 on:
   push:
-    branches: ["release/3.*"]
+    branches: ["release/4.*"]
   pull_request:
-    branches: ["release/3.*"]
+    branches: ["release/4.*"]
 
 env:
   NODE_VERSION: 16
@@ -52,10 +52,10 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Notify slack on failure
-        # We run this step only on the default 3.2+ branch
+        # We run this step only on the default 4.0+ branch
         # because secrets are not accessible on PRs from forks.
         # Therefore, this notification will only happen when a PR is merged.
-        if: failure() && startsWith(github.ref, 'refs/heads/release/3.*')
+        if: failure() && startsWith(github.ref, 'refs/heads/release/4.*')
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
