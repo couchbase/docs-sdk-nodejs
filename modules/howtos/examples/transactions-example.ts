@@ -7,6 +7,7 @@ import {
   Cluster,
   Collection,
   connect,
+  DurabilityLevel,
   QueryOptions,
   QueryProfileMode,
   QueryResult,
@@ -22,7 +23,7 @@ async function main() {
     username: 'username',
     password: 'password',
     transactions: {
-      durabilityLevel: TransactionDurabilityLevel.PersistToMajority,
+      durabilityLevel: DurabilityLevel.PersistToMajority,
     },
   })
   // end::config[]
@@ -166,7 +167,7 @@ async function getCluster() {
     username: 'username',
     password: 'password',
     transactions: {
-      durabilityLevel: TransactionDurabilityLevel.PersistToMajority,
+      durabilityLevel: DurabilityLevel.None,
     },
   })
 
