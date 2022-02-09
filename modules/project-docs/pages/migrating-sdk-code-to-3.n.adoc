@@ -1,7 +1,7 @@
-= Migrating from SDK2 to SDK3 API
-:description: The 3.0 API breaks the existing 2.0 APIs in order to provide a number of improvements. \
+= Migrating to SDK API 3
+:description: The SDK API 3 (used in Node.js SDK 3.x and 4.x)  breaks the previous SDK API 2 APIs (used in Node.js SDK 2.x) in order to provide a number of improvements. \
 Collections and Scopes are introduced.
-:nav-title: Migrating to Java SDK 3.0 API
+:nav-title: Migrating to SDK API 3
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
@@ -11,11 +11,27 @@ include::partial$attributes.adoc[]
 {description}
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
 Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
-Individual behaviour changes across services are explained here.
 
+Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features.
+Though the API still matches the SDK API 3._x_ spec, we have increased the major version to reflect the importance of this implementation change, as per https://semver.org/[semantic versioning].
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
+Individual behavior changes across services are explained on this page.
 
+NOTE: if you are an existing Node.js SDK 3._x_ user considering migrating to SDK 4.0,
+you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
+
+include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
+
+// include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
+// tag::intro[]
+
+== Fundamentals
+
+Before this guide dives into the language-specific technical component of the migration, it is important to understand the high level changes first.
+As a migration guide, this document assumes you are familiar with the previous generation of the SDK and does not re-introduce SDK API 2 concepts.
+We recommend familiarizing yourself with the new SDK first by reading at least the xref:hello-world:start-using-sdk.adoc[getting started guide], and browsing through the other chapters a little.
+
+// end::intro[]
 
 include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms]
 
@@ -43,23 +59,24 @@ include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
 
 ==  Installation and Configuration
 
-The Node.js SDK 3.x is available through `npm`, just like the previous generation.
+The Node.js SDK 3._x_ and 4._x_ are available through `npm`, just like the previous generation.
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
 
 
-SDK 3 depends on the following ones instead:
+The Node.js SDK 3.2 has the following dependencies:
 
 [source,json]
 ----
   "dependencies": {
     "bindings": "^1.5.0",
-    "debug": "^4.1.1",
-    "nan": "^2.14.0",
-    "parse-duration": "^0.1.1",
-    "prebuild-install": "^5.3.2",
-    "qs": "^6.9.0"
-  }
+    "debug": "^4.3.2",
+    "nan": "^2.15.0",
+    "parse-duration": "^1.0.0",
+    "prebuild-install": "^6.1.4"
+  },
 ----
+
+The Node.js SDK 4.0 additionally requires Node 12+ (the oldest supported maintenance LTS release).
 
 
 === Connection to the Cluster
@@ -70,35 +87,13 @@ SDK 3 depends on the following ones instead:
 include::devguide:example$nodejs/migrating.js[tag=connect,indent=0]
 ----
 
-Similar to SDK 2, if you create your own `ClusterEnvironment` the SDK will not shut it
+Similar to SDK API 2, if you create your own `ClusterEnvironment` the SDK will not shut it
 down for you -- you need to do this manually at the end of the program lifetime:
 
 [source,javascript]
 ----
 include::devguide:example$nodejs/migrating.js[tag=shutdown,indent=0]
 ----
-
-////
-+ The following is for Java SDK - Does this also apply to nodejs?
-If no custom environment is passed in, the default settings can still be customized
-through either the connection string or xref:ref:client-settings.adoc[system properties].
-The SDK has elaborate reflection logic in place to parse "flat" string values and
-apply them to the builder, which means that you can now configure more properties
-than in SDK 2.
-
-Note that the property paths have changed.
--
-////
-
-////
-+ java only, not nodejs
-
-[source,javascript]
-----
-include::devguide:example$nodejs/migrating.js[tag=sysprops,indent=0]
-----
--
-////
 
 Connection String Url Query Parameters
 
@@ -107,39 +102,6 @@ Connection String Url Query Parameters
 include::devguide:example$nodejs/migrating.js[tag=connstr,indent=0]
 ----
 
-////
-+ java only, not nodejs
-The paths for each config start with the pattern `com.couchbase.env.` followed by either a toplevel or nested config. `IoConfig` is under the `io` path, similar to `TimeoutConfig` under `timeout`.
-So, if you want to modify a KV timeout you can use the `com.couchbase.env.timeout.kvTimeout` path.
-See the xref:ref:client-settings.adoc[configuration section] for full specifics.
-
-At the end of this guide you'll find a xref:#configurations-options-reference[reference] that describes the SDK 2 environment options and their SDK 3 equivalents where applicable.
--
-////
-
-////
-+ java only, not nodejs
-=== Authentication
-
-Since SDK 2 supports Couchbase Server clusters older than 5.0, it had to support both Role-Based access control as well as bucket-level passwords.
-The minimum cluster version supported by SDK 3 is Server 5.0, which means that only RBAC is supported.
-This is why you can set the username and password when directly connecting:
-
-[source,java]
-----
-include::example$Migrating.java[tag=rbac,indent=0]
-----
-
-This is just a shorthand for:
-
-[source,java]
-----
-include::example$Migrating.java[tag=rbac-full,indent=0]
-----
-
-The reason why you can pass in a specific authenticator is that you can also use the same approach to configure certificate-based authentication:
--
-////
 
 === Authentication
 
@@ -152,17 +114,18 @@ include::devguide:example$nodejs/connecting-cert-auth.js[tag=connecting-cert-aut
 
 Please see the xref:howtos:sdk-authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
 
+
 == Connection Lifecycle
 
-From a high-level perspective, bootstrapping and shutdown is very similar to SDK 2.
+From a high-level perspective, bootstrapping and shutdown is very similar to the SDK API 2._x_.
 One notable difference is that the `Collection` is introduced and that the individual methods like `bucket` immediately return, and do not throw an exception.
-Compare SDK 2: the `openBucket` method would not work if it could not open the bucket.
+Compare SDK API 2: the `openBucket` method would not work if it could not open the bucket.
 
 The reason behind this change is that even if a bucket can be opened, a millisecond later it may not be available any more.
 All this state has been moved into the actual operation so there is only a single place where the error handling needs to take place.
 This simplifies error handling and retry logic for an application.
 
-In SDK 2, you connected, opened a bucket, performed a KV op, and disconnected like this:
+In SDK API 2, you connected, opened a bucket, performed a KV op, and disconnected like this:
 
 [source,javascript]
 ----
@@ -175,7 +138,7 @@ const getResult = bucket.get("airline_10");
 cluster.close();
 ----
 
-Here is the SDK 3 equivalent:
+Here is the SDK API 3 equivalent:
 
 [source,javascript]
 ----
@@ -199,9 +162,9 @@ If you are using an earlier version of the cluster you must open at least one bu
 
 == Serialization and Transcoding
 
-In SDK 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
+In SDK API 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
 This only worked for the KV APIs though -- Query, Search, Views, and other services exposed their JSON rows/hits in different ways.
-All of this has been unified in SDK 3 under a single concept: serializers and transcoders.
+All of this has been unified in SDK API 3 under a single concept: serializers and transcoders.
 
 By default, all KV APIs transcode to and from JSON -- you can also provide Javascript objects which you couldn't in the past.
 
@@ -217,53 +180,20 @@ If you want to write binary data, you can use a `new RawBinaryTranscoder()`:
 include::devguide:example$nodejs/migrating.js[tag=rawbinary,indent=0]
 ----
 
-// Table is for Java. I'm not sure if nodejs has same mappings as Java.
-////
-+
-Here is a mapping table from the SDK 2 `Document` types to the new transcoder types:
-
-.SDK 2.x Document vs. SDK 3.x Transcoder
-[options="header"]
-|=======================
-| SDK 2                          | SDK 3
-|`JsonDocument`                  | `JsonTranscoder` (default)
-|`JsonArrayDocument`             | `JsonTranscoder` (default)
-|`JsonBooleanDocument`           | `JsonTranscoder` (default)
-|`JsonLongDocument`              | `JsonTranscoder` (default)
-|`JsonStringDocument`            | `JsonTranscoder` (default)
-|`JsonDoubleDocument`            | `JsonTranscoder` (default)
-|`LegacyDocument`                | removed
-|`RawJsonDocument`               | `RawJsonTranscoder`
-|`SerializableDocument`          | removed
-|`StringDocument`                | `RawStringTranscoder`
-|`ByteArrayDocument`             | `RawBinaryTranscoder`
-|`BinaryDocument`                | `RawBinaryTranscoder`
-|`EntityDocument`                | `JsonTranscoder` (default)
-|=======================
-
-The `LegacyDocument` in SDK 2 was in place to support SDK 1, so it has been removed.
-Serializers and transcoders can also be customized and overwritten on a per-operation basis, please see the appropriate documentation section for details.
-
-The JSON `Transcoders` use a `Serializer` underneath.
-While a transcoder can handle many different storage types, the serializer is specialized for JSON encoding and decoding.
-On all JSON-only APIs (i.e. Sub-doc, Query, Search,...) you'll only find a `Serializer`, not a `Transcoder`, in the operation options.
-Usually there is no need to override it unless you want to provide your own implementation (i.e. if you have your own POJO mapping json logic in place, and want to reuse it).
--
-////
 
 == Exception Handling
 
-How to _handle_ exceptions is unchanged from SDK 2.
+How to _handle_ exceptions is unchanged from SDK API 2.
 You should still use `try/catch` on the blocking APIs and the corresponding reactive/async methods on the other APIs.
 There have been changes made in the following areas:
 
-- Exception hierachy and naming.
+- Exception hierarchy and naming.
 - Proactive retry where possible.
 
 
-=== Exception hierachy
+=== Exception hierarchy
 
-The exception hierachy is now flat and unified under a `CouchbaseError`.
+The exception hierarchy is now flat and unified under a `CouchbaseError`.
 Each `CouchbaseError` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
 
 Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
@@ -272,70 +202,16 @@ Here is an example of the error context if a N1QL query is performed with an inv
 ----
 Exception in thread "main" com.couchbase.client.core.error.ParsingFailedException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at from"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:62253","lastDispatchedTo":"127.0.0.1:8093","requestId":3,"requestType":"QueryRequest","retried":11,"retryReasons":["ENDPOINT_TEMPORARILY_NOT_AVAILABLE","BUCKET_OPEN_IN_PROGRESS"],"service":{"operationId":"9111b961-e585-42f2-9cab-e1501da7a40b","statement":"select 1= from","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":15599,"totalMicros":1641134}}
 ----
-////
-+ java specific
-The expectation is that the application catches the `CouchbaseException` and deals with it as an unexpected error
-(e.g. logging with subsequent bubbling up of the exception or failing).
-In addition to that, each method exposes exceptions that can be caught separately if needed.
-As an example, consider the javadoc for the `Collection.get` API:
-
-[source]
-----
-...
-   * @throws DocumentNotFoundException the given document id is not found in the collection.
-   * @throws TimeoutException if the operation times out before getting a result.
-   * @throws CouchbaseException for all other error reasons (acts as a base type and catch-all).
-...
-----
-
-These exceptions extend `CouchbaseException`, but both the `TimeoutException` and the `DocumentNotFoundException` can be caught individually if specific logic should be executed to handle them.
--
-////
-
 
 === Proactive Retry
 
 One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
 This depends on the type of operation (idempotent or not), in which state of processing it is (already dispatched or not), and what the actual response code is if it arrived already.
 As a result, many transient cases -- such as locked documents, or temporary failure -- are now retried by default and should less often impact applications.
-It also means, when migrating to the new SDK API, you may observe a longer period of time until an error is returned by default.
+It also means, when migrating to SDK API 3, you may observe a longer period of time until an error is returned by default.
 
 NOTE: Operations are retried by default as described above with the default `BestEffortRetryStrategy`.
 
-////
-+ java only, not nodejs
-Like in SDK 2 you can configure fail-fast retry strategies to not retry certain or all operations.
-The `RetryStrategy` interface has been extended heavily in SDK 3 -- please see the xref:howtos:error-handling.adoc[error handling documentation].
-
-When migrating your SDK 2 exception handling code to SDK 3, make sure to wrap every call with a catch for `CouchbaseException` (or let it bubble up immediately).
-You can likely remove your user-level retry code for temporary failures, backpressure exception, and so on.
-One notable exception from this is the `CasMismatchException`, which is still thrown since it requires more app-level code to handle (most likely identical to SDK 2).
--
-////
-
-== Logging and Events
-
-
-////
-+ java only, not nodejs
-Configuring and consuming logs has not greatly changed.
-The SDK still uses _SLF4J_, if found on the classpath, and if not reverts back to the JDK logger (it can also be configured to log to `stderr` instead).
-The big difference is that the `EventBus` (also present in SDK 2) has been made much more powerful -- and all logs are sent as events through it.
-The `LoggingEventConsumer` being one of the potential consumers, and turning events into log lines.
-
-The biggest impact you'll see from it is that the log messages now look very structured and contain contextual information where possible.
-
-[source]
-----
-13:36:46 INFO  [com.couchbase.node:470] [com.couchbase.node][NodeConnectedEvent] Node connected {"coreId":1,"managerPort":"8091","remote":"127.0.0.1"}
-13:36:46 INFO  [com.couchbase.core:470] [com.couchbase.core][BucketOpenedEvent][393161µs] Opened bucket "travel-sample" {"coreId":1}
-----
-
-Notice the package path (which you can also filter on if needed), the event name, an optional time that it took to perform the operation, the message and surrounding context.
-This makes it easier to debug potential problems but also allows consuming all the events and feeding them in other monitoring systems without having to round-trip a file log.
-Please see xref:howtos:collecting-information-and-logging.adoc[the logging documentation] for further information.
--
-////
 
 == Migrating Services
 
@@ -345,12 +221,12 @@ The following section discusses each service in detail and covers specific bits 
 
 The Key/Value (KV) API is now located under the `Collection` interface, so even if you do not use collections, the `defaultCollection()` needs to be opened in order to access it.
 
-The following table describes the SDK 2 KV APIs and where they are now located in SDK 3:
+The following table describes the SDK API 2 KV calls and where they are now located in SDK API 3:
 
-.SDK 2.x KV API vs. SDK 3.x KV API
+.KV API Changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`bucket.upsert`                 | `collection.upsert`
 |`bucket.get`                    | `collection.get`
 |`bucket.exists`                 | `collection.exists`
@@ -375,7 +251,7 @@ In addition, the datastructure APIs have been renamed and moved:
 .Datastructure API Changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`bucket.mapAdd`                 | `collection.map`
 |`bucket.mapGet`                 | `collection.map`
 |`bucket.mapRemove`              | `collection.map`
@@ -400,7 +276,7 @@ There are two important API changes:
 * On the response side, the return types have been unified.
 
 The signatures now look very similar.
-The concept of the `Document` as a type is gone in SDK 3 and instead you need to pass in the properties explicitly.
+The concept of the `Document` as a type is gone in SDK API 3 and instead you need to pass in the properties explicitly.
 This makes it very clear what is returned, especially on the response side.
 
 Thus, the `get` method does not return a `Document` but a `GetResult` instead, and the `upsert` does not return a `Document` but a `MutationResult`.
@@ -410,11 +286,11 @@ Instead of having many overloads, all optional params are now part of the `Optio
 All required params are still part of the method signature, making it clear what is required and what is not (or has default values applied if not overridden).
 
 The timeout can be overridden on every operation and now takes a `Duration` from java 8.
-Compare SDK 2 and SDK 3 custom timeout setting:
+Compare SDK API 2 and SDK API 3 custom timeout setting:
 
 [source,javascript]
 ----
-// SDK 2 custom timeout
+// SDK API 2 custom timeout
 bucket.get("mydoc-id", 5000);
 ----
 
@@ -423,7 +299,7 @@ bucket.get("mydoc-id", 5000);
 include::devguide:example$nodejs/migrating.js[tag=customtimeout,indent=0]
 ----
 
-In SDK 2, the `getFromReplica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
+In SDK API 2, the `getFromReplica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
 We have identified this as a potential source of confusion and as a result split it up in two methods that simplify usage significantly.
 There is now a `getAllReplicas` method and a `getAnyReplica` method.
 
@@ -433,17 +309,17 @@ There is now a `getAllReplicas` method and a `getAnyReplica` method.
 Unless you want to build some kind of consensus between the different replica responses, we recommend `getAnyReplica` for a fallback to a regular `get` when the active node times out.
 
 NOTE: Operations which cannot be performed on JSON documents have been moved to the `binarycollection`, accessible through `Collection.binary()`.
-These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK 2).
+These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK API 2).
 These operations should only be used against non-json data.
 Similar functionality is available through `mutateIn` on JSON documents.
 
 === Query
 
-N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK 2 with its SDK 3 equivalent:
+N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK API 2 with its SDK API 3 equivalent:
 
 [source,javascript]
 ----
-// SDK 2 simple query
+// SDK API 2 simple query
 queryResult = await bucket.query(
       couchbase.N1qlQuery.fromString('SELECT * FROM `travel-sample` WHERE city=$1 LIMIT 10'),
       [ 'Paris' ]);
@@ -459,7 +335,7 @@ include::devguide:example$nodejs/migrating.js[tag=querysimple,indent=0]
 ----
 
 Note that there is no `N1qlQuery.fromString` any more -- and query parameters argument has been moved to the options parameter for consistency reasons.
-The following shows how to do named and positional parameters in SDK 3:
+The following shows how to do named and positional parameters in SDK API 3:
 
 
 [source,javascript]
@@ -469,30 +345,11 @@ include::devguide:example$nodejs/migrating.js[tag=queryparameterized,indent=0]
 
 Much of the non-row metadata has been moved into a specific `QueryMetaData` section:
 
-////
-+ java
-.Query Metadata Changes
-[options="header"]
-|====
-| SDK 2                             | SDK 3
-|`N1qlQueryResult.signature`        | `QueryResult.metaData.signature`
-|`N1qlQueryResult.info`             | `QueryResult.metaData.metrics`
-|`N1qlQueryResult.profileInfo`      | `QueryResult.metaData.profile`
-|`N1qlQueryResult.parseSuccess`     | removed
-|`N1qlQueryResult.finalSuccess`     | removed
-|`N1qlQueryResult.status`           | `QueryResult.metaData.status`
-|`N1qlQueryResult.errors`           | throws an Exception on `QueryResult`
-|`N1qlQueryResult.requestId`        | `QueryResult.metaData.requestId`
-|`N1qlQueryResult.clientContextId`  | `QueryResult.metaData.clientContextId`
-|====
--
-////
-
 It is no longer necessary to check for a specific error in the stream: if an error happened during processing it will throw an exception at the top level of the query.
 The reactive streaming API will terminate the rows' `Flux` with an exception as well as soon as it is discovered.
 This makes error handling much easier in both the blocking and non-blocking cases.
 
-While in SDK 2 you had to manually check for errors (otherwise you'd get an empty row collection):
+While in SDK API 2 you had to manually check for errors (otherwise you'd get an empty row collection):
 
 [source,javascript]
 ----
@@ -502,7 +359,7 @@ if (!queryResult.errors.isEmpty()) {
 }
 ----
 
-In SDK 3 the top level `query` method will throw an exception:
+In SDK API 3 the top level `query` method will throw an exception:
 
 [source]
 ----
@@ -512,16 +369,6 @@ Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,
 ----
 
 Not only does it throw a `CouchbaseError`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
-
-////
-// surely this doesn't apply to Node??
-==== DSL Deprecation
-
-The fluent API feature in SDK 2 was found not to scale well for larger queries, nor for SQL++.
-For these reasons it is not amongst the features carried over to SDK 3.0.
-
-In most cases, a simple string statement is the best replacement.
-////
 
 === Analytics
 
@@ -542,34 +389,24 @@ Also, errors will now be thrown as top level exceptions and it is no longer nece
 
 [source,java]
 ----
-// SDK 2 error check
+// SDK API 2 error check
 AnalyticsQueryResult analyticsQueryResult = b1.query(AnalyticsQuery.simple("select * from foo"));
 if (!analyticsQueryResult.errors().isEmpty()) {
   // errors contain [{"msg":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)","code":24045}]
 }
 ----
-////
-+ java exception
-[source]
-----
-// SDK 3 top level exception
-com.couchbase.client.core.error.DatasetNotFoundException: The analytics dataset is not found {"completed":true,"coreId":1,"errors":[{"code":24045,"message":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:51942","lastDispatchedTo":"127.0.0.1:8095","requestId":5,"requestType":"AnalyticsRequest","retried":0,"service":{"operationId":"80265061-62e0-4c35-860f-a07a97e1a5ee","priority":0,"statement":"select * from foo","type":"analytics"},"timeoutMs":75000,"timings":{"dispatchMicros":27005,"totalMicros":89888}}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Cluster.analyticsQuery(Cluster.java:250)
-----
--
-////
+
 === Search
 
-The Search API has changed a bit in SDK 3 so that it aligns with the other query APIs.
+The Search API has changed a bit in SDK API 3 so that it aligns with the other query APIs.
 The type of queries have stayed the same, but all optional parameters moved into `SearchOptions`.
 Also, similar to the other query APIs, it is now available at the `Cluster` level.
 
-Here is a SDK 2 Search query with some options, and its SDK 3 equivalent:
+Here is a SDK API 2 Search query with some options, and its SDK API 3 equivalent:
 
-[source,java]
+[source,javascript]
 ----
-//  SDK 2 search query
+//  SDK API 2 search query
 const searchResult = bucket.query(
   "airports"",
   { indexName : "airport_view", limit:5, fields : [ "a", "b", "c"]}
@@ -577,31 +414,16 @@ const searchResult = bucket.query(
 );
 searchResult.rows.forEach((row)=>{
       console.log(row);
-   });
+  });
 }
 ----
 
-[source,java]
+[source,javascript]
 ----
 include::devguide:example$nodejs/migrating.js[tag=searchsimple,indent=0]
 ----
 
-////
-+
-Error handling for streaming is handled differently.
-While fatal errors will still raise top-level exceptions, any errors that happend during streaming (for example if one node is down, and only partial results are returned) they will not terminate the result.
-The reasoning behind this is that usually with search results, having partial results is better than none.
 
-Here is a top level exception, for _the index does not exist_:
-
-[source]
-----
-com.couchbase.client.core.error.SearchIndexNotFoundException: The search index is not found on the server {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53280","lastDispatchedTo":"127.0.0.1:8094","requestId":5,"requestType":"SearchRequest","retried":0,"service":{"indexName":"myindex","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":12741,"totalMicros":66262}}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Cluster.searchQuery(Cluster.java:275)
-----
--
-////
 If you want to be absolutely sure that you didn't get only partial data, you can check the error map:
 
 [source,javascript]
@@ -617,24 +439,24 @@ The API has stayed mostly the same, the most important change is that `staleness
 .View Staleness Mapping
 [options="header"]
 |====
-| SDK 2                             | SDK 3
+| SDK API 2                         | SDK API 3
 |`Stale.TRUE`                       | `QueryScanConsistency.NotBounded`
 |`Stale.FALSE`                      | `QuerywScanConsistency.RequestPlus`
 |`Stale.UPDATE_AFTER`               | `removed`
 |====
 
-Compare this SDK 2 view query with its SDK 3 equivalent:
+Compare this SDK API 2 view query with its SDK API 3 equivalent:
 
 [source,javascript]
 ----
-// SDK 2 view query
+// SDK API 2 view query
 const query = async bucket.query(
   "design", "view", {limit:5, skip:2},
   10000
 );
 query.rows.forEach((row)=>{
       console.log(row);
-   });
+  });
 }
 ----
 
@@ -643,33 +465,20 @@ query.rows.forEach((row)=>{
 include::devguide:example$nodejs/migrating.js[tag=viewquery,indent=0]
 ----
 
-////
-+ java exceptions
-Exceptions are exclusively raised at the top level: for example, if the design document is not found:
-
-[source]
-----
-com.couchbase.client.core.error.ViewNotFoundException: The queried view is not found on the server {"completed":true,"coreId":1,"httpStatus":404,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53474","lastDispatchedTo":"127.0.0.1:8092","requestId":5,"requestType":"ViewRequest","retried":0,"service":{"bucket":"travel-sample","designDoc":"foo","development":false,"type":"views","viewName":"bar"},"status":"NOT_FOUND","timeoutMs":75000,"timings":{"dispatchMicros":77572,"totalMicros":189389},"viewError":"not_found","viewErrorReason":"Design document _design/foo not found"}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Bucket.viewQuery(Bucket.java:182)
-
-----
--
-////
 
 === Management APIs
 
-In SDK 2, the management APIs were centralized in the `clustermanager` at the cluster level and the `bucketmanager` at the bucket level.
-Since SDK 3 provides more management APIs, they have been split up in their respective domains.
-So for example when in SDK 2 you needed to remove a bucket you would call `clustermanager.removeBucket` you will now find it under `bucketmanager.dropBucket`.
+In SDK API 2, the management APIs were centralized in the `clustermanager` at the cluster level and the `bucketmanager` at the bucket level.
+Since SDK API 3 provides more management APIs, they have been split up in their respective domains.
+So for example when in SDK API 2 you needed to remove a bucket you would call `clustermanager.removeBucket` you will now find it under `bucketmanager.dropBucket`.
 Also, creating a N1QL index now lives in the `queryindexmanager`, which is accessible through the `cluster`.
 
-The following table provides a mapping from the SDK 2 management APIs to those of SDK 3:
+The following table provides a mapping from the SDK API 2 management APIs to those of SDK API 3:
 
-.SDK 2.x vs SDK 3.x clustermanager
+.`clustermanager` changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`clustermanager.info`           | removed
 |`clustermanager.getBuckets`     | `bucketmanager.getAllBuckets`
 |`clustermanager.getBucket`      | `bucketmanager.getBucket`
@@ -684,10 +493,10 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 |`clustermanager.apiClient`      | removed
 |====
 
-.SDK 2.x vs SDK 3.x bucketmanager
+.`bucketmanager` changes
 [options="header"]
 |====
-| SDK 2                                    | SDK 3
+| SDK API 2                                | SDK API 3
 |`bucketmanager.info`                      | removed
 |`bucketmanager.flush`                     | `bucketmanager.flushBucket`
 |`bucketmanager.getDesignDocuments`        | `viewindexmanager.getAllDesignDocuments`
@@ -705,130 +514,21 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 |`bucketmanager.watchN1qlIndexes`          | `queryindexmanager.watchIndexes`
 |====
 
-////
-+ java
-== Reactive and Async APIs
+=== Encryption
 
-The move to Java 8 as a baseline has opened the door to expose `CompletableFuture` in addition to a reactive API.
-You can now find it under the `async()` namespace of each level (for example, `Cluster.async()` -> `AsyncCluster`).
-We also moved from `RxJava` to `Reactor` because it provides native Java 8 support and better performance out of the box.
-`Reactor` has a growing community, and integrates very well into the Spring ecosystem.
-The reactive API can now be found under the `reactive()` namespace (for example, `Collection.reactive()` -> `ReactiveCollection`).
+Due to a change in algorithms and API, SDK API 2 cannot read fields encrypted by SDK API 3.
+Learn more in the xref:howtos:encrypting-using-sdk.adoc#migrating-from-2[encryption guide].
 
-Like in SDK 2, the async and reactive APIs provide the same functionality as their blocking counterpart.
-There are only a couple places in the SDK where it does not make sense (such as the blocking datastructure APIs, which at the collection level implement the Java interfaces which do not have async or reactive counterparts).
+[#sdk4-specifics]
+== SDK 4.x specifics
 
-IMPORTANT: if you need to use non-blocking APIs, we recommend using the reactive one.
-The async API based on `CompletableFuture` should only be used as a building block for higher level abstractions, or if you absolutely need the last drop of performance.
-The `Flux` and `Mono` types of reactor are very powerful and allow you to build efficient and flexible domain logic without blocking.
+Node.js SDK 4.0 implements the SDK API 3 spec, so all the steps above also apply to a migration from a Node.js SDK 2.x directly to Node.js SDK 4.0.
 
-Since `Reactor` implements the reactive stream specification, you can still use `RxJava` through the interoperability interfaces.
-This is out of scope for the migration guide -- please consult the reactor and rxjava documentations for further information.
+Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features.
+You should be aware of the following considerations arising from this new backend implementation.
 
-As a starting point, the following types are comparable:
-
-.SDK Reactor vs RxJava
-[options="header"]
-|====
-| SDK 2 RxJava          | SDK 3 Reactor
-|`Observable<T>`        | `Flux<T>`
-|`Single<T>`            | `Mono<T>`
-|`Completable`          | `Mono<Void>`
-|====
--
-////
-
-////
-+ java
-== Configuration Options Reference
-
-The following table provides commonly used configuration options in SDK 2 and where they can be now applied in SDK 3.
-Note that some options have been removed, and others have different ways to configure them.
-
-.SDK 2.x vs SDK 3.x Environment Configs
-[options="header"]
-|====
-| SDK 2                        | SDK 3
-|`sslEnabled`                  | `SecurityConfig.enableTls`
-|`sslKeystoreFile`             | on `CertificateAuthenticator`
-|`sslKeystorePassword`         | on `CertificateAuthenticator`
-|`sslKeystore`                 | on `CertificateAuthenticator`
-|`sslTruststoreFile`           | `SecurityConfig.trustCertificate`
-|`sslTruststorePassword`       | `SecurityConfig.trustCertificate`
-|`sslTruststore`               | `SecurityConfig.trustManagerFactory`
-|`bootstrapCarrierEnabled`     | removed
-|`bootstrapHttpDirectPort`     | via custom `SeedNode`
-|`bootstrapHttpSslPort`        | via custom `SeedNode`
-|`bootstrapCarrierDirectPort`  | via custom `SeedNode`
-|`bootstrapCarrierSslPort`     | via custom `SeedNode`
-|`ioPoolSize`                  | via custom `IoEnvironment` pools
-|`computationPoolSize`         | removed
-|`requestBufferSize`           | removed
-|`responseBufferSize`          | removed
-|`kvEndpoints`                 | `IoConfig.numKvConnections`
-|`viewEndpoints`               | `IoConfig.maxHttpConnections`
-|`queryEndpoints`              | `IoConfig.maxHttpConnections`
-|`searchEndpoints`             | `IoConfig.maxHttpConnections`
-|`userAgent`                   | removed
-|`packageNameAndVersion`       | removed
-|`observeIntervalDelay`        | removed
-|`reconnectDelay`              | removed
-|`retryDelay`                  | removed
-|`ioPool`                      | via custom `IoEnvironment` pools
-|`kvIoPool`                    | via custom `IoEnvironment` pools
-|`viewIoPool`                  | via custom `IoEnvironment` pools
-|`queryIoPool`                 | via custom `IoEnvironment` pools
-|`searchIoPool`                | via custom `IoEnvironment` pools
-|`analyticsIoPool`             | via custom `IoEnvironment` pools
-|`scheduler`                   | `scheduler`
-|`retryStrategy`               | `retryStrategy`
-|`maxRequestLifetime`          | removed
-|`keepAliveInterval`           | removed
-|`autoreleaseAfter`            | removed
-|`eventBus`                    | `eventBus`
-|`bufferPoolingEnabled`        | removed
-|`tcpNodelayEnabled`           | `IoConfig.enableTcpKeepAlives`
-|`mutationTokensEnabled`       | `IoConfig.enableMutationTokens`
-|`runtimeMetricsCollectorConfig`         | removed
-|`networkLatencyMetricsCollectorConfig`  | removed
-|`defaultMetricsLoggingConsumer`         | removed
-|`socketConnectTimeout`        | removed
-|`callbacksOnIoPool`           | removed
-|`requestBufferWaitStrategy`   | removed
-|`memcachedHashingStrategy`    | removed
-|`keyValueServiceConfig`       | removed
-|`viewServiceConfig`           | removed
-|`queryServiceConfig`          | removed
-|`searchServiceConfig`         | removed
-|`analyticsServiceConfig`      | removed
-|`configPollInterval`          | removed
-|`configPollFloorInterval`     | removed
-|`certAuthEnabled`             | on `CertificateAuthenticator`
-|`continuousKeepAliveEnabled`  | removed
-|`keepAliveErrorThreshold`     | removed
-|`keepAliveTimeout`            | removed
-|`couchbaseCoreSendHook`       | removed
-|`forceSaslPlain`              | on `PasswordAuthenticator.allowedSaslMechanisms`
-|`operationTracingEnabled`     | removed
-|`operationTracingServerDurationEnabled`  | removed
-|`tracer`                      | `requestTracer`
-|`compressionMinSize`          | `CompressionConfig.minSize`
-|`compressionMinRatio`         | `CompressionConfig.minRatio`
-|`compressionEnabled`          | `CompressionConfig.enable`
-|`orphanResponseReportingEnabled`         | removed
-|`orphanResponseReporter`                 | removed
-|`networkResolution`           | `IoConfig.networkResolution`
-|`managementTimeout`           | `TimeoutConfig.managementTimeout`
-|`queryTimeout`                | `TimeoutConfig.queryTimeout`
-|`kvTimeout`                   | `TimeoutConfig.kvTimeout`
-|`viewTimeout`                 | `TimeoutConfig.viewTimeout`
-|`searchTimeout`               | `TimeoutConfig.searchTimeout`
-|`analyticsTimeout`            | `TimeoutConfig.analyticsTimeout`
-|`connectTimeout`              | `TimeoutConfig.connectTimeout`
-|`disconnectTimeout`           | `TimeoutConfig.disconnectTimeout`
-|`dnsSrvEnabled`               | `IoConfig.enableDnsSrv`
-|`cryptoManager`               | removed
-|`propagateParentSpan`         | removed
-|====
--
-////
+* The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
+* Ping error entries are now typed.
+// view query reduce option string-> boolean // TODO word this more clearly
+* Search scan consistency `request-plus` has been removed.
+* `get` requests on locked documents now retry rather than fast-fail.

@@ -30,7 +30,7 @@ start()
 
 async function timeoutbuilder_java_only(){
       // #tag::timeoutbuilder_java_only[]
-      // SDK 3 equivalent
+      // SDK API 3 equivalent
       const env = ClusterEnvironment
         .builder()
         .timeoutConfig(TimeoutConfig.kvTimeout(Duration.ofSeconds(5)))
@@ -129,7 +129,7 @@ async function rawbinary(){
 async function customtimeout(){
       console.log("customtimeout:");
       // #tag::customtimeout[]
-      // SDK 3 custom timeout
+      // SDK API 3 custom timeout
       const getResult = await collection.get( "airport_1254", {timeout : 2000});
       // #end::customtimeout[]
       console.log(getResult);
@@ -138,7 +138,7 @@ async function customtimeout(){
 async function querysimple(){
       console.log("querysimple :");
       // #tag::querysimple[]
-      // SDK 3 simple query
+      // SDK API 3 simple query
       const queryResult = await cluster.query("SELECT * FROM `travel-sample` WHERE city=$1 LIMIT 10", { parameters: ['Paris']});
       queryResult.rows.forEach((row)=>{
          console.log(row);
@@ -149,12 +149,12 @@ async function querysimple(){
 async function queryparameterized(){
       console.log("queryparameterized-named/positional :");
       // #tag::queryparameterized[]
-      // SDK 3 named parameters
+      // SDK API 3 named parameters
       const queryResultNamed = await cluster.query("SELECT * FROM `travel-sample` WHERE city=$CITY LIMIT 10", { parameters: {CITY:'Paris'}});
       queryResultNamed.rows.forEach((row)=>{
          console.log(row);
       });
-      // SDK 3 positional parameters
+      // SDK API 3 positional parameters
       const queryResultPositional = await cluster.query("SELECT * FROM `travel-sample` WHERE city=$1 LIMIT 10", { parameters: ['Paris']});
       queryResultPositional.rows.forEach((row)=>{
          console.log(row);
@@ -165,7 +165,7 @@ async function queryparameterized(){
 async function analyticssimple(){
       console.log("analyticssimple :");
       // #tag::analyticssimple[]
-      // SDK 3 simple analytics query
+      // SDK API 3 simple analytics query
       const analyticsResult = await cluster.analyticsQuery("select * from `travel-dataset` LIMIT 10");
       analyticsResult.rows.forEach((row)=>{
          console.log(row);
@@ -176,7 +176,7 @@ async function analyticssimple(){
 async function analyticsparameterized(){
       console.log("analyticsparameterized-named/positional :");
       // #tag::analyticsparameterized[]
-      // SDK 3 named parameters for analytics
+      // SDK API 3 named parameters for analytics
       const analyticsResult1 = await cluster.analyticsQuery(
         "select * from `travel-sample` where city = $CITY LIMIT 10",
         { parameters : { CITY : "Paris"}}
@@ -185,7 +185,7 @@ async function analyticsparameterized(){
          console.log(row);
       });
 
-      // SDK 3 positional parameters for analytics
+      // SDK API 3 positional parameters for analytics
       const analyticsResult2 = await cluster.analyticsQuery(
         "select * from `travel-sample` where city = $1 LIMIT 10",
         { parameters : [ "airport" ] }
@@ -199,7 +199,7 @@ async function analyticsparameterized(){
 async function searchsimple(){
       console.log("searchsimple :");
       // #tag::searchsimple[]
-      // SDK 3 search query
+      // SDK API 3 search query
       const ftsQuery =  couchbase.SearchQuery.match("airport");
       const searchResult = await cluster.searchQuery(
         "hotels",
@@ -240,7 +240,7 @@ async function searchcheck(){
 async function viewquery(){
       console.log("viewquery :");
       // #tag::viewquery[]
-      // SDK 3 view query
+      // SDK API 3 view query
       const viewResult = await bucket.viewQuery(
         "dev_airports",
         "airport_view",
