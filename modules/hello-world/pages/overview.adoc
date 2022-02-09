@@ -1,4 +1,4 @@
-= Couchbase Node.js SDK 3.2
+= Couchbase Node.js SDK 4.0
 :page-type: landing-page
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
@@ -35,7 +35,7 @@ queryResult.rows.forEach((row)=>{
 [.column]
 ====== {empty}
 
-== Couchbase Node.js SDK 3.2
+== Couchbase Node.js SDK 4.0
 
 ++++
 <div class="card-row three-column-row">
@@ -47,7 +47,8 @@ queryResult.rows.forEach((row)=>{
 .Getting Started
 
 [.content]
-Dive right in with a quick install and Hello World guide for xref:start-using-sdk.adoc[Node.js SDK] or xref:start-using-ottoman.adoc[Ottoman ODM]. 
+Dive right in with a quick install and Hello World guide for xref:start-using-sdk.adoc[Node.js SDK].
+// or xref:start-using-ottoman.adoc[Ottoman ODM]. 
 Try out our xref:sample-application.adoc[Travel Sample Application].
 And take a look at the xref:howtos:working-with-collections.adoc[Scopes and Collections].
 
@@ -79,7 +80,8 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client[API Docs^]
 .What's Hot?
 
 [.content]
-Check out https://ottomanjs.com/#introduction[Ottoman ODM^], an Object Document Mapper library built for Node.js and Couchbase, for speedier, scalable development. 
+// Check out https://ottomanjs.com/#introduction[Ottoman ODM^], an Object Document Mapper library built for Node.js and Couchbase, for speedier, scalable development. 
+Multi-Document xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Distributed ACID Transactions] from the Node.js SDK.
 
 Leverage the new Couchbase Server Scopes and Collection features to build multi-tenant micro-service application.
 
