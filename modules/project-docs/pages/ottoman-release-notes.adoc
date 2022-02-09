@@ -12,6 +12,8 @@ The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS 
 
 == Version 2.1.0 (7 Feb 2022)
 
+Version 2.1.0 is a minor release of the Ottoman Object Document Mapper(ODM) library, bringing a number of improvements, and support for Couchbase Node.js SDK 3.2.4.
+
 [source,console]
 ----
 $ npm install ottoman@2.1.0
@@ -21,19 +23,19 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 === New Features
 
-* Added ability to set keyGeneratorDelimiter to an empty string to use ID as key with no delimiter
+* Added ability to set `keyGeneratorDelimiter` to an empty string to use ID as key with no delimiter.
 
-* Updated Couchbase SDK to version 3.2.4
+* Updated Couchbase Node.js SDK to version 3.2.4.
 
 === Fixed Issues
 
-* Fixed model inconsistency in find method
+* Fixed model inconsistency in find method.
 
-* Bump `shelljs` and `follow-redirects` dependencies
+* Bumped `shelljs` and `follow-redirects` dependencies.
 
 === Documentation Fixes
 
-* Reword v1 docs note
+* Reword v1 docs note.
 
 
 
@@ -62,9 +64,9 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 * Added examples for find methods and bulk operations.
 
-* Improved from clause value escape behavior in the QueryBuilder.
+* Improved from clause value escape behavior in the `QueryBuilder`.
 
-* Upgraded embedded Couchbase SDK to version `3.2.2`.
+* Upgraded embedded Couchbase Node.js SDK to version `3.2.2`.
 
 === Fixed Issues
 
@@ -84,7 +86,7 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 * Updated docs for async connect function.
 
-* Added metrics to Ottoman vs NodeJS SDK documentation.
+* Added metrics to Ottoman vs Couchbase Node.js SDK documentation.
 
 * Updated FAQ benefits section.
 
