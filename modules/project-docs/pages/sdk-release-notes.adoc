@@ -8,21 +8,22 @@
 [abstract]
 {description}
 
-These pages cover the 3._x_ versions of the Couchbase Node.js SDK. 
+These pages cover the 4._x_ and 3._x_ versions of the Couchbase Node.js SDK.
+
 For release notes, download links, and installation methods for 2.6 and earlier releases of the Couchbase Node.js Client, please see the xref:2.6@nodejs-sdk::sdk-release-notes.adoc[2.x Node.js Release Notes & Download Archive].
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 10.x, and 12.x.
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, and 16.x.
 
 // include::hello-world:start-using-sdk.adoc[tag=prep]
 
 // include::hello-world:start-using-sdk.adoc[tag=install]
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 2.6.1:
+For example, to install version 3.2.4:
 
 [source,console]
 ----
-$ npm install couchbase@2.6.1
+$ npm install couchbase@3.2.4
 ----
 
 

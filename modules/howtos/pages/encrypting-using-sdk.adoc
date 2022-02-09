@@ -126,25 +126,27 @@ The output is now:
 }
 ----
 
-== Migrating from SDK 2
+[#migrating-from-2]
+== Migrating from SDK API 2
 
-WARNING: SDK 2 cannot read fields encrypted by SDK 3.
+WARNING: SDK API 2 (used in Node.js SDK 2._x_) cannot read fields encrypted by SDK API 3 (used in Node.js SDK 3._x_ and 4._x_).
+Learn more about xref:project-docs:migrating-sdk-code-to-3.n.adoc[migrating from SDK API 2 to SDK API 3].
 
 It's inadvisable to have both the old and new versions of your application active at the same time.
 The simplest way to migrate is to do an offline upgrade during a scheduled maintenance window.
 For an online upgrade without downtime, consider a https://en.wikipedia.org/wiki/Blue-green_deployment[blue-green deployment^].
 
 
-SDK 3 requires additional configuration to read fields encrypted by SDK 2.
-The rest of this section describes how to configure Field-Level Encryption in SDK 3 for backwards compatibility with SDK 2.
+SDK API 3 requires additional configuration to read fields encrypted by SDK API 2.
+The rest of this section describes how to configure Field-Level Encryption in SDK API 3 for backwards compatibility with SDK API 2.
 
 === Changing the field name prefix
 
-In SDK 2, the default prefix for encrypted field names was `\__crypt_`.
+In SDK API 2, the default prefix for encrypted field names was `\__crypt_`.
 This caused problems for Couchbase Sync Gateway, which does not like field names to begin with an underscore.
-In SDK 3, the default prefix is `encrypted$`.
+In SDK API 3, the default prefix is `encrypted$`.
 
-For compatibility with SDK 2, you can configure the `CryptoManager` to use the old `\__crypt_` prefix:
+For compatibility with SDK API 2, you can configure the `CryptoManager` to use the old `\__crypt_` prefix:
 
 [source,javascript,indent=0]
 ----
@@ -153,15 +155,15 @@ include::howtos:example$fle.js[tag=oldannotation]
 
 Alternatively, you can https://forums.couchbase.com/t/replacing-field-name-prefix/28786[rename the existing fields using a N1QL statement].
 
-WARNING: In SDK 2, only top-level fields could be encrypted.
-SDK 3 allows encrypting fields at any depth.
+WARNING: In SDK API 2, only top-level fields could be encrypted.
+SDK API 3 allows encrypting fields at any depth.
 If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic N1QL statement.
 
 
 === Enabling decrypters for legacy algorithms
 
-The encryption algorithms used by SDK 2 are deprecated, and are no longer used for encrypting new data.
-To enable decrypting fields written by SDK 2, register the legacy decrypters with the `CryptoManager`:
+The encryption algorithms used by SDK API 2 are deprecated, and are no longer used for encrypting new data.
+To enable decrypting fields written by SDK API 2, register the legacy decrypters with the `CryptoManager`:
 
 [source,javascript,indent=0]
 ----

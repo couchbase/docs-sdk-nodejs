@@ -1,7 +1,7 @@
-= Migrating from SDK2 to SDK3 API
-:description: The 3.x API (used in Node.js SDK 3.x and 4.x)  breaks the previous 2.x APIs (used in Node.js SDK 2.x) in order to provide a number of improvements. \
+= Migrating to SDK API 3
+:description: The SDK API 3 (used in Node.js SDK 3.x and 4.x)  breaks the previous SDK API 2 APIs (used in Node.js SDK 2.x) in order to provide a number of improvements. \
 Collections and Scopes are introduced.
-:nav-title: Migrating to Node.js SDK 3.x API
+:nav-title: Migrating to SDK API 3
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
@@ -12,11 +12,12 @@ include::partial$attributes.adoc[]
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
 Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
 
-Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features. Though the API still matches the SDK 3.x spec, we have increased the major version to reflect the importance of this implementation change, as per https://semver.org/[semantic versioning].
+Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features.
+Though the API still matches the SDK API 3._x_ spec, we have increased the major version to reflect the importance of this implementation change, as per https://semver.org/[semantic versioning].
 
 Individual behaviour changes across services are explained on this page.
 
-NOTE: if you are an existing SDK 3.x user considering migrating to SDK 4.0,
+NOTE: if you are an existing Node.js SDK 3._x_ user considering migrating to SDK 4.0,
 you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
 
 include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
@@ -27,7 +28,7 @@ include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
 == Fundamentals
 
 Before this guide dives into the language-specific technical component of the migration, it is important to understand the high level changes first.
-As a migration guide, this document assumes you are familiar with the previous generation of the SDK and does not re-introduce SDK 2.x concepts.
+As a migration guide, this document assumes you are familiar with the previous generation of the SDK and does not re-introduce SDK API 2 concepts.
 We recommend familiarizing yourself with the new SDK first by reading at least the xref:hello-world:start-using-sdk.adoc[getting started guide], and browsing through the other chapters a little.
 
 // end::intro[]
@@ -58,11 +59,11 @@ include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
 
 ==  Installation and Configuration
 
-The Node.js SDK 3.x and 4.x are available through `npm`, just like the previous generation.
+The Node.js SDK 3._x_ and 4._x_ are available through `npm`, just like the previous generation.
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
 
 
-The Nodes.j SDK 3.x has the following dependencies:
+The Node.js SDK 3.2 has the following dependencies:
 
 [source,json]
 ----
@@ -86,7 +87,7 @@ The Node.js SDK 4.0 additionally requires Node 12+ (the oldest supported mainten
 include::devguide:example$nodejs/migrating.js[tag=connect,indent=0]
 ----
 
-Similar to SDK 2, if you create your own `ClusterEnvironment` the SDK will not shut it
+Similar to SDK API 2, if you create your own `ClusterEnvironment` the SDK will not shut it
 down for you -- you need to do this manually at the end of the program lifetime:
 
 [source,javascript]
@@ -116,15 +117,15 @@ Please see the xref:howtos:sdk-authentication.adoc[documentation on certificate-
 
 == Connection Lifecycle
 
-From a high-level perspective, bootstrapping and shutdown is very similar to SDK 2.
+From a high-level perspective, bootstrapping and shutdown is very similar to the SDK API 2._x_.
 One notable difference is that the `Collection` is introduced and that the individual methods like `bucket` immediately return, and do not throw an exception.
-Compare SDK 2: the `openBucket` method would not work if it could not open the bucket.
+Compare SDK API 2: the `openBucket` method would not work if it could not open the bucket.
 
 The reason behind this change is that even if a bucket can be opened, a millisecond later it may not be available any more.
 All this state has been moved into the actual operation so there is only a single place where the error handling needs to take place.
 This simplifies error handling and retry logic for an application.
 
-In SDK 2, you connected, opened a bucket, performed a KV op, and disconnected like this:
+In SDK API 2, you connected, opened a bucket, performed a KV op, and disconnected like this:
 
 [source,javascript]
 ----
@@ -137,7 +138,7 @@ const getResult = bucket.get("airline_10");
 cluster.close();
 ----
 
-Here is the SDK 3 equivalent:
+Here is the SDK API 3 equivalent:
 
 [source,javascript]
 ----
@@ -161,9 +162,9 @@ If you are using an earlier version of the cluster you must open at least one bu
 
 == Serialization and Transcoding
 
-In SDK 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
+In SDK API 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
 This only worked for the KV APIs though -- Query, Search, Views, and other services exposed their JSON rows/hits in different ways.
-All of this has been unified in SDK 3 under a single concept: serializers and transcoders.
+All of this has been unified in SDK API 3 under a single concept: serializers and transcoders.
 
 By default, all KV APIs transcode to and from JSON -- you can also provide Javascript objects which you couldn't in the past.
 
@@ -182,7 +183,7 @@ include::devguide:example$nodejs/migrating.js[tag=rawbinary,indent=0]
 
 == Exception Handling
 
-How to _handle_ exceptions is unchanged from SDK 2.
+How to _handle_ exceptions is unchanged from SDK API 2.
 You should still use `try/catch` on the blocking APIs and the corresponding reactive/async methods on the other APIs.
 There have been changes made in the following areas:
 
@@ -207,7 +208,7 @@ Exception in thread "main" com.couchbase.client.core.error.ParsingFailedExceptio
 One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
 This depends on the type of operation (idempotent or not), in which state of processing it is (already dispatched or not), and what the actual response code is if it arrived already.
 As a result, many transient cases -- such as locked documents, or temporary failure -- are now retried by default and should less often impact applications.
-It also means, when migrating to the new SDK API, you may observe a longer period of time until an error is returned by default.
+It also means, when migrating to SDK API 3, you may observe a longer period of time until an error is returned by default.
 
 NOTE: Operations are retried by default as described above with the default `BestEffortRetryStrategy`.
 
@@ -220,12 +221,12 @@ The following section discusses each service in detail and covers specific bits 
 
 The Key/Value (KV) API is now located under the `Collection` interface, so even if you do not use collections, the `defaultCollection()` needs to be opened in order to access it.
 
-The following table describes the SDK 2 KV APIs and where they are now located in SDK 3:
+The following table describes the SDK API 2 KV calls and where they are now located in SDK API 3:
 
-.SDK 2.x KV API vs. SDK 3.x KV API
+.KV API Changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`bucket.upsert`                 | `collection.upsert`
 |`bucket.get`                    | `collection.get`
 |`bucket.exists`                 | `collection.exists`
@@ -250,7 +251,7 @@ In addition, the datastructure APIs have been renamed and moved:
 .Datastructure API Changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`bucket.mapAdd`                 | `collection.map`
 |`bucket.mapGet`                 | `collection.map`
 |`bucket.mapRemove`              | `collection.map`
@@ -275,7 +276,7 @@ There are two important API changes:
 * On the response side, the return types have been unified.
 
 The signatures now look very similar.
-The concept of the `Document` as a type is gone in SDK 3 and instead you need to pass in the properties explicitly.
+The concept of the `Document` as a type is gone in SDK API 3 and instead you need to pass in the properties explicitly.
 This makes it very clear what is returned, especially on the response side.
 
 Thus, the `get` method does not return a `Document` but a `GetResult` instead, and the `upsert` does not return a `Document` but a `MutationResult`.
@@ -285,11 +286,11 @@ Instead of having many overloads, all optional params are now part of the `Optio
 All required params are still part of the method signature, making it clear what is required and what is not (or has default values applied if not overridden).
 
 The timeout can be overridden on every operation and now takes a `Duration` from java 8.
-Compare SDK 2 and SDK 3 custom timeout setting:
+Compare SDK API 2 and SDK API 3 custom timeout setting:
 
 [source,javascript]
 ----
-// SDK 2 custom timeout
+// SDK API 2 custom timeout
 bucket.get("mydoc-id", 5000);
 ----
 
@@ -298,7 +299,7 @@ bucket.get("mydoc-id", 5000);
 include::devguide:example$nodejs/migrating.js[tag=customtimeout,indent=0]
 ----
 
-In SDK 2, the `getFromReplica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
+In SDK API 2, the `getFromReplica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
 We have identified this as a potential source of confusion and as a result split it up in two methods that simplify usage significantly.
 There is now a `getAllReplicas` method and a `getAnyReplica` method.
 
@@ -308,17 +309,17 @@ There is now a `getAllReplicas` method and a `getAnyReplica` method.
 Unless you want to build some kind of consensus between the different replica responses, we recommend `getAnyReplica` for a fallback to a regular `get` when the active node times out.
 
 NOTE: Operations which cannot be performed on JSON documents have been moved to the `binarycollection`, accessible through `Collection.binary()`.
-These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK 2).
+These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK API 2).
 These operations should only be used against non-json data.
 Similar functionality is available through `mutateIn` on JSON documents.
 
 === Query
 
-N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK 2 with its SDK 3 equivalent:
+N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK API 2 with its SDK API 3 equivalent:
 
 [source,javascript]
 ----
-// SDK 2 simple query
+// SDK API 2 simple query
 queryResult = await bucket.query(
       couchbase.N1qlQuery.fromString('SELECT * FROM `travel-sample` WHERE city=$1 LIMIT 10'),
       [ 'Paris' ]);
@@ -334,7 +335,7 @@ include::devguide:example$nodejs/migrating.js[tag=querysimple,indent=0]
 ----
 
 Note that there is no `N1qlQuery.fromString` any more -- and query parameters argument has been moved to the options parameter for consistency reasons.
-The following shows how to do named and positional parameters in SDK 3:
+The following shows how to do named and positional parameters in SDK API 3:
 
 
 [source,javascript]
@@ -348,7 +349,7 @@ It is no longer necessary to check for a specific error in the stream: if an err
 The reactive streaming API will terminate the rows' `Flux` with an exception as well as soon as it is discovered.
 This makes error handling much easier in both the blocking and non-blocking cases.
 
-While in SDK 2 you had to manually check for errors (otherwise you'd get an empty row collection):
+While in SDK API 2 you had to manually check for errors (otherwise you'd get an empty row collection):
 
 [source,javascript]
 ----
@@ -358,7 +359,7 @@ if (!queryResult.errors.isEmpty()) {
 }
 ----
 
-In SDK 3 the top level `query` method will throw an exception:
+In SDK API 3 the top level `query` method will throw an exception:
 
 [source]
 ----
@@ -388,7 +389,7 @@ Also, errors will now be thrown as top level exceptions and it is no longer nece
 
 [source,java]
 ----
-// SDK 2 error check
+// SDK API 2 error check
 AnalyticsQueryResult analyticsQueryResult = b1.query(AnalyticsQuery.simple("select * from foo"));
 if (!analyticsQueryResult.errors().isEmpty()) {
   // errors contain [{"msg":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)","code":24045}]
@@ -397,15 +398,15 @@ if (!analyticsQueryResult.errors().isEmpty()) {
 
 === Search
 
-The Search API has changed a bit in SDK 3 so that it aligns with the other query APIs.
+The Search API has changed a bit in SDK API 3 so that it aligns with the other query APIs.
 The type of queries have stayed the same, but all optional parameters moved into `SearchOptions`.
 Also, similar to the other query APIs, it is now available at the `Cluster` level.
 
-Here is a SDK 2 Search query with some options, and its SDK 3 equivalent:
+Here is a SDK API 2 Search query with some options, and its SDK API 3 equivalent:
 
 [source,javascript]
 ----
-//  SDK 2 search query
+//  SDK API 2 search query
 const searchResult = bucket.query(
   "airports"",
   { indexName : "airport_view", limit:5, fields : [ "a", "b", "c"]}
@@ -438,17 +439,17 @@ The API has stayed mostly the same, the most important change is that `staleness
 .View Staleness Mapping
 [options="header"]
 |====
-| SDK 2                             | SDK 3
+| SDK API 2                         | SDK API 3
 |`Stale.TRUE`                       | `QueryScanConsistency.NotBounded`
 |`Stale.FALSE`                      | `QuerywScanConsistency.RequestPlus`
 |`Stale.UPDATE_AFTER`               | `removed`
 |====
 
-Compare this SDK 2 view query with its SDK 3 equivalent:
+Compare this SDK API 2 view query with its SDK API 3 equivalent:
 
 [source,javascript]
 ----
-// SDK 2 view query
+// SDK API 2 view query
 const query = async bucket.query(
   "design", "view", {limit:5, skip:2},
   10000
@@ -467,17 +468,17 @@ include::devguide:example$nodejs/migrating.js[tag=viewquery,indent=0]
 
 === Management APIs
 
-In SDK 2, the management APIs were centralized in the `clustermanager` at the cluster level and the `bucketmanager` at the bucket level.
-Since SDK 3 provides more management APIs, they have been split up in their respective domains.
-So for example when in SDK 2 you needed to remove a bucket you would call `clustermanager.removeBucket` you will now find it under `bucketmanager.dropBucket`.
+In SDK API 2, the management APIs were centralized in the `clustermanager` at the cluster level and the `bucketmanager` at the bucket level.
+Since SDK API 3 provides more management APIs, they have been split up in their respective domains.
+So for example when in SDK API 2 you needed to remove a bucket you would call `clustermanager.removeBucket` you will now find it under `bucketmanager.dropBucket`.
 Also, creating a N1QL index now lives in the `queryindexmanager`, which is accessible through the `cluster`.
 
-The following table provides a mapping from the SDK 2 management APIs to those of SDK 3:
+The following table provides a mapping from the SDK API 2 management APIs to those of SDK API 3:
 
-.SDK 2 vs SDK 3 clustermanager
+.`clustermanager` changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                      | SDK API 3
 |`clustermanager.info`           | removed
 |`clustermanager.getBuckets`     | `bucketmanager.getAllBuckets`
 |`clustermanager.getBucket`      | `bucketmanager.getBucket`
@@ -492,10 +493,10 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 |`clustermanager.apiClient`      | removed
 |====
 
-.SDK 2 vs SDK 3 bucketmanager
+.`bucketmanager` changes
 [options="header"]
 |====
-| SDK 2                                    | SDK 3
+| SDK API 2                                | SDK API 3
 |`bucketmanager.info`                      | removed
 |`bucketmanager.flush`                     | `bucketmanager.flushBucket`
 |`bucketmanager.getDesignDocuments`        | `viewindexmanager.getAllDesignDocuments`
@@ -512,6 +513,11 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 |`bucketmanager.buildN1qlDeferredIndexes`  | `queryindexmanager.buildDeferredIndexes`
 |`bucketmanager.watchN1qlIndexes`          | `queryindexmanager.watchIndexes`
 |====
+
+=== Encryption
+
+Due to a change in algorithms and API, SDK API 2 cannot read fields encrypted by SDK API 3.
+Learn more in the xref:howtos:encrypting-using-sdk.adoc#migrating-from-2[encryption guide].
 
 [#sdk4-specifics]
 == SDK 4.x specifics
