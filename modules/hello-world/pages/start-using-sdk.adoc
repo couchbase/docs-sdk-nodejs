@@ -8,7 +8,7 @@ The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluste
 
 The Couchbase SDK API 3 (implemented by Node.js SDK 3._x_ and 4._x_) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
 
-SDK 3 API also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options.
+SDK API 3 also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options.
 
 Node.js SDK 4._x_ implements the same SDK API 3 bindings, but the internals are completely rewritten -- 
 using the Couchbase++ library rather than libcouchbase -- to allow upcoming new features such as transactions, and fix some long-standing bugs. 
