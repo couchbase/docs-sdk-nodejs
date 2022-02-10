@@ -95,7 +95,8 @@ include::example$transactions-example.ts[tag=remove,indent=0]
 === Inserting
 
 [source,typescript]
-----include::example$transactions-example.js[tag=insert,indent=0]
+----
+include::example$transactions-example.js[tag=insert,indent=0]
 ----
 
 == Key-Value Reads
@@ -162,7 +163,7 @@ This example shows INSERTing a document and then SELECTing it again.
 
 [source,typescript]
 ----
-include::example$Ttransactions-example.ts[tag=queryInsert,indent=0]
+include::example$transactions-example.ts[tag=queryInsert,indent=0]
 ----
 <1> The inserted document is only staged at this point. as the transaction has not yet committed.
 Other transactions, and other non-transactional actors, will not be able to see this staged insert yet.
@@ -184,7 +185,7 @@ Query options can be provided via `TransactionsQueryOptions`, which provides a s
 
 [source,typescript]
 ----
-include::example$Ttransactions-example.ts[tag=queryOptions,indent=0]
+include::example$transactions-example.ts[tag=queryOptions,indent=0]
 ----
 
 // TODO: check this partial to see if it matches up across SDKs.  otherwise, make it a table?
@@ -202,19 +203,19 @@ include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=query-single]
 include::example$transactions-example.ts[tag=querySingle,indent=0]
 ----
 
-You can also run a single query transaction against a particular `Scope` (these examples will exclude the full error handling for brevity):
-
-[source,typescript]
-----
-include::example$transactions-example.ts[tag=querySingleScoped,indent=0]
-----
-
-and configure it:
-
-[source,typescript]
-----
-include::example$transactions-example.ts[tag=querySingleConfigured,indent=0]
-----
+// You can also run a single query transaction against a particular `Scope` (these examples will exclude the full error handling for brevity):
+//
+// [source,typescript]
+// ----
+// include::example$transactions-example.ts[tag=querySingleScoped,indent=0]
+// ----
+//
+// and configure it:
+//
+// [source,typescript]
+// ----
+// include::example$transactions-example.ts[tag=querySingleConfigured,indent=0]
+// ----
 
 == Committing
 
