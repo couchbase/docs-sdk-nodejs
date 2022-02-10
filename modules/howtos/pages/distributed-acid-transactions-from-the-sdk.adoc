@@ -96,7 +96,7 @@ include::example$transactions-example.ts[tag=remove,indent=0]
 
 [source,typescript]
 ----
-include::example$transactions-example.js[tag=insert,indent=0]
+include::example$transactions-example.ts[tag=insert,indent=0]
 ----
 
 == Key-Value Reads
