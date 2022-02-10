@@ -42,27 +42,25 @@ async function main() {
   const collection_default: Collection = bucket.defaultCollection()
   // end::ts-default-collection[]
 
-   // Set up for what we'll do below
-   await removeOrWarn("doc-a")
-   await removeOrWarn("doc-b")
-   await removeOrWarn("doc-c")
-   await removeOrWarn(testDoc)
-   await removeOrWarn("docId")
+  // Set up for what we'll do below
+  await removeOrWarn('doc-a')
+  await removeOrWarn('doc-b')
+  await removeOrWarn('doc-c')
+  await removeOrWarn(testDoc)
+  await removeOrWarn('docId')
 
   //  await collection.upsert("doc-a", {})
-   await collection.upsert("doc-b", {})
-   await collection.upsert("doc-c", {})
-   await collection.upsert("doc-id", {})
-   await collection.upsert("a-doc", {})
+  await collection.upsert('doc-b', {})
+  await collection.upsert('doc-c', {})
+  await collection.upsert('doc-id', {})
+  await collection.upsert('a-doc', {})
 
-
-
-  try { 
+  try {
     await cluster.transactions().run(async (attempt) => {
       await attempt.insert(collection, testDoc, 'hello')
     })
   } catch (error) {
-    console.log("failed to insert " + testDoc)
+    console.log('failed to insert ' + testDoc)
   }
 
   // tag::create[]
@@ -153,7 +151,7 @@ async function main() {
       // commit result was returned to the client
     }
   }
-  // tag::examples[]
+  // end::examples[]
 
   // execute other exmaples
   try {
@@ -410,7 +408,7 @@ async function querySingle() {
       // after the transactions operations completed and committed, but before the
       // commit result was returned to the client
     }
-  // end:querySingle[]
+  // end::querySingle[]
 }
 
 async function querySingleScoped() {
@@ -429,7 +427,7 @@ async function querySingleScoped() {
   // Bucket travelSample = cluster.bucket("travel-sample");
   // Scope inventory = travelSample.scope("inventory");
   // transactions.query(inventory, bulkLoadStatement);
-  // end:querySingleScoped[]
+  // // end::querySingleScoped[]
 }
 
 async function querySingleConfigured() {
