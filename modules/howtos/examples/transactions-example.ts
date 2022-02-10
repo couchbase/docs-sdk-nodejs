@@ -1,7 +1,5 @@
 'use strict'
 
-import { throws } from 'assert'
-// tag::ts-connect[]
 import {
   Bucket,
   Cluster,
@@ -12,7 +10,6 @@ import {
   QueryProfileMode,
   QueryResult,
   Scope,
-  TransactionDurabilityLevel,
   TransactionCommitAmbiguousError,
   TransactionFailedError,
 } from 'couchbase'
@@ -73,29 +70,27 @@ async function main() {
     await cluster.transactions().run(async (ctx) => {
       // 'ctx' is a TransactionAttemptContext which permits getting, inserting,
       // removing and replacing documents, performing SQL++ queries, etc.
-
       // … Your transction logic here …
-      
       // Committing is implicit at the end of the lambda.
     })
   } catch (error) {
-      if (error instanceof TransactionFailedError) {
-        // The operation failed. Both the monster and the player will be untouched.
-        //
-        // Situations that can cause this would include either the monster
-        // or player not existing (as get is used), or a persistent
-        // failure to be able to commit the transaction, for example on
-        // prolonged node failure.
-      }
+    if (error instanceof TransactionFailedError) {
+      // The operation failed. Both the monster and the player will be untouched.
+      //
+      // Situations that can cause this would include either the monster
+      // or player not existing (as get is used), or a persistent
+      // failure to be able to commit the transaction, for example on
+      // prolonged node failure.
+    }
 
-      if (error instanceof TransactionCommitAmbiguousError) {
-        // Indicates the state of a transaction ended as ambiguous and may or
-        // may not have committed successfully.
-        //
-        // Situations that may cause this would include a network or node failure
-        // after the transactions operations completed and committed, but before the
-        // commit result was returned to the client
-      }
+    if (error instanceof TransactionCommitAmbiguousError) {
+      // Indicates the state of a transaction ended as ambiguous and may or
+      // may not have committed successfully.
+      //
+      // Situations that may cause this would include a network or node failure
+      // after the transactions operations completed and committed, but before the
+      // commit result was returned to the client
+    }
   }
   // end::create[]
 
@@ -120,30 +115,43 @@ async function main() {
       await ctx.replace(docB, newContent)
 
       // Removing a doc:
-      const docC = await ctx.get(collection, "doc-c");
-      await ctx.remove(docC);
+      const docC = await ctx.get(collection, 'doc-c')
+      await ctx.remove(docC)
 
       // Performing a SELECT N1QL query against a scope:
       const qr = await ctx.query('SELECT * FROM hotel WHERE country = $1', {
         scope: inventory,
-        parameters: ['United Kingdom']
+        parameters: ['United Kingdom'],
       })
       // ...qr.rows
       qr.rows
-      
+
       await ctx.query('UPDATE route SET airlineid = $1 WHERE airline = $2', {
         scope: inventory,
-        parameters: ['airline_137', 'AF']
+        parameters: ['airline_137', 'AF'],
       })
 
       // // Committing (the ctx.commit() call is optional)
       // ctx.commit();
     })
   } catch (error) {
-    // TODO: instanceof and branch into one of these two
-    console.error("Transaction possibly committed")
-    console.error("Transction did not reach commit point")
-    console.log("********** error ", error)
+    if (error instanceof TransactionFailedError) {
+      // The operation failed. Both the monster and the player will be untouched.
+      //
+      // Situations that can cause this would include either the monster
+      // or player not existing (as get is used), or a persistent
+      // failure to be able to commit the transaction, for example on
+      // prolonged node failure.
+    }
+
+    if (error instanceof TransactionCommitAmbiguousError) {
+      // Indicates the state of a transaction ended as ambiguous and may or
+      // may not have committed successfully.
+      //
+      // Situations that may cause this would include a network or node failure
+      // after the transactions operations completed and committed, but before the
+      // commit result was returned to the client
+    }
   }
   // tag::examples[]
 
@@ -155,11 +163,22 @@ async function main() {
     await remove()
     await insert()
     await queryExamples()
+    // remove seems to not be working, verify here…
+    try {
+      const docCheck = await collection.get('doc-id')
+      // should not get to the next line
+      throw new Error(
+        'Remove under transaction seems to have failed. content:' +
+          JSON.stringify(docCheck.content)
+      )
+    } catch (error) {
+      // expect to get here.  if I don't, something went wrong.
+      console.log('successfully removed.')
+    }
   } catch (error) {
-    console.error("****** Error running examples: \n",  error)
+    console.error('****** Error running examples: \n', error)
     console.trace()
   }
- 
 }
 
 async function getCluster() {
@@ -170,9 +189,7 @@ async function getCluster() {
       durabilityLevel: DurabilityLevel.None,
     },
   })
-
   return exampleCluster
-
 }
 
 async function getCollection() {
@@ -296,21 +313,6 @@ async function queryExamples() {
   // end::queryExamplesUpdate[]
 
   // tag::queryExamplesComplex[]
-    // transactions.run((ctx) -> {
-    //     // Find all hotels of the chain
-    //     QueryResult qr = ctx.query(inventory, "SELECT reviews FROM hotel WHERE url LIKE $1 AND country = $2",
-    //             TransactionQueryOptions.queryOptions()
-    //                     .parameters(JsonArray.from(hotelChain, country)));
-
-    //     // This function (not provided here) will use a trained machine learning model to provide a
-    //     // suitable price based on recent customer reviews.
-    //     double updatedPrice = priceFromRecentReviews(qr);
-
-    //     // Set the price of all hotels in the chain
-    //     ctx.query(inventory, "UPDATE hotel SET price = $1 WHERE url LIKE $2 AND country = $3",
-    //             TransactionQueryOptions.queryOptions()
-    //                     .parameters(JsonArray.from(updatedPrice, hotelChain, country)));
-  // });
   cluster.transactions().run(async (ctx) => {
     // Find all hotels of the chain
     const qr = await ctx.query(
@@ -341,20 +343,11 @@ async function queryInsert() {
   let cluster = await getCluster()
   let collection = await getCollection()
   // tag::queryInsert[]
-  cluster.transactions().run(async ctx => {
+  cluster.transactions().run(async (ctx) => {
     ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})")
     const st = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'"
     const qr = await ctx.query(st)
   })
-
-    //   transactions.run((ctx) -> {
-    //     ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})");  // <1>
-
-    //     // Performing a 'Read Your Own Write'
-    //     String st = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'"; // <2>
-    //     QueryResult qr = ctx.query(st);
-    //     assert(qr.metaData().metrics().get().resultCount() == 1);
-    // });
   // end::queryInsert[]
 }
 
@@ -384,7 +377,7 @@ async function queryRyow() {
 async function queryOptions() {
   let cluster = await getCluster()
   // tag::queryOptions[]
-  const qo : QueryOptions = {profile: QueryProfileMode.Timings}
+  const qo: QueryOptions = { profile: QueryProfileMode.Timings }
   cluster.transactions().run(async (ctx) => {
     ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})", qo)
   })
@@ -400,28 +393,24 @@ async function querySingle() {
       ctx.query(bulkLoadStatement)
     })
   } catch (error) {
-    // TODO: branch between TransactionCommitAmbiguious and TransactionFailed
-  }
-  // end::querySingle[]
+    if (error instanceof TransactionFailedError) {
+      // The operation failed. Both the monster and the player will be untouched.
+      //
+      // Situations that can cause this would include either the monster
+      // or player not existing (as get is used), or a persistent
+      // failure to be able to commit the transaction, for example on
+      // prolonged node failure.
+    }
 
-  // TODO: bug in the original sample DOC-9630
-  // String bulkLoadStatement = null; // a bulk-loading N1QL statement
-
-  // try {
-  //     SingleQueryTransactionResult result = transactions.query(bulkLoadStatement);
-
-  //     QueryResult queryResult = result.queryResult();
-  // } catch (TransactionCommitAmbiguous e) {
-  //     System.err.println("Transaction possibly committed");
-  //     for (LogDefer err : e.result().log().logs()) {
-  //         System.err.println(err.toString());
-  //     }
-  // } catch (TransactionFailed e) {
-  //     System.err.println("Transaction did not reach commit point");
-  //     for (LogDefer err : e.result().log().logs()) {
-  //         System.err.println(err.toString());
-  //     }
-  // }
+    if (error instanceof TransactionCommitAmbiguousError) {
+      // Indicates the state of a transaction ended as ambiguous and may or
+      // may not have committed successfully.
+      //
+      // Situations that may cause this would include a network or node failure
+      // after the transactions operations completed and committed, but before the
+      // commit result was returned to the client
+    }
+  // end:querySingle[]
 }
 
 async function querySingleScoped() {
@@ -431,7 +420,7 @@ async function querySingleScoped() {
 
   // String bulkLoadStatement = null /* your statement here */;
 
-  // tag::querySingleScoped[]
+  // // tag::querySingleScoped[]
   const travelSample = cluster.bucket("travel-sample")
   const inventory = travelSample.scope("inventory")
   // TODO: enable after implementation
@@ -440,6 +429,7 @@ async function querySingleScoped() {
   // Bucket travelSample = cluster.bucket("travel-sample");
   // Scope inventory = travelSample.scope("inventory");
   // transactions.query(inventory, bulkLoadStatement);
+  // end:querySingleScoped[]
 }
 
 async function querySingleConfigured() {
@@ -519,51 +509,6 @@ async function querySingleConfigured() {
           // commit result was returned to the client
         }
       }
-
-      // Transactions transactions = getTransactions();
-      // try {
-      //     transactions.run((ctx) -> {
-      //         TransactionGetResult monsterDoc = ctx.get(collection, monsterId);
-      //         TransactionGetResult playerDoc = ctx.get(collection, playerId);
-
-      //         int monsterHitpoints = monsterDoc.contentAs(JsonObject.class).getInt("hitpoints");
-      //         int monsterNewHitpoints = monsterHitpoints - damage;
-
-      //         if (monsterNewHitpoints <= 0) {
-      //             // Monster is killed. The remove is just for demoing, and a more realistic
-      //             // example would set a
-      //             // "dead" flag or similar.
-      //             ctx.remove(monsterDoc);
-
-      //             // The player earns experience for killing the monster
-      //             int experienceForKillingMonster = monsterDoc.contentAs(JsonObject.class)
-      //                     .getInt("experienceWhenKilled");
-      //             int playerExperience = playerDoc.contentAs(JsonObject.class).getInt("experience");
-      //             int playerNewExperience = playerExperience + experienceForKillingMonster;
-      //             int playerNewLevel = calculateLevelForExperience(playerNewExperience);
-
-      //             JsonObject playerContent = playerDoc.contentAs(JsonObject.class);
-
-      //             playerContent.put("experience", playerNewExperience);
-      //             playerContent.put("level", playerNewLevel);
-
-      //             ctx.replace(playerDoc, playerContent);
-      //         } else {
-      //             // Monster is damaged but still alive
-      //             JsonObject monsterContent = monsterDoc.contentAs(JsonObject.class);
-      //             monsterContent.put("hitpoints", monsterNewHitpoints);
-
-      //             ctx.replace(monsterDoc, monsterContent);
-      //         }
-      //     });
-      // } catch (TransactionFailed e) {
-      //     // The operation failed. Both the monster and the player will be untouched.
-
-      //     // Situations that can cause this would include either the monster
-      //     // or player not existing (as get is used), or a persistent
-      //     // failure to be able to commit the transaction, for example on
-      //     // prolonged node failure.
-      // }
   }
   // end::full[]
 
@@ -620,26 +565,6 @@ async function rollbackCause() {
       }
 
     }
-  // } catch (TransactionCommitAmbiguous e) {
-  //     // This exception can only be thrown at the commit point, after the
-  //     // BalanceInsufficient logic has been passed, so there is no need to
-  //     // check getCause here.
-  //     System.err.println("Transaction possibly committed");
-  //     for (LogDefer err : e.result().log().logs()) {
-  //         System.err.println(err.toString());
-  //     }
-  // } catch (TransactionFailed e) {
-  //     if (e.getCause() instanceof BalanceInsufficient) {
-  //         // Re-raise the error
-  //         throw (RuntimeException) e.getCause();
-  //     } else {
-  //         System.err.println("Transaction did not reach commit point");
-
-  //         for (LogDefer err : e.result().log().logs()) {
-  //             System.err.println(err.toString());
-  //         }
-  //     }
-  // }
   // end::rollback-cause[]
 }
 
