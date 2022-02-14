@@ -51,7 +51,7 @@ See the notes there for Support details.
 
 == Platform Compatibility
 
-The Node.js SDK is built on top of libcouchbase (the C SDK), which is tested and supported on the following platforms:
+The Node.js SDK 4.x is built on top of the `couchbase++` library, which is tested and supported on the following platforms:
 
 ****
 [discrete]
@@ -72,7 +72,7 @@ Any MS-supported version compatible with Visual Studio 2022 (VC17)
 [discrete]
 === Mac OS X
 
-The current and previous two releases of OS X.
+The current and previous two releases of OS X on both Intel and ARM.
 At time of writing (February 2022): 10.15 (_Catalina_), 11 (_Big Sur_), and 12 (_Monterey_).
 ****
 
