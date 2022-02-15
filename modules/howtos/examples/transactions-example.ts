@@ -16,7 +16,7 @@ import {
 
 async function main() {
   // tag::config[]
-  const cluster: Cluster = await connect('couchbase://192.168.1.103', {
+  const cluster: Cluster = await connect('couchbase://127.0.0.1', {
     username: 'username',
     password: 'password',
     transactions: {
@@ -452,7 +452,7 @@ async function querySingleConfigured() {
   // // end::querySingleConfigured[]
 }
 
-
+  // TODO: show parallelism in the  lambda below
     // tag::full[]
     async function playerHitsMonster(damage: number, playerId: string, monsterId: string) {
       let cluster = await getCluster() // provide your cluster and collection reference appropriately
@@ -461,7 +461,7 @@ async function querySingleConfigured() {
 
       try {
         cluster.transactions().run(async (ctx) => {
-          let monsterDoc = (await ctx.get(collection, monsterId)).content // TODO: show parallelism
+          let monsterDoc = (await ctx.get(collection, monsterId)).content
           let playerDoc = (await ctx.get(collection, playerId)).content
 
           let monsterHitpoints = monsterDoc.hitpoints
@@ -553,7 +553,6 @@ async function rollbackCause() {
         // check the cause property here.
       } else if (error instanceof TransactionFailedError) {
         // Re-raise the error
-        // TODO: check this with Brett
         if (error.cause === "Balance insufficient." ) {
           throw new Error(error.cause)
         }
