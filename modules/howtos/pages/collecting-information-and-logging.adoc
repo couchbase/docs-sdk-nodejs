@@ -83,5 +83,5 @@ This is supplied for messages that relate to the state of a particular connectio
 
 == Additional Information
 
-The Node.js SDK internally uses the Couchbase C SDK to perform operations.
+The Node.js SDK internally uses the libcouchbase API (since 4.0 implemented by the Couchbase++ library) to perform operations.
 If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:c-sdk:howtos:collecting-information-and-logging.adoc[the C SDK documentation].

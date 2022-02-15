@@ -524,11 +524,28 @@ Learn more in the xref:howtos:encrypting-using-sdk.adoc#migrating-from-2[encrypt
 
 Node.js SDK 4.0 implements the SDK API 3 spec, so all the steps above also apply to a migration from a Node.js SDK 2.x directly to Node.js SDK 4.0.
 
-Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features.
+Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with support for 
+xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[multi-document ACID transactions],
+as well as the capabilities required for upcoming features.
 You should be aware of the following considerations arising from this new backend implementation.
+
+The following features are unsupported in 4.0. 
+They are available in 3.2, and will be available in a later 4.x release.
+
+* xref:concept-docs:response-time-observability.adoc[Response Time Availability]
+* xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[Legacy durability]
+* Log forwarding
+* Replica reads 
+
+In addition:
 
 * The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
 * Ping error entries are now typed.
 // view query reduce option string-> boolean // TODO word this more clearly
 * Search scan consistency `request-plus` has been removed.
 * `get` requests on locked documents now retry rather than fast-fail.
+
+
+
+
+

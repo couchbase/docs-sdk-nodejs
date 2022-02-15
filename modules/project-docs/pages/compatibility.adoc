@@ -51,7 +51,7 @@ See the notes there for Support details.
 
 == Platform Compatibility
 
-The Node.js SDK 4.x is built on top of the `couchbase++` library, which is tested and supported on the following platforms:
+The Node.js SDK is tested and supported on the following platforms:
 
 ****
 [discrete]

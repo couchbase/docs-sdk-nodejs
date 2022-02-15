@@ -9,7 +9,8 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-Beyond the connection string, most settings are changed by calls to libcouchbase --
+Beyond the connection string, most settings are changed by calls to the libcouchbase API
+(implemented with Couchbase++ from Node.js SDK 4.0) --
 refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cntl()`]
 and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
 
