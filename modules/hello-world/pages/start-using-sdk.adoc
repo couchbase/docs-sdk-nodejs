@@ -12,7 +12,7 @@ SDK API 3 also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaS
 
 Node.js SDK 4._x_ implements the same SDK API 3 bindings, but the internals are completely rewritten -- 
 using the Couchbase++ library rather than libcouchbase -- to allow upcoming new features such as transactions, and fix some long-standing bugs. 
-Please note any xref:project-docs/migrating-sdk-code-to-3.n.adoc#sdk4-specifics[caveats] in the migration guide.
+Please note any xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[caveats] in the migration guide.
 
 // tag::prep[]
 // end::prep[]

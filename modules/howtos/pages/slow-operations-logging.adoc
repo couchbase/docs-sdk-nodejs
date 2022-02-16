@@ -7,8 +7,11 @@
 {description}
 Change the settings to alter how much information you collect
 
-To improve debuggability certain metrics are automatically measured and logged.
-These include slow queries, responses taking beyond a certain threshold, and orphanned responses.
+WARNING: the Logging implementation has changed substantially in 4.0 and is not currently fully documented.
+This will be resolved in a future 4.x release.
+
+To improve debugability certain metrics are automatically measured and logged.
+These include slow queries, responses taking beyond a certain threshold, and orphaned responses.
 
 
 == Observability Metrics

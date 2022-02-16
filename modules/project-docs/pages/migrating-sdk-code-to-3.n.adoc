@@ -541,8 +541,6 @@ In addition:
 
 * The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
 * Ping error entries are now typed.
-// view query reduce option string-> boolean // TODO word this more clearly
-* Search scan consistency `request-plus` has been removed.
 * `get` requests on locked documents now retry rather than fast-fail.
 
 

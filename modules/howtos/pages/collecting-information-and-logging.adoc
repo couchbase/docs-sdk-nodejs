@@ -7,6 +7,9 @@
 
 == Library logging
 
+WARNING: the Logging implementation has changed substantially in 4.0 and is not currently fully documented.
+This will be resolved in a future 4.x release.
+
 Note that customization of logging levels via `console_log_level` or `LCB_LOGLEVEL` will not take
 effect if a customer logging function has been provided in the sdk `options` argument.
 As of Node SDK 3.0.1, the connection library provides a logging function if one is not provided,
