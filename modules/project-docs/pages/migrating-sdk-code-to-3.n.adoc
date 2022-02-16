@@ -542,8 +542,3 @@ In addition:
 * The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
 * Ping error entries are now typed.
 * `get` requests on locked documents now retry rather than fast-fail.
-
-
-
-
-
