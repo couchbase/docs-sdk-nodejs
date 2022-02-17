@@ -5,50 +5,125 @@
 
 [abstract]
 {description}
-Health Check introduces various diagnostics tools to request information regarding the state of the underlying connections from the SDK, giving instant health check information.
+Health Check introduces _Ping_ to check nodes are still healthy, and to force idle connections to be kept alive in environments with eager shutdowns of unused resources.
+_Diagnostics_ requests a report from all the connected sockets against the cluster (from a client point of view), giving instant, but passive health check information.
 
-
-Diagnosing problems in distributed environments is far from easy, so Couchbase provides a _Health Check API_ with `Diagnostics()` for a look at what the client believes is the current state of the SDKs connection to the cluster. 
+Diagnosing problems in distributed environments is far from easy, so Couchbase provides a _Health Check API_ with `ping()` for active monitoring, and `diagnostics()` for a look at what the client believes is the current state of the cluster.
 More extensive discussion of the uses of Health Check can be found in the xref:concept-docs:health-check.adoc[Health Check Concept Guide].
 
+== Ping
 
-
-== Diagnostics
-
-
-`Diagnostics` returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
-This call _does not_ actively poll the nodes, reporting instead the state the last time it tried to access each node.
+At its simplest, `ping` provides information about the current state of the connections in the Couchbase Cluster, by actively polling:
 
 [source,javascript]
 ----
-var report = await bucket.diagnostics()
-/*
-{
-    "id":"0x10290d100","kv":[
-        {
-            "id":"0000000072b21d66",
-            "last_activity_us":2363294,
-            "local":"10.112.195.1:51473",
-            "remote":"10.112.195.101:11210",
-            "status":"connected"
-        },
-        {
-            "id":"000000000ba84e5e",
-            "last_activity_us":7369021,
-            "local":"10.112.195.1:51486",
-            "remote":"10.112.195.102:11210",
-            "status":"connected"
-        },
-        {
-            "id":"0000000077689398",
-            "last_activity_us":4855640,
-            "local":"10.112.195.1:51409",
-            "remote":"10.112.195.103:11210",
-            "status":"connected"
-        }
-    ],
-    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
-    "version":1
-}
-*/
+include::example$health-check.js[tag=ping-basic]
 ----
+
+This will print the latency for each socket (endpoint) connected per service. More information is available on the classes. 
+Usually though, you want to regularly perform the ping and then print the results into the logs. 
+
+[source,javascript]
+----
+include::example$health-check.js[tag=ping-json]
+----
+
+Which returns a PingResult object, encapsulating a payload similar to this:
+
+[source,json]
+----
+{
+  "config_rev": 122,
+  "id": "0x7ff75140cf80/ed9b70c8a4460cc5",
+  "sdk": "libcouchbase/3.2.4-njs couchnode/3.2.4 (node/16.8.0; v8/9.2.230.21-node.20; ssl/1.1.1k+quic)",
+  "services": {
+    "cbas": [
+      {
+        "id": "0x7ff751411bf0",
+        "latency_us": 6530,
+        "local": "127.0.0.1:55345",
+        "remote": "localhost:8095",
+        "status": "ok"
+      }
+    ],
+    "fts": [
+      {
+        "id": "0x7ff751410df0",
+        "latency_us": 4522,
+        "local": "127.0.0.1:55344",
+        "remote": "localhost:8094",
+        "status": "ok"
+      }
+    ],
+    "kv": [
+      {
+        "id": "0x7ff753a093c0",
+        "latency_us": 3636,
+        "local": "127.0.0.1:55341",
+        "remote": "localhost:11210",
+        "status": "ok"
+      }
+    ],
+    "n1ql": [
+      {
+        "id": "0x7ff753a10d20",
+        "latency_us": 4361,
+        "local": "127.0.0.1:55342",
+        "remote": "localhost:8093",
+        "status": "ok"
+      }
+    ],
+    "views": [
+      {
+        "id": "0x7ff751527310",
+        "latency_us": 6101,
+        "local": "127.0.0.1:55346",
+        "remote": "localhost:8092",
+        "status": "ok"
+      }
+    ]
+  },
+  "version": 1
+}
+----
+
+// TODO: Uncomment when this works, currently this isn't applicable. 
+//
+// By default the SDK will ping all services available on the target cluster. 
+// You can customize the type of services to ping through the `PingOptions`:
+
+// [source,java]
+// ----
+// include::example$health-check.js[tag=ping-options]
+// ----
+
+// In this example, only the Query service is included in the ping report.
+
+Note that `ping` is available both on the `Cluster` and the `Bucket` level. 
+The difference is that at the cluster level, the key-value service might not be
+included based on the Couchbase Server version in use. 
+If you want to make sure the key-value service is included, perform it at the bucket level.
+
+== Diagnostics
+
+Diagnostics works in a similar fashion to ping in the sense that it returns a report of how all the sockets/endpoints are doing, but the main difference is that it is passive. While a ping proactively sends an operation across the network, a diagnostics report just returns whatever current state the client is in. This makes it much cheaper to call on a regular basis, but does not provide any live insight into network slowness, etc.
+
+[source,javascript]
+----
+include::example$health-check.js[tag=diagnostics-basic]
+----
+
+Because it is passive, diagnostics are only available at the Cluster level and cover everything in the current SDK state. Also, because it is not doing any I/O you cannot proactively filter the list of services that are returned, all you need to do is look only at the ones that are interesting to you.
+
+A `DiagnosticsResult` has one interesting property over a ping result: It provides a cumulative ClusterState through the `state()` method.
+The state can be `ONLINE`, `DEGRADED` or `OFFLINE`.
+This allows to give a single, although simplistic, view on how your cluster is doing from a client point of view. 
+The state is determined as follows:
+
+If at least one socket is open and all of them are connected, it is `ONLINE`
+
+If at least one is connected but not all are, it is `DEGRADED`
+
+If none are connected, it is `OFFLINE`
+
+Of course you can iterate over the individual states and apply a different algorithm if needed.
