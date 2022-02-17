@@ -122,6 +122,11 @@ We intend to support it fully in later versions.
 | Request Tracing
 | Not Supported
 2+| Since SDK 3.2.0
+
+| Distributed ACID Transactions
+2+| Not Supported
+| Since SDK 4.0
+
 |===
 
 include::{version-server}@sdk:shared:partial$network-requirements.adoc[]

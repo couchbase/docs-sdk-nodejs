@@ -1,5 +1,5 @@
 = Migrating to SDK API 3
-:description: The SDK API 3 (used in Node.js SDK 3.x and 4.x)  breaks the previous SDK API 2 APIs (used in Node.js SDK 2.x) in order to provide a number of improvements. \
+:description: The SDK API 3 (used in Node.js SDK 3.x and 4.x) introduces breaking changes to the previous SDK API 2 APIs (used in Node.js SDK 2.x) in order to provide a number of improvements. \
 Collections and Scopes are introduced.
 :nav-title: Migrating to SDK API 3
 :page-topic-type: concept
@@ -10,12 +10,12 @@ include::partial$attributes.adoc[]
 [abstract]
 {description}
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
-Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
+Retry behavior is more proactive, and lazy bootstrapping moves all error handling to a single place.
 
-Additionally, the Node.js SDK 4.0 offers a new backend (Couchbase++) with better support for upcoming features.
-Though the API still matches the SDK API 3._x_ spec, we have increased the major version to reflect the importance of this implementation change, as per https://semver.org/[semantic versioning].
+The current Node.js SDK 4.0 is also based on the xref:project-docs:compatibility.adoc#sdk3.2[SDK API 3.2 specification], and offers an entirely new backend (couchbase++) with better support for upcoming features like Distributed ACID Transactions.
+We have increased the major version to reflect the importance of this implementation change as per https://semver.org/[semantic versioning].
 
-Individual behavior changes across services are explained on this page.
+The intent of this migration guide is to provide detail information on the changes and what to look for while upgrading the SDK.
 
 NOTE: if you are an existing Node.js SDK 3._x_ user considering migrating to SDK 4.0,
 you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
