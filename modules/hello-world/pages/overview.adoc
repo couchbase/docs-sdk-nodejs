@@ -14,7 +14,7 @@
 ====== {empty}
 [.content]
 The Node.js SDK allows you to connect to a Couchbase Server cluster from Node.js.
-The Node.js SDK is a native Node.js module that uses the very fast libcouchbase library to handle communicating with the cluster over the Couchbase binary protocol.
+The Node.js SDK is a native Node.js module that uses the very fast Couchbase++ library to handle communicating with the cluster over the Couchbase binary protocol.
 
 
 [.column]

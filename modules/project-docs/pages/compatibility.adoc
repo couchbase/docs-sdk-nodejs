@@ -51,7 +51,7 @@ See the notes there for Support details.
 
 == Platform Compatibility
 
-The Node.js SDK 4.x is built on top of the `couchbase++` library, which is tested and supported on the following platforms:
+The Node.js SDK is tested and supported on the following platforms:
 
 ****
 [discrete]
@@ -122,6 +122,11 @@ We intend to support it fully in later versions.
 | Request Tracing
 | Not Supported
 2+| Since SDK 3.2.0
+
+| Distributed ACID Transactions
+| Not Supported
+2+| Since Couchbase Server 6.6.1 and SDK 4.0
+
 |===
 
 include::{version-server}@sdk:shared:partial$network-requirements.adoc[]

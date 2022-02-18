@@ -8,20 +8,17 @@
 [abstract]
 {description}
 
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=intro]
 
 You may also want to start with our https://github.com/couchbaselabs/couchbase-transactions-java-examples[transactions examples repository],
 which features useful downloadable examples of using Distributed Transactions.
-
-Javadocs are available https://docs.couchbase.com/sdk-api/couchbase-transactions-java/index.html?overview-summary.html[online].
 
 
 == Requirements
 
 * Couchbase Server 6.6.1 or above.
 * Couchbase Node.js client 4.0.0 or above.
-It is recommended to follow the transitive dependency for the transactions library from Maven.
-include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 
 
 == Getting Started
@@ -40,10 +37,10 @@ For example, if you want to change the level of durability which must be attaine
 include::example$transactions-example.ts[tag=config,indent=0]
 ----
 
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=config]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=config]
 
 // TODO: this partial needs to change a bit, owing to library references.
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=creating]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=creating]
 
 [source,typescript]
 ----
@@ -52,7 +49,7 @@ include::example$transactions-example.ts[tag=create,indent=0]
 
 // TODO: this partial may need to be reviewed
 // TODO: see https://docs.couchbase.com/java-sdk/current/howtos/distributed-acid-transactions-from-the-sdk.html#:~:text=The%20lambda%20gets%20passed%20an%20AttemptContext%20object%2C%20generally%20referred%20to%20as%20ctx%20here.
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
 
 == Examples
 A code example is worth a thousand words, so here is a quick summary of the main transaction operations.
@@ -65,7 +62,7 @@ include::example$transactions-example.ts[tag=examples,indent=0]
 
 // TODO: this partial references things that are Java implmentation specific
 //       like a Transactions object
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=mechanics]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=mechanics]
 
 
 == Key-Value Mutations
@@ -118,7 +115,7 @@ Gets will 'read your own writes', e.g. this will succeed:
 include::example$transactions-example.ts[tag=getReadOwnWrites,indent=0]
 ----
 
-include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=query-intro]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-intro]
 
 === Using N1QL
 If you already use N1QL from the Node.js SDK, then its use in transactions is very similar.
@@ -189,14 +186,14 @@ include::example$transactions-example.ts[tag=queryOptions,indent=0]
 ----
 
 // TODO: check this partial to see if it matches up across SDKs.  otherwise, make it a table?
-include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=query-options]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-options]
 
 // TODO: this does not seem to exist for Node.js.  should it?
 //See the xref:howtos:n1ql-queries-with-sdk.adoc#query-options[QueryOptions documentation] for details on these.
 
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
 
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=query-single]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-single]
 
 [source,typescript]
 ----
@@ -234,7 +231,7 @@ An asynchronous cleanup process ensures that once the transaction reaches the co
 
 
 // == A Full Transaction Example
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=example]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=example]
 
 // TODO: need to create this
 // A complete version of this example is available on our https://github.com/couchbaselabs/couchbase-transactions-nodejs-examples[GitHub transactions examples page].
@@ -246,7 +243,7 @@ include::example$transactions-example.ts[tag=full,indent=0]
 
 // TODO: this partial has some Java specific things in it
 // concurrency
-include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
 
 // TODO: this is to identify violations of cooperative, not known if this is available in node/cb++
 // [source,java]
@@ -278,19 +275,19 @@ After a transaction is rolled back, it cannot be committed, no further operation
 
 
 //  Error Handling
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=error]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=error]
 
 
 // TODO: this partial below has a lot of Java specifics in it
 //  txnfailed
-//include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed]
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed]
 
 //[source,java]
 //----
 //include::example$TransactionsExample.java[tag=config-expiration,indent=0]
 //----
 
-//include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
 
 //Similar to `TransactionResult`, `SingleQueryTransactionResult` also has an `unstagingComplete()` method.
 
@@ -304,7 +301,7 @@ include::example$transactions-example.ts[tag=full-error-handling,indent=0]
 ----
 
 // TODO: this partial below has reference to a Transactions object, which is no longer the case going forward
-// include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=cleanup]
+// include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=cleanup]
 
 === Monitoring Cleanup
 
@@ -389,14 +386,14 @@ This means the application must 'swallow' the error, but record that an error oc
 
 
 // TODO: re-enable once custom metadata collections are supported
-// include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
+// include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
 
 //[source,java]
 //----
 //include::example$TransactionsExample.java[tag=custom-metadata,indent=0]
 //----
 
-//include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-2]
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-2]
 
 // TODO: re-enable when deferred commits are supported
 //== Deferred Commits
@@ -434,4 +431,4 @@ This means the application must 'swallow' the error, but record that an error oc
 
 
 // TODO: this partial points to the java examples repo
-include::7.1@sdk:shared:partial$acid-transactions.adoc[tag=further]
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=further]
