@@ -60,7 +60,7 @@ async function main() {
       await attempt.insert(collection, testDoc, 'hello')
     })
   } catch (error) {
-    console.log('failed to insert ' + testDoc)
+    console.log('failed to insert %s\n', testDoc, error)
   }
 
   // tag::create[]
@@ -73,21 +73,11 @@ async function main() {
     })
   } catch (error) {
     if (error instanceof TransactionFailedError) {
-      // The operation failed. Both the monster and the player will be untouched.
-      //
-      // Situations that can cause this would include either the monster
-      // or player not existing (as get is used), or a persistent
-      // failure to be able to commit the transaction, for example on
-      // prolonged node failure.
+      console.error('Transaction did not reach commit point', error)
     }
 
     if (error instanceof TransactionCommitAmbiguousError) {
-      // Indicates the state of a transaction ended as ambiguous and may or
-      // may not have committed successfully.
-      //
-      // Situations that may cause this would include a network or node failure
-      // after the transactions operations completed and committed, but before the
-      // commit result was returned to the client
+      console.error('Transaction possibly committed', error)
     }
   }
   // end::create[]
@@ -129,38 +119,26 @@ async function main() {
         parameters: ['airline_137', 'AF'],
       })
 
-      // // Committing (the ctx.commit() call is optional)
-      // ctx.commit();
     })
   } catch (error) {
     if (error instanceof TransactionFailedError) {
-      // The operation failed. Both the monster and the player will be untouched.
-      //
-      // Situations that can cause this would include either the monster
-      // or player not existing (as get is used), or a persistent
-      // failure to be able to commit the transaction, for example on
-      // prolonged node failure.
+      console.error('Transaction did not reach commit point', error)
     }
 
     if (error instanceof TransactionCommitAmbiguousError) {
-      // Indicates the state of a transaction ended as ambiguous and may or
-      // may not have committed successfully.
-      //
-      // Situations that may cause this would include a network or node failure
-      // after the transactions operations completed and committed, but before the
-      // commit result was returned to the client
+      console.error('Transaction possibly committed', error)
     }
   }
   // end::examples[]
 
   // execute other exmaples
   try {
-    await get()
-    await getReadOwnWrites()
-    await replace()
-    await remove()
-    await insert()
-    await queryExamples()
+    await get() ; console.log("get…")
+    await getReadOwnWrites() ; console.log("getReadOwnWrites…")
+    await replace() ; console.log("replace…")
+    await remove() ; console.log("remove…")
+    await insert() ; console.log("insert…")
+    await queryExamples() ; console.log("queryExamples…")
     // remove seems to not be working, verify here…
     try {
       const docCheck = await collection.get('doc-id')
@@ -241,7 +219,7 @@ async function get() {
   let cluster = await getCluster()
   let collection = await getCollection()
   // tag::get[]
-  cluster.transactions().run(async ctx => {
+  await cluster.transactions().run(async ctx => {
     const aDoc = await ctx.get(collection, "a-doc")
   })
   // end::get[]
@@ -252,10 +230,10 @@ async function getReadOwnWrites() {
   let cluster = await getCluster()
   let collection = await getCollection()
   // tag::getReadOwnWrites[]
-  cluster.transactions().run(async ctx => {
+  await cluster.transactions().run(async ctx => {
     const docId = "docId"
 
-    ctx.insert(collection, docId, {})
+    await ctx.insert(collection, docId, {})
 
     const doc = await ctx.get(collection, docId)
   })
@@ -408,7 +386,8 @@ async function querySingle() {
       // after the transactions operations completed and committed, but before the
       // commit result was returned to the client
     }
-  // end::querySingle[]
+    // end::querySingle[]
+  }
 }
 
 async function querySingleScoped() {
@@ -450,7 +429,6 @@ async function querySingleConfigured() {
   //     .expirationTime(Duration.ofSeconds(360))
   //     .build());
   // // end::querySingleConfigured[]
-}
 
   // TODO: show parallelism in the  lambda below
     // tag::full[]
@@ -509,6 +487,7 @@ async function querySingleConfigured() {
       }
   }
   // end::full[]
+}
 
   async function rollback() {
     let cluster = await getCluster() // provide your cluster and collection reference appropriately
@@ -529,39 +508,34 @@ async function querySingleConfigured() {
     // end::rollback[]
 }
 
+class InsufficientBalanceError extends Error {}
+
 async function rollbackCause() {
   let cluster = await getCluster() // provide your cluster and collection reference appropriately
   let collection = await getCollection()
 
-  const costOfItem = 10;
+  const costOfItem = 10
 
   // tag::rollback-cause[]
 
   try {
     cluster.transactions().run(async (ctx) => {
-      const customer = await ctx.get(collection, "customer-name");
+      const customer = await ctx.get(collection, 'customer-name')
 
-          if (customer.content.balance < costOfItem) {
-            throw new Error("Balance insufficient.");
-          }
-          // else continue transaction
-      });
-    } catch (error) {
-      if (error instanceof TransactionCommitAmbiguousError) {
-        // This exception can only be thrown at the commit point, after the
-        // BalanceInsufficient logic has been passed, so there is no need to
-        // check the cause property here.
-      } else if (error instanceof TransactionFailedError) {
-        // Re-raise the error
-        if (error.cause === "Balance insufficient." ) {
-          throw new Error(error.cause)
-        }
-
-        console.error("Transction did not reach commit point", error)
-
+      if (customer.content.balance < costOfItem) {
+        throw new InsufficientBalanceError()
       }
-
+      // else continue transaction
+    })
+  } catch (error) {
+    if (error instanceof TransactionCommitAmbiguousError) {
+      // This exception can only be thrown at the commit point, after the
+      // BalanceInsufficient logic has been passed, so there is no need to
+      // check the cause property here.
+    } else if (error instanceof InsufficientBalanceError) {
+      console.error('user had insufficient balance')
     }
+  }
   // end::rollback-cause[]
 }
 
@@ -614,6 +588,10 @@ function priceFromRecentReviews(qr: QueryResult<any>) {
   return 99.98
 }
 
+function calculateLevelForExperience(playerNewExperience: any) {
+  throw new Error('Function not implemented.')
+}
+
 main()
   .catch((err) => {
     console.log('ERR:', err)
@@ -622,6 +600,4 @@ main()
   .then(() => {
     process.exit(0)
   })
-function calculateLevelForExperience(playerNewExperience: any) {
-  throw new Error('Function not implemented.')
-}
+
