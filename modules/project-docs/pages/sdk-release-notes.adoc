@@ -27,6 +27,47 @@ $ npm install couchbase@3.2.4
 ----
 
 
+
+== Version 4.0.0 (18 February 2022)
+ 
+Version 4.0.0 is the first major release of the next generation Node.js SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements related to internal connection behaviour.
+ 
+[source,console]
+----
+$ npm install couchbase@4.0.0
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.0.0/[API Reference]
+ 
+=== New Features
+
+* Cluster options are now sectioned into individual options blocks.
+* Support for distributed transactions has now been implemented.
+* Reimplemented the library using couchbase++.
+ 
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-878[JSCBC-878]:
+Diagnostics functions now returned fully typed results.
+* http://issues.couchbase.com/browse/JSCBC-1007[JSCBC-1007]:
+first_error_message/first_error_code are no longer available on error contexts.
+* Search scan consistency included RequestPlus in error and it has now been removed.
+* Performing a GET operation against a locked document now retries internally.
+* The view query reduce option used to take a string in error, and now takes a boolean.
+* Following with Node.js EOL, v12 is now the minimum version.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
+
 == Version 3.2.4 (17 December 2021)
 
 Version 3.2.4 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
