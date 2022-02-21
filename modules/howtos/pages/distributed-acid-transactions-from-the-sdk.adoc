@@ -189,7 +189,16 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-op
 // TODO: this does not seem to exist for Node.js.  should it?
 //See the xref:howtos:n1ql-queries-with-sdk.adoc#query-options[QueryOptions documentation] for details on these.
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
+// TODO: Replace the section below with this when we ensure that the shared partials in common are truly generic.
+// include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
+=== Query Performance Advice
+This section is optional reading, and only for those looking to maximize transactions performance.
+
+After the first query statement in a transaction, subsequent Key-Value operations in the lambda are converted into N1QL and executed by the query service rather than the Key-Value data service.
+The operation will behave identically, and this implementation detail can largely be ignored, except for these two caveats:
+
+* These converted Key-Value operations are likely to be slightly slower, as the query service is optimised for statements involving multiple documents.
+Those looking for the maximum possible performance are recommended to put Key-Value operations before the first query in the lambda, if possible.
 
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-single]
 
