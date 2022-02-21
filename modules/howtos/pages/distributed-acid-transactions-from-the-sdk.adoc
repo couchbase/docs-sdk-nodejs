@@ -11,9 +11,6 @@ include::project-docs:partial$attributes.adoc[]
 
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=intro]
 
-You may also want to start with our https://github.com/couchbaselabs/couchbase-transactions-java-examples[transactions examples repository],
-which features useful downloadable examples of using Distributed Transactions.
-
 
 == Requirements
 
@@ -111,7 +108,7 @@ It is provided as a convenience method so the developer does not have to check t
 
 Gets will 'read your own writes', e.g. this will succeed:
 
-[source,java]
+[source,typescript]
 ----
 include::example$transactions-example.ts[tag=getReadOwnWrites,indent=0]
 ----
@@ -146,7 +143,7 @@ include::example$transactions-example.ts[tag=queryExamplesUpdate,indent=0]
 ----
 
 And an example combining SELECTs and UPDATEs.
-It's possible to call regular Java methods from the lambda, as shown here, permitting complex logic to be performed.
+It's possible to call regular Node.js functions from the lambda, as shown here, permitting complex logic to be performed.
 Just remember that since the lambda may be called multiple times, so may the method.
 
 [source,typescript]
