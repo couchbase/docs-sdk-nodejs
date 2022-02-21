@@ -11,14 +11,11 @@ include::project-docs:partial$attributes.adoc[]
 
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=intro]
 
-You may also want to start with our https://github.com/couchbaselabs/couchbase-transactions-java-examples[transactions examples repository],
-which features useful downloadable examples of using Distributed Transactions.
-
 
 == Requirements
 
 * Couchbase Server 6.6.1 or above.
-* Couchbase Node.js client 4.0.0 or above.
+* Couchbase Node.js SDK 4.0.0 or above.
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 
 
@@ -111,7 +108,7 @@ It is provided as a convenience method so the developer does not have to check t
 
 Gets will 'read your own writes', e.g. this will succeed:
 
-[source,java]
+[source,typescript]
 ----
 include::example$transactions-example.ts[tag=getReadOwnWrites,indent=0]
 ----
@@ -146,7 +143,7 @@ include::example$transactions-example.ts[tag=queryExamplesUpdate,indent=0]
 ----
 
 And an example combining SELECTs and UPDATEs.
-It's possible to call regular Java methods from the lambda, as shown here, permitting complex logic to be performed.
+It's possible to call regular Node.js functions from the lambda, as shown here, permitting complex logic to be performed.
 Just remember that since the lambda may be called multiple times, so may the method.
 
 [source,typescript]
@@ -192,7 +189,16 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-op
 // TODO: this does not seem to exist for Node.js.  should it?
 //See the xref:howtos:n1ql-queries-with-sdk.adoc#query-options[QueryOptions documentation] for details on these.
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
+// TODO: Replace the section below with this when we ensure that the shared partials in common are truly generic.
+// include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf]
+=== Query Performance Advice
+This section is optional reading, and only for those looking to maximize transactions performance.
+
+After the first query statement in a transaction, subsequent Key-Value operations in the lambda are converted into N1QL and executed by the query service rather than the Key-Value data service.
+The operation will behave identically, and this implementation detail can largely be ignored, except for these two caveats:
+
+* These converted Key-Value operations are likely to be slightly slower, as the query service is optimised for statements involving multiple documents.
+Those looking for the maximum possible performance are recommended to put Key-Value operations before the first query in the lambda, if possible.
 
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-single]
 
