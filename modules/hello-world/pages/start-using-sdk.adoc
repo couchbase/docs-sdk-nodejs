@@ -4,7 +4,7 @@
 :navtitle: Start Using the SDK
 
 [abstract]
-The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js language].
+The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js runtime].
 
 The Couchbase SDK API 3 (implemented by Node.js SDK 3._x_ and 4._x_) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
 
