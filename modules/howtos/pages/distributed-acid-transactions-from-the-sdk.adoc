@@ -18,7 +18,7 @@ which features useful downloadable examples of using Distributed Transactions.
 == Requirements
 
 * Couchbase Server 6.6.1 or above.
-* Couchbase Node.js client 4.0.0 or above.
+* Couchbase Node.js SDK 4.0.0 or above.
 include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 
 
