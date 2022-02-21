@@ -59,7 +59,7 @@ load 'test/test_helper.bash'
 @test "[howtos] - search.js" {
     runExample $HOWTOS_DIR search.js
     assert_success
-    
+
     # Check output for search-query-match[] snippet
     assert_output --partial "[search-query-match] result count: 5"
 
@@ -85,7 +85,7 @@ load 'test/test_helper.bash'
 
     # Check output for search-query-disjuncts[] snippet
     assert_output --partial "[search-query-disjuncts] result count: 11"
-    
+
     # Check output for handle-hits[] snippet
     assert_output --partial "Result #1 ID: hotel_21726"
 
@@ -106,7 +106,6 @@ Descriptions facet: {
 }
 EOF
 }
-
 
 @test "[howtos] - subdoc.js" {
     runExample $HOWTOS_DIR subdoc.js
@@ -139,5 +138,13 @@ EOF
 
 @test "[howtos] - views.js" {
     runExample $HOWTOS_DIR views.js
+    assert_success
+}
+
+@test "[howtos] - transactions-example.ts" {
+    # It compiles at least, so that should be enough validation.
+    skip "Needs to be run on a multi-node cluster"
+
+    runTSExample $HOWTOS_DIR transactions-example.ts
     assert_success
 }

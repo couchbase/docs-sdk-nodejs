@@ -47,6 +47,7 @@ EOF
   assert_output --partial <<-EOF
 Query Result:  [
   _Model {
+    _type: 'airline',
     callsign: 'CBS',
     iata: 'CBIATA',
     icao: 'CBICAO',
