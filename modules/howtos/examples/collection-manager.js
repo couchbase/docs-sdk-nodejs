@@ -23,6 +23,10 @@ async function go() {
   })
   // end::scopeAdmin[]
 
+  // Give some time (2 seconds) for user to be created as example code
+  // might run too quickly.
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+
   const cluster = await couchbase.connect('couchbase://localhost', {
     username: 'scope_admin',
     password: 'password',
