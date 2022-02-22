@@ -195,7 +195,7 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-op
 This section is optional reading, and only for those looking to maximize transactions performance.
 
 After the first query statement in a transaction, subsequent Key-Value operations in the lambda are converted into N1QL and executed by the query service rather than the Key-Value data service.
-The operation will behave identically, and this implementation detail can largely be ignored, except for these two caveats:
+The operation will behave identically, and this implementation detail can largely be ignored, except for this caveat:
 
 * These converted Key-Value operations are likely to be slightly slower, as the query service is optimised for statements involving multiple documents.
 Those looking for the maximum possible performance are recommended to put Key-Value operations before the first query in the lambda, if possible.
