@@ -39,6 +39,10 @@ async function example1(clusterAdm, testUsername, testPassword, bucketName) {
         ]
     })
     // end::usermanagement_1[]
+
+    // Give some time (2 seconds) for user to be created as example code
+    // might run too quickly.
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 }
 
 async function example2(clusterAdm) {
