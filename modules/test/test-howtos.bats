@@ -58,17 +58,22 @@ load 'test/test_helper.bash'
 
 @test "[howtos] - search.js" {
     runExample $HOWTOS_DIR search.js
-    assert_success
+    # This whole example is going to fail due to the below bug:
+    # https://issues.couchbase.com/browse/JSCBC-1044
+    assert_failure
 
-    # Check output for search-query-match[] snippet
-    assert_output --partial "[search-query-match] result count: 5"
+    # TODO: Uncomment (lines 66-76) when JSCBC-1044 is fixed
+    # assert_success
 
-    # Check output for search-query-matchPhrase[] snippet
-    assert_output --partial "[search-query-matchPhrase] result count: 4"
-    assert_output --partial "hotel_11331"
-    assert_output --partial "hotel_15915"
-    assert_output --partial "hotel_3606"
-    assert_output --partial "hotel_28259"
+    # # Check output for search-query-match[] snippet
+    # assert_output --partial "[search-query-match] result count: 5"
+
+    # # Check output for search-query-matchPhrase[] snippet
+    # assert_output --partial "[search-query-matchPhrase] result count: 4"
+    # assert_output --partial "hotel_11331"
+    # assert_output --partial "hotel_15915"
+    # assert_output --partial "hotel_3606"
+    # assert_output --partial "hotel_28259"
 
     # Check output for search-query-dateRange[] snippet.
     # https://issues.couchbase.com/browse/JSCBC-942, errors thrown for consistency/consistentWith query options.
@@ -78,33 +83,38 @@ load 'test/test_helper.bash'
 
 @test "[howtos] - search-conjuncts-disjuncts.js" {
     runExample $HOWTOS_DIR search-conjuncts-disjuncts.js
-    assert_success
+    # This whole example is going to fail due to the below bug:
+    # https://issues.couchbase.com/browse/JSCBC-1044
+    assert_failure
 
-    # Check output for search-query-conjuncts[] snippet
-    assert_output --partial "[search-query-conjuncts] result count: 2"
+    # TODO:  Uncomment (lines 91-117) when JSCBC-1044 is fixed
+    #     assert_success
 
-    # Check output for search-query-disjuncts[] snippet
-    assert_output --partial "[search-query-disjuncts] result count: 11"
+    #     # Check output for search-query-conjuncts[] snippet
+    #     assert_output --partial "[search-query-conjuncts] result count: 2"
 
-    # Check output for handle-hits[] snippet
-    assert_output --partial "Result #1 ID: hotel_21726"
+    #     # Check output for search-query-disjuncts[] snippet
+    #     assert_output --partial "[search-query-disjuncts] result count: 11"
 
-    # Check output for handle-facets[] snippet
-    assert_output --partial <<-EOF
-Descriptions facet: {
-  field: 'description',
-  total: 223,
-  missing: 0,
-  other: 195,
-  terms: [
-    { term: 'louvre', count: 7 },
-    { term: 'hotel', count: 6 },
-    { term: 'rooms', count: 6 },
-    { term: 'eiffel', count: 5 },
-    { term: 'close', count: 4 }
-  ]
-}
-EOF
+    #     # Check output for handle-hits[] snippet
+    #     assert_output --partial "Result #1 ID: hotel_21726"
+
+    #     # Check output for handle-facets[] snippet
+    #     assert_output --partial <<-EOF
+    # Descriptions facet: {
+    #   field: 'description',
+    #   total: 223,
+    #   missing: 0,
+    #   other: 195,
+    #   terms: [
+    #     { term: 'louvre', count: 7 },
+    #     { term: 'hotel', count: 6 },
+    #     { term: 'rooms', count: 6 },
+    #     { term: 'eiffel', count: 5 },
+    #     { term: 'close', count: 4 }
+    #   ]
+    # }
+    # EOF
 }
 
 @test "[howtos] - subdoc.js" {
