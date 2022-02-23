@@ -137,7 +137,7 @@ EOF
     # Check output for mutate-increment[] snippet
     assert_output --partial <<-EOF
 mutate-increment
-{ value: 1 }
+MutateInResultEntry { value: 1 }
 EOF
 }
 

@@ -152,13 +152,23 @@ async function go() {
   // end::mutate-tl-arrayappend-multibad[]
 
   console.log('mutate-createpaths')
-  // tag::mutate-createpaths[]
-  await collection.mutateIn('customer123', [
-    couchbase.MutateInSpec.arrayAppend('some.path', 'Hello World', {
-      createPath: true,
-    }),
-  ])
-  // end::mutate-createpaths[]
+  try {
+    // This fails due to https://issues.couchbase.com/browse/JSCBC-1045
+    // TODO: Remove try/catch block when the above issue is fixed.
+    // tag::mutate-createpaths[]
+    await collection.mutateIn('customer123', [
+      couchbase.MutateInSpec.arrayAppend('some.path', 'Hello World', {
+        createPath: true,
+      }),
+    ])
+    // end::mutate-createpaths[]
+  } catch (e) {
+    if (e instanceof couchbase.PathNotFoundError) {
+      console.log(e.toString())
+    } else {
+      throw e
+    }
+  }
 
   console.log('mutate-arrayaddunique')
   // tag::mutate-arrayaddunique[]
@@ -210,20 +220,30 @@ async function go() {
   // end::mutate-decrement[]
 
   console.log('mutate-upsert-parents')
-  // tag::mutate-upsert-parents[]
-  await collection.mutateIn('customer123', [
-    couchbase.MutateInSpec.upsert(
-      'level_0.level_1.foo.bar.phone',
-      {
-        num: '311-555-0101',
-        ext: 16,
-      },
-      {
-        createPath: true,
-      }
-    ),
-  ])
-  // end::mutate-upsert-parents[]
+  try {
+    // This fails due to https://issues.couchbase.com/browse/JSCBC-1045
+    // TODO: Remove try/catch block when the above issue is fixed.
+    // tag::mutate-upsert-parents[]
+    await collection.mutateIn('customer123', [
+      couchbase.MutateInSpec.upsert(
+        'level_0.level_1.foo.bar.phone',
+        {
+          num: '311-555-0101',
+          ext: 16,
+        },
+        {
+          createPath: true,
+        }
+      ),
+    ])
+    // end::mutate-upsert-parents[]
+  } catch (e) {
+    if (e instanceof couchbase.PathNotFoundError) {
+      console.log(e.toString())
+    } else {
+      throw e
+    }
+  }
 
   console.log('mutate-store-semantics')
   // tag::mutate-store-semantics[]
