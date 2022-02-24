@@ -6,12 +6,12 @@ import {
   Collection,
   connect,
   DurabilityLevel,
-  QueryOptions,
   QueryProfileMode,
   QueryResult,
   Scope,
   TransactionCommitAmbiguousError,
   TransactionFailedError,
+  TransactionQueryOptions
 } from 'couchbase'
 
 async function main() {
@@ -353,9 +353,9 @@ async function queryRyow() {
 async function queryOptions() {
   let cluster = await getCluster()
   // tag::queryOptions[]
-  const qo: QueryOptions = { profile: QueryProfileMode.Timings }
+  const txQo: TransactionQueryOptions = { profile: QueryProfileMode.Timings }
   cluster.transactions().run(async (ctx) => {
-    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})", qo)
+    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})", txQo)
   })
   // end::queryOptions[]
 }

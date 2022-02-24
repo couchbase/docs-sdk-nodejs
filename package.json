@@ -3,11 +3,11 @@
   "dependencies": {
     "@hapi/hapi": "^20.1.2",
     "cbfieldcrypt": "^2.0.0",
-    "couchbase": "^3.2.4",
+    "couchbase": "^4.0.0",
     "csv": "^6.0.4",
     "event-stream": "^4.0.1",
     "joi": "^14.3.1",
-    "ottoman": "^2.0.0",
+    "ottoman": "^2.1.0",
     "stream-json": "^1.7.3",
     "uuid": "^3.3.3"
   },
