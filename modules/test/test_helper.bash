@@ -19,3 +19,9 @@ function runTSExample() {
 	cd $1
 	run ts-node $2
 }
+
+diag() {
+	printf ' # %s\n' "$@" >&3
+
+	#echo " # $@" >&3
+}

@@ -62,7 +62,7 @@ load 'test/test_helper.bash'
     # https://issues.couchbase.com/browse/JSCBC-1044
     assert_failure
 
-    # TODO: Uncomment (lines 66-76) when JSCBC-1044 is fixed
+    diag "TODO: Uncomment (lines 66-76) when JSCBC-1044 is fixed"
     # assert_success
 
     # # Check output for search-query-match[] snippet
@@ -87,7 +87,7 @@ load 'test/test_helper.bash'
     # https://issues.couchbase.com/browse/JSCBC-1044
     assert_failure
 
-    # TODO:  Uncomment (lines 91-117) when JSCBC-1044 is fixed
+    diag "TODO:  Uncomment (lines 91-117) when JSCBC-1044 is fixed"
     #     assert_success
 
     #     # Check output for search-query-conjuncts[] snippet
