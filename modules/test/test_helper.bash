@@ -22,6 +22,4 @@ function runTSExample() {
 
 diag() {
 	printf ' # %s\n' "$@" >&3
-
-	#echo " # $@" >&3
 }
