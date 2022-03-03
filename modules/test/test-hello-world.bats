@@ -1,6 +1,6 @@
 # #!./test/libs/bats/bin/bats
 
-load 'test/test_helper.bash'
+load 'test_helper'
 
 @test "[hello-world] - start-using.js" {
   runExample $HELLO_WORLD_DIR start-using.js
