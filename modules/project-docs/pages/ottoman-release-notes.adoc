@@ -10,6 +10,17 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
+
+
+== Support in Node.js SDK 4.0
+
+Ottoman is currently *not supported* in Node.js SDK 4.0.
+We intend to fully support it with the next 4.1 release.
+
+In the meantime, if you are interested in checking out Ottoman, 
+please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman for Node.js SDK 3.2] page.
+
+
 == Version 2.1.0 (7 Feb 2022)
 
 Version 2.1.0 is a minor release of the Ottoman Object Document Mapper(ODM) library, bringing a number of improvements, and support for Couchbase Node.js SDK 3.2.4.
