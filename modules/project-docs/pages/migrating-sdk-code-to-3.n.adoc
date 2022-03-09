@@ -535,10 +535,12 @@ They are available in 3.2, and will be available in a later 4.x release.
 * xref:concept-docs:response-time-observability.adoc[Response Time Availability]
 * xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[Legacy durability]
 * Log forwarding
-* Replica reads 
+* Replica reads
 
 In addition:
 
 * The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
 * Ping error entries are now typed.
 * `get` requests on locked documents now retry rather than fast-fail.
+* The changes to xref:ref:client-settings.adoc[Client Settings] are not currently documented.
+* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.
