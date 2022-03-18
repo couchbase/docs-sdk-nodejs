@@ -71,7 +71,7 @@ If you wish to use TLS, the connection string must be configured as described in
 We recommend creating a single `Cluster` instance when your application starts up, and sharing this instance throughout your application.
 Each of the respective sub-instances (Bucket, Collection, etc...) of the Cluster class can be stored and re-used, or created in an on-demand fashion whenever needed.
 
-Before your application stops, gracefully shut down the client by calling the `disconnect()` method of each `Cluster` you created.
+Before your application stops, gracefully shut down the client by calling the `close()` method of each `Cluster` you created.
 
 
 == Alternate Addresses and Custom Ports
