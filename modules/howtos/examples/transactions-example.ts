@@ -68,7 +68,7 @@ async function main() {
     await cluster.transactions().run(async (ctx) => {
       // 'ctx' is a TransactionAttemptContext which permits getting, inserting,
       // removing and replacing documents, performing N1QL queries, etc.
-      // … Your transction logic here …
+      // … Your transaction logic here …
       // Committing is implicit at the end of the lambda.
     })
   } catch (error) {
@@ -320,8 +320,8 @@ async function queryInsert() {
   let collection = await getCollection()
   // tag::queryInsert[]
   cluster.transactions().run(async (ctx) => {
-    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})")
-    const st = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'"
+    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})") // <1>
+    const st = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
     const qr = await ctx.query(st)
   })
   // end::queryInsert[]
