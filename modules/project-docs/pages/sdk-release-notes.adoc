@@ -68,6 +68,8 @@ Distributed tracing is not yet supported.
 Replica reads are not yet supported.
 * http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
 Legacy durability operations are not yet supported.
+* https://issues.couchbase.com/browse/JSCBC-1044[JSCBC-1044]:
+Double-encoding issue when performing search queries.
 
 
 == Version 3.2.4 (17 December 2021)
