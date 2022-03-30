@@ -22,7 +22,8 @@ please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman
 
 == Version 2.2.0 (29 March 2022)
 
-Version 2.2.0 is a minor release of Ottoman. This release adds two new features, and a number of dependency upgrades.
+Version 2.2.0 is a minor release of the Ottoman ODM. 
+This release adds two new features, and a number of dependency upgrades.
 
 [source,console]
 ----
