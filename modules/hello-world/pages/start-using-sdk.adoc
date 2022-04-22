@@ -56,6 +56,19 @@ $ npm install couchbase --save
 
 Note: This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
 
+
+// MacOS
+// https://issues.couchbase.com/browse/DOC-6367
+// Catalina & node-gyp
+////
+npm install:
+
+gyp: No Xcode or CLT version detected!
+
+https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md#Solutions
+////
+
+
 // end::install[]
 
 Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes].
