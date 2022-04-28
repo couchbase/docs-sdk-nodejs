@@ -29,6 +29,48 @@ $ npm install couchbase@3.2.4
 ----
 
 
+== Version 4.1.0 (28 April 2022)
+ 
+Version 4.1.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.0
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.0/[API Reference]
+
+=== New Features
+
+* JSCBC-956: Added ability to manage collection query indexes. 
+ 
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1045[JSCBC-1045]:
+Added missing mutate_in path flag values from couchbase++.
+* http://issues.couchbase.com/browse/JSCBC-1044[JSCBC-1044]:
+Fixed issue with double-encoding of search queries.
+* http://issues.couchbase.com/browse/JSCBC-1067[JSCBC-1067]:
+Fixed issue with query parameters being double-encoded.
+* http://issues.couchbase.com/browse/JSCBC-1058[JSCBC-1058]:
+Switched to using auto-generated bindings.
+Fixed issue with durable operations not using user timeouts.
+Fixed issue with creating indexes with no conditions.
+Mark all new SDK 3.4 APIs as committed.
+Updated to latest dependencies.
+Various minor fixes.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
 
 == Version 4.0.0 (18 February 2022)
  
