@@ -84,8 +84,10 @@ Although installable or compilable on many other platforms, we cannot provide su
 
 === Ottoman ODM
 
-The 4.1 Node.js SDK is compatible with https://ottomanjs.com/#introduction[version 2.0 of the Ottoman ODM].
+The 3.2 Node.js SDK is compatible with https://ottomanjs.com/#introduction[version 2.0 of the Ottoman ODM].
 
+NOTE: the 4.1 Node.js SDK is not tested against Ottoman.
+We intend to support it fully in later versions.
 
 == Couchbase New Feature Availability Matrix
 
