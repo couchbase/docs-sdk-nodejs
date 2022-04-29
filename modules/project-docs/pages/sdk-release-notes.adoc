@@ -1,7 +1,7 @@
 = Couchbase Node.js Release Notes and Archives
-:description: Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
+:description: Release notes and download archive for the Couchbase Node.js Client.
 :navtitle: Release Notes
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
 
-include::4.0@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::4.1@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
