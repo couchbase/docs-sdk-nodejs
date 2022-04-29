@@ -1,0 +1,66 @@
+= Couchbase Node.js SDK Installation
+:description: Installation instructions for the Couchbase Node.js Client.
+:navtitle: Full Installation
+:page-partial:
+:page-topic-type: project-doc
+:page-toclevels: 2
+
+[abstract]
+{description}
+
+
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, 16.x, and 18.x.
+
+== Installing the SDK
+
+The Couchbase Node.js Client will run on any https://nodejs.org/en/download/[supported LTS version of Node.js].
+
+[source,console]
+----
+$ npm install couchbase --save
+----
+
+Note: This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
+
+
+// MacOS
+// https://issues.couchbase.com/browse/DOC-6367
+// Catalina & node-gyp
+////
+npm install:
+
+gyp: No Xcode or CLT version detected!
+
+https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md#Solutions
+////
+
+
+// end::install[]
+
+Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes].
+
+=== TypeScript Support
+
+NOTE: Follow this section only if you intend to use `TypeScript` instead of `JavaScript`.
+
+Since release 3.2, the Node.js SDK has added full support for the link:https://www.typescriptlang.org/[TypeScript] programming language. 
+
+[source,console]
+----
+$ npm install -g typescript ts-node
+----
+
+This will install TypeScript globally on your machine and allow you to run commands with the `tsc` cli. You will have noticed that we also install link:https://typestrong.org/ts-node/[ts-node] which is a handy execution utility that will help us run the example later on.
+
+Before we can get started, run `tsc --init` in the `node-couchbase-project` directory
+to generate a `tsconfig.json` file. This will set you up with some initial configurations, which should suffice for our purposes. 
+
+Should you wish to make changes in future you can simply edit the file:
+
+[source,json,indent=0]
+----
+include::../examples/example-tsconfig.json[]
+----
+
+Note that the example above does not include the generated comments for readability.
+

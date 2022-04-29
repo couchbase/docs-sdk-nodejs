@@ -2,104 +2,83 @@
 :description: Installing the Couchbase Node.js SDK & a Hello World program.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
+:page-toclevels: 2
+:description: The Couchbase Node.js SDK enables you to interact with a Couchbase Server or Capella cluster from the Node.js runtime, using Typescript or JavaScript.
+
 
 [abstract]
-The Couchbase Node.js SDK enables you to interact with a Couchbase Server cluster from the link:https://nodejs.org/[Node.js runtime].
+{description}
 
 The Couchbase SDK API 3 (implemented by Node.js SDK 3._x_ and 4._x_) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
-
-SDK API 3 also brings in link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises[promises], to reduce the complexity of asynchronous javascript in client applications, as well as extending the management APIs and bringing better debugging and logging options.
 
 Node.js SDK 4._x_ implements the same SDK API 3 bindings, but the internals are completely rewritten -- 
 using the Couchbase++ library rather than libcouchbase -- to allow upcoming new features such as transactions, and fix some long-standing bugs. 
 Please note any xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[caveats] in the migration guide.
 
-// tag::prep[]
-// end::prep[]
 
-// tag::install[]
+== Hello Couchbase
 
-== Creating a New Node.js Project
-// This section is optional
+On this page we show you how to quickly get up and running -- installing the Couchbase Node.js SDK, and trying out the Hello World code example against Couchbase Capella, or against a local Couchbase cluster.
 
-Creating a Node.js project is as easy as making a directory and initializing it with npm. The next two commands will do that for us. Open up a terminal and run the following command:
+We will go through the code sample step by step, but for those in a hurry to see it, here it is:
 
-[source,console]
+[{tabs}] 
+==== 
+Couchbase Capella Sample::
++
+--
+If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
+
+[source,javascript]
 ----
-$ mkdir node-couchbase-project && cd $_
+include::devguide:example$nodejs/cloud.js[tags=**]
 ----
+--
 
-The command above will make our directory and change our current working directory.
-
-[source,console]
+Local Server with TS::
++ 
+-- 
+[source,typescript,indent=0]
 ----
-$ npm init -y
+include::../examples/start-using.ts[tags=**]
 ----
+--
 
-If a directory does not already have a `package.json` at its root, this means it is not initialized. The command above will accomplish this.
-
-Note: We have used the `-y` flag to take the initialization defaults. To change any of these defaults, just open the `package.json` and manually make any changes.
-
-[source,json,indent=0]
+Local Server with JS::
++ 
+-- 
+[source.try-it,nodejs,indent=0]
 ----
-include::../examples/example-package.json[]
+include::../examples/start-using.js[tags=**]
 ----
+--
+====
 
-== Installing the SDK
 
-The Couchbase Node.js Client will run on any https://nodejs.org/en/download/[supported LTS version of Node.js].
+== Quick Installation
 
 [source,console]
 ----
 $ npm install couchbase --save
 ----
 
-Note: This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
+This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
 
-
-// MacOS
-// https://issues.couchbase.com/browse/DOC-6367
-// Catalina & node-gyp
-////
-npm install:
-
-gyp: No Xcode or CLT version detected!
-
-https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md#Solutions
-////
-
-
-// end::install[]
-
-Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes].
+Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes], and a fuller installation guide can be found xref:project-docs:sdk-full-installation.adoc[here].
 
 === TypeScript Support
 
-NOTE: Follow this section only if you intend to use `TypeScript` instead of `JavaScript`.
-
-Since release 3.2, the Node.js SDK has added full support for the link:https://www.typescriptlang.org/[TypeScript] programming language. 
+If you intend to use `TypeScript` instead of `JavaScript`, then also do the following:
 
 [source,console]
 ----
 $ npm install -g typescript ts-node
 ----
 
-This will install TypeScript globally on your machine and allow you to run commands with the `tsc` cli. You will have noticed that we also install link:https://typestrong.org/ts-node/[ts-node] which is a handy execution utility that will help us run the example later on.
-
-Before we can get started, run `tsc --init` in the `node-couchbase-project` directory
-to generate a `tsconfig.json` file. This will set you up with some initial configurations, which should suffice for our purposes. 
-
-Should you wish to make changes in future you can simply edit the file:
-
-[source,json,indent=0]
-----
-include::../examples/example-tsconfig.json[]
-----
-
-Note that the example above does not include the generated comments for readability.
+Further details can be found in the xref:project-docs:sdk-full-installation.adoc[full installation page].
 
 
-== Hello Couchbase
+== Step by Step
 
 At this point we want to transition from the terminal to your code editor of choice and point to the directory we have just created named `node-couchbase-project`.
 
@@ -392,54 +371,20 @@ GetResult {
 ----
 
 
-== Full Example
-
-If you want to copy and paste to run the full example, here it is:
-
-[{tabs}] 
-==== 
-JS::
-+ 
--- 
-[source.try-it,nodejs,indent=0]
-----
-include::../examples/start-using.js[tags=**]
-----
---
-
-TS::
-+ 
--- 
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tags=**]
-----
---
-
-Couchbase Capella Sample::
-+
---
-If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
-
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tags=**]
-----
---
-====
 
 
-== Cloud Connections
+== Next Steps
 
-If you are not working from the same _Availability Zone_ as your Capella instance, refer to the following:
+Now you're up and running, try one of the following:
 
-* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments],
-* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements],
-* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+* Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] against a document database;
+* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language;
+// * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
+// * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
 
-
-
-== Additional Resources
+=== Additional Resources
 
 The API reference is generated for each release and the latest can be found https://docs.couchbase.com/sdk-api/couchbase-node-client/index.html[here].
 
@@ -450,5 +395,14 @@ The xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating from SDK API 2 to
 Couchbase welcomes community contributions to the Node.js SDK.
 The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].
 
-https://ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
-Ottoman's goal is to provide a better development experience while using Couchbase, bringing to developers a reliable tool to build systems that are easy to design, maintain, and scale.
+// https://ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
+// Ottoman's goal is to provide a better development experience while using Couchbase, bringing to developers a reliable tool to build systems that are easy to design, maintain, and scale.
+
+=== Troubleshooting
+
+* Couchbase Server is designed to work in the same WAN or availability zone as the client application.
+If you're running the SDK on your laptop against a Capella cluster, see further information on:
+** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
+** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+* Our https://forums.couchbase.com/c/node-js-sdk/12[community forum] is a great source of help.
