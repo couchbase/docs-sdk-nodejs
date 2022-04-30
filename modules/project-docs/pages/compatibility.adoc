@@ -93,7 +93,7 @@ We intend to support it fully in later versions.
 
 .Couchbase Server and SDK Supported Version Matrix
 [.table-merge-cells]
-[cols="7,5,6,5"]
+[cols="6,4,6,6"]
 |===
 | | Server 6.0 | Server 6.5 & 6.6 | Server 7.0 & 7.1
 
