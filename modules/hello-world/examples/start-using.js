@@ -39,11 +39,11 @@ async function main() {
   console.log('Get Result: ', getResult)
 
   // Create a scoped primary index so we can query data
-  // await cluster.queryIndexes().createPrimaryIndex('travel-sample', {
-  //   scopeName: 'tenant_agent_00',
-  //   collectionName: 'users',
-  //   ignoreIfExists: true,
-  // })
+  await cluster.queryIndexes().createPrimaryIndex('travel-sample', {
+    scopeName: 'tenant_agent_00',
+    collectionName: 'users',
+    ignoreIfExists: true,
+  })
 
   // Perform a N1QL Query
   const queryResult = await bucket

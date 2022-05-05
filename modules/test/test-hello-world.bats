@@ -14,9 +14,9 @@ Get Result:  GetResult {
     email: 'michael123@test.com',
     interests: [ 'Swimming', 'Rowing' ]
   },
-  cas: Cas<1651757450398269440>,
-  expiryTime: undefined
-}
+EOF
+
+  assert_output --partial <<-EOF
 Query Results:
 { name: 'Michael' }
 EOF
@@ -36,9 +36,9 @@ Get Result:  GetResult {
     email: 'michael123@test.com',
     interests: [ 'Swimming', 'Rowing' ]
   },
-  cas: Cas<1651757450398269440>,
-  expiryTime: undefined
-}
+EOF
+
+  assert_output --partial <<-EOF
 Query Results:
 { name: 'Michael' }
 EOF
