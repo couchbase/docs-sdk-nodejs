@@ -1,46 +1,77 @@
+// tag::imports[]
 var couchbase = require('couchbase')
+// end::imports[]
 
-const clusterConnStr =
-  'couchbases://cb.abcdefab-cdef-abcd-efab-cdefabcdef.dp.cloud.couchbase.com'
-const cloudRootCertificate = '/etc/x509-cert/SSLCA/clientdir/trust.pem'
-const username = 'user'
-const password = 'password'
-const bucketName = 'couchbasecloudbucket'
+async function main() {
+  // tag::connect[]
+  const clusterConnStr = 'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
+  const username = 'Administrator'
+  const password = 'Password123!'
+  const bucketName = 'travel-sample'
 
-async function go() {
   const cluster = await couchbase.connect(clusterConnStr, {
     username: username,
     password: password,
-    trustStorePath: cloudRootCertificate,
+    timeouts: {
+      kvTimeout: 10000, // milliseconds
+    },
   })
+  // end::connect[]
 
+  // tag::bucket[]
   const bucket = cluster.bucket(bucketName)
-  const collection = bucket.defaultCollection()
+  // end::bucket[]
 
-  // Create a N1QL Primary Index (but ignore if it exists)
-  await cluster
-    .queryIndexes()
-    .createPrimaryIndex(bucketName, { ignoreExists: true })
+  // tag::default-collection[]
+  // Get a reference to the default collection, required only for older Couchbase server versions
+  const defaultCollection = bucket.defaultCollection()
+  // end::default-collection[]
 
+  // tag::collection[]
+  const collection = bucket.scope('tenant_agent_00').collection('users')
+  // end::collection[]
+
+  // tag::test-doc[]
+  const user = {
+    type: 'user',
+    name: 'Michael',
+    email: 'michael123@test.com',
+    interests: ['Swimming', 'Rowing'],
+  }
+  // end::test-doc[]
+
+  // tag::upsert[]
   // Create and store a document
-  await collection.upsert('user:king_arthur', {
-    name: 'Arthur',
-    email: 'kingarthur@couchbase.com',
-    interests: ['Holy Grail', 'African Swallows'],
-  })
+  await collection.upsert('michael123', user)
+  // end::upsert[]
 
+  // tag::get[]
   // Load the Document and print it
   // Prints Content and Metadata of the stored Document
-  let getResult = await collection.get('user:king_arthur')
-  console.log('got: ', getResult)
+  let getResult = await collection.get('michael123')
+  console.log('Get Result: ', getResult)
+  // end::get[]
 
+  // tag::query[]
   // Perform a N1QL Query
-  let queryResult = await cluster.query(
-    'SELECT name FROM ' + bucketName + ' WHERE $1 in interests LIMIT 1',
-    { parameters: ['African Swallows'] }
-  )
+  const queryResult = await bucket
+    .scope('tenant_agent_00')
+    .query('SELECT name FROM `users` WHERE $1 in interests', {
+      parameters: ['Swimming'],
+    })
+  console.log('Query Results:')
   queryResult.rows.forEach((row) => {
-    console.log('query row: ', row)
+    console.log(row)
   })
+  // end::query[]
 }
-go()
+
+// tag::run-main[]
+// Run the main function
+main()
+  .catch((err) => {
+    console.log('ERR:', err)
+    process.exit(1)
+  })
+  .then(process.exit)
+// end::run-main[]

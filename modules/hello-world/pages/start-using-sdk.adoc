@@ -1,9 +1,8 @@
 = Install and Start Using the Node.js SDK with Couchbase Server
-:description: Installing the Couchbase Node.js SDK & a Hello World program.
+:description: The Couchbase Node.js SDK enables you to interact with a Couchbase Server or Capella cluster from the Node.js runtime, using TypeScript or JavaScript.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
 :page-toclevels: 2
-:description: The Couchbase Node.js SDK enables you to interact with a Couchbase Server or Capella cluster from the Node.js runtime, using Typescript or JavaScript.
 
 
 [abstract]
@@ -24,10 +23,10 @@ We will go through the code sample step by step, but for those in a hurry to see
 
 [{tabs}] 
 ==== 
-Couchbase Capella Sample::
+Couchbase Capella (JavaScript)::
 +
 --
-If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password and bucket name.
 
 [source,javascript]
 ----
@@ -35,25 +34,32 @@ include::devguide:example$nodejs/cloud.js[tags=**]
 ----
 --
 
-Local Server with TS::
+Couchbase Capella (TypeScript)::
 + 
 -- 
-[source,typescript,indent=0]
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password and bucket name.
+
+[source,typescript]
 ----
-include::../examples/start-using.ts[tags=**]
+include::example$cloud.ts[tags=**]
 ----
 --
 
-Local Server with JS::
+Local Couchbase Server::
 + 
--- 
-[source.try-it,nodejs,indent=0]
+--
+As well as the Node.js SDK, and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
+using either the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+
+[source.try-it,nodejs]
 ----
-include::../examples/start-using.js[tags=**]
+include::example$start-using.js[tags=**]
 ----
 --
 ====
 
+The Couchbase Capella free trial version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
 
 == Quick Installation
 
@@ -75,248 +81,317 @@ If you intend to use `TypeScript` instead of `JavaScript`, then also do the foll
 $ npm install -g typescript ts-node
 ----
 
-Further details can be found in the xref:project-docs:sdk-full-installation.adoc[full installation page].
-
-
 == Step by Step
 
-At this point we want to transition from the terminal to your code editor of choice and point to the directory we have just created named `node-couchbase-project`.
+Create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step:
 
-Let's now create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step adding code to enable us to connect to a bucket, add a document and retrieve it using a key-value get operation:
+* Connect to a single node cluster, bucket, and collection
+* Add and retrieve a new document
+* Look up (SQL-type query) the new document by attribute value
+
+=== Prerequisites
+
+Here are all of the imports that you will need to run the sample code.
 
 [{tabs}]
 ====
-JS::
+JavaScript::
 + 
 -- 
-[source,javascript,indent=0]
+[source,javascript]
 ----
-include::../examples/start-using.js[tag=connect]
+include::devguide:example$nodejs/cloud.js[tag=imports,indent=0]
 ----
 --
 
-TS::
+TypeScript::
 + 
 --
-[source,typescript,indent=0]
+[source,typescript]
 ----
-include::../examples/start-using.ts[tag=ts-connect]
+include::example$cloud.ts[tag=ts-imports,indent=0]
 ----
 --
 ====
 
-If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella] rather than a local Couchbase Server, see the <<cloud-connections, Cloud section>>, below.
+Now, create an empty `main()` function.
 
-Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
+[source,javascript,indent=0]
+----
+async function main() {
+  // add code here...
+}
+----
+
+We will update this function as we go along the steps in this guide.
+
+=== Connection
+
+[{tabs}]
+====
+Couchbase Capella (JavaScript)::
++ 
+-- 
+IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
+As of Node.js SDK version 4.1, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=connect,indent=0]
+----
+
+Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
+This role grants full access to a Capella organization, including full data access to all projects and clusters.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+
+For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+--
+
+Couchbase Capella (TypeScript)::
++ 
+--
+IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
+As of Node.js SDK version 4.1, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+
+[source,typescript,indent=0]
+----
+include::example$cloud.ts[tag=ts-connect]
+----
+
+Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
+This role grants full access to a Capella organization, including full data access to all projects and clusters.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+
+For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+--
+
+Local Couchbase Server::
++ 
+--
+[source,javascript]
+----
+include::example$start-using.js[tag=connect,indent=0]
+----
+
+Couchbase uses xref:7.0@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+For the purposes of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
+
 Since we are running this locally, we are using the Couchbase alias for localhost.
+--
+====
+
+Following successful authentication, the bucket can be opened:
 
 [{tabs}]
 ====
-JS::
+JavaScript::
 + 
 --
-[source,javascript,indent=0]
+[source,javascript]
 ----
-include::../examples/start-using.js[tag=bucket]
+include::devguide:example$nodejs/cloud.js[tag=bucket,indent=0]
 ----
 --
 
-TS::
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-bucket,indent=0]
+----
+--
+====
+
+NOTE: We are working with the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket. 
+If you are not, update the `bucketName` variable used in the example with your own.
+
+The Node.js SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
+_Collections_ allow documents to be grouped by purpose or theme, according to a specified _Scope_.
+Here we will use the `users` collection within the `tenant_agent_00` scope from `travel-sample` bucket as an example.
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=collection,indent=0]
+----
+--
+
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-collection,indent=0]
+----
+--
+====
+
+The code shows how you would use a named collection and scope. 
+A named or default collection will provide the same functionality as bucket-level operations did in previous versions of Couchbase Server.
+
+The `defaultCollection` must be used when connecting to a 6.6 cluster or earlier.
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=default-collection,indent=0]
+----
+--
+
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-default-collection,indent=0]
+----
+--
+====
+
+=== Document Addition and Retrieval 
+
+Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `user`.
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=test-doc,indent=0]
+----
+--
+
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-test-doc,indent=0]
+----
+--
+====
+
+xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using `Collection.Upsert()` and `Collection.Get()`.
+Simply pass the key (and value, if applicable) to the relevant methods.
+
+The following code will _upsert_ a document into the database:
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=upsert,indent=0]
+----
+--
+
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-upsert,indent=0]
+----
+--
+====
+
+Now, let's retrieve that document using a key-value operation. 
+The following runs a _get_ for a document key and logs out the result in our console:
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=get,indent=0]
+----
+--
+
+TypeScript::
++ 
+--
+[source,typescript]
+----
+include::example$cloud.ts[tag=ts-get,indent=0]
+----
+--
+====
+
+=== SQL++ Lookup
+
+Couchbase N1QL queries are performed by invoking `Cluster.Query()`.
+
+To query our data, we will need to ensure that an _index_ is created for the `travel-sample`.`tenant_agent_00`.`users` keyspace path.
+If you are following along using the `travel-sample` bucket in Couchbase Capella, run the query below in the xref::cloud:clusters:query-service:query-workbench.adoc#accessing-the-query-workbench[Query Workbench].
+
+NOTE: You can ignore this step if you are not using the `travel-sample` bucket or already have an index created.
+
+[source,console]
+----
+CREATE PRIMARY INDEX ON `default`:`travel-sample`.`tenant_agent_00`.`users`
+----
+
+In the code below we will query Couchbase to retrieve users with a particular interest and print the results.
+
+[{tabs}]
+====
+JavaScript::
++ 
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/cloud.js[tag=query,indent=0]
+----
+--
+
+TypeScript::
 + 
 --
 [source,typescript,indent=0]
 ----
-include::../examples/start-using.ts[tag=ts-bucket]
+include::example$cloud.ts[tag=ts-query,indent=0]
 ----
 --
 ====
 
-If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your _bucket-name_.
-
-The SDK API 3.2 (implemented by Node.js SDK 3.2._x_ and 4._x_) is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of Couchbase Server.
-The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=collection]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-collection]
-----
---
-====
-
-NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=default-collection]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-default-collection]
-----
---
-====
-
-Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=test-doc]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-test-doc]
-----
---
-====
-
-Now we will create a function that will take care of upserting that document. This function is of type `async` and simply awaits the result of the upsert and either logs out the result or error in our console:
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=upsert-func]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-upsert-func]
-----
---
-====
-
-Now, we can simply call the `upsertDocument` function passing in our `airline` document:
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=upsert-invoke]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-upsert-invoke]
-----
---
-====
-
-We can turn around and retrieve that document using a key-value operation. Let's create a function that takes a document key that is of type `async` and awaits the result of the get operation and either logs out the result or error in our console:
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=get-func]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-get-func]
-----
---
-====
-
-KV Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
-
-Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091` and close our `main` function:
-
-[{tabs}]
-====
-JS::
-+ 
---
-[source,javascript,indent=0]
-----
-include::../examples/start-using.js[tag=get-invoke]
-----
---
-
-TS::
-+ 
---
-[source,typescript,indent=0]
-----
-include::../examples/start-using.ts[tag=ts-get-invoke]
-----
---
-====
+=== Execute!
 
 To ensure that we can run the main function, we add this last line of code:
 
 [{tabs}]
 ====
-JS::
+JavaScript::
 + 
 --
-[source,javascript,indent=0]
+[source,javascript]
 ----
-include::../examples/start-using.js[tag=run-main]
+include::devguide:example$nodejs/cloud.js[tag=run-main,indent=0]
 ----
 --
 
-TS::
+TypeScript::
 + 
 --
-[source,typescript,indent=0]
+[source,typescript]
 ----
-include::../examples/start-using.ts[tag=ts-run-main]
+include::example$cloud.ts[tag=ts-run-main,indent=0]
 ----
 --
 ====
@@ -325,7 +400,7 @@ Now we can run our code:
 
 [{tabs}]
 ====
-JS::
+JavaScript::
 + 
 --
 [source,console]
@@ -334,7 +409,7 @@ $ node index.js
 ----
 --
 
-TS::
+TypeScript::
 + 
 --
 [source,console]
@@ -346,32 +421,20 @@ $ ts-node index.ts
 
 The results you should expect are as follows:
 
-[source,bash]
+[source,console]
 ----
-Upsert Result: 
-MutationResult {
-  cas: CbCas { '0': <Buffer 00 00 3e b7 72 65 a0 16> },
-  token: CbMutationToken {
-    '0': <Buffer bf 02 e0 23 a7 4d 00 00 58 00 00 00 00 00 00 00 a9 03 00 00 00 00 00 00 74 72 61 76 65 6c 2d 73 61 6d 70 6c 65 00 00 00 48 54 83 05 01 00 00 00 30 54 ... 230 more bytes>
-  }
-}
-Get Result: 
-GetResult {
+got:  GetResult {
   content: {
-    type: 'airline',
-    id: 8091,
-    callsign: 'CBS',
-    iata: null,
-    icao: null,
-    name: 'Couchbase Airways'
+    type: 'user',
+    name: 'Michael',
+    email: 'michael123@test.com',
+    interests: [ 'Swimming', 'Rowing' ]
   },
-  cas: CbCas { '0': <Buffer 00 00 3e b7 72 65 a0 16> },
+  cas: Cas<1651756567733665792>,
   expiryTime: undefined
 }
+query row:  { name: 'Michael' }
 ----
-
-
-
 
 == Next Steps
 
