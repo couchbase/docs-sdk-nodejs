@@ -58,22 +58,17 @@ load 'test_helper'
 
 @test "[howtos] - search.js" {
     runExample $HOWTOS_DIR search.js
-    # This whole example is going to fail due to the below bug:
-    # https://issues.couchbase.com/browse/JSCBC-1044
-    assert_failure
+    assert_success
 
-    diag "TODO: Uncomment (lines 66-76) when JSCBC-1044 is fixed"
-    # assert_success
+    # Check output for search-query-match[] snippet
+    assert_output --partial "[search-query-match] result count: 5"
 
-    # # Check output for search-query-match[] snippet
-    # assert_output --partial "[search-query-match] result count: 5"
-
-    # # Check output for search-query-matchPhrase[] snippet
-    # assert_output --partial "[search-query-matchPhrase] result count: 4"
-    # assert_output --partial "hotel_11331"
-    # assert_output --partial "hotel_15915"
-    # assert_output --partial "hotel_3606"
-    # assert_output --partial "hotel_28259"
+    # Check output for search-query-matchPhrase[] snippet
+    assert_output --partial "[search-query-matchPhrase] result count: 4"
+    assert_output --partial "hotel_11331"
+    assert_output --partial "hotel_15915"
+    assert_output --partial "hotel_3606"
+    assert_output --partial "hotel_28259"
 
     # Check output for search-query-dateRange[] snippet.
     # https://issues.couchbase.com/browse/JSCBC-942, errors thrown for consistency/consistentWith query options.
