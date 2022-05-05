@@ -1,82 +1,65 @@
-'use strict'
-
-// tag::connect[]
-const couchbase = require('couchbase')
+var couchbase = require('couchbase')
 
 async function main() {
-  const cluster = await couchbase.connect('couchbase://localhost', {
-    username: 'Administrator',
-    password: 'password',
+  // tag::connect[]
+  // For a secure cluster connection, use `couchbases://<your-cluster-ip>` instead.
+  const clusterConnStr = 'couchbase://localhost'
+  // const cloudRootCertificate = '/etc/x509-cert/SSLCA/clientdir/trust.pem'
+  const username = 'Administrator'
+  const password = 'password'
+  const bucketName = 'travel-sample'
+
+  const cluster = await couchbase.connect(clusterConnStr, {
+    username: username,
+    password: password,
+    // Uncomment if you require a secure cluster connection (TSL/SSL).
+    // This is strongly recommended for production use.
+    // trustStorePath: cloudRootCertificate,
   })
   // end::connect[]
 
-  // tag::bucket[]
-  // get a reference to our bucket
-  const bucket = cluster.bucket('travel-sample')
-  // end::bucket[]
+  const bucket = cluster.bucket(bucketName)
 
-  // tag::collection[]
-  // get a reference to a collection
-  const collection = bucket.scope('inventory').collection('airline')
-  // end::collection[]
-
-  // tag::default-collection[]
-  // get a reference to the default collection, required for older Couchbase server versions
+  // Get a reference to the default collection, required only for older Couchbase server versions
   const collection_default = bucket.defaultCollection()
-  // end::default-collection[]
 
-  // tag::test-doc[]
-  const airline = {
-    type: 'airline',
-    id: 8091,
-    callsign: 'CBS',
-    iata: 'IATA',
-    icao: 'ICAO',
-    name: 'Couchbase Airways',
-  }
-  // end::test-doc[]
+  const collection = bucket.scope('tenant_agent_00').collection('users')
 
-  // tag::upsert-func[]
-  const upsertDocument = async (doc) => {
-    try {
-      // key will equal: "airline_8091"
-      const key = `${doc.type}_${doc.id}`
-      const result = await collection.upsert(key, doc)
-      console.log('Upsert Result: ')
-      console.log(result)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  // end::upsert-func[]
+  // Create and store a document
+  await collection.upsert('michael123', {
+    type: 'user',
+    name: 'Michael',
+    email: 'michael123@test.com',
+    interests: ['Swimming', 'Rowing'],
+  })
 
-  // tag::upsert-invoke[]
-  await upsertDocument(airline)
-  // end::upsert-invoke[]
+  // Load the Document and print it
+  // Prints Content and Metadata of the stored Document
+  const getResult = await collection.get('michael123')
+  console.log('Get Result: ', getResult)
 
-  // tag::get-func[]
-  const getAirlineByKey = async (key) => {
-    try {
-      const result = await collection.get(key)
-      console.log('Get Result: ')
-      console.log(result)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  // end::get-func[]
+  // Create a scoped primary index so we can query data
+  // await cluster.queryIndexes().createPrimaryIndex('travel-sample', {
+  //   scopeName: 'tenant_agent_00',
+  //   collectionName: 'users',
+  //   ignoreIfExists: true,
+  // })
 
-  // tag::get-invoke[]
-  await getAirlineByKey('airline_8091')
+  // Perform a N1QL Query
+  const queryResult = await bucket
+    .scope('tenant_agent_00')
+    .query('SELECT name FROM `users` WHERE $1 in interests', {
+      parameters: ['Swimming'],
+    })
+  console.log('Query Results:')
+  queryResult.rows.forEach((row) => {
+    console.log(row)
+  })
 }
-// end::get-invoke[]
 
-// tag::run-main[]
-// Run the main function
 main()
   .catch((err) => {
     console.log('ERR:', err)
     process.exit(1)
   })
   .then(process.exit)
-// end::run-main[]

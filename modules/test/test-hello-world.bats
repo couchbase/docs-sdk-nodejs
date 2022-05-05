@@ -7,32 +7,40 @@ load 'test_helper'
   assert_success
 
   assert_output --partial <<-EOF
-GetResult {
+Get Result:  GetResult {
   content: {
-    type: 'airline',
-    id: 8091,
-    callsign: 'CBS',
-    iata: 'IATA',
-    icao: 'ICAO',
-    name: 'Couchbase Airways'
+    type: 'user',
+    name: 'Michael',
+    email: 'michael123@test.com',
+    interests: [ 'Swimming', 'Rowing' ]
   },
+  cas: Cas<1651757450398269440>,
+  expiryTime: undefined
+}
+Query Results:
+{ name: 'Michael' }
 EOF
 }
 
-@test "[hello-world] - start-using.ts" {
-  runTSExample $HELLO_WORLD_DIR start-using.ts
+@test "[hello-world] - cloud.ts" {
+  skip "Needs a Capella cluster"
+
+  runTSExample $HELLO_WORLD_DIR cloud.ts
   assert_success
 
   assert_output --partial <<-EOF
-GetResult {
+Get Result:  GetResult {
   content: {
-    type: 'airline',
-    id: 8091,
-    callsign: 'CBS',
-    iata: 'IATA',
-    icao: 'ICAO',
-    name: 'Couchbase Airways'
+    type: 'user',
+    name: 'Michael',
+    email: 'michael123@test.com',
+    interests: [ 'Swimming', 'Rowing' ]
   },
+  cas: Cas<1651757450398269440>,
+  expiryTime: undefined
+}
+Query Results:
+{ name: 'Michael' }
 EOF
 }
 
