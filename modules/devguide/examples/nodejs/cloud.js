@@ -11,7 +11,9 @@ async function go() {
   const cluster = await couchbase.connect(clusterConnStr, {
     username: username,
     password: password,
-    trustStorePath: cloudRootCertificate,
+    security: {
+      trustStorePath: cloudRootCertificate,
+    }
   })
 
   const bucket = cluster.bucket(bucketName)
