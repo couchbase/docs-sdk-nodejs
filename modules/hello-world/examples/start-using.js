@@ -4,7 +4,7 @@ async function main() {
   // tag::connect[]
   // For a secure cluster connection, use `couchbases://<your-cluster-ip>` instead.
   const clusterConnStr = 'couchbase://localhost'
-  // const cloudRootCertificate = '/etc/x509-cert/SSLCA/clientdir/trust.pem'
+  const cloudRootCertificate = '/etc/x509-cert/SSLCA/clientdir/trust.pem'
   const username = 'Administrator'
   const password = 'password'
   const bucketName = 'travel-sample'
@@ -14,7 +14,9 @@ async function main() {
     password: password,
     // Uncomment if you require a secure cluster connection (TSL/SSL).
     // This is strongly recommended for production use.
-    // trustStorePath: cloudRootCertificate,
+    // security: {
+    //   trustStorePath: cloudRootCertificate,
+    // },
   })
   // end::connect[]
 
