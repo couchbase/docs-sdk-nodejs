@@ -55,9 +55,9 @@ async function main() {
   // tag::query[]
   // Perform a N1QL Query
   const queryResult = await bucket
-    .scope('tenant_agent_00')
-    .query('SELECT name FROM `users` WHERE $1 in interests', {
-      parameters: ['Swimming'],
+    .scope('inventory')
+    .query('SELECT name FROM `airline` WHERE country=$1 LIMIT 10', {
+      parameters: ['United States'],
     })
   console.log('Query Results:')
   queryResult.rows.forEach((row) => {
