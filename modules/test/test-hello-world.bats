@@ -17,8 +17,16 @@ Get Result:  GetResult {
 EOF
 
   assert_output --partial <<-EOF
-Query Results:
-{ name: 'Michael' }
+{ name: '40-Mile Air' }
+{ name: 'Texas Wings' }
+{ name: 'Atifly' }
+{ name: 'Locair' }
+{ name: 'SeaPort Airlines' }
+{ name: 'Alaska Central Express' }
+{ name: 'AirTran Airways' }
+{ name: 'U.S. Air' }
+{ name: 'PanAm World Airways' }
+{ name: 'Bemidji Airlines' }
 EOF
 }
 
@@ -39,8 +47,16 @@ Get Result:  GetResult {
 EOF
 
   assert_output --partial <<-EOF
-Query Results:
-{ name: 'Michael' }
+{ name: '40-Mile Air' }
+{ name: 'Texas Wings' }
+{ name: 'Atifly' }
+{ name: 'Locair' }
+{ name: 'SeaPort Airlines' }
+{ name: 'Alaska Central Express' }
+{ name: 'AirTran Airways' }
+{ name: 'U.S. Air' }
+{ name: 'PanAm World Airways' }
+{ name: 'Bemidji Airlines' }
 EOF
 }
 
