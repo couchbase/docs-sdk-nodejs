@@ -49,10 +49,10 @@ Local Couchbase Server::
 + 
 --
 As well as the Node.js SDK, and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
-using either the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
-or the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+using either the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
 
-[source.try-it,nodejs]
+[source,nodejs]
 ----
 include::example$start-using.js[tags=**]
 ----
@@ -175,7 +175,7 @@ Local Couchbase Server::
 include::example$start-using.js[tag=connect,indent=0]
 ----
 
-Couchbase uses xref:7.0@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+Couchbase uses xref:7.1@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
 For the purposes of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 
 Since we are running this locally, we are using the Couchbase alias for localhost.
@@ -205,7 +205,7 @@ include::example$cloud.ts[tag=ts-bucket,indent=0]
 --
 ====
 
-NOTE: We are working with the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket. 
+NOTE: We are working with the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket. 
 If you are not, update the `bucketName` variable used in the example with your own.
 
 The Node.js SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
@@ -338,17 +338,7 @@ include::example$cloud.ts[tag=ts-get,indent=0]
 
 Couchbase N1QL queries are performed by invoking `Cluster.Query()`.
 
-To query our data, we will need to ensure that an _index_ is created for the `travel-sample`.`tenant_agent_00`.`users` keyspace path.
-If you are following along using the `travel-sample` bucket in Couchbase Capella, run the query below in the xref::cloud:clusters:query-service:query-workbench.adoc#accessing-the-query-workbench[Query Workbench].
-
-NOTE: You can ignore this step if you are not using the `travel-sample` bucket or already have an index created.
-
-[source,console]
-----
-CREATE PRIMARY INDEX ON `default`:`travel-sample`.`tenant_agent_00`.`users`
-----
-
-In the code below we will query Couchbase to retrieve users with a particular interest and print the results.
+In the code below we will query Couchbase to retrieve airlines by country and print the results.
 
 [{tabs}]
 ====
