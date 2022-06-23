@@ -38,10 +38,14 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 === Fixed Issues
 
-* Updates index naming to include the model's name
-* Sets `options.strict` to true by default
-* Throws a `DocumentNotFound` for documents with a different model
-* Updates regex to ensure a clean index name
+* Updates index naming to include the model's name.
+
+* Sets `options.strict` to true by default.
+
+* Throws a `DocumentNotFound` for documents with a different model.
+
+* Updates regex to ensure a clean index name.
+
 
 == Version 2.2.0 (29 March 2022)
 
