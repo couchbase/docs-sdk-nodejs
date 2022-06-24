@@ -32,19 +32,15 @@ $ npm install ottoman@2.2.1
 
 https://ottomanjs.com/#installation[Ottoman installation]
 
-=== New Features
-
-* None
-
 === Fixed Issues
 
-* Updates index naming to include the model's name.
+* Updated index naming to include the model's name.
 
-* Sets `options.strict` to true by default.
+* `options.strict` is now set to true by default.
 
-* Throws a `DocumentNotFound` for documents with a different model.
+* A `DocumentNotFound` error is thrown for documents with a different model.
 
-* Updates regex to ensure a clean index name.
+* Updated regex to ensure a clean index name.
 
 
 == Version 2.2.0 (29 March 2022)
