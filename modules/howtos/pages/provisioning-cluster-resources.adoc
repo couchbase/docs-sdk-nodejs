@@ -217,3 +217,48 @@ Which one you use depends on the type of query index you wish to drop from the d
 ----
 include::howtos:example$query-index-manager.js[tag=drop-primary-or-secondary-index,indent=0]
 ----
+
+== Views Management
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+
+In the SDK, design documents are represented by the `DesignDocument` and `View` classes.
+All operations on design documents are performed on the `ViewIndexManager` instance:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=creating-index-mgr]
+----
+
+The following example upserts a design document with two views:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=create-view]
+----
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+
+Note the use of `dev_` in the design document name.
+This specifies whether the design document should be created as development, or as production -- with the former running over only a small fraction of the documents.
+
+Now that we've created a design document we can fetch it:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=get-view]
+----
+
+We've created the design document using `dev_` and now want to push it to production, we can do this with:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=publish-view]
+----
+
+To remove this design document:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=drop-view]
+----
