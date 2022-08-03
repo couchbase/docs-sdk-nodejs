@@ -1,10 +1,10 @@
-var couchbase = require('couchbase')
+const couchbase = require('couchbase')
 
 async function main() {
   // tag::connect[]
   // For a secure cluster connection, use `couchbases://<your-cluster-ip>` instead.
   const clusterConnStr = 'couchbase://localhost'
-  // const cloudRootCertificate = '/etc/x509-cert/SSLCA/clientdir/trust.pem'
+  const certificate = '/cert/path/cert.pem'
   const username = 'Administrator'
   const password = 'password'
   const bucketName = 'travel-sample'
@@ -14,7 +14,9 @@ async function main() {
     password: password,
     // Uncomment if you require a secure cluster connection (TSL/SSL).
     // This is strongly recommended for production use.
-    // trustStorePath: cloudRootCertificate,
+    // security: {
+    //   trustStorePath: certificate,
+    // },
   })
   // end::connect[]
 
@@ -38,18 +40,11 @@ async function main() {
   const getResult = await collection.get('michael123')
   console.log('Get Result: ', getResult)
 
-  // Create a scoped primary index so we can query data
-  await cluster.queryIndexes().createPrimaryIndex('travel-sample', {
-    scopeName: 'tenant_agent_00',
-    collectionName: 'users',
-    ignoreIfExists: true,
-  })
-
   // Perform a N1QL Query
   const queryResult = await bucket
-    .scope('tenant_agent_00')
-    .query('SELECT name FROM `users` WHERE $1 in interests', {
-      parameters: ['Swimming'],
+    .scope('inventory')
+    .query('SELECT name FROM `airline` WHERE country=$1 LIMIT 10', {
+      parameters: ['United States'],
     })
   console.log('Query Results:')
   queryResult.rows.forEach((row) => {

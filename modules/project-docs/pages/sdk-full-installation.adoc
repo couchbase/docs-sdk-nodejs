@@ -9,7 +9,7 @@
 {description}
 
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, 16.x, and 18.x.
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, and 16.x.
 
 == Installing the SDK
 

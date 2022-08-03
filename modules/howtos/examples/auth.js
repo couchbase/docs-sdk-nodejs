@@ -56,7 +56,9 @@ async function go() {
         '/path/to/client/certificate.pem',
         '/path/to/client/key.pem'
       ),
-      trustStorePath: '/path/to/ca/certificates.pem',
+      security: {
+        trustStorePath: '/path/to/ca/certificates.pem',
+      }
     })
     // end::cert-auth[]
   } catch (e) {

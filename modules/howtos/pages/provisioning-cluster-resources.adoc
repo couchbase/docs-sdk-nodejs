@@ -2,6 +2,20 @@
 :description: Provisioning cluster resources is managed at the collection or bucket level, depending upon the service affected.
 :navtitle: Provisioning Cluster Resources
 :page-aliases: ROOT:managing-clusters
+:page-toclevels: 2
+
+// API refs
+:bucket-api-reference: pass:q[BucketManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#buckets[`Cluster.buckets()`]]
+:user-api-reference: pass:q[UserManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#users[`Cluster.users()`]]
+:query-api-reference: pass:q[QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#queryIndexes[`Cluster.queryIndexes()`]]
+:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#analyticsIndexes[`Cluster.analyticsIndexes()`]]
+:search-api-reference: pass:q[SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#searchIndexes[`Cluster.searchIndexes()`]]
+:collection-api-reference: pass:q[CollectionManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Bucket.html#collections[`Bucket.collections()`]]
+:view-api-reference: pass:q[ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Bucket.html#viewIndexes[`Bucket.viewIndexes()`]]
+
+// one-view-update-warning common partial
+:upsertDesignDocument: pass:q[`upsertDesignDocument` method]
+:getDesignDocument: pass:q[`getDesignDocument`]
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -13,21 +27,20 @@ include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=management
 
 The Node.js SDK also comes with some convenience functionality for common Couchbase management requests.
 
-
 Management operations in the SDK may be performed through several interfaces depending on the object:
 
-* BucketManager -- `Cluster.buckets()`
-* UserManager -- `Cluster.users()`
-* QueryIndexManager -- `Cluster.queryIndexes()`
-* AnalyticsIndexManager -- `Cluster.analyticsIndexes()`
-* SearchIndexManager -- `Cluster.searchIndexes()`
-* CollectionManager -- `Bucket.collections()`
-* ViewIndexManager -- `Bucket.viewIndexes()`.
+* {bucket-api-reference}
+* {user-api-reference}
+* {query-api-reference}
+* {analytics-api-reference}
+* {search-api-reference}
+* {collection-api-reference}
+* {view-api-reference}
 
 NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `cluster.bucket(name)` before you can use cluster level managers.
 
 
-== Creating and Removing Buckets
+== Bucket Management
 
 The `BucketManager` interface may be used to create and delete buckets from the Couchbase cluster.
 It is instantiated through the `Cluster.buckets()` method.
@@ -47,7 +60,7 @@ Here is the list of parameters available:
 |====
 | Name | Description | Can be updated
 | `name string` | The name of the bucket, required for creation. | false
-| `flushEnabled boolean` | Enables flushing to be performed on this bucket (see the <<flushing>> section below). | true
+| `flushEnabled boolean` | Enables flushing to be performed on this bucket (see the <<Flushing Buckets>> section below). | true
 | `replicaIndex boolean` | Whether or not to replicate indexes. | false
 | `ramQuotaMB uint64` | How much memory should each node use for the bucket, required for creation. | true
 | `numReplicas uint32` | The number of replicas to use for the bucket. | true
@@ -79,8 +92,7 @@ include::example$provisioning.js[tag=remove-bucket,indent=0]
 ----
 
 
-[#flushing]
-== Flushing Buckets
+=== Flushing Buckets
 
 include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
@@ -97,7 +109,7 @@ The `flush` operation may fail if the bucket does not have flush enabled, in tha
 
 == Collection Management
 
-The https://docs.couchbase.com/sdk-api/couchbase-node-client/CollectionManager.html[`CollectionManager`] interface may be used to create and delete scopes from the Couchbase cluster.
+The https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/CollectionManager.html[`CollectionManager`] interface may be used to create and delete scopes from the Couchbase cluster.
 It is instantiated through the `Bucket.collections()` method.
 
 [source,javascript]
@@ -143,10 +155,110 @@ include::example$collection-manager.js[tag=scopeAdmin,indent=0]
 
 == Index Management
 
-In general, you will rarely need to work with Index Managers from the SDK.
-For those occasions when you do, please see the relevant API docs:
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=index-management-intro]
 
-* QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/QueryIndexManager.html[`Cluster.queryIndexes()`];
-* AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/AnalyticsIndexManager.html[`Cluster.analyticsIndexes()`];
-* SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/SearchIndexManager.html[`Cluster.searchIndexes()`];
-* ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-node-client/ViewIndexManager.html[`Bucket.viewIndexes()`].
+=== QueryIndexManager
+
+The `QueryIndexManager` interface contains the means for managing indexes used for queries.
+It can be instantiated through the `Cluster.queryIndexes()` method.
+
+[source,javascript]
+----
+include::howtos:example$query-index-manager.js[tag=creating-index-mgr,indent=0]
+----
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
+
+The example below shows how to create a simple primary index, restricted to a named scope and collection, by calling the `createPrimaryIndex()` method.
+Note that you cannot provide a named scope or collection separately, both must be set for the `QueryIndexManager` to create an index on the relevant keyspace path.
+
+.Creating a primary index
+
+[source,javascript]
+----
+include::howtos:example$query-index-manager.js[tag=primary,indent=0]
+----
+
+When a primary index name is not specified, the SDK will create the index as `#primary` by default.
+However, if you wish to provide a custom name, you can simply set an `indexName` property in the `CreatePrimaryQueryIndexOptions` class.
+
+You may have noticed that the example also sets the `ignoreIfExists` boolean flag.
+When set to `true`, this optional argument ensures that an error is not thrown if an index under the same name already exists.
+
+Creating a _secondary_ index follows a similar approach, with some minor differences:
+
+.Creating a secondary index
+
+[source,javascript]
+----
+include::howtos:example$query-index-manager.js[tag=secondary,indent=0]
+----
+
+The `createIndex()` method requires an index name to be provided, along with the fields to create the index on.
+Like the _primary_ index, you can restrict a _secondary_ index to a named scope and collection by passing some options.
+
+Indexes can easily take a long time to build if they contain a lot of documents.
+In these situations, it is more ideal to build indexes in the background.
+To achieve this we can use the `deferred` boolean option, and set it to `true`.
+
+.Deferring index creation
+
+[source,javascript]
+----
+include::howtos:example$query-index-manager.js[tag=defer-indexes,indent=0]
+----
+
+To delete a query index you can use the `dropIndex()` or `dropPrimaryIndex()` methods.
+Which one you use depends on the type of query index you wish to drop from the database.
+
+.Deleting an index
+
+[source,javascript]
+----
+include::howtos:example$query-index-manager.js[tag=drop-primary-or-secondary-index,indent=0]
+----
+
+== Views Management
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+
+In the SDK, design documents are represented by the `DesignDocument` and `View` classes.
+All operations on design documents are performed on the `ViewIndexManager` instance:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=creating-index-mgr]
+----
+
+The following example upserts a design document with two views:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=create-view]
+----
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+
+Note the use of `dev_` in the design document name.
+This specifies whether the design document should be created as development, or as production -- with the former running over only a small fraction of the documents.
+
+Now that we've created a design document we can fetch it:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=get-view]
+----
+
+We've created the design document using `dev_` and now want to push it to production, we can do this with:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=publish-view]
+----
+
+To remove this design document:
+
+[source,javascript]
+----
+include::howtos:example$provisioning-resources-views.js[tag=drop-view]
+----

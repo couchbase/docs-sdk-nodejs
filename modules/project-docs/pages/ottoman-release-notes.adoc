@@ -20,6 +20,29 @@ We intend to fully support it with the next 4.1 release.
 In the meantime, if you are interested in checking out Ottoman, 
 please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman for Node.js SDK 3.2] page.
 
+== Version 2.2.1 (22 June 2022)
+
+Version 2.2.1 is a patch release of the Ottoman ODM.
+This release adds minor fixes, and a number of dependency upgrades.
+
+[source,console]
+----
+$ npm install ottoman@2.2.1
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* Updated index naming to include the model's name.
+
+* `options.strict` is now set to true by default.
+
+* A `DocumentNotFound` error is thrown for documents with a different model.
+
+* Updated regex to ensure a clean index name.
+
+
 == Version 2.2.0 (29 March 2022)
 
 Version 2.2.0 is a minor release of the Ottoman ODM. 
