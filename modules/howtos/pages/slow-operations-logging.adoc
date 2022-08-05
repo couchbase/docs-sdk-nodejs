@@ -10,6 +10,8 @@ Change the settings to alter how much information you collect
 WARNING: the Logging implementation has changed substantially in 4.0 and is not currently fully documented.
 This will be resolved in a future 4.x release.
 
+
+////
 To improve debuggability certain metrics are automatically measured and logged.
 These include slow queries, responses taking beyond a certain threshold, and orphaned responses.
 
@@ -154,6 +156,7 @@ Each entry looks like this, with all fields populated:
 If a field is not present (because for example dispatch did not happen), it will not be included.
 
 
+////
 
 == Orphaned Response Reporting
 
