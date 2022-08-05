@@ -24,6 +24,45 @@ For example, to install version 3.2.4:
 $ npm install couchbase@3.2.4
 ----
 
+
+== Version 4.1.2 (4 August 2022)
+ 
+Version 4.1.2 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.2
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.2/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-1088[JSCBC-1088]:
+Switched to using NAPI prebuilds rather than Node.js version specific prebuilds.  This
+enables prebuild compatibility with a wider range of Node.js versions, including Node.js
+18 and in-development versions such as Node.js 19.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1092[JSCBC-1092]:
+Fixed queries being executed as prepared instead of adhoc by default.
+* http://issues.couchbase.com/browse/JSCBC-1054[JSCBC-1054]:
+Fixed issue with UTF-8 handling of binary documents.
+* Updated to latest dependencies.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
+
 == Version 4.1.1 (13 June 2022)
  
 Version 4.1.1 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
@@ -64,7 +103,7 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.0/[API Reference]
 
 === New Features
 
-* * http://issues.couchbase.com/browse/JSCBC-956[JSCBC-956]: Added ability to manage collection query indexes. 
+* http://issues.couchbase.com/browse/JSCBC-956[JSCBC-956]: Added ability to manage collection query indexes. 
  
 === Fixed Issues
 
