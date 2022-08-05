@@ -24,6 +24,7 @@ For example, to install version 3.2.4:
 $ npm install couchbase@3.2.4
 ----
 
+
 == Version 4.1.2 (4 August 2022)
  
 Version 4.1.2 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
