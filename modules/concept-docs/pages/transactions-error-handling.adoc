@@ -1,5 +1,5 @@
 = Error Handling
-:description:  Handling transaction errors with Couchbase.
+:description: Handling transaction errors with Couchbase.
 :page-toclevels: 2
 :page-pagination: prev
 
