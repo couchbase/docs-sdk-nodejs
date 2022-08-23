@@ -3,6 +3,7 @@
 :navtitle: Release Notes
 :page-topic-type: project-doc
 
+// tag::all[]
 [abstract]
 {description}
 
@@ -149,3 +150,4 @@ https://ottomanjs.com/#installation[Ottoman page]
 * Added api documentation for namespace.
 
 * Update FAQ page.
+// tag::end[]
