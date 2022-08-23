@@ -3,5 +3,6 @@
 :navtitle: Release Notes
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
+:page-partial:
 
 include::4.1@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
