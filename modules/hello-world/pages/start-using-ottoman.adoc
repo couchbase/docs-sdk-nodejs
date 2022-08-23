@@ -75,8 +75,8 @@ Before installing Ottoman, you will need to ensure that you meet the minimum req
 | *^6.5.0*
 |===
 
-WARNING: Node.js SDK 4.0 is currently not supported by the Ottoman ODM.
-We intend to support version 4.1 of the Node.js SDK in a future Ottoman release.
+WARNING: Node.js SDK 4.x is currently not supported by the Ottoman ODM.
+We intend to support version 4.x of the Node.js SDK in a future Ottoman release.
 
 == Installing the Ottoman ODM
 
