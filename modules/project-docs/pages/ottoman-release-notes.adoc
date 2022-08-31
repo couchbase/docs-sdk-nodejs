@@ -3,6 +3,7 @@
 :navtitle: Release Notes
 :page-topic-type: project-doc
 
+// tag::all[]
 [abstract]
 {description}
 
@@ -14,11 +15,12 @@ The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS 
 
 == Support in Node.js SDK 4.0
 
-Ottoman is currently *not supported* in Node.js SDK 4.0.
-We intend to fully support it with the next 4.1 release.
+Ottoman is currently *not supported* in Node.js SDK 4.0 & 4.1.
+We intend to fully support it with the next 4.2 release.
 
 In the meantime, if you are interested in checking out Ottoman, 
 please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman for Node.js SDK 3.2] page.
+
 
 == Version 2.2.1 (22 June 2022)
 
@@ -148,3 +150,4 @@ https://ottomanjs.com/#installation[Ottoman page]
 * Added api documentation for namespace.
 
 * Update FAQ page.
+// tag::end[]
