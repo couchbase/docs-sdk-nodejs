@@ -11,7 +11,9 @@ import {
   Scope,
   TransactionCommitAmbiguousError,
   TransactionFailedError,
-  TransactionQueryOptions
+  TransactionGetResult,
+  TransactionQueryOptions,
+  TransactionQueryResult
 } from 'couchbase'
 
 async function main() {
@@ -81,6 +83,15 @@ async function main() {
     }
   }
   // end::create[]
+
+  // tag::create-simple[]
+  await cluster.transactions().run(async (ctx) => {
+    ctx.insert(collection, 'doc1', { hello: 'world' })
+
+    const doc2 = await ctx.get(collection, "doc2")
+    await ctx.replace(doc2, { foo: "bar" })
+  })
+  // end::create-simple[]
 
   // tag::examples[]
   const inventory = cluster.bucket('travel-sample').scope('inventory')
@@ -179,13 +190,13 @@ async function getScope() {
 }
 
 async function replace() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
   // tag::replace[]
   cluster.transactions().run(async ctx => {
-    const doc = await ctx.get(collection, "doc-id")
-    const content = doc.content
-    const newContent = {
+    const doc: TransactionGetResult = await ctx.get(collection, "doc-id")
+    const content: any = doc.content
+    const newContent: any = {
       transactions: "are awesome",
       ...content,
     }
@@ -195,54 +206,53 @@ async function replace() {
 }
 
 async function remove() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
   // tag::remove[]
-  cluster.transactions().run(async ctx => {
-    const doc = await ctx.get(collection, "doc-id")
+  cluster.transactions().run(async (ctx) => {
+    const doc: TransactionGetResult = await ctx.get(collection, 'doc-id')
     await ctx.remove(doc)
   })
   // end::remove[]
 }
 
 async function insert() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
   // tag::insert[]
-  cluster.transactions().run(async ctx => {
-    await ctx.insert(collection, "docId", {})
+  cluster.transactions().run(async (ctx) => {
+    await ctx.insert(collection, 'docId', {})
   })
   // end::insert[]
 }
 
 async function get() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
   // tag::get[]
-  await cluster.transactions().run(async ctx => {
-    const aDoc = await ctx.get(collection, "a-doc")
+  await cluster.transactions().run(async (ctx) => {
+    const aDoc: TransactionGetResult = await ctx.get(collection, 'a-doc')
   })
   // end::get[]
   // TODO: should this show nullable/optional in an example?
 }
 
 async function getReadOwnWrites() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
   // tag::getReadOwnWrites[]
-  await cluster.transactions().run(async ctx => {
-    const docId = "docId"
+  await cluster.transactions().run(async (ctx) => {
+    const docId: string = 'docId'
 
     await ctx.insert(collection, docId, {})
 
-    const doc = await ctx.get(collection, docId)
+    const doc: TransactionGetResult = await ctx.get(collection, docId)
   })
   // end::getReadOwnWrites[]
 }
 
 async function queryExamples() {
   let cluster = await getCluster()
-  let collection = await getCollection()
   let inventory = await getScope()
 
   // tag::queryExamplesSelect[]
@@ -260,8 +270,8 @@ async function queryExamples() {
 
   // tag::queryExamplesSelectScope[]
   cluster.transactions().run(async (ctx) => {
-    const st = 'SELECT * FROM hotel WHERE country = $1'
-    const qr = await ctx.query(st, {
+    const st: string = 'SELECT * FROM hotel WHERE country = $1'
+    const qr: TransactionQueryResult = await ctx.query(st, {
       scope: inventory,
       parameters: ['United Kingdom'],
     })
@@ -272,10 +282,10 @@ async function queryExamples() {
   // end::queryExamplesSelectScope[]
 
   // tag::queryExamplesUpdate[]
-  const hotelChain = 'http://marriot%'
-  const country = 'United States'
+  const hotelChain: string = 'http://marriot%'
+  const country: string = 'United States'
   cluster.transactions().run(async (ctx) => {
-    const qr = await ctx.query(
+    const qr: TransactionQueryResult = await ctx.query(
       'UPDATE hotel SET price = $1 WHERE url LIKE $2 AND country = $3',
       {
         scope: inventory,
@@ -291,7 +301,7 @@ async function queryExamples() {
   // tag::queryExamplesComplex[]
   cluster.transactions().run(async (ctx) => {
     // Find all hotels of the chain
-    const qr = await ctx.query(
+    const qr: TransactionQueryResult = await ctx.query(
       'SELECT reviews FROM hotel WHERE url LIKE $1 AND country = $2',
       {
         parameters: [hotelChain, country],
@@ -316,42 +326,38 @@ async function queryExamples() {
 }
 
 async function queryInsert() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
+  let cluster: Cluster = await getCluster()
   // tag::queryInsert[]
   cluster.transactions().run(async (ctx) => {
     ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})") // <1>
-    const st = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
-    const qr = await ctx.query(st)
+    const st: string = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
+    const qr: TransactionQueryResult = await ctx.query(st)
   })
   // end::queryInsert[]
 }
 
 async function queryRyow() {
-  let cluster = await getCluster()
-  let collection = await getCollection()
-  let inventory = await getScope()
+  let cluster: Cluster = await getCluster()
+  let collection: Collection = await getCollection()
+  let inventory: Scope = await getScope()
 
-  // const qr = await cluster.query("UPDATE inventory SET price = 99.00 WHERE name LIKE \"Marriott%\"", {scope:inventory, transactional: true})
-  // if (qr.meta.metrics?.mutationCount != 1) {
-  //   throw new Error("Should have modified one.");
-
-  // }
   // tag::queryRyow[]
   cluster.transactions().run(async (ctx) => {
-    const qr = await ctx.query("UPDATE inventory SET price = 99.00 WHERE name LIKE \"Marriott%\"",
-      { scope: inventory }
+    await ctx.insert(collection, 'doc', { hello: 'world' }) // <1>
+
+    // Performing a 'Read Your Own Write'
+    const qr = await ctx.query(
+      "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
     )
     if (qr.meta.metrics?.resultCount != 1) {
       throw new Error('Mutation count not the expected amount.')
     }
   })
-// end::queryRyow[]
+  // end::queryRyow[]
 }
 
-
 async function queryOptions() {
-  let cluster = await getCluster()
+  let cluster: Cluster = await getCluster()
   // tag::queryOptions[]
   const txQo: TransactionQueryOptions = { profile: QueryProfileMode.Timings }
   cluster.transactions().run(async (ctx) => {
@@ -495,17 +501,18 @@ async function querySingleConfigured() {
 
     const costOfItem = 10;
 
-    // tag::rollback[]
-    cluster.transactions().run(async (ctx) => {
-      const customer = await ctx.get(collection, "customer-name");
+  // tag::rollback[]
+  cluster.transactions().run(async (ctx) => {
+    const customer = await ctx.get(collection, 'customer-name')
 
-        if (customer.content.balance < costOfItem) {
-            throw new Error("Transaction failed, customer does not have enough funds.");
-
-        }
-        // else continue transaction
-    });
-    // end::rollback[]
+    if (customer.content.balance < costOfItem) {
+      throw new Error(
+        'Transaction failed, customer does not have enough funds.'
+      )
+    }
+    // else continue transaction
+  })
+  // end::rollback[]
 }
 
 class InsufficientBalanceError extends Error {}
@@ -517,7 +524,6 @@ async function rollbackCause() {
   const costOfItem = 10
 
   // tag::rollback-cause[]
-
   try {
     cluster.transactions().run(async (ctx) => {
       const customer = await ctx.get(collection, 'customer-name')

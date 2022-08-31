@@ -1,0 +1,62 @@
+= Distributed ACID Transactions
+:description:  A high-level overview of Distributed ACID Transactions with Couchbase.
+:page-toclevels: 2
+:page-pagination: next
+
+include::project-docs:partial$attributes.adoc[]
+include::howtos:partial$acid-transactions-attributes.adoc[]
+
+[abstract]
+{description}
+
+For a practical guide, see xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Distributed ACID Transactions from the Node.js SDK].
+
+== Overview
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
+
+== Transaction Mechanics
+
+[source,typescript]
+----
+include::howtos:example$transactions-example.ts[tag=create-simple,indent=0]
+----
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
+
+== Rollback
+
+If an exception is thrown, either by the application from the lambda, or by the transaction internally, then that attempt is rolled back.
+The transaction logic may or may not be retried, depending on the exception.
+
+If the transaction is not retried then it will throw an exception, and its `error` will contain details on the failure.
+In Typescript, you may branch your error handling based on `instanceof` with one of `{transaction-failed}`, `{transaction-expired}` or `{transaction-commit-ambiguous}`.
+
+The application can use this to signal why it triggered a rollback, as so:
+
+[source,typescript]
+----
+include::howtos:example$transactions-example.ts[tag=rollback-cause,indent=0]
+----
+
+After a transaction is rolled back, it cannot be committed, no further operations are allowed on it, and the system will not try to automatically commit it at the end of the code block.
+
+== Transaction Operations
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=query;!library-begin-transaction]
+
+== Concurrency with Non-Transactional Writes
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
+
+// TODO: uncomment once custom metadata collections are supported
+//== Custom Metadata Collections
+
+// include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
+
+//[source,java]
+//----
+//include::example$TransactionsExample.java[tag=custom-metadata,indent=0]
+//----
+
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-2]

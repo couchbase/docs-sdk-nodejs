@@ -19,5 +19,8 @@
 :transaction-failed: TransactionFailedError
 :transaction-expired: TransactionExpiredError
 :transaction-config: TransactionsConfig
-:transaction-commit-ambiguous: TransactionCommitAmbiguous
+:transaction-commit-ambiguous: TransactionCommitAmbiguousError
 :txnfailed-unstaging-complete: TransactionResult.unstagingComplete
+
+:lambda: arrow function
+:intro-lambda: pass:q[an `arrow function`]
