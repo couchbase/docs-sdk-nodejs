@@ -7,20 +7,22 @@ const ottoman = new Ottoman()
 
 async function main() {
   // tag::connect[]
-  var connection = await ottoman.connect({
-    connectionString: 'couchbase://localhost',
-    bucketName: 'travel-sample',
-    username: 'Administrator',
-    password: 'password',
+  // Replace the following connection details with your own
+  const endpoint = 'cb.<your-endpoint>.cloud.couchbase.com'
+  const cloudRootCertificate = './cert.pem'
+  const username = 'username'
+  const password = 'Password1!'
+  const bucketName = 'travel-sample'
+
+  const connection = await ottoman.connect({
+    connectionString: `couchbases://${endpoint}`,
+    username: username,
+    password: password,
+    bucketName: bucketName,
+    trustStorePath: cloudRootCertificate,
+    kvTimeout: 10000, // milliseconds
   })
   // end::connect[]
-
-  // tag::alt-connect[]
-  // Alternate connect syntax
-  connection = await ottoman.connect(
-    'couchbase://localhost/travel-sample@Administrator:password'
-  )
-  // end::alt-connect[]
 
   // tag::schema[]
   const airlineSchema = new Schema({

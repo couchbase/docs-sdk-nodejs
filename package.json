@@ -7,7 +7,7 @@
     "csv": "^6.0.4",
     "event-stream": "^4.0.1",
     "joi": "^14.3.1",
-    "ottoman": "^2.0.0",
+    "ottoman": "^2.2.1",
     "stream-json": "^1.7.3",
     "uuid": "^3.3.3"
   },

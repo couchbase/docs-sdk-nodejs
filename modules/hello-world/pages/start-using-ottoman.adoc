@@ -1,6 +1,7 @@
 = Install and Start Using the Ottoman ODM with Couchbase Server
 :description: Installing the Ottoman ODM & a Hello World program.
 :navtitle: Start Using the Ottoman ODM
+:page-toclevels: 2
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -78,6 +79,12 @@ Before installing Ottoman, you will need to ensure that you meet the minimum req
 WARNING: Node.js SDK 4.x is currently not supported by the Ottoman ODM.
 We intend to support version 4.x of the Node.js SDK in a future Ottoman release.
 
+=== Couchbase Capella
+
+Since Ottoman ODM uses `Node.js SDK 3.2.x` internally, it is fully compatible with xref:cloud::index.adoc[Couchbase Capella], our fully-hosted database-as-a-service.
+
+include::{version-server}@sdk:shared:partial$capella.adoc[tag=cloud]
+
 == Installing the Ottoman ODM
 
 [source,console]
@@ -109,8 +116,40 @@ async function main() {
 }
 ----
 
-Now, let's create a connection to our Couchbase Server.
+Now, let's create a connection to our database.
 
+[{tabs}]
+====
+Couchbase Capella::
++
+--
+To connect to Couchbase Capella, be sure to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+Capella requires mandatory use of TLS (Transport Layer Security), therefore a security certificate must be provided when connecting.
+
+If you don't already have your security certificate, you can download it from the Capella UI:
+
+. Go to the "Clusters" section, in the left hand navigation.
+. Click on the relevant cluster.
+. Select the "Connect" tab and scroll down to the "Security Certificate" section.
+. Download the "Root Certificate".
+
+[source,javascript]
+----
+include::hello-world:example$start-using-ottoman-cloud.js[tag=connect]
+----
+
+TIP: If your application is running in a xref:ref:client-settings.adoc#constrained-network-environments[constrained network environment] (such as your laptop), you may experience timeout issues.
+To mitigate this, you can tweak your connection settings to account for any latency or bandwidth issues that may arise.
+
+Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
+This role grants full access to a Capella organization, including full data access to all projects and clusters.
+In a production scenario, we _strongly recommend_ setting up users with more granular access roles as a best practice.
+--
+
+Local Couchbase Server::
++
+--
 [source,javascript,indent=0]
 ----
 include::../examples/start-using-ottoman.js[tag=connect]
@@ -124,10 +163,10 @@ include::../examples/start-using-ottoman.js[tag=alt-connect]
 ----
 
 Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-Here we will use the _Full Admin_ role created during installation of the Couchbase Data Platform.
-For production client code, you will want to use more appropriate, restrictive settings -- but here we want to get you up and running quickly.
+For the purposes of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 
 Since we are running this locally, we will use the Couchbase alias for localhost.
+====
 
 NOTE: If you are not working with the `travel-sample` data bucket, substitute _travel-sample_ with your bucket name.
 
@@ -229,10 +268,26 @@ Query Result:  [
 
 If you want to copy and paste to run the full example, here it is:
 
-[source,nodejs,indent=0]
+[{tabs}]
+====
+Couchbase Capella::
++
+--
+[source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tags=**]
+include::example$start-using-ottoman-cloud.js[tags=**]
 ----
+--
+
+Local Couchbase Server::
++
+--
+[source,javascript]
+----
+include::example$start-using-ottoman.js[tags=**]
+----
+--
+====
 
 == Additional Resources
 
