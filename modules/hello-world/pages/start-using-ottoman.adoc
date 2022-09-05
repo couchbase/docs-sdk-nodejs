@@ -138,7 +138,7 @@ If you don't already have your security certificate, you can download it from th
 include::hello-world:example$start-using-ottoman-cloud.js[tag=connect]
 ----
 
-TIP: If your application is running in a xref:ref:client-settings.adoc#constrained-network-environments[constrained network environment] (i.e., your laptop), you may experience timeout issues.
+TIP: If your application is running in a xref:ref:client-settings.adoc#constrained-network-environments[constrained network environment] (such as your laptop), you may experience timeout issues.
 To mitigate this, you can tweak your connection settings to account for any latency or bandwidth issues that may arise.
 
 Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
