@@ -103,7 +103,7 @@ First, import Ottoman in your new `index.js` file:
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tag=import]
+include::../examples/start-using-ottoman-cloud.js[tag=import]
 ----
 
 For the purposes of this example we will create an async function called `main` under our imports. 
@@ -182,14 +182,14 @@ First, we'll define a schema to represent the shape of our data:
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tag=schema]
+include::../examples/start-using-ottoman-cloud.js[tag=schema]
 ----
 
 Now, we call the `model()` constructor to build the model based on the schema we just created.
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tag=model]
+include::../examples/start-using-ottoman-cloud.js[tag=model]
 ----
 
 Notice that the constructor takes arguments like the collection `name`, `schema`, and `model options`. 
@@ -201,21 +201,21 @@ This will ensure that the relevant scopes, collections, and indexes have been cr
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tags=start]
+include::../examples/start-using-ottoman-cloud.js[tags=start]
 ----
 
 To persist the data in Couchbase we will need to create a _Document_  object and subsequently call the `save()` function:
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tags=save]
+include::../examples/start-using-ottoman-cloud.js[tags=save]
 ----
 
 Alternatively, we can also use the `create()` function to create and save the document:
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tag=alt-save]
+include::../examples/start-using-ottoman-cloud.js[tag=alt-save]
 ----
 
 === Querying Documents 
@@ -228,14 +228,14 @@ For this example, let's retrieve one of the airline documents we saved previousl
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tags=find]
+include::../examples/start-using-ottoman-cloud.js[tags=find]
 ----
 
 Finally, add this last code snippet after the `main` function:
 
 [source,javascript,indent=0]
 ----
-include::../examples/start-using-ottoman.js[tags=run-main]
+include::../examples/start-using-ottoman-cloud.js[tags=run-main]
 ----
 
 Now we can run our code using the following command:
