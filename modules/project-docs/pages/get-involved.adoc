@@ -9,4 +9,4 @@ Couchbase welcomes community contributions to the Node.js SDK.
 The https://github.com/couchbase/couchnode/[Node.js SDK source code^] is available on GitHub.
 Please see the https://github.com/couchbase/couchnode/blob/master/CONTRIBUTING.md[CONTRIBUTING^] file for further information.
 
-include::{version-server}@sdk:shared:partial$contrib.adoc[tag=contrib]
+include::{version-common}@sdk:shared:partial$contrib.adoc[tag=contrib]

@@ -147,7 +147,7 @@ A network timeout can be set with the options, in the same fashion as earlier ex
 include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=exp-note]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=exp-note]
 
 
 == Atomic Counters
@@ -181,7 +181,7 @@ include::devguide:example$nodejs/kv-operations.js[tag=decrementwithoptions,inden
 NOTE: Increment & Decrement are considered part of the ‘binary’ API and as such may still be subject to change
 
 
-include::7.1@sdk:shared:partial$atomic.adoc[tag=xdcr]
+include::{version-common}@sdk:shared:partial$atomic.adoc[tag=xdcr]
 
 
 == Scoped KV Operations

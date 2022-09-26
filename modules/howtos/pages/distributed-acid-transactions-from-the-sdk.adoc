@@ -42,23 +42,23 @@ Refer to the xref:{version-server}@server:learn:security/roles.adoc[Roles] page 
 --
 ====
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=requirements]
 
 Simply `npm install` the most recent version of the SDK.
 You may, on occasion, need to import some enumerations for particular settings, but in basic cases nothing is needed.
 
 == Creating a Transaction
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=creating]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=creating]
 
 [source,typescript]
 ----
 include::example$transactions-example.ts[tag=examples,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=creating-error]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=creating-error]
 
 === Logging
 
@@ -234,7 +234,7 @@ include::example$transactions-example.ts[tag=queryRyow,indent=0]
 <1> The key-value insert operation is only staged, and so it is not visible to other transactions or non-transactional actors.
 <2> But the `SELECT` can view it, as the insert was in the same transaction.
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=rbac]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=rbac]
 
 == Concurrent Operations
 
@@ -252,7 +252,7 @@ This means the application must 'swallow' the error, but record that an error oc
 //include::example$TransactionsExample.java[tag=concurrentOps,indent=0]
 //----
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf-note]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=query-perf-note]
 
 === Non-Transactional Writes
 
@@ -282,7 +282,7 @@ For example, if you want to change the level of durability which must be attaine
 include::example$transactions-example.ts[tag=config,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=config]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=config]
 
 == Additional Resources
 

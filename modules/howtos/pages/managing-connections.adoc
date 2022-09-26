@@ -194,7 +194,7 @@ E.....@.@.............+....Z.'yZ..#........
 
 // == Using DNS SRV records
 
-include::{version-server}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
+include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
 
 The Node.js SDK always tries to use the SRV records, if the connection string contains a single hostname and the feature is not disabled explicitly with connection string option `dnssrv=off`.
 
@@ -210,4 +210,4 @@ If the DNS SRV records could not be loaded properly you'll get an exception logg
 81ms [If1e0caf208c1ff41] {11763} [INFO] (instance - L:202) DNS SRV lookup failed: LCB_ERR_UNKNOWN_HOST (1049). Ignore this if not relying on DNS SRV records
 ----
 
-include::{version-server}@sdk:shared:partial$managing-connections.adoc[tag=cloud]
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cloud]

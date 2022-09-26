@@ -4,6 +4,8 @@
 :page-topic-type: concept
 :page-aliases: ROOT:health-check
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -129,4 +131,4 @@ console.log(result)
 
 
 // Once ping() is implemented, replace above with:
-// include::{version-server}@sdk:pages:partial$health-check.adoc[]
+// include::{version-common}@sdk:pages:partial$health-check.adoc[]
