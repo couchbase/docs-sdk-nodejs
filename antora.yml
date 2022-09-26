@@ -1,5 +1,5 @@
 name: nodejs-sdk
-version: '4.1'
+version: '4.2'
 title: Node.js SDK
 start_page: hello-world:overview.adoc
 nav:
