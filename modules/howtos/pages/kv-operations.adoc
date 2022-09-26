@@ -1,8 +1,8 @@
-= Key Value Operations
-:navtitle: KV Operations
+= Data Operations
 :page-topic-type: howto
 :page-aliases: document-operations.adoc
 :page-toclevels: 2
+:page-pagination: full
 
 include::project-docs:partial$attributes.adoc[]
 

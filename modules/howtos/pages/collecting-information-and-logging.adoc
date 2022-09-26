@@ -1,7 +1,7 @@
-= Collecting Information & Logging
+= Logging
 :description: Node.js SDK logging.
 :page-topic-type: howto
-:page-status: UNDER CONSTRUCTION
+:page-status: under construction
 
 [abstract]
 {description}
