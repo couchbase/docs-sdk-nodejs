@@ -1,6 +1,5 @@
 = Handling Errors
 :description: Errors are inevitable. The developer’s job is to be prepared for whatever is likely to come up
-:navtitle: Handling Errors
 :page-topic-type: howto
 :page-aliases: ROOT:handling-error-conditions
 :source-language: javascript

@@ -1,6 +1,7 @@
-= The Ottoman ODM with Couchbase Server
+= Start Using the Ottoman ODM
 :description: Installing the Ottoman ODM & a Hello World program.
-:navtitle: Start using the Ottoman ODM
+:page-pagination: full
+:page-topic-type: tutorial
 
 include::project-docs:partial$attributes.adoc[]
 

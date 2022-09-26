@@ -1,7 +1,6 @@
-= Transcoders & Non-JSON Documents
+= Transcoders and Non-JSON Documents
 :description: The Node SDK supports common JSON, string and binary document requirements out-of-the-box.
-:nav-title: Using Transcoders
-:page-topic-type: howtos
+:page-topic-type: howto
 
 [abstract]
 {description}

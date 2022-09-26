@@ -1,8 +1,9 @@
-= Install and Start Using the Node.js SDK with Couchbase Server
+= Start Using the Node.js SDK
 :description: The Couchbase Node.js SDK enables you to interact with a Couchbase Server or Capella cluster from the Node.js runtime, using TypeScript or JavaScript.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
-:navtitle: Start Using the SDK
 :page-toclevels: 2
+:page-pagination: next
+:page-topic-type: tutorial
 
 
 [abstract]
