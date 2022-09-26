@@ -20,9 +20,9 @@ The intent of this migration guide is to provide detail information on the chang
 NOTE: if you are an existing Node.js SDK 3._x_ user considering migrating to SDK 4.0,
 you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
 
-include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
+include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
 
-// include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
+// include::{version-common}@sdk:shared:partial$migration.adoc[tag=intro]
 // tag::intro[]
 
 == Fundamentals
@@ -33,7 +33,7 @@ We recommend familiarizing yourself with the new SDK first by reading at least t
 
 // end::intro[]
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
@@ -49,13 +49,13 @@ Compare this to a N1QL query:
 include::devguide:example$nodejs/n1ql-queries.js[tag=querynamed,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms2]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=terms2]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=new]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=new]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=lang]
 
 ==  Installation and Configuration
 
@@ -545,4 +545,4 @@ In addition:
 * The changes to xref:ref:client-settings.adoc[Client Settings] are not currently documented.
 * The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.
 
-include::7.1@sdk:shared:partial$archive.adoc[tag=migration]
+include::{version-common}@sdk:shared:partial$archive.adoc[tag=migration]
