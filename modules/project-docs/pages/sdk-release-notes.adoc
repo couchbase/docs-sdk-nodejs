@@ -25,6 +25,50 @@ $ npm install couchbase@3.2.4
 ----
 
 
+== Version 4.1.3 (6 October 2022)
+
+Version 4.1.3 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.3/[API Reference]
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1094[JSCBC-1094]:
+Added transactions exception bindings.
+
+* https://issues.couchbase.com/browse/JSCBC-1098[JSCBC-1098]:
+Fixed incorrect Authentication Error Type raised.
+
+* https://issues.couchbase.com/browse/JSCBC-1101[JSCBC-1101]:
+Fixed `CreateBucket`/`GetBucket` APIs to match spec.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1099[JSCBC-1099]:
+Updated Node.js SDK to included latests {cbpp} client changes.
+
+* https://issues.couchbase.com/browse/JSCBC-1100[JSCBC-1100]:
+Added support for Configuration Profiles.
+
+* https://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Added support for replica reads.
+
+* https://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Added support for legacy durable operations.
+
+* https://issues.couchbase.com/browse/JSCBC-1096[JSCBC-1096]:
+Added support for LDAP authentication.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
 == Version 4.1.2 (4 August 2022)
  
 Version 4.1.2 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
