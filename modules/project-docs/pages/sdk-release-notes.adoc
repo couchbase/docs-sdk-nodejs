@@ -50,7 +50,7 @@ Fixed CreateBucket/GetBucket APIs to not match spec.
 === Enhancements
 
 * https://issues.couchbase.com/browse/JSCBC-1099[JSCBC-1099]:
-Updated Node.js SDK to included latests {cpp} API changes.
+Updated Node.js SDK to included latests {cbpp} client changes.
 
 * https://issues.couchbase.com/browse/JSCBC-1100[JSCBC-1100]:
 Added support for Configuration Profiles.
