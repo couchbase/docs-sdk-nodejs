@@ -45,7 +45,7 @@ Added transactions exception bindings.
 Fixed incorrect Authentication Error Type raised.
 
 * https://issues.couchbase.com/browse/JSCBC-1101[JSCBC-1101]:
-Fixed CreateBucket/GetBucket APIs to not match spec.
+Fixed `CreateBucket`/`GetBucket` APIs to match spec.
 
 === Enhancements
 
