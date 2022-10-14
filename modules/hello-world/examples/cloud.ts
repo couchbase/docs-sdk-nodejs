@@ -15,17 +15,19 @@ async function main() {
   // tag::ts-connect[]
   const clusterConnStr: string =
     'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
-  const username: string = 'Administrator'
-  const password: string = 'Password123!'
+  const username: string = 'username'
+  const password: string = 'Password!123'
   const bucketName: string = 'travel-sample'
 
   const cluster: Cluster = await connect(clusterConnStr, {
     username: username,
     password: password,
-    timeouts: {
-      kvTimeout: 10000, // milliseconds
-    },
   })
+
+  // Sets a pre-configured profile called "wanDevelopment" to help avoid latency issues
+  // when accessing Capella from a different Wide Area Network
+  // or Availability Zone (e.g. your laptop).
+  cluster.applyProfile("wanDevelopment")
   // end::ts-connect[]
 
   // tag::ts-bucket[]
@@ -43,7 +45,7 @@ async function main() {
   const collection_default: Collection = bucket.defaultCollection()
   // end::ts-default-collection[]
 
-  // tag::ts-test-doc[]
+  // tag::ts-upsert-get[]
   interface User {
     type: string
     name: string
@@ -57,18 +59,14 @@ async function main() {
     email: 'michael123@test.com',
     interests: ['Swimming', 'Rowing'],
   }
-  // end::ts-test-doc[]
 
-  // tag::ts-upsert[]
   await collection.upsert('michael123', user)
-  // end::ts-upsert[]
 
-  // tag::ts-get[]
   // Load the Document and print it
   // Prints Content and Metadata of the stored document
   const getResult: GetResult = await collection.get('michael123')
   console.log('Get Result:', getResult)
-  // end::ts-get[]
+  // end::ts-upsert-get[]
 
   // tag::ts-query[]
   // Perform a N1QL Query

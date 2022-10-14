@@ -4,7 +4,6 @@ async function main() {
   // tag::connect[]
   // For a secure cluster connection, use `couchbases://<your-cluster-ip>` instead.
   const clusterConnStr = 'couchbase://localhost'
-  const certificate = '/cert/path/cert.pem'
   const username = 'Administrator'
   const password = 'password'
   const bucketName = 'travel-sample'
@@ -12,32 +11,29 @@ async function main() {
   const cluster = await couchbase.connect(clusterConnStr, {
     username: username,
     password: password,
-    // Uncomment if you require a secure cluster connection (TSL/SSL).
-    // This is strongly recommended for production use.
-    // security: {
-    //   trustStorePath: certificate,
-    // },
   })
   // end::connect[]
 
   const bucket = cluster.bucket(bucketName)
 
   // Get a reference to the default collection, required only for older Couchbase server versions
-  const collection_default = bucket.defaultCollection()
+  const defaultCollection = bucket.defaultCollection()
 
   const collection = bucket.scope('tenant_agent_00').collection('users')
 
-  // Create and store a document
-  await collection.upsert('michael123', {
+  const user = {
     type: 'user',
     name: 'Michael',
     email: 'michael123@test.com',
     interests: ['Swimming', 'Rowing'],
-  })
+  }
+
+  // Create and store a document
+  await collection.upsert('michael123', user)
 
   // Load the Document and print it
   // Prints Content and Metadata of the stored Document
-  const getResult = await collection.get('michael123')
+  let getResult = await collection.get('michael123')
   console.log('Get Result: ', getResult)
 
   // Perform a N1QL Query
@@ -52,6 +48,7 @@ async function main() {
   })
 }
 
+// Run the main function
 main()
   .catch((err) => {
     console.log('ERR:', err)

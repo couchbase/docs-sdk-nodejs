@@ -2,6 +2,7 @@
 :description: Client settings
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings
+:page-toclevels: 2
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -20,3 +21,51 @@ https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.h
 // section on wide area network support
 
 include::{version-common}@sdk:shared:partial$client-settings-wide-network.adoc[]
+
+== Configuration Profiles
+
+Configuration Profiles provide predefined client settings that allow you to quickly configure an environment for common use-cases.
+When using a configuration profile, the current client settings are overridden with the values provided in the profile.
+Any property that is not specified in the profile is left unchanged.
+
+CAUTION: The Configuration Profiles feature is currently a xref:nodejs-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
+
+=== WAN Development
+
+*Cluster Method:* `applyProfile("wanDevelopment")`
+
+A `wanDevelopment` configuration profile can be used to modify client settings for development or high-latency environments.
+This profile changes the default timeouts.
+
+
+.Profile Settings
+[cols="1,1"]
+|===
+| Setting | Value
+
+// Doesn't seem to be available in Node.js?
+//https://github.com/couchbase/couchnode/blob/1ccbf734fda2b9e87d414894c131b13ce0cec852/lib/configProfile.ts#L34-L43
+//| `connectTimeout`
+//| 20s
+
+| `kvTimeout`
+| 20s
+
+| `kvDurableTimeout`
+| 20s
+
+| `viewTimeout`
+| 120s
+
+| `queryTimeout`
+| 120s
+
+| `analyticsTimeout`
+| 120s
+
+| `searchTimeout`
+| 120s
+
+| `managementTimeout`
+| 120s
+|===
