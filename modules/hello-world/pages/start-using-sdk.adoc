@@ -5,6 +5,7 @@
 :page-pagination: next
 :page-topic-type: tutorial
 
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -15,10 +16,15 @@ Node.js SDK 4._x_ implements the same SDK API 3 bindings, but the internals are 
 using the Couchbase++ library rather than libcouchbase -- to allow upcoming new features such as transactions, and fix some long-standing bugs. 
 Please note any xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[caveats] in the migration guide.
 
+In this guide, you will learn:
+
+* How to xref:connect[connect to Couchbase Capella or Couchbase Server].
+
+* How to xref:add-and-retrieve-documents[add and retrieve Documents].
+
+* How to xref:sql-lookup[lookup documents] with the {sqlpp_url}[{sqlpp} (formerly N1QL)] query language.
 
 == Hello Couchbase
-
-On this page we show you how to quickly get up and running -- installing the Couchbase Node.js SDK, and trying out the Hello World code example against Couchbase Capella, or against a local Couchbase cluster.
 
 We will go through the code sample step by step, but for those in a hurry to see it, here it is:
 
@@ -82,17 +88,49 @@ If you intend to use `TypeScript` instead of `JavaScript`, then also do the foll
 $ npm install -g typescript ts-node
 ----
 
+== Prerequisites
+
+The following code samples assume:
+
+[{tabs}]
+====
+Couchbase Capella::
++
+--
+* You have signed up to https://cloud.couchbase.com/sign-up[Couchbase Capella].
+
+* You have created your own bucket, or loaded the Travel Sample dataset.
+Note, the Travel Sample dataset is installed automatically by the Capella free trial.
+
+* A user is created with permissions to access the cluster (at least Application Access permissions).
+See the xref:cloud:get-started:cluster-and-data.adoc#credentials[Capella connection page] for more details.
+
+IMPORTANT: Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this guide, you can use the *Organization Owner* role automatically assigned to your account during installation of the Capella cluster.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice.
+--
+
+Local Couchbase Server::
++
+--
+* xref:{version-server}@server:getting-started/do-a-quick-install.adoc[Couchbase Server] is installed and accessible locally.
+
+* You have created your own bucket, or loaded the Travel Sample dataset using the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface].
+
+* A user is created with permissions to access your cluster (at least Application Access permissions).
+See xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups and Roles] for more details.
+
+IMPORTANT: Couchbase Server uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+In this guide we suggest using the *Full Admin* role created during setup of your local Couchbase Server cluster.
+For production client code, you will want to use more appropriate, restrictive settings.
+--
+====
+
 == Step by Step
 
-Create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step:
+Create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step.
 
-* Connect to a single node cluster, bucket, and collection
-* Add and retrieve a new document
-* Look up (SQL-type query) the new document by attribute value
-
-=== Prerequisites
-
-Here are all of the imports that you will need to run the sample code.
+Here are all the imports that you will need to run the sample code.
 
 [{tabs}]
 ====
@@ -126,46 +164,47 @@ async function main() {
 
 We will update this function as we go along the steps in this guide.
 
-=== Connection
+=== Connect
+
+Connect to your cluster by calling the `connect()` function and pass it your connection details.
+The basic connection details that you’ll need are given below -- for more background information, see xref:howtos:managing-connections.adoc[].
 
 [{tabs}]
 ====
 Couchbase Capella (JavaScript)::
 + 
 -- 
-IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
-As of Node.js SDK version 4.1, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+From version 4.1, the Node.js SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
+You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
 
 [source,javascript]
 ----
 include::devguide:example$nodejs/cloud.js[tag=connect,indent=0]
 ----
 
-Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
-For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
-This role grants full access to a Capella organization, including full data access to all projects and clusters.
-In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
+SDK 4.2 introduces a `wanDevelopment` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
+Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 
-For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+CAUTION: The Configuration Profiles feature is currently a xref:nodejs-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
 --
 
 Couchbase Capella (TypeScript)::
 + 
 --
-IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
-As of Node.js SDK version 4.1, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+From version 4.1, the Node.js SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
+You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
 
 [source,typescript,indent=0]
 ----
 include::example$cloud.ts[tag=ts-connect]
 ----
 
-Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
-For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
-This role grants full access to a Capella organization, including full data access to all projects and clusters.
-In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
+SDK 4.2 introduces a `wanDevelopment` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
+Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 
-For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+CAUTION: The Configuration Profiles feature is currently a xref:nodejs-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
 --
 
 Local Couchbase Server::
@@ -176,14 +215,12 @@ Local Couchbase Server::
 include::example$start-using.js[tag=connect,indent=0]
 ----
 
-Couchbase uses xref:7.1@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-For the purposes of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
-
-Since we are running this locally, we are using the Couchbase alias for localhost.
+For developing locally on the same machine as Couchbase Server, your URI can be `couchbase://localhost` as shown here.
+For production deployments, you will want to use a secure server, with `couchbases://`.
 --
 ====
 
-Following successful authentication, the bucket can be opened:
+Following successful authentication, add this code snippet to access your `Bucket`:
 
 [{tabs}]
 ====
@@ -206,12 +243,12 @@ include::example$cloud.ts[tag=ts-bucket,indent=0]
 --
 ====
 
-NOTE: We are working with the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket. 
-If you are not, update the `bucketName` variable used in the example with your own.
+=== Add and Retrieve Documents
 
 The Node.js SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
 _Collections_ allow documents to be grouped by purpose or theme, according to a specified _Scope_.
-Here we will use the `users` collection within the `tenant_agent_00` scope from `travel-sample` bucket as an example.
+
+Here we refer to the `users` collection within the `tenant_agent_00` scope from the Travel Sample bucket as an example, but you may replace this with your own data.
 
 [{tabs}]
 ====
@@ -234,10 +271,10 @@ include::example$cloud.ts[tag=ts-collection,indent=0]
 --
 ====
 
-The code shows how you would use a named collection and scope. 
+The code shows how you would use a named collection and scope.
 A named or default collection will provide the same functionality as bucket-level operations did in previous versions of Couchbase Server.
 
-The `defaultCollection` must be used when connecting to a 6.6 cluster or earlier.
+NOTE: The `defaultCollection` must be used when connecting to a 6.6 cluster or earlier.
 
 [{tabs}]
 ====
@@ -260,35 +297,9 @@ include::example$cloud.ts[tag=ts-default-collection,indent=0]
 --
 ====
 
-=== Document Addition and Retrieval 
+xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using `Collection.upsert()` and `Collection.get()`.
 
-Let's create a document in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `user`.
-
-[{tabs}]
-====
-JavaScript::
-+ 
---
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tag=test-doc,indent=0]
-----
---
-
-TypeScript::
-+ 
---
-[source,typescript]
-----
-include::example$cloud.ts[tag=ts-test-doc,indent=0]
-----
---
-====
-
-xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using `Collection.Upsert()` and `Collection.Get()`.
-Simply pass the key (and value, if applicable) to the relevant methods.
-
-The following code will _upsert_ a document into the database:
+Add the following code to create a new document and retrieve it:
 
 [{tabs}]
 ====
@@ -297,7 +308,7 @@ JavaScript::
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=upsert,indent=0]
+include::devguide:example$nodejs/cloud.js[tag=upsert-get,indent=0]
 ----
 --
 
@@ -306,40 +317,17 @@ TypeScript::
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-upsert,indent=0]
+include::example$cloud.ts[tag=ts-upsert-get,indent=0]
 ----
 --
 ====
 
-Now, let's retrieve that document using a key-value operation. 
-The following runs a _get_ for a document key and logs out the result in our console:
+=== {sqlpp} Lookup
 
-[{tabs}]
-====
-JavaScript::
-+ 
---
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tag=get,indent=0]
-----
---
+Couchbase {sqlpp} queries can be performed at the `Cluster` or `Scope` level by invoking `Cluster.query()` or `Scope.query()`.
 
-TypeScript::
-+ 
---
-[source,typescript]
-----
-include::example$cloud.ts[tag=ts-get,indent=0]
-----
---
-====
-
-=== SQL++ Lookup
-
-Couchbase N1QL queries are performed by invoking `Cluster.Query()`.
-
-In the code below we will query Couchbase to retrieve airlines by country and print the results.
+Cluster level queries require you to specify the fully qualified keyspace each time (e.g. `travel-sample.inventory.airline`).
+However, with a Scope level query you only need to specify the Collection name -- which in this case is `airline`:
 
 [{tabs}]
 ====
@@ -414,17 +402,27 @@ The results you should expect are as follows:
 
 [source,console]
 ----
-got:  GetResult {
+Get Result: GetResult {
   content: {
     type: 'user',
     name: 'Michael',
     email: 'michael123@test.com',
     interests: [ 'Swimming', 'Rowing' ]
   },
-  cas: Cas<1651756567733665792>,
+  cas: Cas<1665739583483674624>,
   expiryTime: undefined
 }
-query row:  { name: 'Michael' }
+Query Results:
+{ name: '40-Mile Air' }
+{ name: 'Texas Wings' }
+{ name: 'Atifly' }
+{ name: 'Locair' }
+{ name: 'SeaPort Airlines' }
+{ name: 'Alaska Central Express' }
+{ name: 'AirTran Airways' }
+{ name: 'U.S. Air' }
+{ name: 'PanAm World Airways' }
+{ name: 'Bemidji Airlines' }
 ----
 
 == Next Steps

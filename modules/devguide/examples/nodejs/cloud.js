@@ -5,17 +5,19 @@ var couchbase = require('couchbase')
 async function main() {
   // tag::connect[]
   const clusterConnStr = 'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
-  const username = 'Administrator'
-  const password = 'Password123!'
+  const username = 'username'
+  const password = 'Password!123'
   const bucketName = 'travel-sample'
 
   const cluster = await couchbase.connect(clusterConnStr, {
     username: username,
     password: password,
-    timeouts: {
-      kvTimeout: 10000, // milliseconds
-    },
   })
+
+  // Sets a pre-configured profile called "wanDevelopment" to help avoid latency issues
+  // when accessing Capella from a different Wide Area Network
+  // or Availability Zone (e.g. your laptop).
+  cluster.applyProfile("wanDevelopment")
   // end::connect[]
 
   // tag::bucket[]
@@ -31,26 +33,22 @@ async function main() {
   const collection = bucket.scope('tenant_agent_00').collection('users')
   // end::collection[]
 
-  // tag::test-doc[]
+  // tag::upsert-get[]
   const user = {
     type: 'user',
     name: 'Michael',
     email: 'michael123@test.com',
     interests: ['Swimming', 'Rowing'],
   }
-  // end::test-doc[]
 
-  // tag::upsert[]
   // Create and store a document
   await collection.upsert('michael123', user)
-  // end::upsert[]
 
-  // tag::get[]
   // Load the Document and print it
   // Prints Content and Metadata of the stored Document
   let getResult = await collection.get('michael123')
   console.log('Get Result: ', getResult)
-  // end::get[]
+  // end::upsert-get[]
 
   // tag::query[]
   // Perform a N1QL Query
