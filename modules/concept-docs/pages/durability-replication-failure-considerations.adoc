@@ -16,7 +16,7 @@ include::{version-common}@sdk:shared:partial$durability-replication-failure-cons
 include::{version-common}@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep]
 include::{version-common}@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep3]
 
-include::{version-server}@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=older]
+include::{version-common}@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=older]
 
 
 include::{version-common}@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=performance]
