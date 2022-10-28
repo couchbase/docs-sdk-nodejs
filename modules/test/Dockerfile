@@ -1,5 +1,5 @@
 ARG CB_EDITION=couchbase/server:enterprise
-ARG CB_BUILD=7.0.0
+ARG CB_BUILD=7.1.2
 ARG CB_IMAGE=$CB_EDITION-$CB_BUILD
 
 # SDK related images...
