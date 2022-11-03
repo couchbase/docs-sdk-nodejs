@@ -16,12 +16,43 @@ For release notes, download links, and installation methods for 2.6 and earlier 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 3.2.4:
+For example, to install version 4.2.0:
 
 [source,console]
 ----
-$ npm install couchbase@3.2.4
+$ npm install couchbase@4.2.0
 ----
+
+
+== Version 4.2.0 (3 November 2022)
+
+Version 4.2.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.0/[API Reference]
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1105[JSCBC-1105]:
+Fixed crash caused when undefined named parameter provided in query options.
+
+* https://issues.couchbase.com/browse/JSCBC-1107[JSCBC-1107]:
+Fixed mutation token construction.
+
+* https://issues.couchbase.com/browse/JSCBC-1108[JSCBC-1108]:
+Added support for consistentWith query option.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-926[JSCBC-926]:
+Added Support for Serverless Execution Environments
+
+* https://issues.couchbase.com/browse/JSCBC-1006[JSCBC-1006]:
+Removed collection exists operation workaround.
 
 
 == Version 4.1.3 (6 October 2022)
@@ -70,7 +101,7 @@ Core IO logging is not forwarded through to Node.js.
 
 == Version 4.1.2 (4 August 2022)
  
-Version 4.1.2 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+Version 4.1.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
@@ -108,7 +139,7 @@ Legacy durability operations are not yet supported.
 
 == Version 4.1.1 (13 June 2022)
  
-Version 4.1.1 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+Version 4.1.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
@@ -218,9 +249,55 @@ Legacy durability operations are not yet supported.
 Double-encoding issue when performing search queries.
 
 
+== Version 3.2.5 (3 November 2022)
+
+Version 3.2.5 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@3.2.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.5/[API Reference]
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-971[JSCBC-971]:
+Fixed bucket manager `minDurabilityLevel` parsing failure on Couchbase Server 6.5. 
+
+* https://issues.couchbase.com/browse/JSCBC-976[JSCBC-976]:
+Fixed searchIndexes.getIndexedDocumentsCount() result.
+
+* https://issues.couchbase.com/browse/JSCBC-986[JSCBC-986]:
+Added missing durability level option for binary operations.
+
+* https://issues.couchbase.com/browse/JSCBC-1018[JSCBC-1018]:
+Updated to the latest libcouchbase version.
+
+* https://issues.couchbase.com/browse/JSCBC-1019[JSCBC-1019]:
+Updated dependancies to pick up critical fixes.
+
+* https://issues.couchbase.com/browse/JSCBC-1046[JSCBC-1046]:
+Fixed build system for Windows environments.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-969[JSCBC-969]:
+Updated FTS Rate Limit Parsing.
+
+* https://issues.couchbase.com/browse/JSCBC-982[JSCBC-982]:
+Resolved vulnerability in dependencies (prebuild-install/simple-get).
+
+* https://issues.couchbase.com/browse/JSCBC-1020[JSCBC-1020]:
+Setup black duck scans for v3 after v4 ships to master.
+
+* https://issues.couchbase.com/browse/JSCBC-718[JSCBC-718]:
+Added support for Linux Alpine OS.
+
+
 == Version 3.2.4 (17 December 2021)
 
-Version 3.2.4 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+Version 3.2.4 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
@@ -248,7 +325,7 @@ Use correct arguments indices for options.
 
 == Version 3.2.3 (5 October 2021)
 
-Version 3.2.3 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+Version 3.2.3 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
@@ -276,7 +353,7 @@ Fixed view query serialization of booleans.
 
 == Version 3.2.2 (16 Sept 2021)
 
-Version 3.2.2 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+Version 3.2.2 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
@@ -313,7 +390,7 @@ https://issues.couchbase.com/browse/CCBC-1494[CCBC-1494], https://issues.couchba
 
 == Version 3.2.1 (26 Aug 2021)
 
-Version 3.2.1 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+Version 3.2.1 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
 
 [source,console]
 ----
