@@ -22,6 +22,23 @@ In the meantime, if you are interested in checking out Ottoman,
 please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman for Node.js SDK 3.2] page.
 
 
+== Version 2.2.2 (9 November 2022)
+
+Version 2.2.2 is a patch release of the Ottoman ODM.
+This release adds minor fixes and dependency upgrades, including a patch version upgrade to the `couchbase` dependency.
+
+[source,console]
+----
+$ npm install ottoman@2.2.2
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* Bumped `couchbase` dependency to `v3.2.6`.
+
+
 == Version 2.2.1 (22 June 2022)
 
 Version 2.2.1 is a patch release of the Ottoman ODM.
