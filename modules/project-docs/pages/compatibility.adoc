@@ -96,7 +96,8 @@ Although installable or compilable on many other platforms, we cannot provide su
 
 === Ottoman ODM
 
-The 3.2 Node.js SDK is compatible with https://ottomanjs.com/#introduction[version 2.0 of the Ottoman ODM].
+https://ottomanjs.com/#introduction[Ottoman.js] version 2.3.0 and above are compatible with Couchbase Node.js SDK 4.2.0 and above.
+Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK.
 
 
 == Couchbase New Feature Availability Matrix
