@@ -3,4 +3,6 @@
 :navtitle: Release Notes
 :page-topic-type: project-doc
 
+CAUTION: To use Ottoman V2, you will need to upgrade to version xref::4.2@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[4.2.0 (or newer) of the Couchbase Node.js SDK].
+
 include::4.2@nodejs-sdk:project-docs:page$ottoman-release-notes.adoc[tag=all]
