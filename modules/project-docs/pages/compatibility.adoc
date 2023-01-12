@@ -92,7 +92,7 @@ AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from S
 === Ottoman ODM
 
 https://ottomanjs.com/#introduction[Ottoman.js] version 2.3.0 and above are compatible with Couchbase Node.js SDK 4.2.0 and above.
-Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK.https://ottomanjs.com/#introduction[version 2.0 of the Ottoman ODM].
+Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK.
 
 == Couchbase New Feature Availability Matrix
 
