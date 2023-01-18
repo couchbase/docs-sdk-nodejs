@@ -1,15 +1,16 @@
 = Logging
 :description: Node.js SDK logging.
 :page-topic-type: howto
-:page-status: under construction
 
 [abstract]
 {description}
 
-== Library logging
 
-WARNING: the Logging implementation has changed substantially in 4.0 and is not currently fully documented.
-This will be resolved in a future 4.x release.
+IMPORTANT: the Logging implementation has changed substantially in 4.x.
+Customized logging is not yet implemented, this will be resolved in a future 4.x release.
+Use of the console logger (detailed below) is currently recommended.
+
+== Library logging
 
 The Node.js SDK allows logging via the `CBPPLOGLEVEL` environment variable.
 // TODO: This section seems outdated? Unclear what we should keep and what needs to be discarded for SDK 4.x.
