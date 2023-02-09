@@ -22,12 +22,11 @@ async function main() {
   const cluster: Cluster = await connect(clusterConnStr, {
     username: username,
     password: password,
+    // Sets a pre-configured profile called "wanDevelopment" to help avoid latency issues
+    // when accessing Capella from a different Wide Area Network
+    // or Availability Zone (e.g. your laptop).
+    configProfile: 'wanDevelopment',
   })
-
-  // Sets a pre-configured profile called "wanDevelopment" to help avoid latency issues
-  // when accessing Capella from a different Wide Area Network
-  // or Availability Zone (e.g. your laptop).
-  cluster.applyProfile("wanDevelopment")
   // end::ts-connect[]
 
   // tag::ts-bucket[]
