@@ -19,7 +19,7 @@ NOTE: Whether you are building your application with JavaScript or TypeScript, O
 Ottoman fully supports the xref:{version-server}@server:learn:data/scopes-and-collections.adoc[Scopes and Collections] features introduced in Couchbase Sever 7.0. 
 We recomend familiarizing yourself with these concepts before proceeding with this guide.
 
-For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK you can read more https://ottomanjs.com/guides/sdk-comparison.html#ottoman-vs-sdk-comparison[here^].
+For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK you can read more https://ottomanjs.com/docs/advanced/sdk-comparison[here^].
 
 
 == Support in Node.js SDK 4.0
