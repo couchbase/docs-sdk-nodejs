@@ -25,10 +25,8 @@ For a full feature comparison between Ottoman ODM and the Couchbase Node.js SDK 
 
 == Node.js SDK 4.x Support
 
-Ottoman currently *does not* support Node.js SDK 4.x.
-We intend to fully support it in a future Ottoman release.
-
-In the meantime, please read the xref:3.2@nodejs-sdk:hello-world:start-using-ottoman.adoc[Ottoman for Node.js SDK 3.2] page, or explore the resources below.
+https://ottomanjs.com/#introduction[Ottoman.js] version 2.3.0 and above are compatible with Couchbase Node.js SDK 4.2.0 and above.
+Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK.
 
 
 == Additional Resources
