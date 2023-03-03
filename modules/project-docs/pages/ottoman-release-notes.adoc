@@ -12,10 +12,12 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
-== Version 2.3.2 (2 March 2021)
+== Version 2.3.2 (2 March 2023)
 
 Version 2.3.2 is a patch release of the Ottoman ODM.
-This release adds fixes and dependency upgrades. Ottoman can now be used by TypeScript users without setting the `skipLibCheck` flag. This release also adds documentation for automatic UUID generation.
+This release adds fixes and dependency upgrades. 
+Ottoman can now be used by TypeScript users without setting the `skipLibCheck` flag. 
+This release also adds documentation for automatic UUID generation.
 
 [source,console]
 ----
@@ -26,7 +28,7 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 === Fixed Issues
 
-* TypeScript no longer needs `skipLibCheck` flag
+* TypeScript no longer needs `skipLibCheck` flag.
 
 
 == Version 2.3.0 (19 December 2022)
