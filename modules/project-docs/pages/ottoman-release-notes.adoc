@@ -31,6 +31,11 @@ https://ottomanjs.com/#installation[Ottoman installation]
 * TypeScript no longer needs `skipLibCheck` flag.
 
 
+== Version 2.3.1 (2 March 2023)
+
+_Please do not use version 2.3.1._
+
+
 == Version 2.3.0 (19 December 2022)
 
 Version 2.3.0 is a minor release of the Ottoman ODM.
