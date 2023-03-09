@@ -115,9 +115,8 @@ By default, all Search queries will return the data from whatever is in the inde
 These semantics can be tuned if needed so that the hits returned include the most recently performed mutations, at the cost of slightly higher latency since the index needs to be updated first.
 
 There are two ways to control consistency: either by supplying a custom `SearchScanConsistency` or using `consistentWith`.
-Like the majority of Couchbase query services, FTS allows `RequestPlus` queries --
-_Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from
-updated indexes:
+At the moment the cluster only supports `consistentWith`, which is why you only see `SearchScanConsistency.NotBounded` in the enum which is the default setting. 
+The way to make sure that recently written documents show up in the rfc works as follows (commonly referred to "read your own writes" -- RYOW):
 
 .Scan consistency example:
 [source,javascript,indent=0]
