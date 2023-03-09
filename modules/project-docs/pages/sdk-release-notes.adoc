@@ -24,6 +24,39 @@ $ npm install couchbase@4.2.0
 ----
 
 
+== Version 4.2.2 (9 March 2023)
+
+Version 4.2.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.2/[API Reference]
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1141[JSCBC-1141]:
+Fixed Query Index Management `watchIndexes` to raise `QueryIndexNotFound` if provided index(es) not found.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1118[JSCBC-1118]:
+Updated the SDK to handle new `query_context` changes.
+
+* https://issues.couchbase.com/browse/JSCBC-1137[JSCBC-1137]:
+Created `CppClusterCredentials` and `CppDnsConfig` interfaces for use in connecting.
+
+* https://issues.couchbase.com/browse/JSCBC-1129[JSCBC-1129]:
+Updated the SDK to only populate `allowed_sasl_mechanisms` if user explicitly chooses.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+
 == Version 4.2.1 (8 February 2023)
 
 Version 4.2.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.1 release provides improved performance for key-value operations.
