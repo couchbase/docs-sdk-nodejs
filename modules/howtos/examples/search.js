@@ -88,7 +88,7 @@ async function go() {
     result = await cluster.searchQuery(
       'index-hotel-description',
       couchbase.SearchQuery.match('swanky'),
-      { consistency: couchbase.SearchScanConsistency.RequestPlus }
+      { consistency: couchbase.SearchScanConsistency.NotBounded }
     )
     // end::ryow-query[]
   } catch (e) {
