@@ -20,7 +20,7 @@ function microsSince(hrTime0) {
     return micros.toLocaleString();
 }
 
-// Make a N1QL specific Query, telling Couchbase this will be a prepared statement
+// Make a SQL++ (N1QL) specific Query, telling Couchbase this will be a prepared statement
 const query = "SELECT airportname, city, country FROM `travel-sample` WHERE type=$1 AND city=$2";
 var opts = {profile: "phases", adhoc: false, parameters: ["airport", "London"]};
 
