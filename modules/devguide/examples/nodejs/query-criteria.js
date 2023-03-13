@@ -6,7 +6,7 @@ const options = {username: 'Administrator', password: 'password'};
 const cluster = new couchbase.Cluster("http://localhost", options);
 const bucket = cluster.bucket("travel-sample");
 
-// Make a N1QL specific Query
+// Make a SQL++ (N1QL) specific Query
 const query = "SELECT airportname, city, country FROM `travel-sample` WHERE type='airport' AND city='Reno' ";
 
 // Issue Query

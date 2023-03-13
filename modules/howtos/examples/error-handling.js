@@ -56,7 +56,7 @@ async function runExamples() {
     }
 
     if (e.context instanceof couchbase.QueryErrorContext) {
-      // We have a N1QL error context, we can print out some useful information:
+      // We have a SQL++ (N1QL) error context, we can print out some useful information:
       console.log(e.context.statement);
       console.log(e.context.first_error_code);
       console.log(e.context.first_error_message);

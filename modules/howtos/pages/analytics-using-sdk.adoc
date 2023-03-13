@@ -1,5 +1,5 @@
 = Analytics using the Node.js SDK
-:description: Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+:description: Parallel data management for complex queries over many records, using a familiar {sqlpp} syntax.
 :page-topic-type: howto
 :page-edition: Enterprise Edition:
 // no source code for query analytics in sdk-examples/nodejs
@@ -147,5 +147,5 @@ From Couchbase Data Platform 6.5, _KV Ingestion_ is added to CBAS.
 ////
 == Additional Resources
 
-To learn more about using N1QL for Analytics -- the first commercial implementation of SQL++ -- see our https://sqlplusplus-tutorial.couchbase.com/tutorial/#1[Tutorial Introduction to SQL++ for SQL users].
+To learn more about using {sqlpp} for Analytics -- see our https://sqlplusplus-tutorial.couchbase.com/tutorial/#1[Tutorial Introduction to {sqlpp} for SQL users].
 ////

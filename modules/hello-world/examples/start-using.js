@@ -40,7 +40,7 @@ async function main() {
   const getResult = await collection.get('michael123')
   console.log('Get Result: ', getResult)
 
-  // Perform a N1QL Query
+  // Perform a SQL++ (N1QL) Query
   const queryResult = await bucket
     .scope('inventory')
     .query('SELECT name FROM `airline` WHERE country=$1 LIMIT 10', {
