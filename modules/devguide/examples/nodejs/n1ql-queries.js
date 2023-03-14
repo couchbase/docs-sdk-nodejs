@@ -72,7 +72,7 @@ async function queryResults() {
 /*** Not implemented
 async function queryresultson(){
 
-  // Make a N1QL specific Query
+  // Make a SQL++ (N1QL) specific Query
   var query = "SELECT airportname, city, country FROM `travel-sample` WHERE type=$TYPE and city=$CITY";
   
   // Issue Query with parameters passed in objects

@@ -50,7 +50,7 @@ async function main() {
   // end::upsert-get[]
 
   // tag::query[]
-  // Perform a N1QL Query
+  // Perform a SQL++ (N1QL) Query
   const queryResult = await bucket
     .scope('inventory')
     .query('SELECT name FROM `airline` WHERE country=$1 LIMIT 10', {

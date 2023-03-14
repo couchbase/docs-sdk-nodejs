@@ -41,7 +41,7 @@ As an example here is a KeyValue document fetch:
 include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
 ----
 
-Compare this to a N1QL query:
+Compare this to a {sqlpp} (formerly N1QL) query:
 
 [source,javascript]
 ----
@@ -195,7 +195,7 @@ There have been changes made in the following areas:
 The exception hierarchy is now flat and unified under a `CouchbaseError`.
 Each `CouchbaseError` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
 
-Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
+Here is an example of the error context if a {sqlpp} query is performed with an invalid syntax (i.e. `select 1= from`):
 
 [source]
 ----
@@ -314,7 +314,7 @@ Similar functionality is available through `mutateIn` on JSON documents.
 
 === Query
 
-N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK API 2 with its SDK API 3 equivalent:
+{sqlpp} querying is now available at the `Cluster` level instead of the bucket level, because you can also write {sqlpp} queries that span multiple buckets. Compare a simple {sqlpp} query from SDK API 2 with its SDK API 3 equivalent:
 
 [source,javascript]
 ----
@@ -371,7 +371,7 @@ Not only does it throw a `CouchbaseError`, it also tries to map it to a specific
 
 === Analytics
 
-Analytics querying, like N1QL, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analyticsQuery` method.
+Analytics querying, like {sqlpp}, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analyticsQuery` method.
 As with the Query service, parameters for the Analytics queries have moved into the `AnalyticsOptions`:
 
 [source,javascript]
@@ -470,7 +470,7 @@ include::devguide:example$nodejs/migrating.js[tag=viewquery,indent=0]
 In SDK API 2, the management APIs were centralized in the `clustermanager` at the cluster level and the `bucketmanager` at the bucket level.
 Since SDK API 3 provides more management APIs, they have been split up in their respective domains.
 So for example when in SDK API 2 you needed to remove a bucket you would call `clustermanager.removeBucket` you will now find it under `bucketmanager.dropBucket`.
-Also, creating a N1QL index now lives in the `queryindexmanager`, which is accessible through the `cluster`.
+Also, creating a {sqlpp} index now lives in the `queryindexmanager`, which is accessible through the `cluster`.
 
 The following table provides a mapping from the SDK API 2 management APIs to those of SDK API 3:
 

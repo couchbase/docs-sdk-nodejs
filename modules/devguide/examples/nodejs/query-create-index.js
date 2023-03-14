@@ -10,7 +10,7 @@ const docKey = 'airport_77';
 
 // Setup Query
 
-// Make a N1QL specific Query to Create a Primary Index or Secondary Index
+// Make a SQL++ (N1QL) specific Query to Create a Primary Index or Secondary Index
 var query = "CREATE PRIMARY INDEX ON `travel-sample`";
 
 // Issue Query to Create the Index
