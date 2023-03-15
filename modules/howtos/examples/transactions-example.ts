@@ -69,7 +69,7 @@ async function main() {
   try {
     await cluster.transactions().run(async (ctx) => {
       // 'ctx' is a TransactionAttemptContext which permits getting, inserting,
-      // removing and replacing documents, performing N1QL queries, etc.
+      // removing and replacing documents, performing SQL++ (N1QL) queries, etc.
       // … Your transaction logic here …
       // Committing is implicit at the end of the lambda.
     })
@@ -117,7 +117,7 @@ async function main() {
       const docC = await ctx.get(collection, 'doc-c')
       await ctx.remove(docC)
 
-      // Performing a SELECT N1QL query against a scope:
+      // Performing a SELECT SQL++ (N1QL) query against a scope:
       const qr = await ctx.query('SELECT * FROM hotel WHERE country = $1', {
         scope: inventory,
         parameters: ['United Kingdom'],
@@ -369,7 +369,7 @@ async function queryOptions() {
 async function querySingle() {
   let cluster = await getCluster()
   // tag::querySingle[]
-  let bulkLoadStatement: string // a bulk-loading N1QL statement not provided here
+  let bulkLoadStatement: string // a bulk-loading SQL++ (N1QL) statement not provided here
   try {
     cluster.transactions().run(async (ctx) => {
       ctx.query(bulkLoadStatement)
@@ -420,7 +420,7 @@ async function querySingleConfigured() {
 
   // TODO: fix once single statement query is available
   // // tag::querySingleConfigured[]
-  // let bulkLoadStatement: string // a bulk-loading N1QL statement not provided here
+  // let bulkLoadStatement: string // a bulk-loading SQL++ (N1QL) statement not provided here
   // const inventory = travelSample.scope("inventory")
   // cluster.transactions().query(bulkLoadStatement,
   //   {

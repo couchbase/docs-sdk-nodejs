@@ -90,7 +90,7 @@ For those that are not, such as a Sub-Document `arrayAppend` call, or a counter 
 
 == Query and Analytics Errors
 
-A N1QL query either returns results or will throw an error with a `QueryErrorContext`, like so:
+A {sqlpp} (formerly N1QL) query either returns results or will throw an error with a `QueryErrorContext`, like so:
 
 [source,javascript,indent=0]
 ----
