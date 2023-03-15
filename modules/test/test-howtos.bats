@@ -78,38 +78,36 @@ load 'test_helper'
 
 @test "[howtos] - search-conjuncts-disjuncts.js" {
     runExample $HOWTOS_DIR search-conjuncts-disjuncts.js
-    # This whole example is going to fail due to the below bug:
-    # https://issues.couchbase.com/browse/JSCBC-1044
-    assert_failure
+    assert_success
 
-    diag "TODO:  Uncomment (lines 91-117) when JSCBC-1044 is fixed"
-    #     assert_success
+    # Check output for search-query-conjuncts[] snippet
+    assert_output --partial "[search-query-conjuncts] result count: 2"
 
-    #     # Check output for search-query-conjuncts[] snippet
-    #     assert_output --partial "[search-query-conjuncts] result count: 2"
+    # Check output for search-query-disjuncts[] snippet
+    assert_output --partial "[search-query-disjuncts] result count: 11"
 
-    #     # Check output for search-query-disjuncts[] snippet
-    #     assert_output --partial "[search-query-disjuncts] result count: 11"
+    # Check output for handle-hits[] snippet
+    assert_output --partial "Result #1 ID: hotel_21726"
 
-    #     # Check output for handle-hits[] snippet
-    #     assert_output --partial "Result #1 ID: hotel_21726"
-
-    #     # Check output for handle-facets[] snippet
-    #     assert_output --partial <<-EOF
-    # Descriptions facet: {
-    #   field: 'description',
-    #   total: 223,
-    #   missing: 0,
-    #   other: 195,
-    #   terms: [
-    #     { term: 'louvre', count: 7 },
-    #     { term: 'hotel', count: 6 },
-    #     { term: 'rooms', count: 6 },
-    #     { term: 'eiffel', count: 5 },
-    #     { term: 'close', count: 4 }
-    #   ]
-    # }
-    # EOF
+    # Check output for handle-facets[] snippet
+    assert_output --partial <<-EOF
+Descriptions facet: {
+  name: 'Descriptions',
+  field: 'description',
+  total: 223,
+  missing: 0,
+  other: 195,
+  terms: [
+    { term: 'louvre', count: 7 },
+    { term: 'hotel', count: 6 },
+    { term: 'rooms', count: 6 },
+    { term: 'eiffel', count: 5 },
+    { term: 'close', count: 4 }
+  ],
+  date_ranges: [],
+  numeric_ranges: []
+}
+EOF
 }
 
 @test "[howtos] - subdoc.js" {
