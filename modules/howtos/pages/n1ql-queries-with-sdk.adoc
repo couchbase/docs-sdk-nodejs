@@ -12,7 +12,7 @@ Querying can solve typical programming tasks such as finding a user profile by e
 
 == Getting Started
 
-Our query service uses {sqlpp} (formerly), which will be fairly familiar to anyone who's used any dialect of SQL.
+Our query service uses {sqlpp} (formerly N1QL), which will be fairly familiar to anyone who's used any dialect of SQL.
 xref:#additional-resources[Additional resources] for learning about {sqlpp} are listed at the bottom of the page.
 
 Before you get started you may wish to check out the xref:{version-server}@server:n1ql:n1ql-language-reference/index.adoc[{sqlpp} intro page], or just dive in with a query against our travel-sample data set.
