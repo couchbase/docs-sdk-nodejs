@@ -6,6 +6,7 @@ import {
   Cluster,
   Collection,
   connect,
+  ConnectOptions,
   GetResult,
   QueryResult,
 } from 'couchbase'
@@ -19,14 +20,16 @@ async function main() {
   const password: string = 'Password!123'
   const bucketName: string = 'travel-sample'
 
-  const cluster: Cluster = await connect(clusterConnStr, {
+  const connectOptions: ConnectOptions = {
     username: username,
     password: password,
     // Sets a pre-configured profile called "wanDevelopment" to help avoid latency issues
     // when accessing Capella from a different Wide Area Network
     // or Availability Zone (e.g. your laptop).
-    configProfile: 'wanDevelopment',
-  })
+    configProfile: 'wanDevelopment'
+  }
+
+  const cluster: Cluster = await connect(clusterConnStr, connectOptions)
   // end::ts-connect[]
 
   // tag::ts-bucket[]
