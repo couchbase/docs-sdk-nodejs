@@ -12,6 +12,23 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+== Version 2.3.3 (4 April 2023)
+
+Version 2.3.3 is a patch release of the Ottoman ODM.
+This release fixes an issue with the ArrayType options to prevent them from being set to `undefined`.
+
+[source,console]
+----
+$ npm install ottoman@2.3.3
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* ArrayType not handling options correctly.
+
+
 == Version 2.3.2 (2 March 2023)
 
 Version 2.3.2 is a patch release of the Ottoman ODM.
