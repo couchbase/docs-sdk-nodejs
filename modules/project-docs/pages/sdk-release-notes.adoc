@@ -24,6 +24,64 @@ $ npm install couchbase@4.2.0
 ----
 
 
+== Version 4.2.3 (9 May 2023)
+
+Version 4.2.3 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.3/[API Reference]
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1154[JSCBC-1154]:
+Expose C++ metadata
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-324[CXXCBC-324]:
+Check port and network name on session restart
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/401[#401]).
+
+* https://issues.couchbase.com/browse/CXXCBC-323[CXXCBC-323]:
+Parse bootstrap_timeout and resolve_timeout in connection string
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/400[#400]).
+
+* Introduce dump_configuration for debugging:
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/398[#398]).
+
+* https://issues.couchbase.com/browse/CXXCBC-31[CXXCBC-31]:
+Allow the use of schemaless connection strings (e.g. `"cb1.example.com,cb2.example.com"`)
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/394[#394]).
+
+* https://issues.couchbase.com/browse/CXXCBC-320[CXXCBC-320]:
+Negative expiry in atr can 'stick' docs
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/393[#393]).
+
+* https://issues.couchbase.com/browse/CXXCBC-318[CXXCBC-318]:
+Always try TCP if UDP fails in DNS-SRV resolver
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/390[#390]).
+
+* https://issues.couchbase.com/browse/CXXCBC-145[CXXCBC-145]:
+Search query request raw option not used
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/380[#380]).
+
+* https://issues.couchbase.com/browse/CXXCBC-144[CXXCBC-144]:
+Search query on collections should not require scope_name
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/379[#379]).
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
 == Version 4.2.2 (9 March 2023)
 
 Version 4.2.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
