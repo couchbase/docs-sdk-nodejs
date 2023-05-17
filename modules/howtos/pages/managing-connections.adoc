@@ -131,6 +131,47 @@ Couchbase Server Enterprise Edition and Couchbase Capella support full encryptio
 This includes key-value type operations, queries, and configuration communication.
 Make sure you have the Enterprise Edition of Couchbase Server, or a Couchbase Capella account, before proceeding with configuring encryption on the client side.
 
+For TLS verification the SDK uses the following certificates:
+
+* The certificates in the Mozilla Root CA bundle (bundled with the SDK as of 4.2.4 and obtained from https://curl.se/docs/caextract.html[curl])
+* The certificates in OpenSSL’s default certificate store (as of 4.2.0)
+* The self-signed root certificate that is used to sign Capella Certificates (bundled with the SDK as of 4.1.0)
+
+The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables. `The SSL_CERT_DIR` variable is used to set a specific directory in which the client should look for individual certificate files, whereas the `SSL_CERT_FILE` environment variable is used to point to a single file containing one or more certificates.
+
+Loading the Mozilla certificates can be disabled using the disable_mozilla_ca_certificates connection string parameter.
+
+The Couchbase++ core’s metadata provide information about where OpenSSL’s default certificate store is located, which environment variables can be used to override them and which version of the Mozilla Root CA store is bundled with the SDK. You can obtain the metadata using the following command:
+
+====
+[source,console]
+----
+$ node -p "JSON.parse(require('couchbase').cbppMetadata)"
+----
+
+[source,console]
+----
+{
+  ...
+  mozilla_ca_bundle_date: 'Tue Jan 10 04:12:06 2023 GMT',
+  mozilla_ca_bundle_embedded: true,
+  mozilla_ca_bundle_sha256: 'fb1ecd641d0a02c01bc9036d513cb658bbda62a75e246bedbc01764560a639f0',
+  mozilla_ca_bundle_size: 137,
+  ...
+  openssl_default_cert_dir: '/opt/homebrew/etc/openssl@1.1/certs',
+  openssl_default_cert_dir_env: 'SSL_CERT_DIR',
+  openssl_default_cert_file: '/opt/homebrew/etc/openssl@1.1/cert.pem',
+  openssl_default_cert_file_env: 'SSL_CERT_FILE',
+  ...
+}
+----
+====
+With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with information on the version of the Mozilla CA certificate store will be output. For example:
+
+----
+[2023-05-17 15:54:23.907] [28822,310461] [debug] 7ms, [6d92f0-c4ba-d843-9d86-3c6839a2bed362]: loading 137 CA certificates from Mozilla bundle. Update date: "Tue Jan 10 04:12:06 2023 GMT", SHA256: "fb1ecd641d0a02c01bc9036d513cb658bbda62a75e246bedbc01764560a639f0"
+----
+
 [{tabs}]
 ====
 Couchbase Capella::
@@ -146,14 +187,7 @@ However, as the certificate is bundled with the SDK, it is trusted by default.
 Couchbase Server::
 +
 --
-As of SDK 4.2, if you connect to a Couchbase Server cluster with a root certificate issued by a trusted CA (Certificate Authority), you no longer need to configure this in the `SecurityConfig` settings.
-
-The cluster's root certificate just needs to be issued by a CA whose certificate is in your OpenSSL trust store.
-This can include publicly trusted CAs (e.g., GoDaddy, Verisign, etc...), plus any other CA certificates that you wish to add.
-The Node.js SDK uses https://github.com/couchbaselabs/couchbase-cxx-client[{cbpp}] internally to retrieve the root CAs.
-
-IMPORTANT: {cbpp} loads your root CA store using OpenSSL and depending on your Node installation, certificates might not be in the CA store by default.  You might need to configure the `SSL_CERT_DIR` or `SSL_CERT_FILE`
-environment variable to set the directory or root CA store file {cbpp} uses to retrieve root CAs.
+Because certificates from the Mozilla Root CA store are bundled with the SDK, if the server's certificate is signed by a well-known CA (e.g., GoDaddy, Verisign, etc.), you no longer need to configure this in the `SecurityConfig` settings.
 
 You can still provide a certificate explicitly if necessary:
 
