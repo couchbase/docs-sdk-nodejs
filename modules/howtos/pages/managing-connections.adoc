@@ -166,7 +166,7 @@ $ node -p "JSON.parse(require('couchbase').cbppMetadata)"
 }
 ----
 ====
-With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with information on the version of the Mozilla CA certificate store will be output. For example:
+With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information on the version of the Mozilla CA certificate store will be output. For example:
 
 ----
 [2023-05-17 15:54:23.907] [28822,310461] [debug] 7ms, [6d92f0-c4ba-d843-9d86-3c6839a2bed362]: loading 137 CA certificates from Mozilla bundle. Update date: "Tue Jan 10 04:12:06 2023 GMT", SHA256: "fb1ecd641d0a02c01bc9036d513cb658bbda62a75e246bedbc01764560a639f0"
