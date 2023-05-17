@@ -141,7 +141,7 @@ The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FI
 
 Loading the Mozilla certificates can be disabled using the disable_mozilla_ca_certificates connection string parameter.
 
-The Couchbase++ core’s metadata provide information about where OpenSSL’s default certificate store is located, which environment variables can be used to override them and which version of the Mozilla Root CA store is bundled with the SDK. You can obtain the metadata using the following command:
+The {cbpp} core’s metadata provide information about where OpenSSL’s default certificate store is located, which version of the Mozilla Root CA store is bundled with the SDK, and other useful details. You can obtain the metadata using the following command:
 
 ====
 [source,console]
