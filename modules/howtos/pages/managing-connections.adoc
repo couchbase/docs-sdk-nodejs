@@ -166,7 +166,7 @@ $ node -p "JSON.parse(require('couchbase').cbppMetadata)"
 }
 ----
 ====
-With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information on the version of the Mozilla CA certificate store will be output. For example:
+With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information about the version of the Mozilla CA certificate store will be outputted. For example:
 
 ----
 [2023-05-17 15:54:23.907] [28822,310461] [debug] 7ms, [6d92f0-c4ba-d843-9d86-3c6839a2bed362]: loading 137 CA certificates from Mozilla bundle. Update date: "Tue Jan 10 04:12:06 2023 GMT", SHA256: "fb1ecd641d0a02c01bc9036d513cb658bbda62a75e246bedbc01764560a639f0"
@@ -187,7 +187,7 @@ However, as the certificate is bundled with the SDK, it is trusted by default.
 Couchbase Server::
 +
 --
-Because certificates from the Mozilla Root CA store are bundled with the SDK, if the server's certificate is signed by a well-known CA (e.g., GoDaddy, Verisign, etc.), you no longer need to configure this in the `SecurityConfig` settings.
+Certificates from the Mozilla Root CA store are now bundled with the SDK. If the server's certificate is signed by a well-known CA (e.g., GoDaddy, Verisign, etc.), you don't need to configure this in the `SecurityConfig` settings, instead use `couchbases://` in your connection string.
 
 You can still provide a certificate explicitly if necessary:
 
