@@ -35,6 +35,11 @@ $ npm install couchbase@4.2.4
 
 http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.4/[API Reference]
 
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1158[JSCBC-1158]:
+Bundled Mozilla certificates with the library.
+
 === Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-328[CXXCBC-328]:
