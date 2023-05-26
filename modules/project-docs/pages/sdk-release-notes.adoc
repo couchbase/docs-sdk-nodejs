@@ -40,10 +40,12 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.4/[API Reference]
 * https://issues.couchbase.com/browse/CXXCBC-328[CXXCBC-328]:
 Fix socket reconnection during rebalance process
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/406[#406]).
-  ** There are several improvements has been implemented to make the library resilient to rapid topology changes (in particular in Cloud environment) when both DNS-SRV bootstrap is being used along with alternative addresses. The changes include:
-  *** Take into account alternative hostname and ports during detection of added/removed nodes on configuration update
-  *** Replace node index tracking with hostname/port matching to when restarting the connections, this way we will be sure that no duplicate connections will be left, or live connections replaced by restarted session.
-  *** Improved logging of critial events during rebalance: restarting, preservation and removing connections.
+** There are several improvements has been implemented to make the library resilient to rapid topology changes (in particular in Cloud environment) when both DNS-SRV bootstrap is being used along with alternative addresses. 
+The changes include:
+*** Taking into account alternative hostname and ports during detection of added/removed nodes on configuration update.
+*** Replacing node index tracking with hostname/port matching when restarting the connections -- 
+this way we will be sure that no duplicate connections will be left, or live connections replaced by restarted session.
+*** Improved logging of critial events during rebalance: restarting, preservation, and removing connections.
 
 === Known Issues
 
