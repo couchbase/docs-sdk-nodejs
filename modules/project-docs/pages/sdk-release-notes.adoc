@@ -4,4 +4,306 @@
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
 
-include::4.2@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+abstract]
+{description}
+
+These pages cover the 3.0._x_ versions of the Couchbase Node.js SDK.
+
+For release notes, download links, and installation methods for 2.6 and earlier releases of the Couchbase Node.js Client, please see the https://docs-archive.couchbase.com/nodejs-sdk/2.6/sdk-release-notes.html[2.x Node.js Release Notes & Download Archive].
+
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
+
+To install an older version, specify the version directly with npm. 
+For example, to install version 3.0.0:
+
+[source,console]
+----
+$ npm install couchbase@3.0.0
+----
+
+
+
+== Version 3.0.7 (6 November 2020)
+
+Version 3.0.7 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.7
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.7/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-773[JSCBC-773]:
+Added query collections support.
+* http://issues.couchbase.com/browse/JSCBC-803[JSCBC-803]:
+Added support for pinging at a cluster level.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-692[JSCBC-692]:
+Updated transcoders to bubble errors.
+* http://issues.couchbase.com/browse/JSCBC-799[JSCBC-799]:
+Improved error handling for deferred operations.
+* http://issues.couchbase.com/browse/JSCBC-756[JSCBC-756]:
+Updated xattr helpers to be consistent.
+* http://issues.couchbase.com/browse/JSCBC-755[JSCBC-755]:
+Added support for multi-value sub-document array ops.
+* http://issues.couchbase.com/browse/JSCBC-821[JSCBC-821]:
+Added missing MutationState implementation.
+* http://issues.couchbase.com/browse/JSCBC-797[JSCBC-797]:
+Resolved a number of typescript typings errors.
+* http://issues.couchbase.com/browse/JSCBC-724[JSCBC-724]:
+Added a test case to confirm queries also cancel.
+* Added docs and types generation to `make check`.
+* Various minor documentation updates.
+* Updated to libcouchbase 3.0.6
+* Updated all dependencies to latest versions.
+
+
+== Version 3.0.6 (3 September 2020)
+
+Version 3.0.6 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.6/[API Reference]
+
+=== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-786[JSCBC-786]:
+Added uncommitted collections support for user management.
+* http://issues.couchbase.com/browse/JSCBC-743[JSCBC-743]:
+Added high-level options for basic configuration.
+* http://issues.couchbase.com/browse/JSCBC-788[JSCBC-788]:
+Added high-level options for specifying certificates.
+* http://issues.couchbase.com/browse/JSCBC-686[JSCBC-686]:
+Added auto generation of TypeScript types using JSDoc.
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-784[JSCBC-784]:
+Fixed some results using value instead of content.
+* http://issues.couchbase.com/browse/JSCBC-758[JSCBC-758]:
+Improved view scan consistency handling.
+* Updated to libcouchbase 3.0.4.
+* Updated all dependencies to latest versions.
+* Various minor documentation updates.
+* Various other minor fixes.
+
+
+== Version 3.0.5 (6 August 2020)
+
+Version 3.0.5 is a release of the third generation Node.js SDK.
+
+[source,console]
+----
+$ npm install couchbase@3.0.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/[API Reference]
+
+=== Fixed Issues
+
+* Updated all dependencies to latest versions.
+* Various minor documentation fixes.
+
+
+== Version 3.0.4 (17 June 2020)
+
+Version 3.0.4 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.4
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.4/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Fixed binary data being interpreted as UTF-8.
+
+
+== Version 3.0.3 (14 June 2020)
+
+Version 3.0.3 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.3/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-702[JSCBC-702]:
+Fixed MaxExpiry not being specifiable when creating a collection.
+* http://issues.couchbase.com/browse/JSCBC-757[JSCBC-757]:
+Fixed CreateCollection parameters not matching specification.
+* http://issues.couchbase.com/browse/JSCBC-698[JSCBC-698]:
+Fixed MutateIn placeholders not being handled correctly.
+* http://issues.couchbase.com/browse/JSCBC-751[JSCBC-751]:
+Fixed documentation of SearchIndexManager.
+* http://issues.couchbase.com/browse/JSCBC-754[JSCBC-754]:
+Don't swap in a bucket name when none is used.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.0.2
+* Various other minor fixes.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+== Version 3.0.2 (7 May 2020)
+
+Version 3.0.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.2/[API Reference]
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-715[JSCBC-715]:
+Fixed issue with sending highlight option with Search queries.
+* http://issues.couchbase.com/browse/JSCBC-727[JSCBC-727]:
+Fixed views API to use correct casing on parameter names.
+* http://issues.couchbase.com/browse/JSCBC-676[JSCBC-676]:
+Fixed view queries to return expected row object data.
+* http://issues.couchbase.com/browse/JSCBC-728[JSCBC-728]:
+Fixed user management sometimes failing to deserialize users.
+* http://issues.couchbase.com/browse/JSCBC-729[JSCBC-729]:
+Fixed user management user upsert not sending roles.
+* http://issues.couchbase.com/browse/JSCBC-730[JSCBC-730]:
+Fixed lookupIn method to return content not results.
+* http://issues.couchbase.com/browse/JSCBC-714[JSCBC-714]:
+Fixed mutateIn not including counter results in return object.
+* http://issues.couchbase.com/browse/JSCBC-700[JSCBC-700]:
+Fixed issue with analytics named parameters causing query failures.
+* http://issues.couchbase.com/browse/JSCBC-701[JSCBC-701]:
+Fixed custom search query timeouts causing query failures.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.0.1
+* Various other minor fixes.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+== Version 3.0.1 (20 March 2020)
+
+Version 3.0.1 is the second release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.1/[API Reference]
+
+=== New Features
+
+* Updated to libcouchbase 3.0.1
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-669[JSCBC-669]:
+Fixed CAS not being returned in some cases.
+* http://issues.couchbase.com/browse/JSCBC-682[JSCBC-682]:
+Fixed N1QL parameter options parsing.
+* http://issues.couchbase.com/browse/JSCBC-666[JSCBC-666]:
+Fixed ConjunctionSearchQuery not being able to add queries.
+* http://issues.couchbase.com/browse/JSCBC-665[JSCBC-665]:
+Fixed search query not using the correct indexes.
+* http://issues.couchbase.com/browse/JSCBC-677[JSCBC-677]:
+Fixed search query consistency not being set in some cases.
+* http://issues.couchbase.com/browse/JSCBC-668[JSCBC-668]:
+Fixed an UnhandledPromiseRejection error which could occur.
+* http://issues.couchbase.com/browse/JSCBC-673[JSCBC-673]:
+Improved handling of cluster closing.
+* http://issues.couchbase.com/browse/JSCBC-711[JSCBC-711]:
+Fixed a case where closing connections could trigger a segfault.
+* http://issues.couchbase.com/browse/JSCBC-695[JSCBC-695]:
+Fixed issue with the use of custom connection string options.
+* http://issues.couchbase.com/browse/JSCBC-683[JSCBC-683]:
+Fixed inconsistent metrics data from query service.
+* Updated to latest version of all dependencies.
+* Adjusted prebuilt binaries to match currently support Node.js versions.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+== Version 3.0.0 (20 January 2020)
+
+This is the first GA release of the third generation Node.js SDK.
+
+[source,console]
+----
+$ npm install couchbase@3.0.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0/[API Reference]
+
+=== New Features
+
+* Updated to libcouchbase 3.0.0
+
+=== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-653[JSCBC-653]:
+Fixed transcoding in getReplica and getAndTouch.
+* http://issues.couchbase.com/browse/JSCBC-650[JSCBC-650]:
+Improved stream wrappers to support both events and async/await.
+* http://issues.couchbase.com/browse/JSCBC-657[JSCBC-657]:
+Fixed some error double-translation issues.
+* http://issues.couchbase.com/browse/JSCBC-652[JSCBC-652]:
+Fixed issue with data structures exist checks.
+* http://issues.couchbase.com/browse/JSCBC-655[JSCBC-655]:
+Fixed search query constructors not being exported.
+* http://issues.couchbase.com/browse/JSCBC-656[JSCBC-656]:
+Renamed QueryProfile to QueryProfileMode.
+* http://issues.couchbase.com/browse/JSCBC-639[JSCBC-639]:
+Updated tests to reflect updated libcouchbase behaviour.
+* http://issues.couchbase.com/browse/JSCBC-654[JSCBC-654]:
+Updated to the latest mock to resolve test issue.
+* http://issues.couchbase.com/browse/JSCBC-647[JSCBC-647]:
+Marked all error contexts as uncommitted.
+* http://issues.couchbase.com/browse/JSCBC-596[JSCBC-596]:
+Marked defaultScope, scope, and collection methods uncommitted.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+== Pre-releases
+
+Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release, and although unsupported, the release notes and download links are retained for archive purposes xref:3.0-pre-release-notes.adoc[here].
+
+
+== Older Releases
+
+Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
