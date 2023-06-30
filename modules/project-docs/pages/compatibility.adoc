@@ -9,7 +9,7 @@ include::partial$attributes.adoc[]
 [abstract]
 {description}
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, and 16.x.
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- see the table <<supported-node-js-versions,below>>.
 
 
 == Couchbase Version/SDK Version Matrix
@@ -83,9 +83,41 @@ M1 ARM  architecture is fully supported in the Node.js SDK.
 
 Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
 
+=== Supported Node.js Versions
+
+Couchbase Node.js SDK is supported on any Node.js LTS version that is:
+
+. https://github.com/nodejs/Release[Supported] at time of SDK release (and thus tested).
+. Has not reached https://endoflife.date/nodejs[End-of-Life date].
+
+.Supported Node.js Versions
+[cols="5,8,8"]
+|===
+| Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
+
+| 14
+| until 2023-04-30
+| from 3.0.2
+
+| 16
+| until 2023-09-23
+| from 3.13
+
+| 18
+| until 2025-04-30
+| from 3.2.5
+
+| 20
+| until 2026-04-30
+| from 4.2.5
+
+|===
+
+
 === ARM Processor Support
 
 AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from SDK 4.2).
+
 
 == Integrations
 
@@ -132,6 +164,20 @@ Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK
 
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
+[NOTE]
+.Binary Size
+====
+You may find the binary of the SDK too large to run in some environments.
+The size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
+
+[source,console]
+----
+strip --strip-debug
+----
+See the `strip` manpage for further details.
+
+You can also safely remove the `src/` and `deps/` folders (under `couchbase/node_modules/`).
+====
 
 include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
 
