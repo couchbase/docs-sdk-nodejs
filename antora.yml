@@ -4,4 +4,4 @@ title: Node.js SDK
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
-server_version: '7.1'
+server_version: '7.1.2'
