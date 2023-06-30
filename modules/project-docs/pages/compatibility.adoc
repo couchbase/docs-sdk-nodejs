@@ -167,8 +167,9 @@ include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 [NOTE]
 .Binary Size
 ====
-You may find the binary of the SDK too large to run in some environments.
-The size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
+You may find the binary of the SDK from version 4.0.0 to 4.2.4 too large to run in some environments.
+If you cannot upgrade to 4.2.5 onwards for your app, 
+the size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
 
 [source,console]
 ----
