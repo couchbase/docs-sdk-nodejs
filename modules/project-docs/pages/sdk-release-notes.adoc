@@ -24,6 +24,40 @@ $ npm install couchbase@4.2.0
 ----
 
 
+== Version 4.2.5 (11 July 2023)
+
+Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and reduces the size of prebuilt binaries.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.5/[API Reference]
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1109[JSCBC-1109]:
+Reduced the size of prebuilt binaries.
+
+* https://issues.couchbase.com/browse/JSCBC-1149[JSCBC-1149]:
+Updated build system to download Node.js headers when using cmake-js >= v7.0.
+
+* https://issues.couchbase.com/browse/JSCBC-1150[JSCBC-1150]:
+Updated Windows build system to download node.lib when using cmake-js >= v7.0.
+
+* https://issues.couchbase.com/browse/JSCBC-1152[JSCBC-1152]:
+Added support for Node.js v18.
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
 == Version 4.2.4 (26 May 2023)
 
 Version 4.2.4 is the next patch release of the fourth generation Node.js SDK.
