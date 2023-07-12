@@ -10,7 +10,7 @@ include::partial$attributes.adoc[]
 [abstract]
 {description}
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, and 16.x.
+The Couchbase Node.js Client aims to run on any https://github.com/nodejs/Release[LTS version of Node.js] -- see the table below for <<node-js-version-compatibility,supported versions>>.
 
 
 == Couchbase Version/SDK Version Matrix
@@ -55,6 +55,39 @@ See the notes there for Support details.
 At time of release, the Couchbase 4.0 Node.js SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
 
 include::{version-server}@sdk:shared:partial$capella.adoc[tag=cloud]
+
+
+
+== Node.js Version Compatibility
+
+The Couchbase Node.js SDK aims to support https://github.com/nodejs/Release[LTS] versions of Node.js.
+The table below indicates the Node.js SDK version where support of an LTS version of Node.js was added.
+Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Life date] are not supported.
+
+.Supported Node.js Versions
+[cols="5,8,8"]
+|===
+| Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
+
+| 12
+| until 2022-04-30
+| from 3.0.0
+
+| 14
+| until 2023-04-30
+| from 3.0.2
+
+| 16
+| until 2023-09-11
+| from 3.2.0
+
+| 18
+| until 2025-04-30
+| from 4.2.5
+
+|===
+
+
 
 
 == Platform Compatibility
