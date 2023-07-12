@@ -9,7 +9,7 @@ include::partial$attributes.adoc[]
 [abstract]
 {description}
 
-The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js] -- currently, 12.x, 14.x, and 16.x.
+The Couchbase Node.js Client aims to run on any https://github.com/nodejs/Release[LTS version of Node.js] -- see the table below for <<node-js-version-compatibility,supported versions>>.
 
 
 == Couchbase Version/SDK Version Matrix
@@ -52,6 +52,32 @@ To make development easier, the SDK includes the Capella client certificate read
 include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 
+== Node.js Version Compatibility
+
+The Couchbase Node.js SDK aims to support https://github.com/nodejs/Release[LTS] versions of Node.js.
+The table below indicates the Node.js SDK version where support of an LTS version of Node.js was added.
+Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Life date] are not supported.
+
+.Supported Node.js Versions
+[cols="5,8,8"]
+|===
+| Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
+
+| 14
+| until 2023-04-30
+| from 3.0.2
+
+| 16
+| until 2023-09-11
+| from 3.2.0
+
+| 18
+| until 2025-04-30
+| from 4.2.5
+
+|===
+
+
 == Platform Compatibility
 
 The Node.js SDK is tested and supported on the following platforms:
@@ -86,6 +112,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 === ARM Processor Support
 
 AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from SDK 4.2).
+
 
 == Integrations
 
@@ -132,6 +159,21 @@ Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK
 
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
+[NOTE]
+.Binary Size
+====
+You may find the binary of the SDK from version 4.0.0 to 4.2.4 too large to run in some environments.
+If you cannot upgrade to 4.2.5 onwards for your app, 
+the size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
+[source,console]
+----
+strip --strip-debug
+----
+See the `strip` manpage for further details.
+You can also safely remove the `src/` and `deps/` folders (under `node_modules/couchbase/`).
+The 4.2.5 version of the SDK can provide recommendations on further reducing the size of the deployment package.
+See https://github.com/couchbase/couchnode#aws-lambda[README] for details.
+====
 
 include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
 
