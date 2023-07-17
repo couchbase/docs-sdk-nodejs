@@ -103,17 +103,15 @@ var res = await collection.get('user:kingarthur', {
 
 include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 
-[source,java]
+[source,javascript]
 ----
-//  Java example:
-String counterDocId = "counter-doc";
+var counterDocId = "counter-doc";
 // Increment by 1, creating doc if needed
-collection.binary().increment(counterDocId);
+const result = await collection.binary().increment(counterDocId, 1 {
+    initial: 1000
+});
 // Decrement by 1
-collection.binary().decrement(counterDocId);
-// Decrement by 5
-collection.binary().decrement(counterDocId,
-DecrementOptions.decrementOptions().delta(5));
+const result = await collection.binary().decrement(counterDocId, 1);
 ----
 
 In the above example, a counter is created by using the `counter` method with an `initial` value.
@@ -133,13 +131,14 @@ xref:howtos:concurrent-document-mutations.adoc[CAS] values are not used with cou
 The intent of the counter operation is to simply increment the current server-side value of the document.
 If you wish to only increment the document if it is at a certain value, then you may use a normal `upsert` function with CAS:
 
-[source,python]
+[source,javascript]
 ----
-# Python example:
-rv = cb.get('counter_id')
-value, cas = rv.value, rv.cas
-if should_increment_value(value):
-  cb.upsert('counter_id', value + increment_amount, cas=cas)
+const result = await collection.get(key);
+value = result.value
+cas  = result.cas
+if (shouldIncrementValue){
+    await collection.upsert('counter_id', value + increment_amount, cas=cas)
+}
 ----
 
 include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters3]
