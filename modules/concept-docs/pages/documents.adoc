@@ -107,7 +107,7 @@ include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 ----
 var counterDocId = "counter-doc";
 // Increment by 1, creating doc if needed
-const result = await collection.binary().increment(counterDocId, 1 {
+const result = await collection.binary().increment(counterDocId, 1, {
     initial: 1000
 });
 // Decrement by 1
@@ -129,15 +129,14 @@ Many SDKs will limit the _delta_ argument to the value of a _signed_ 64-bit inte
 
 xref:howtos:concurrent-document-mutations.adoc[CAS] values are not used with counter operations since counter operations are atomic.
 The intent of the counter operation is to simply increment the current server-side value of the document.
-If you wish to only increment the document if it is at a certain value, then you may use a normal `upsert` function with CAS:
+If you wish to only increment the document if it is at a certain value, then you may use a normal `get` function coupled with an increment:
 
 [source,javascript]
 ----
-const result = await collection.get(key);
+const result = await collection.get(counterDocId);
 value = result.value
-cas  = result.cas
 if (shouldIncrementValue){
-    await collection.upsert('counter_id', value + increment_amount, cas=cas)
+    const result = await collection.binary().increment(counterDocId, incrementValue);
 }
 ----
 
