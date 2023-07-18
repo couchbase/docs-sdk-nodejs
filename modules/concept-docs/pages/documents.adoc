@@ -115,14 +115,13 @@ const result = await collection.binary().decrement(counterDocId, 1);
 ----
 
 In the above example, a counter is created by using the `counter` method with an `initial` value.
-The initial value is the value the counter uses if the counter ID does not yet exist.
+The initial value is the value the counter uses if the counter document doesn't yet exist.
 
 Once created, the counter can be incremented or decremented atomically by a given _amount_ or _delta_.
 Specifying a positive delta increments the value and specifying a negative one decrements it.
 When a counter operation is complete, the application receives the current value of the counter, after the increment.
 
-Couchbase counters are 32-bit unsigned integers in the 3.2 NodeJS SDK, and do not wrap around if decremented beyond 0.
-However, counters will wrap around if incremented past their maximum value (which is the maximum value contained within a 32-bit integer). In other SDKs, and newer versions of the NodeJS SDK, counters are 64-bit unsigned integers.
+Couchbase counters are 32-bit unsigned integers in the 3.2 NodeJS SDK. In newer versions of the NodeJS SDK, counters are limited to 52-bit, Javascript's maximum safe integer.
 Many SDKs will limit the _delta_ argument to the value of a _signed_ 64-bit integer.
 
 <<expiry,Expiration>> times can also be specified when using counter operations.
