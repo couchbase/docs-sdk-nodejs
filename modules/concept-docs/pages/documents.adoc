@@ -103,28 +103,41 @@ var res = await collection.get('user:kingarthur', {
 
 include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 
-[source,java]
+[source,javascript]
 ----
-//  Java example:
-String counterDocId = "counter-doc";
+var counterDocId = "counter-doc";
 // Increment by 1, creating doc if needed
-collection.binary().increment(counterDocId);
+const result = await collection.binary().increment(counterDocId, 1, {
+    initial: 1000
+});
 // Decrement by 1
-collection.binary().decrement(counterDocId);
-// Decrement by 5
-collection.binary().decrement(counterDocId,
-DecrementOptions.decrementOptions().delta(5));
+const result = await collection.binary().decrement(counterDocId, 1);
 ----
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters2]
+In the above example, a counter is created by using the `counter` method with an `initial` value.
+The initial value is the value the counter uses if the counter ID does not yet exist.
 
-[source,python]
+Once created, the counter can be incremented or decremented atomically by a given _amount_ or _delta_.
+Specifying a positive delta increments the value and specifying a negative one decrements it.
+When a counter operation is complete, the application receives the current value of the counter, after the increment.
+
+Couchbase counters are 32-bit unsigned integers in the 3.2 NodeJS SDK, and do not wrap around if decremented beyond 0.
+However, counters will wrap around if incremented past their maximum value (which is the maximum value contained within a 32-bit integer). In other SDKs, and newer versions of the NodeJS SDK, counters are 64-bit unsigned integers.
+Many SDKs will limit the _delta_ argument to the value of a _signed_ 64-bit integer.
+
+<<expiry,Expiration>> times can also be specified when using counter operations.
+
+xref:howtos:concurrent-document-mutations.adoc[CAS] values are not used with counter operations since counter operations are atomic.
+The intent of the counter operation is to simply increment the current server-side value of the document.
+If you wish to only increment the document if it is at a certain value, then you may use a normal `get` function coupled with an increment:
+
+[source,javascript]
 ----
-# Python example:
-rv = cb.get('counter_id')
-value, cas = rv.value, rv.cas
-if should_increment_value(value):
-  cb.upsert('counter_id', value + increment_amount, cas=cas)
+const result = await collection.get(counterDocId);
+value = result.value
+if (shouldIncrementValue){
+    const result = await collection.binary().increment(counterDocId, incrementValue);
+}
 ----
 
 include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters3]
