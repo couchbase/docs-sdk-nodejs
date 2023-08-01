@@ -11,6 +11,24 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
+== Version 2.3.4 (1 August 2023)
+
+Version 2.3.4 is a patch release of the Ottoman ODM.
+This release upgrades several underlying dependencies and fixes a number of issues listed below.
+
+[source,console]
+----
+$ npm install ottoman@2.3.4
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* https://github.com/couchbaselabs/node-ottoman/issues/724[#724: Add `undefined` to stringType Validator.]
+* https://github.com/couchbaselabs/node-ottoman/issues/726[#726: Update Merge Doc Behavior.]
+* https://github.com/couchbaselabs/node-ottoman/issues/728[#728: Fix query while using arrays indexes e.g. array[-1] (last element).]
+
 
 == Version 2.3.3 (4 April 2023)
 
