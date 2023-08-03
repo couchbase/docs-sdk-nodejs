@@ -62,7 +62,7 @@ couchbase://nodeA.example.com,nodeB.example.com
 couchbase://127.0.0.1?network=external&operation_timeout=10.0
 ----
 
-The full list of recognized parameters is documented in the client settings reference.
+The full list of recognized parameters is documented in the https://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.3/interfaces/ConnectOptions.html[API reference].
 
 A connection string may optionally be prefixed by either "couchbase://" or "couchbases://".
 If you wish to use TLS, the connection string must be configured as described in <<ssl>>.
