@@ -75,6 +75,10 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 | until 2025-04-30
 | from 4.2.5
 
+| 20
+| until 2026-04-30
+| from 4.2.5
+
 |===
 
 
@@ -91,7 +95,7 @@ The Node.js SDK is tested and supported on the following platforms:
 * CentOS 7.
 * Ubuntu (LTS) 18.04 (_Bionic_), & 20.04 (_Focal_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
-* Alpine Linux (since Node.js SDK 3.2.5).
+* Alpine Linux (since Node.js SDK 3.2.5) versions that have not reached https://alpinelinux.org/releases/[end-of-life support]. Note that while Alpine _might_ provide support upon request for older versions, any version that has reached end-of-life support is outside the scope of Couchbase technical support.
 
 [discrete]
 === Microsoft Windows
