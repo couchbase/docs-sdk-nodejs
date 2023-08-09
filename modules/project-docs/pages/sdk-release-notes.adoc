@@ -90,7 +90,7 @@ Distributed tracing is not yet supported.
 
 == Version 4.2.5 (11 July 2023)
 
-Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and v20 and reduces the size of prebuilt binaries.
+Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and v20, and reduces the size of prebuilt binaries.
 
 [source,bash]
 ----
