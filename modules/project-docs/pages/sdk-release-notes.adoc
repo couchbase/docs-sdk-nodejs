@@ -24,9 +24,73 @@ $ npm install couchbase@4.2.0
 ----
 
 
+== Version 4.2.6 (8 August 2023)
+
+Version 4.2.6 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.6/[API Reference]
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1160[JSCBC-1160]:
+Fixed WAN Config profile to use system defaults for DNS configuration.
+
+* https://issues.couchbase.com/browse/JSCBC-1174[JSCBC-1174]:
+Fixed Node.js v18 linux prebuilds to use glibc 2.28.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1104[JSCBC-1104]:
+Added support for Native KV Range Scans.
+
+* https://issues.couchbase.com/browse/JSCBC-1161[JSCBC-1161]:
+Added support for query with read from replica.
+
+* https://issues.couchbase.com/browse/JSCBC-1177[JSCBC-1177]:
+Added CONTRIBUTING.md to provide contributing guidelines.
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-349[CXXCBC-349]:
+Allow to pass trust certificate by value (https://github.com/couchbaselabs/couchbase-cxx-client/pull/430[#430]).
+** The change affects TLS v1.0 and v1.1 which are now disabled by default.
+* https://issues.couchbase.com/browse/CXXCBC-343[CXXCBC-343]:
+Continue bootsrap if DNS-SRV resolution fails (https://github.com/couchbaselabs/couchbase-cxx-client/pull/422[#422]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Support query with read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
+* https://issues.couchbase.com/browse/CXXCBC-339[CXXCBC-339]:
+Disabled older TLS protocols (https://github.com/couchbaselabs/couchbase-cxx-client/pull/418[#418]).
+* https://issues.couchbase.com/browse/CXXCBC-333[CXXCBC-333]:
+Fixed parsing 'resolv.conf' on Linux. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/416[#416]).
+** The library might not ignore trailing characters when reading nameserver address from the file.
+* https://issues.couchbase.com/browse/CXXCBC-242[CXXCBC-242]:
+SDK Support for Native KV Range Scans (https://github.com/couchbaselabs/couchbase-cxx-client/pull/419[#419], https://github.com/couchbaselabs/couchbase-cxx-client/pull/423[#423], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/424[#424], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/426[#426], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/428[#428], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/431[#431], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/432[#432], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/433[#433],  
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/434[#434]).
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+
 == Version 4.2.5 (11 July 2023)
 
-Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and reduces the size of prebuilt binaries.
+Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and v20, and reduces the size of prebuilt binaries.
 
 [source,bash]
 ----
@@ -48,6 +112,9 @@ Updated Windows build system to download node.lib when using cmake-js >= v7.0.
 
 * https://issues.couchbase.com/browse/JSCBC-1152[JSCBC-1152]:
 Added support for Node.js v18.
+
+* https://issues.couchbase.com/browse/JSCBC-1170[JSCBC-1170]:
+Added support for Node.js v20.
 
 === Known Issues
 
