@@ -111,7 +111,8 @@ The Node.js SDK is built on top of libcouchbase (the C SDK), which is tested and
 & CentOS 7 & 8.
 * Ubuntu (LTS) 16.04 (_Xenial_), 18.04 (_Bionic_), & 20.04 (_Focal_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
-* Alpine Linux (since Node.js SDK 3.2.5).
+* Alpine Linux versions that have not reached https://alpinelinux.org/releases/[end-of-life support] (since Node.js SDK 3.2.5). 
+Note that while Alpine _might_ provide support upon request for older versions, any version that has reached end-of-life support is outside the scope of Couchbase technical support.
 
 [discrete]
 === Microsoft Windows
