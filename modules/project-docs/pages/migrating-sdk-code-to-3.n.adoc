@@ -542,7 +542,7 @@ In addition:
 * The required minimum version of Node.js is now v12 (the oldest supported maintenance LTS release).
 * Ping error entries are now typed.
 * `get` requests on locked documents now retry rather than fast-fail.
-* The changes to xref:ref:client-settings.adoc[Client Settings] are not currently documented.
-* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.
+* The changes to xref:ref:client-settings.adoc[Client Settings] are documented in the https://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.3/interfaces/ConnectOptions.html[API reference].
+* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are documented in the https://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.3/functions/connect.html[API reference].
 
 include::7.1@sdk:shared:partial$archive.adoc[tag=migration]
