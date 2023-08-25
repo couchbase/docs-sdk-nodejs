@@ -24,6 +24,42 @@ $ npm install couchbase@4.2.0
 ----
 
 
+== Version 4.2.7 (25 August 2023)
+
+Version 4.2.7 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.7
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.7/[API Reference]
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1162[JSCBC-1162]:
+Added support for Subdocument Read from Replica
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
+Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Added support for query read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
+* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341];
+https://issues.couchbase.com/browse/CXXCBC-365[CXXCBC-365]:
+Added support for Subdocument Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
+
+=== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
 == Version 4.2.6 (8 August 2023)
 
 Version 4.2.6 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
@@ -85,7 +121,6 @@ Core IO logging is not forwarded through to Node.js.
 
 * http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
 Distributed tracing is not yet supported.
-
 
 
 == Version 4.2.5 (11 July 2023)
