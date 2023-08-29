@@ -532,9 +532,7 @@ The following features are unsupported in 4.0.
 They are available in 3.2, and will be available in a later 4.x release.
 
 * xref:concept-docs:response-time-observability.adoc[Response Time Availability]
-* xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[Legacy durability]
 * Log forwarding
-* Replica reads
 
 In addition:
 
