@@ -38,17 +38,17 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.7/[API Reference]
 === Enhancements
 
 * https://issues.couchbase.com/browse/JSCBC-1162[JSCBC-1162]:
-Added support for Subdocument Read from Replica
+Added support for Sub-Document Read from Replica.
 
 === Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
 Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
 * https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
-Added support for query read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
-* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341];
+Added support for Query Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
+* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341],
 https://issues.couchbase.com/browse/CXXCBC-365[CXXCBC-365]:
-Added support for Subdocument Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
+Added support for Sub-Document Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
 https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
 
 === Known Issues
@@ -85,7 +85,7 @@ Fixed Node.js v18 linux prebuilds to use glibc 2.28.
 Added support for Native KV Range Scans.
 
 * https://issues.couchbase.com/browse/JSCBC-1161[JSCBC-1161]:
-Added support for query with read from replica.
+Added support for Query with Read from Replica.
 
 * https://issues.couchbase.com/browse/JSCBC-1177[JSCBC-1177]:
 Added CONTRIBUTING.md to provide contributing guidelines.
@@ -98,7 +98,7 @@ Allow to pass trust certificate by value (https://github.com/couchbaselabs/couch
 * https://issues.couchbase.com/browse/CXXCBC-343[CXXCBC-343]:
 Continue bootsrap if DNS-SRV resolution fails (https://github.com/couchbaselabs/couchbase-cxx-client/pull/422[#422]).
 * https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
-Support query with read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
+Support Query with Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
 * https://issues.couchbase.com/browse/CXXCBC-339[CXXCBC-339]:
 Disabled older TLS protocols (https://github.com/couchbaselabs/couchbase-cxx-client/pull/418[#418]).
 * https://issues.couchbase.com/browse/CXXCBC-333[CXXCBC-333]:
@@ -798,7 +798,7 @@ Reimplemented the library with TypeScript.
 Added ability to specify collections to search query.
 * http://issues.couchbase.com/browse/JSCBC-886[JSCBC-886]:
 Added ability to specify raw search query options.
-* http://issues.couchbase.com/browse/JSCBC-770[JSCBC-770]/
+* http://issues.couchbase.com/browse/JSCBC-770[JSCBC-770],
   http://issues.couchbase.com/browse/JSCBC-838[JSCBC-838]:
 Implemented metrics and tracing.
 * http://issues.couchbase.com/browse/JSCBC-707[JSCBC-707]:
