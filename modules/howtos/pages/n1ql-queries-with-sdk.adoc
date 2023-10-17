@@ -16,6 +16,7 @@ Our query service uses {sqlpp} (formerly N1QL), which will be fairly familiar to
 xref:#additional-resources[Additional resources] for learning about {sqlpp} are listed at the bottom of the page.
 
 Before you get started you may wish to check out the xref:{version-server}@server:n1ql:n1ql-language-reference/index.adoc[{sqlpp} intro page], or just dive in with a query against our travel-sample data set.
+Also, building indexes is covered in more detail on the xref:concept-docs:n1ql-query.adoc#index-building[Query concept page].
 
 After familiarizing yourself with the basics on how the {sqlpp} query language works and how to query it from the UI you can use it from the Node.js SDK.
 
