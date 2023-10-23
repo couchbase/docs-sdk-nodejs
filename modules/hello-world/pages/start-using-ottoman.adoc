@@ -45,3 +45,9 @@ Links to each release are to be found in the xref:project-docs:ottoman-release-n
 
 Couchbase welcomes community contributions to the Ottoman ODM.
 The Ottoman ODM source code is available on https://github.com/couchbaselabs/node-ottoman[GitHub^].
+
+////
+Future work - travel sample app
+https://github.com/couchbaselabs/try-ottoman-ts 
+https://github.com/couchbaselabs/try-ottoman
+////
