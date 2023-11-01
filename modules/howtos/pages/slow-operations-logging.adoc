@@ -5,11 +5,10 @@
 
 [abstract]
 {description}
-Change the settings to alter how much information you collect
 
-WARNING: the Logging implementation has changed substantially in 4.0 and is not currently fully documented.
-This will be resolved in a future 4.x release.
-
+IMPORTANT: the Logging implementation has changed substantially in 4.x.
+There are currently no options for configuring tracing thresholds or the logging meter emit interval -- only the defaults from the underlying {cpp} SDK are available.
+// Use of the console logger (detailed below) is currently recommended.
 
 ////
 To improve debuggability certain metrics are automatically measured and logged.
