@@ -6,7 +6,7 @@
 [abstract]
 {description}
 
-IMPORTANT: the Logging implementation has changed substantially in 4.x.
+IMPORTANT: The Logging implementation has changed substantially in 4.x.
 There are currently no options for configuring tracing thresholds or the logging meter emit interval -- only the defaults from the underlying {cpp} SDK are available.
 // Use of the console logger (detailed below) is currently recommended.
 
