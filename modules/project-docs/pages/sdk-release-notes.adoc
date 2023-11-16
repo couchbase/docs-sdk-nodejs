@@ -33,6 +33,88 @@ We always recommend using the latest version of the SDK -- it contains all of th
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+
+=== Version 4.2.8 (15 November 2023)
+
+Version 4.2.8 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements. 
+Most notably, the 4.2.8 release removes the `OpenSSL` dependency for published prebuilds.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.8
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.8/[API Reference]
+
+==== Behavioral Change
+
+The Couchbase Node.js SDK now publishes prebuilt binaries that statically link against BoringSSL.  
+The change removes the `OpenSSL` requirement from the SDK when using a published prebuild. 
+If building the SDK from source, the build will default to statically linking with the `OpenSSL` provided from the Node.js version being used.  
+Build options are availalbe if wanting to build from source and statically link against BoringSSL.
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1187[JSCBC-1187]:
+Fixed connstr `trust_store_path` override if `trustStorePath` is not provided in `ConnectOptions`.
+
+* https://issues.couchbase.com/browse/JSCBC-1194[JSCBC-1194]:
+Fixed transactions `QueryMode` KV insert.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1203[JSCBC-1203]:
+Updated published source tarball to only include necessary files for source install.
+
+* https://issues.couchbase.com/browse/JSCBC-1200[JSCBC-1200]:
+Updated published prebuilds to statically link against BoringSSL.
+
+* https://issues.couchbase.com/browse/JSCBC-1189[JSCBC-1189]:
+Fixed CRUD tests that have callback.
+
+* https://issues.couchbase.com/browse/JSCBC-1185[JSCBC-1185]:
+Added support for bucket settings for 'no dedup' feature.
+
+* https://issues.couchbase.com/browse/JSCBC-1179[JSCBC-1179]:
+Reduced default HTTP Idle Timeout.
+
+* https://issues.couchbase.com/browse/JSCBC-1016[JSCBC-1016]:
+Removed subdocument exists workaround.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-387[CXXCBC-387]:
+Optimising tags for `noop_tracer` and cache formatted `mbcp_session` endpoints (https://github.com/couchbaselabs/couchbase-cxx-client/pull/461[#461], https://github.com/couchbaselabs/couchbase-cxx-client/pull/462[#462], https://github.com/couchbaselabs/couchbase-cxx-client/pull/464[#464]).
+* https://issues.couchbase.com/browse/CXXCBC-383[CXXCBC-383]:
+Map `subdoc_doc_too_deep` KV status to `path_too_deep` error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/455[#455]).
+* https://issues.couchbase.com/browse/CXXCBC-377[CXXCBC-377]:
+Implement `ExtParallelUnstaging` in transactions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/457[#457]).
+* https://issues.couchbase.com/browse/CXXCBC-386[CXXCBC-386]:
+Allow option to statically link against BoringSSL (https://github.com/couchbaselabs/couchbase-cxx-client/pull/458[#458], https://github.com/couchbaselabs/couchbase-cxx-client/pull/465[#465], https://github.com/couchbaselabs/couchbase-cxx-client/pull/471[#471], https://github.com/couchbaselabs/couchbase-cxx-client/pull/474[#474], https://github.com/couchbaselabs/couchbase-cxx-client/pull/478[#478]).
+* https://issues.couchbase.com/browse/CXXCBC-376[CXXCBC-376]:
+Revisit what 'create' and 'update' bucket operations send to the server. 
+Make optional bucket settings fields optional, and do not send anything unless the settings explicitly specified (https://github.com/couchbaselabs/couchbase-cxx-client/pull/451[#451]).
+* https://issues.couchbase.com/browse/CXXCBC-374[CXXCBC-374]:
+Return 'bucket_exists' error when the bucket already exists during 'create' operation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/449[#449]).
+* https://issues.couchbase.com/browse/CXXCBC-359[CXXCBC-359]:
+Reduced the default timeout for idle HTTP connections to 1 second. 
+The previous default (4.5 seconds) was too close to the 5-second server-side timeout, and could lead to spurious request failures (https://github.com/couchbaselabs/couchbase-cxx-client/pull/448[#448]).
+* https://issues.couchbase.com/browse/CXXCBC-367[CXXCBC-367];
+https://issues.couchbase.com/browse/CXXCBC-370[CXXCBC-370]:
+Added history retention settings to buckets/collection management (https://github.com/couchbaselabs/couchbase-cxx-client/pull/446[#446]).
+* https://issues.couchbase.com/browse/CXXCBC-119[CXXCBC-119]:
+Return booleans for subdocument 'exists' operation instead of error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/444[#444], https://github.com/couchbaselabs/couchbase-cxx-client/pull/452[#452]).
+* Add more information to diagnose timeouts on NMVB responses (https://github.com/couchbaselabs/couchbase-cxx-client/pull/475[#475]).
+
+
 === Version 4.2.7 (25 August 2023)
 
 Version 4.2.7 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
