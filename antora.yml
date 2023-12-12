@@ -6,6 +6,7 @@ nav:
 - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
+    page-nav-header-levels: 1
     server_version: '7.6'
     sdk_current_version: '4.3.0'
     sdk_dot_minor: '4.3'
@@ -16,5 +17,4 @@ asciidoc:
     name-sdk: 'Node.js SDK'
     sdk_api: '3.5'
     sdk-api-link: https://docs.couchbase.com/sdk-api/couchbase-node-client/index.html
-    sdk-gh-link: https://github.com/couchbase/couchnode/
-    
+    sdk-gh-link: https://github.com/couchbase/couchnode/    
