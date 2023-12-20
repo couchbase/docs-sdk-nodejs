@@ -93,7 +93,7 @@ The Node.js SDK is tested and supported on the following platforms:
 * Amazon Linux 2.
 * Red Hat Enterprise Linux 8;
 * CentOS 7.
-* Ubuntu (LTS) 18.04 (_Bionic_), & 20.04 (_Focal_).
+* Ubuntu (LTS): 18.04 (_Bionic_), 20.04 (_Focal_), & 22.04 (_Jammy_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
 * Alpine Linux versions that have not reached https://alpinelinux.org/releases/[end-of-life support] (since Node.js SDK 3.2.5). 
 Note that while Alpine _might_ provide support upon request for older versions, any version that has reached end-of-life support is outside the scope of Couchbase technical support.
