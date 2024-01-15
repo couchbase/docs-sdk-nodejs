@@ -10,7 +10,7 @@ asciidoc:
     sdk_current_version: '4.3.0'
     sdk_dot_minor: '4.3'
     sdk_dot_major: 4.x'
-    version-server: '7.5'
+    version-server: '7.2'
     version-common: '7.5'
     name_platform: '  node.js'
     name-sdk: 'Node.js SDK'
