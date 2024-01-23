@@ -26,12 +26,12 @@ https://ottomanjs.com/#installation[Ottoman installation]
 
 === New Features
 
-* Adds Ottoman support for Couchbase Full Text Search.
+* Adds Ottoman support for xref:server:fts:fts-introduction.adoc[Couchbase Full Text Search].
 
 === Fixed Issues
 
 * https://github.com/couchbaselabs/node-ottoman/issues/742[#742]:
-Fix depopulating for nested objects.
+Fixed depopulating for nested objects.
 
 
 == Version 2.3.4 (1 August 2023)
