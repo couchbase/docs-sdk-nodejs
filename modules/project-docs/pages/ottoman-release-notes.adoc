@@ -12,6 +12,28 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+== Version 2.4.0 (23 January 2024)
+
+Version 2.4.0 is a minor release of the Ottoman ODM.
+This release adds support for Full Text Search, fixes an issues listed below, and upgrades several underlying dependencies.
+
+[source,console]
+----
+$ npm install ottoman@2.4.0
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== New Features
+
+* Adds Ottoman support for xref:server:fts:fts-introduction.adoc[Couchbase Full Text Search].
+
+=== Fixed Issues
+
+* https://github.com/couchbaselabs/node-ottoman/issues/742[#742]:
+Fixed depopulating for nested objects.
+
+
 == Version 2.3.4 (1 August 2023)
 
 Version 2.3.4 is a patch release of the Ottoman ODM.
