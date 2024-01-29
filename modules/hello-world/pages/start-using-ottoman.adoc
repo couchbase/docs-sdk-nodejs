@@ -33,12 +33,13 @@ Earlier versions of Ottoman ODM 2.x are only compatible with the xref:3.2@nodejs
 To learn more about Ottoman ODM you can head over to the official https://ottomanjs.com/[Ottoman^] page.
 You can also find more in-depth information on some of the topics we touched on:
 
-* https://ottomanjs.com/guides/schema.html[Schemas^]
-* https://ottomanjs.com/guides/model.html[Models^]
-* https://ottomanjs.com/guides/document.html[Documents^]
-* https://ottomanjs.com/guides/query-builder.html[Query Builder^]
+* https://ottomanjs.com/docs/basic/schema[Schemas^]
+* https://ottomanjs.com/docs/basic/model[Models^]
+* https://ottomanjs.com/docs/basic/document[Documents^]
+* https://ottomanjs.com/docs/basic/query-builder[Query Builder^]
 
-If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/guides/faq.html[here] should also answer some questions.
+If you are evaluating whether to use Ottoman in your next project, the FAQs https://ottomanjs.com/docs/faq[here] should also answer some questions.
+
 
 Links to each release are to be found in the xref:project-docs:ottoman-release-notes.adoc[individual release notes].
 
