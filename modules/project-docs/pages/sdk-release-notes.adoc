@@ -49,7 +49,7 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.10/[API Reference]
 ==== Enhancements
 
 * https://issues.couchbase.com/browse/JSCBC-1227[JSCBC-1227]:
-Added support for maxTTL value of -1 for collection "no expiry".
+Added support for `maxTTL` value of -1 for collection "no expiry".
 
 ==== Underlying C++ SDK Core Changes
 
