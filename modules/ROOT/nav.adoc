@@ -75,7 +75,7 @@
 * xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
 
 .Project Docs
-* xref:project-docs:sdk-release-notes.adoc[Release Notes]
+* xref:project-docs:sdk-release-notes.adoc#node-js-sdk-4-1-releases[Release Notes]
 * xref:project-docs:ottoman-release-notes.adoc[Ottoman Release Notes]
 * xref:project-docs:compatibility.adoc[Compatibility]
 ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating to SDK 3 API]
