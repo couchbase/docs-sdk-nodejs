@@ -1,8 +1,1442 @@
-= Couchbase Node.js Release Notes and Archives
-:description: Release notes and download archive for the Couchbase Node.js Client.
+= SDK Release Notes
+:description: Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
 :navtitle: Release Notes
 :page-topic-type: project-doc
+:page-toclevels: 2
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
-:page-partial:
 
-include::4.2@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::project-docs:partial$attributes.adoc[]
+
+// tag::all[]
+[abstract]
+{description}
+
+These pages cover the 4._x_ and 3._x_ versions of the Couchbase Node.js SDK  (both matching the 3.x SDK API, see the xref:compatibility.adoc#api-version[compatibility page]).
+
+For release notes, download links, and installation methods for 2.6 and earlier releases of the Couchbase Node.js Client, please see the https://docs-archive.couchbase.com/nodejs-sdk/2.6/sdk-release-notes.html[2.x Node.js Release Notes & Download Archive].
+
+The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
+
+To install an older version, specify the version directly with npm. 
+For example, to install version 4.2.0:
+
+[source,console]
+----
+$ npm install couchbase@4.2.0
+----
+
+
+
+[#latest-release]
+== Node.js SDK 4.2 Releases
+
+We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
+All patch releases for each dot minor release should be API compatible, and safe to upgrade;
+any changes to expected behavior are noted in the release notes that follow.
+
+
+=== Version 4.2.10 (2 February 2024)
+
+Version 4.2.10 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.10
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.10/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1227[JSCBC-1227]:
+Added support for `maxTTL` value of -1 for collection "no expiry".
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-284[CXXCBC-284]:
+Reduced network traffic when polling for cluster configuration (https://github.com/couchbaselabs/couchbase-cxx-client/pull/504[#504]).
+* https://issues.couchbase.com/browse/CXXCBC-421[CXXCBC-421]:
+Updated query response to return `feature_not_available` when query preserve expiry is not supported (https://github.com/couchbaselabs/couchbase-cxx-client/pull/510[#510]).
+* https://issues.couchbase.com/browse/CXXCBC-422[CXXCBC-422]:
+Added insufficient credentials error code to common query error code conversion (https://github.com/couchbaselabs/couchbase-cxx-client/pull/511[#511]).
+* https://issues.couchbase.com/browse/CXXCBC-431[CXXCBC-431]:
+Added check for history retention bucket capability for collection create/update (https://github.com/couchbaselabs/couchbase-cxx-client/pull/502[#502], https://github.com/couchbaselabs/couchbase-cxx-client/pull/505[#505]).
+* https://issues.couchbase.com/browse/CXXCBC-446[CXXCBC-446]:
+Improved log formatting (https://github.com/couchbaselabs/couchbase-cxx-client/pull/506[#506], https://github.com/couchbaselabs/couchbase-cxx-client/pull/508[#508], https://github.com/couchbaselabs/couchbase-cxx-client/pull/509[#509]).
+
+
+=== Version 4.2.9 (3 January 2024)
+
+Version 4.2.9 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.9
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.9/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1163[JSCBC-1163]:
+Added improvements for Faster Failover and Config Push.
+
+* https://issues.couchbase.com/browse/JSCBC-1221[JSCBC-1221]:
+Added support for new KV error code to raise `DocumentNotLockedError`.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-100[CXXCBC-100]:
+Added support for using a timeout with `ping` operation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/486[#486]).
+* https://issues.couchbase.com/browse/CXXCBC-368[CXXCBC-368]:
+Added support for subscribing to clustermap notifications to speedup failover (https://github.com/couchbaselabs/couchbase-cxx-client/pull/490[#490]).
+* https://issues.couchbase.com/browse/CXXCBC-391[CXXCBC-391]:
+Fixed transactions API inconsistencies (https://github.com/couchbaselabs/couchbase-cxx-client/pull/482[#482]).
+* https://issues.couchbase.com/browse/CXXCBC-403[CXXCBC-403]:
+Updated `not_my_vbucket` KV response to allow retries (https://github.com/couchbaselabs/couchbase-cxx-client/pull/480[#480]).
+* https://issues.couchbase.com/browse/CXXCBC-404[CXXCBC-404]:
+Fixed `unlock` operations to expose `KV_LOCKED` status as `cas_mismatch` (https://github.com/couchbaselabs/couchbase-cxx-client/pull/479[#479]).
+* https://issues.couchbase.com/browse/CXXCBC-409[CXXCBC-409]:
+Added handling for `index does not exist` query error (https://github.com/couchbaselabs/couchbase-cxx-client/pull/492[#492]).
+* https://issues.couchbase.com/browse/CXXCBC-419[CXXCBC-419]:
+Updated MCBP protocol parser to start with clean state (https://github.com/couchbaselabs/couchbase-cxx-client/pull/496[#496]).
+
+
+=== Version 4.2.8 (15 November 2023)
+
+Version 4.2.8 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements. 
+Most notably, the 4.2.8 release removes the `OpenSSL` dependency for published prebuilds.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.8
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.8/[API Reference]
+
+==== Behavioral Change
+
+The Couchbase Node.js SDK now publishes prebuilt binaries that statically link against BoringSSL.  
+The change removes the `OpenSSL` requirement from the SDK when using a published prebuild. 
+If building the SDK from source, the build will default to statically linking with the `OpenSSL` provided from the Node.js version being used.  
+Build options are availalbe if wanting to build from source and statically link against BoringSSL.
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1187[JSCBC-1187]:
+Fixed connstr `trust_store_path` override if `trustStorePath` is not provided in `ConnectOptions`.
+
+* https://issues.couchbase.com/browse/JSCBC-1194[JSCBC-1194]:
+Fixed transactions `QueryMode` KV insert.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1203[JSCBC-1203]:
+Updated published source tarball to only include necessary files for source install.
+
+* https://issues.couchbase.com/browse/JSCBC-1200[JSCBC-1200]:
+Updated published prebuilds to statically link against BoringSSL.
+
+* https://issues.couchbase.com/browse/JSCBC-1189[JSCBC-1189]:
+Fixed CRUD tests that have callback.
+
+* https://issues.couchbase.com/browse/JSCBC-1185[JSCBC-1185]:
+Added support for bucket settings for 'no dedup' feature.
+
+* https://issues.couchbase.com/browse/JSCBC-1179[JSCBC-1179]:
+Reduced default HTTP Idle Timeout.
+
+* https://issues.couchbase.com/browse/JSCBC-1016[JSCBC-1016]:
+Removed subdocument exists workaround.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-387[CXXCBC-387]:
+Optimising tags for `noop_tracer` and cache formatted `mbcp_session` endpoints (https://github.com/couchbaselabs/couchbase-cxx-client/pull/461[#461], https://github.com/couchbaselabs/couchbase-cxx-client/pull/462[#462], https://github.com/couchbaselabs/couchbase-cxx-client/pull/464[#464]).
+* https://issues.couchbase.com/browse/CXXCBC-383[CXXCBC-383]:
+Map `subdoc_doc_too_deep` KV status to `path_too_deep` error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/455[#455]).
+* https://issues.couchbase.com/browse/CXXCBC-377[CXXCBC-377]:
+Implement `ExtParallelUnstaging` in transactions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/457[#457]).
+* https://issues.couchbase.com/browse/CXXCBC-386[CXXCBC-386]:
+Allow option to statically link against BoringSSL (https://github.com/couchbaselabs/couchbase-cxx-client/pull/458[#458], https://github.com/couchbaselabs/couchbase-cxx-client/pull/465[#465], https://github.com/couchbaselabs/couchbase-cxx-client/pull/471[#471], https://github.com/couchbaselabs/couchbase-cxx-client/pull/474[#474], https://github.com/couchbaselabs/couchbase-cxx-client/pull/478[#478]).
+* https://issues.couchbase.com/browse/CXXCBC-376[CXXCBC-376]:
+Revisit what 'create' and 'update' bucket operations send to the server. 
+Make optional bucket settings fields optional, and do not send anything unless the settings explicitly specified (https://github.com/couchbaselabs/couchbase-cxx-client/pull/451[#451]).
+* https://issues.couchbase.com/browse/CXXCBC-374[CXXCBC-374]:
+Return 'bucket_exists' error when the bucket already exists during 'create' operation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/449[#449]).
+* https://issues.couchbase.com/browse/CXXCBC-359[CXXCBC-359]:
+Reduced the default timeout for idle HTTP connections to 1 second. 
+The previous default (4.5 seconds) was too close to the 5-second server-side timeout, and could lead to spurious request failures (https://github.com/couchbaselabs/couchbase-cxx-client/pull/448[#448]).
+* https://issues.couchbase.com/browse/CXXCBC-367[CXXCBC-367];
+https://issues.couchbase.com/browse/CXXCBC-370[CXXCBC-370]:
+Added history retention settings to buckets/collection management (https://github.com/couchbaselabs/couchbase-cxx-client/pull/446[#446]).
+* https://issues.couchbase.com/browse/CXXCBC-119[CXXCBC-119]:
+Return booleans for subdocument 'exists' operation instead of error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/444[#444], https://github.com/couchbaselabs/couchbase-cxx-client/pull/452[#452]).
+* Add more information to diagnose timeouts on NMVB responses (https://github.com/couchbaselabs/couchbase-cxx-client/pull/475[#475]).
+
+
+=== Version 4.2.7 (25 August 2023)
+
+Version 4.2.7 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.7
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.7/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1162[JSCBC-1162]:
+Added support for Sub-Document Read from Replica.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
+Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Added support for Query Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
+* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341],
+https://issues.couchbase.com/browse/CXXCBC-365[CXXCBC-365]:
+Added support for Sub-Document Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.6 (8 August 2023)
+
+Version 4.2.6 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.6/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1160[JSCBC-1160]:
+Fixed WAN Config profile to use system defaults for DNS configuration.
+
+* https://issues.couchbase.com/browse/JSCBC-1174[JSCBC-1174]:
+Fixed Node.js v18 linux prebuilds to use glibc 2.28.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1104[JSCBC-1104]:
+Added support for Native KV Range Scans.
+
+* https://issues.couchbase.com/browse/JSCBC-1161[JSCBC-1161]:
+Added support for Query with Read from Replica.
+
+* https://issues.couchbase.com/browse/JSCBC-1177[JSCBC-1177]:
+Added CONTRIBUTING.md to provide contributing guidelines.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-349[CXXCBC-349]:
+Allow to pass trust certificate by value (https://github.com/couchbaselabs/couchbase-cxx-client/pull/430[#430]).
+** The change affects TLS v1.0 and v1.1 which are now disabled by default.
+* https://issues.couchbase.com/browse/CXXCBC-343[CXXCBC-343]:
+Continue bootsrap if DNS-SRV resolution fails (https://github.com/couchbaselabs/couchbase-cxx-client/pull/422[#422]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Support Query with Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
+* https://issues.couchbase.com/browse/CXXCBC-339[CXXCBC-339]:
+Disabled older TLS protocols (https://github.com/couchbaselabs/couchbase-cxx-client/pull/418[#418]).
+* https://issues.couchbase.com/browse/CXXCBC-333[CXXCBC-333]:
+Fixed parsing 'resolv.conf' on Linux. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/416[#416]).
+** The library might not ignore trailing characters when reading nameserver address from the file.
+* https://issues.couchbase.com/browse/CXXCBC-242[CXXCBC-242]:
+SDK Support for Native KV Range Scans (https://github.com/couchbaselabs/couchbase-cxx-client/pull/419[#419], https://github.com/couchbaselabs/couchbase-cxx-client/pull/423[#423], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/424[#424], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/426[#426], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/428[#428], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/431[#431], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/432[#432], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/433[#433],  
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/434[#434]).
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.5 (11 July 2023)
+
+Version 4.2.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.5 release adds support for Node.js v18 and v20, and reduces the size of prebuilt binaries.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.5/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1109[JSCBC-1109]:
+Reduced the size of prebuilt binaries.
+
+* https://issues.couchbase.com/browse/JSCBC-1149[JSCBC-1149]:
+Updated build system to download Node.js headers when using cmake-js >= v7.0.
+
+* https://issues.couchbase.com/browse/JSCBC-1150[JSCBC-1150]:
+Updated Windows build system to download node.lib when using cmake-js >= v7.0.
+
+* https://issues.couchbase.com/browse/JSCBC-1152[JSCBC-1152]:
+Added support for Node.js v18.
+
+* https://issues.couchbase.com/browse/JSCBC-1170[JSCBC-1170]:
+Added support for Node.js v20.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.4 (26 May 2023)
+
+Version 4.2.4 is the next patch release of the fourth generation Node.js SDK.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.4
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.4/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1158[JSCBC-1158]:
+Bundled Mozilla certificates with the library.
+Source: https://curl.se/docs/caextract.html. 
+Use the `disable_mozilla_ca_certificates` connection string option to disable the bundled certificates.
+See https://docs.couchbase.com/nodejs-sdk/current/howtos/managing-connections.html#ssl[Secure Connections] for more details.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-328[CXXCBC-328]:
+Fix socket reconnection during rebalance process
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/406[#406]).
+** Several improvements have been implemented to make the library resilient to rapid topology changes when both DNS-SRV bootstrap is being used along with alternative addresses. 
+The changes include:
+*** Taking into account alternative hostname and ports during detection of added/removed nodes on configuration update.
+*** Replacing node index tracking with hostname/port matching when restarting the connections -- 
+this way the library ensures that no duplicate connections will be left, or live connections replaced by restarted session.
+*** Improved logging of critial events during rebalance: restarting, preservation, and removing connections.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.3 (9 May 2023)
+
+Version 4.2.3 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.3/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1154[JSCBC-1154]:
+Exposed C++ client metadata (open SSL info, txns info, etc.) as `cbppMetadata`, 
+for use by client applications -- particularly useful when working through environment setup issues.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-324[CXXCBC-324]:
+Port and network name now checked on session restart, improving performance during rebalance
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/401[#401]).
+
+* https://issues.couchbase.com/browse/CXXCBC-323[CXXCBC-323]:
+`bootstrap_timeout` and `resolve_timeout` can now be used in the connection string
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/400[#400]).
+
+* Introduce `dump_configuration` for debugging:
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/398[#398]).
+
+* https://issues.couchbase.com/browse/CXXCBC-31[CXXCBC-31]:
+Allow the use of schemaless connection strings (e.g. `"cb1.example.com,cb2.example.com"`)
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/394[#394]).
+
+* https://issues.couchbase.com/browse/CXXCBC-320[CXXCBC-320]:
+Negative expiry in atr was leaving docs in a stuck state -- this has been fixed, with expiry atr now becoming an `int32_t`
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/393[#393]).
+
+* https://issues.couchbase.com/browse/CXXCBC-318[CXXCBC-318]:
+Always try TCP if UDP fails in DNS-SRV resolver
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/390[#390]).
+
+* https://issues.couchbase.com/browse/CXXCBC-145[CXXCBC-145]:
+Search query request raw option now used
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/380[#380]).
+
+* https://issues.couchbase.com/browse/CXXCBC-144[CXXCBC-144]:
+Search query on collections now no longer requires `scope_name`, as it can be inferred from the index
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/379[#379]).
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.2 (9 March 2023)
+
+Version 4.2.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.2/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1141[JSCBC-1141]:
+Fixed Query Index Management `watchIndexes` to raise `QueryIndexNotFound` if provided index(es) not found.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1118[JSCBC-1118]:
+Updated the SDK to handle new `query_context` changes.
+
+* https://issues.couchbase.com/browse/JSCBC-1137[JSCBC-1137]:
+Created `CppClusterCredentials` and `CppDnsConfig` interfaces for use in connecting.
+
+* https://issues.couchbase.com/browse/JSCBC-1129[JSCBC-1129]:
+Updated the SDK to only populate `allowed_sasl_mechanisms` if user explicitly chooses.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.1 (8 February 2023)
+
+Version 4.2.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.  Most notably the 4.2.1 release provides improved performance for key-value operations.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.1/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1106[JSCBC-1106]:
+Changed search response `fields` and `explain` to be object types.
+
+* https://issues.couchbase.com/browse/JSCBC-1117[JSCBC-1117]:
+Fixed how callback is handled when passed to key-value operations if no options object is provided.
+
+* https://issues.couchbase.com/browse/JSCBC-1124[JSCBC-1124]:
+Fixed configuration profile implementation.
+
+* https://issues.couchbase.com/browse/JSCBC-1126[JSCBC-1126]:
+Added mutation token to MutateInResult.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1079[JSCBC-1079]:
+Implemented `ChangePassword` feature in user management API.
+
+* https://issues.couchbase.com/browse/JSCBC-1123[JSCBC-1123]:
+Updated {cpp} core to include patch fixing OpenSSL and multithreading.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+=== Version 4.2.0 (3 November 2022)
+
+Version 4.2.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.0/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1105[JSCBC-1105]:
+Fixed crash caused when undefined named parameter provided in query options.
+
+* https://issues.couchbase.com/browse/JSCBC-1107[JSCBC-1107]:
+Fixed mutation token construction.
+
+* https://issues.couchbase.com/browse/JSCBC-1108[JSCBC-1108]:
+Added support for consistentWith query option.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-926[JSCBC-926]:
+Added Support for Serverless Execution Environments
+
+* https://issues.couchbase.com/browse/JSCBC-1006[JSCBC-1006]:
+Removed collection exists operation workaround.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+== Node.js SDK 4.1 Releases
+
+=== Version 4.1.3 (6 October 2022)
+
+Version 4.1.3 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.3/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1094[JSCBC-1094]:
+Added transactions exception bindings.
+
+* https://issues.couchbase.com/browse/JSCBC-1098[JSCBC-1098]:
+Fixed incorrect Authentication Error Type raised.
+
+* https://issues.couchbase.com/browse/JSCBC-1101[JSCBC-1101]:
+Fixed `CreateBucket`/`GetBucket` APIs to match spec.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1099[JSCBC-1099]:
+Updated Node.js SDK to included latests {cbpp} client changes.
+
+* https://issues.couchbase.com/browse/JSCBC-1100[JSCBC-1100]:
+Added support for Configuration Profiles.
+
+* https://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Added support for replica reads.
+
+* https://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Added support for legacy durable operations.
+
+* https://issues.couchbase.com/browse/JSCBC-1096[JSCBC-1096]:
+Added support for LDAP authentication.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+=== Version 4.1.2 (4 August 2022)
+ 
+Version 4.1.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.2
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.2/[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-1088[JSCBC-1088]:
+Switched to using NAPI prebuilds rather than Node.js version specific prebuilds.  This
+enables prebuild compatibility with a wider range of Node.js versions, including Node.js
+18 and in-development versions such as Node.js 19.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1092[JSCBC-1092]:
+Fixed queries being executed as prepared instead of adhoc by default.
+* http://issues.couchbase.com/browse/JSCBC-1054[JSCBC-1054]:
+Fixed issue with UTF-8 handling of binary documents.
+* Updated to latest dependencies.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
+
+=== Version 4.1.1 (13 June 2022)
+ 
+Version 4.1.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.1
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.1/[API Reference]
+
+==== Fixed Issues
+
+* Updated to latest dependencies.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
+
+=== Version 4.1.0 (28 April 2022)
+ 
+Version 4.1.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.1.0
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.1.0/[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-956[JSCBC-956]: Added ability to manage collection query indexes. 
+ 
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1045[JSCBC-1045]:
+Added missing mutate_in path flag values from couchbase++.
+* http://issues.couchbase.com/browse/JSCBC-1044[JSCBC-1044]:
+Fixed issue with double-encoding of search queries.
+* http://issues.couchbase.com/browse/JSCBC-1067[JSCBC-1067]:
+Fixed issue with query parameters being double-encoded.
+* http://issues.couchbase.com/browse/JSCBC-1058[JSCBC-1058]:
+Switched to using auto-generated bindings.
+* Fixed issue with durable operations not using user timeouts.
+* Fixed issue with creating indexes with no conditions.
+* Mark all new SDK 3.4 APIs as committed.
+* Updated to latest dependencies.
+* Various minor fixes.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+
+
+
+== Node.js SDK 4.0 Releases
+
+=== Version 4.0.0 (18 February 2022)
+ 
+Version 4.0.0 is the first major release of the next generation Node.js SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements related to internal connection behaviour.
+ 
+[source,console]
+----
+$ npm install couchbase@4.0.0
+----
+ 
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.0.0/[API Reference]
+ 
+==== New Features
+
+* Cluster options are now sectioned into individual options blocks.
+* Support for distributed transactions has now been implemented.
+* Reimplemented the library using couchbase++.
+ 
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-878[JSCBC-878]:
+Diagnostics functions now returned fully typed results.
+* http://issues.couchbase.com/browse/JSCBC-1007[JSCBC-1007]:
+first_error_message/first_error_code are no longer available on error contexts.
+* Search scan consistency included RequestPlus in error and it has now been removed.
+* Performing a GET operation against a locked document now retries internally.
+* The view query reduce option used to take a string in error, and now takes a boolean.
+* Following with Node.js EOL, v12 is now the minimum version.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1041[JSCBC-1041]:
+Replica reads are not yet supported.
+* http://issues.couchbase.com/browse/JSCBC-1042[JSCBC-1042]:
+Legacy durability operations are not yet supported.
+* https://issues.couchbase.com/browse/JSCBC-1044[JSCBC-1044]:
+Double-encoding issue when performing search queries.
+
+
+
+== Node.js SDK 3.2 Releases
+
+=== Version 3.2.7 (8 February 2023)
+
+Version 3.2.7 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@3.2.7
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.7/[API Reference]
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1120[JSCBC-1120]:
+Updated libcouchbase dependency to 3.3.4
+
+
+=== Version 3.2.6 (9 November 2022)
+
+Version 3.2.6 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@3.2.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.6/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1113[JSCBC-1113]:
+Fixed Segfault when connecting to Capella with Ottoman
+
+=== Version 3.2.5 (3 November 2022)
+
+Version 3.2.5 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@3.2.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.5/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-971[JSCBC-971]:
+Fixed bucket manager `minDurabilityLevel` parsing failure on Couchbase Server 6.5. 
+
+* https://issues.couchbase.com/browse/JSCBC-976[JSCBC-976]:
+Fixed searchIndexes.getIndexedDocumentsCount() result.
+
+* https://issues.couchbase.com/browse/JSCBC-986[JSCBC-986]:
+Added missing durability level option for binary operations.
+
+* https://issues.couchbase.com/browse/JSCBC-1018[JSCBC-1018]:
+Updated to the latest libcouchbase version.
+
+* https://issues.couchbase.com/browse/JSCBC-1019[JSCBC-1019]:
+Updated dependancies to pick up critical fixes.
+
+* https://issues.couchbase.com/browse/JSCBC-1046[JSCBC-1046]:
+Fixed build system for Windows environments.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-969[JSCBC-969]:
+Updated FTS Rate Limit Parsing.
+
+* https://issues.couchbase.com/browse/JSCBC-982[JSCBC-982]:
+Resolved vulnerability in dependencies (prebuild-install/simple-get).
+
+* https://issues.couchbase.com/browse/JSCBC-1020[JSCBC-1020]:
+Setup black duck scans for v3 after v4 ships to master.
+
+* https://issues.couchbase.com/browse/JSCBC-718[JSCBC-718]:
+Added support for Linux Alpine OS.
+
+
+=== Version 3.2.4 (17 December 2021)
+
+Version 3.2.4 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.4
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.4/[API Reference]
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-923[JSCBC-923]:
+Implemented FTS `includeLocations` and match operators.
+* http://issues.couchbase.com/browse/JSCBC-919[JSCBC-919]:
+Added support for XDCR custom conflict resolution.
+* http://issues.couchbase.com/browse/JSCBC-955[JSCBC-955]:
+Implemented `storageBackend` option in bucket management.
+* http://issues.couchbase.com/browse/JSCBC-921[JSCBC-921]:
+Added support for rate and quota limiting errors.
+* http://issues.couchbase.com/browse/JSCBC-967[JSCBC-967]:
+Use correct arguments indices for options.
+* Fixed crash that could occur during the shutdown of the Node.js runtime.
+* Improved handling of initial connection process.
+* Improved some tests to work more reliably.
+
+
+=== Version 3.2.3 (5 October 2021)
+
+Version 3.2.3 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.3/modules.html[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-930[JSCBC-930]:
+Added support for AWS Graviton2.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-954[JSCBC-954]:
+Fixed `getAllScopes` using the incorrect method.
+
+* http://issues.couchbase.com/browse/JSCBC-952[JSCBC-952]:
+Updated the tsconfig targeting to use the pre-defined Node 10 target,  which will avoid various unnecessary polyfills.
+
+* http://issues.couchbase.com/browse/JSCBC-951[JSCBC-951]:
+Fixed view query serialization of booleans.
+
+
+=== Version 3.2.2 (16 Sept 2021)
+
+Version 3.2.2 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.2
+----
+
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.2/modules.html[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-805[JSCBC-805]:
+Users can now manage the Couchbase Eventing Service from the Node.js SDK client.
+* http://issues.couchbase.com/browse/JSCBC-894[JSCBC-894]:
+Updated SSL failure error messaging to improve debugging experience.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-937[JSCBC-937]:
+Fixed segfault during connection GC.
+* http://issues.couchbase.com/browse/JSCBC-938[JSCBC-938]:
+Fixed segfault during v8 interpreter shutdown.
+* http://issues.couchbase.com/browse/JSCBC-939[JSCBC-939]:
+Fixed segfault related to logging after shutdown.
+* http://issues.couchbase.com/browse/JSCBC-949[JSCBC-949]:
+Fixed query getAllIndexes and watchIndexes to work with collection indexes.
+* http://issues.couchbase.com/browse/JSCBC-948[JSCBC-948]:
+Corrected issue with diagnostics calls failing on brand new connections.
+* http://issues.couchbase.com/browse/JSCBC-945[JSCBC-945]:
+Fixed some methods failing to parse optional callbacks correctly.
+* Updated libcouchbase to include the following fixes: 
+https://issues.couchbase.com/browse/CCBC-1494[CCBC-1494], https://issues.couchbase.com/browse/CCBC-1487[CCBC-1487], https://issues.couchbase.com/browse/CCBC-1488[CCBC-1488].
+
+
+
+=== Version 3.2.1 (26 Aug 2021)
+
+Version 3.2.1 is the next patch release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.1
+----
+
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.1/modules.html[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-744[JSCBC-744]:
+Added support for worker threads.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-910[JSCBC-910]:
+Fixed segfault on connection GC.
+* http://issues.couchbase.com/browse/JSCBC-933[JSCBC-933]:
+Fixed issue with null/undefined logger callbacks.
+* http://issues.couchbase.com/browse/JSCBC-918[JSCBC-918]:
+Fixed issue with `watchIndexes` not returning.
+* http://issues.couchbase.com/browse/JSCBC-913[JSCBC-913]:
+Fixed issue with incorrect role names being returned from user management APIs.
+* http://issues.couchbase.com/browse/JSCBC-911[JSCBC-911]:
+Fixed `MutateInSpec.insert` options not being optional.
+* http://issues.couchbase.com/browse/JSCBC-905[JSCBC-905]:
+Fixed drop collection returning `FeatureNotAvailable` in error.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.2.1.
+
+
+
+=== Version 3.2.0 (21 July 2021)
+
+Version 3.2.0 is the next minor release of the third generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@3.2.0
+----
+
+https://docs.couchbase.com/sdk-api/couchbase-node-client-3.2.0/modules.html[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-883[JSCBC-883]:
+Reimplemented the library with TypeScript.
+* http://issues.couchbase.com/browse/JSCBC-806[JSCBC-806]:
+Added ability to specify collections to search query.
+* http://issues.couchbase.com/browse/JSCBC-886[JSCBC-886]:
+Added ability to specify raw search query options.
+* http://issues.couchbase.com/browse/JSCBC-770[JSCBC-770],
+  http://issues.couchbase.com/browse/JSCBC-838[JSCBC-838]:
+Implemented metrics and tracing.
+* http://issues.couchbase.com/browse/JSCBC-707[JSCBC-707]:
+Added test to confirm query streaming works properly.
+* http://issues.couchbase.com/browse/JSCBC-900[JSCBC-900]:
+Fixed issue with some search query options.
+* http://issues.couchbase.com/browse/JSCBC-901[JSCBC-901]:
+Added workaround for deferring HTTP operations.
+* http://issues.couchbase.com/browse/JSCBC-858[JSCBC-858]:
+Fixed issue where FeatureNotAvailable was thrown in error.
+* http://issues.couchbase.com/browse/JSCBC-903[JSCBC-903]:
+Fixed issue with incorrect subdocument macro value.
+* http://issues.couchbase.com/browse/JSCBC-832[JSCBC-832]:
+Implemented preserveExpiry functionality.
+* http://issues.couchbase.com/browse/JSCBC-762[JSCBC-762]:
+Added support for managing analytics remote links.
+* http://issues.couchbase.com/browse/JSCBC-763[JSCBC-763]:
+Added support for compound data-verse names.
+
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-870[JSCBC-870]:
+Updated mutateIn to use StoreSemantics.
+* http://issues.couchbase.com/browse/JSCBC-876[JSCBC-876]:
+Fixed BucketSettings evictionPolicy naming.
+* http://issues.couchbase.com/browse/JSCBC-871[JSCBC-871]:
+Fixed issue where unhandled exceptions could be thrown.
+* http://issues.couchbase.com/browse/JSCBC-860[JSCBC-860]:
+Fixed issue with flushEnabled not being retrieved correctly.
+* http://issues.couchbase.com/browse/JSCBC-829[JSCBC-829]:
+Fixed segfault on failed management operations.
+* http://issues.couchbase.com/browse/JSCBC-825[JSCBC-825]:
+Fixed definition of search facets in queries.
+* http://issues.couchbase.com/browse/JSCBC-873[JSCBC-873]:
+Renamed GetResult.expiry to GetResult.expiryTime to match spec.
+* http://issues.couchbase.com/browse/JSCBC-869[JSCBC-869]:
+Updated Unlock not to return a Result, it is never valid.
+* http://issues.couchbase.com/browse/JSCBC-872[JSCBC-872]:
+Updated CouchbaseSet remove to use the correct CAS.
+* http://issues.couchbase.com/browse/JSCBC-875[JSCBC-875]:
+Fixed watchIndexes using the wrong argument number.
+* http://issues.couchbase.com/browse/JSCBC-836[JSCBC-836]:
+Fixed property name for configuring bucket replica count.
+* http://issues.couchbase.com/browse/JSCBC-863[JSCBC-863]:
+Added additional tests for cas mismatch errors.
+* http://issues.couchbase.com/browse/JSCBC-864[JSCBC-864]:
+Fixed issue with error handling in LookupIn and MutateIn.
+* http://issues.couchbase.com/browse/JSCBC-862[JSCBC-862]:
+Fixed export typo causing failed query index manager construction.
+* http://issues.couchbase.com/browse/JSCBC-882[JSCBC-882]:
+Added missing getAllScopes method to CollectionManager.
+* http://issues.couchbase.com/browse/JSCBC-811[JSCBC-811]:
+Updated scopes/collections APIs to match latest specification.
+* Added deprecation warning to calling Cluster constructor.
+* Fixed deprecation warning caused by callback invocation.
+* Added Mac arm64 config to allow test builds with M1.
+* Fixed issue where bucket manager tests would fail in error.
+* Fixed issue with test cleanup handling.
+* Refactored LookupInMacro / MutateInMacro to work better with TypeScript.
+* Fixed HTTP errors not containing context in some cases.
+* Fixed some IndexMissing errors appearing as undefined errors.
+* Fixed UserManager parsing of User objects.
+* Fixed UserManager parsing of ldapGroupReference field.
+* Fixed chaining of the MutationState.add method.
+* Refactored all tests to properly pass lint checks with Typescript.
+* Rewrote documentation to integrate with Typescript.
+* Switched to using typedoc rather than jsdoc.
+* Deprecated Node.js 8 support as it is now EOL.
+* Updated all dependencies to latest versions.
+* Updated to the latest Typescript version.
+* Updated to libcouchbase 3.2.0.
+
+
+
+== Node.js SDK 3.1 Releases
+
+=== Version 3.1.3 (5 May 2021)
+
+Version 3.1.3 is a patch release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.3/[API Reference]
+
+==== Fixed Issues
+* http://issues.couchbase.com/browse/JSCBC-884[JSCBC-884]:
+Fixed a number of memory access issues.
+* http://issues.couchbase.com/browse/JSCBC-881[JSCBC-881]:
+Fixed memory leak due to missing cell dereferences.
+* Updated to libcouchbase 3.1.2.
+* Updated all dependencies to latest versions.
+
+
+=== Version 3.1.2 (9 April 2021)
+
+Version 3.1.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.2/[API Reference]
+
+==== Fixed Issues
+* http://issues.couchbase.com/browse/JSCBC-856[JSCBC-856]:
+Fixed memory leak with trace span management.
+* http://issues.couchbase.com/browse/JSCBC-850[JSCBC-850]:
+Fixed some connection options not propagating to bucket connections.
+* http://issues.couchbase.com/browse/JSCBC-849[JSCBC-849]:
+Fixed some query errors returning the incorrect errors.
+* Updated to libcouchbase 3.1.0.
+* Updated all dependencies to latest versions.
+
+
+=== Version 3.1.1 (13 January 2021)
+
+Version 3.1.1 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.1.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.1/[API Reference]
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-835[JSCBC-835]:
+Deprecated maxTTL in favor of maxExpiry.
+* http://issues.couchbase.com/browse/JSCBC-834[JSCBC-834]:
+Fixed createCollection not working with default expiry.
+* http://issues.couchbase.com/browse/JSCBC-824[JSCBC-824]:
+Added missing options docs for Increment/Decrement.
+* http://issues.couchbase.com/browse/JSCBC-828[JSCBC-828]:
+Fixed view-query 0 limit queries.
+* http://issues.couchbase.com/browse/JSCBC-823[JSCBC-823]:
+Fixed serialization of views docid fields.
+* http://issues.couchbase.com/browse/JSCBC-822[JSCBC-822]:
+Fixed view ordering behaviour.
+* Updated to libcouchbase 3.0.7.
+* Updated all dependencies to latest versions.
+
+
+=== Version 3.1.0 (2 December 2020)
+
+Version 3.1.0 is a minor release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release, 
+and adding features to support Couchbase Server 6.6.
+
+[source,console]
+----
+$ npm install couchbase@3.1.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.1.0/[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-761[JSCBC-761]:
+Added support for specifying minimum bucket durability.
+* http://issues.couchbase.com/browse/JSCBC-787[JSCBC-787]:
+Added option to disable search scoring.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-820[JSCBC-820]:
+Reduced calls to debug.extend.
+* http://issues.couchbase.com/browse/JSCBC-772[JSCBC-772]:
+Added missing partition information to query indexes.
+* http://issues.couchbase.com/browse/JSCBC-818[JSCBC-818]:
+Fixed issue where analytics query context was not sent.
+* http://issues.couchbase.com/browse/JSCBC-812[JSCBC-812]:
+Updated CollectionManager to throw errors when collections are not supported.
+* http://issues.couchbase.com/browse/JSCBC-816[JSCBC-816]:
+Fix cluster errors not propagating for http methods.
+* http://issues.couchbase.com/browse/JSCBC-815[JSCBC-815]:
+Fixed seg-fault due to re-using consumed va_list.
+* Various documentation updates.
+* Updated typescript definitions file.
+* Updated all dependencies to latest versions.
+
+
+== Node.js SDK 3.0 Releases
+
+=== Version 3.0.7 (6 November 2020)
+
+Version 3.0.7 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.7
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.7/[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-773[JSCBC-773]:
+Added query collections support.
+* http://issues.couchbase.com/browse/JSCBC-803[JSCBC-803]:
+Added support for pinging at a cluster level.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-692[JSCBC-692]:
+Updated transcoders to bubble errors.
+* http://issues.couchbase.com/browse/JSCBC-799[JSCBC-799]:
+Improved error handling for deferred operations.
+* http://issues.couchbase.com/browse/JSCBC-756[JSCBC-756]:
+Updated xattr helpers to be consistent.
+* http://issues.couchbase.com/browse/JSCBC-755[JSCBC-755]:
+Added support for multi-value sub-document array ops.
+* http://issues.couchbase.com/browse/JSCBC-821[JSCBC-821]:
+Added missing MutationState implementation.
+* http://issues.couchbase.com/browse/JSCBC-797[JSCBC-797]:
+Resolved a number of typescript typings errors.
+* http://issues.couchbase.com/browse/JSCBC-724[JSCBC-724]:
+Added a test case to confirm queries also cancel.
+* Added docs and types generation to `make check`.
+* Various minor documentation updates.
+* Updated to libcouchbase 3.0.6
+* Updated all dependencies to latest versions.
+
+
+=== Version 3.0.6 (3 September 2020)
+
+Version 3.0.6 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.6
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.6/[API Reference]
+
+==== New Features
+
+* http://issues.couchbase.com/browse/JSCBC-786[JSCBC-786]:
+Added uncommitted collections support for user management.
+* http://issues.couchbase.com/browse/JSCBC-743[JSCBC-743]:
+Added high-level options for basic configuration.
+* http://issues.couchbase.com/browse/JSCBC-788[JSCBC-788]:
+Added high-level options for specifying certificates.
+* http://issues.couchbase.com/browse/JSCBC-686[JSCBC-686]:
+Added auto generation of TypeScript types using JSDoc.
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-784[JSCBC-784]:
+Fixed some results using value instead of content.
+* http://issues.couchbase.com/browse/JSCBC-758[JSCBC-758]:
+Improved view scan consistency handling.
+* Updated to libcouchbase 3.0.4.
+* Updated all dependencies to latest versions.
+* Various minor documentation updates.
+* Various other minor fixes.
+
+
+=== Version 3.0.5 (6 August 2020)
+
+Version 3.0.5 is a release of the third generation Node.js SDK.
+
+[source,console]
+----
+$ npm install couchbase@3.0.5
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.5/[API Reference]
+
+==== Fixed Issues
+
+* Updated all dependencies to latest versions.
+* Various minor documentation fixes.
+
+
+=== Version 3.0.4 (17 June 2020)
+
+Version 3.0.4 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.4
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.4/[API Reference]
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Fixed binary data being interpreted as UTF-8.
+
+
+=== Version 3.0.3 (14 June 2020)
+
+Version 3.0.3 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.3
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.3/[API Reference]
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-702[JSCBC-702]:
+Fixed MaxExpiry not being specifiable when creating a collection.
+* http://issues.couchbase.com/browse/JSCBC-757[JSCBC-757]:
+Fixed CreateCollection parameters not matching specification.
+* http://issues.couchbase.com/browse/JSCBC-698[JSCBC-698]:
+Fixed MutateIn placeholders not being handled correctly.
+* http://issues.couchbase.com/browse/JSCBC-751[JSCBC-751]:
+Fixed documentation of SearchIndexManager.
+* http://issues.couchbase.com/browse/JSCBC-754[JSCBC-754]:
+Don't swap in a bucket name when none is used.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.0.2
+* Various other minor fixes.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+=== Version 3.0.2 (7 May 2020)
+
+Version 3.0.2 is a release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.2
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.2/[API Reference]
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-715[JSCBC-715]:
+Fixed issue with sending highlight option with Search queries.
+* http://issues.couchbase.com/browse/JSCBC-727[JSCBC-727]:
+Fixed views API to use correct casing on parameter names.
+* http://issues.couchbase.com/browse/JSCBC-676[JSCBC-676]:
+Fixed view queries to return expected row object data.
+* http://issues.couchbase.com/browse/JSCBC-728[JSCBC-728]:
+Fixed user management sometimes failing to deserialize users.
+* http://issues.couchbase.com/browse/JSCBC-729[JSCBC-729]:
+Fixed user management user upsert not sending roles.
+* http://issues.couchbase.com/browse/JSCBC-730[JSCBC-730]:
+Fixed lookupIn method to return content not results.
+* http://issues.couchbase.com/browse/JSCBC-714[JSCBC-714]:
+Fixed mutateIn not including counter results in return object.
+* http://issues.couchbase.com/browse/JSCBC-700[JSCBC-700]:
+Fixed issue with analytics named parameters causing query failures.
+* http://issues.couchbase.com/browse/JSCBC-701[JSCBC-701]:
+Fixed custom search query timeouts causing query failures.
+* Updated all dependencies to latest versions.
+* Updated to libcouchbase 3.0.1
+* Various other minor fixes.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+=== Version 3.0.1 (20 March 2020)
+
+Version 3.0.1 is the second release of the third generation Node.js SDK, bringing enhancements and bugfixes over the last stable release.
+
+[source,console]
+----
+$ npm install couchbase@3.0.1
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.1/[API Reference]
+
+==== New Features
+
+* Updated to libcouchbase 3.0.1
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-669[JSCBC-669]:
+Fixed CAS not being returned in some cases.
+* http://issues.couchbase.com/browse/JSCBC-682[JSCBC-682]:
+Fixed N1QL parameter options parsing.
+* http://issues.couchbase.com/browse/JSCBC-666[JSCBC-666]:
+Fixed ConjunctionSearchQuery not being able to add queries.
+* http://issues.couchbase.com/browse/JSCBC-665[JSCBC-665]:
+Fixed search query not using the correct indexes.
+* http://issues.couchbase.com/browse/JSCBC-677[JSCBC-677]:
+Fixed search query consistency not being set in some cases.
+* http://issues.couchbase.com/browse/JSCBC-668[JSCBC-668]:
+Fixed an UnhandledPromiseRejection error which could occur.
+* http://issues.couchbase.com/browse/JSCBC-673[JSCBC-673]:
+Improved handling of cluster closing.
+* http://issues.couchbase.com/browse/JSCBC-711[JSCBC-711]:
+Fixed a case where closing connections could trigger a segfault.
+* http://issues.couchbase.com/browse/JSCBC-695[JSCBC-695]:
+Fixed issue with the use of custom connection string options.
+* http://issues.couchbase.com/browse/JSCBC-683[JSCBC-683]:
+Fixed inconsistent metrics data from query service.
+* Updated to latest version of all dependencies.
+* Adjusted prebuilt binaries to match currently support Node.js versions.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+=== Version 3.0.0 (20 January 2020)
+
+This is the first GA release of the third generation Node.js SDK.
+
+[source,console]
+----
+$ npm install couchbase@3.0.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-3.0.0/[API Reference]
+
+==== New Features
+
+* Updated to libcouchbase 3.0.0
+
+==== Fixed Issues
+
+* http://issues.couchbase.com/browse/JSCBC-653[JSCBC-653]:
+Fixed transcoding in getReplica and getAndTouch.
+* http://issues.couchbase.com/browse/JSCBC-650[JSCBC-650]:
+Improved stream wrappers to support both events and async/await.
+* http://issues.couchbase.com/browse/JSCBC-657[JSCBC-657]:
+Fixed some error double-translation issues.
+* http://issues.couchbase.com/browse/JSCBC-652[JSCBC-652]:
+Fixed issue with data structures exist checks.
+* http://issues.couchbase.com/browse/JSCBC-655[JSCBC-655]:
+Fixed search query constructors not being exported.
+* http://issues.couchbase.com/browse/JSCBC-656[JSCBC-656]:
+Renamed QueryProfile to QueryProfileMode.
+* http://issues.couchbase.com/browse/JSCBC-639[JSCBC-639]:
+Updated tests to reflect updated libcouchbase behaviour.
+* http://issues.couchbase.com/browse/JSCBC-654[JSCBC-654]:
+Updated to the latest mock to resolve test issue.
+* http://issues.couchbase.com/browse/JSCBC-647[JSCBC-647]:
+Marked all error contexts as uncommitted.
+* http://issues.couchbase.com/browse/JSCBC-596[JSCBC-596]:
+Marked defaultScope, scope, and collection methods uncommitted.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-759[JSCBC-759]:
+Buffer objects containing non-UTF8 data can become mangled when inserting them into a bucket or collection.  
+This has been corrected in 3.0.4.
+
+
+=== Pre-releases
+
+Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release, and although unsupported, the release notes and download links are retained for archive purposes xref:3.0-pre-release-notes.adoc[here].
+
+
+== Older Releases
+
+Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
+// end::all[]
