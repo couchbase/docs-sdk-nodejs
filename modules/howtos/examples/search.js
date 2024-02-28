@@ -12,8 +12,8 @@ async function go() {
   })
 
   const bucket = cluster.bucket('travel-sample')
-
-  const collection = bucket.scope('inventory').collection('hotel')
+  const scope = bucket.scope('inventory')
+  const collection = scope.collection('hotel')
 
   // tag::search-query-match[]
   async function ftsMatchWord(term) {
@@ -97,6 +97,50 @@ async function go() {
     // TODO: Remove try/catch once resolved.
     console.log(e)
   }
+
+  let result
+  // this should come from an external source, such as an embeddings API
+  const queryVector = []
+  const anotherQueryVector = []
+
+  // tag::vector-search-single[]
+  let request = couchbase.SearchRequest.create(
+    couchbase.VectorSearch.fromVectorQuery(
+      couchbase.VectorQuery.create('vector_field', queryVector)
+    )
+  )
+  result = await scope.search('vector-index', request)
+  // end::vector-search-single[]
+
+  // tag::vector-search-multi[]
+  request = couchbase.SearchRequest.create(
+    couchbase.VectorSearch([
+      couchbase.VectorQuery.create('vector_field', queryVector)
+        .numCandidates(2)
+        .boost(0.3),
+      couchbase.VectorQuery.create('vector_field', anotherQueryVector)
+        .numCandidates(5)
+        .boost(0.7),
+    ])
+  )
+  result = await scope.search('vector-index', request)
+  // end::vector-search-multi[]
+
+  // tag::vector-search-combo[]
+  request = couchbase.SearchRequest.create(
+    couchbase.SearchQuery.matchAll()
+  ).withVectorSearch(
+    couchbase.VectorSearch.fromVectorQuery(
+      couchbase.VectorQuery.create('vector_field', queryVector)
+    )
+  )
+  result = await scope.search('vector-and-fts-index', request)
+  // end::vector-search-combo[]
+
+  // tag::search-query-search[]
+  request = couchbase.SearchRequest.create(couchbase.SearchQuery.matchAll())
+  result = await scope.search('index-hotel-description', request)
+  // end::search-query-search[]
 }
 
 go()
