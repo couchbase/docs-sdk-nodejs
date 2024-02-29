@@ -624,6 +624,43 @@ async function customtranscoder_binaryHandler(request, h) {
     // #end::customtranscoder_binary[]
 }
 
+async function kvRangeScanOperations() {
+    let result
+    // tag::range-scan-all-documents[]
+    const { RangeScan } = require('couchbase/dist/rangeScan')
+
+    result = await collection.scan(new RangeScan()) // <1>
+    result.forEach((r) => {
+      console.log(`Found result, ID=${r.id}, content=`, r.content)
+    })
+    // end::range-scan-all-documents[]
+  
+    // tag::range-scan-all-document-ids[]
+    result = await collection.scan(new RangeScan(), {idsOnly: true})
+    result.forEach((r) => {
+      console.log(`Found result, ID=${r.id}`)
+    })
+    // end::range-scan-all-document-ids[]
+  
+    // tag::range-scan-prefix[]
+    const { PrefixScan } = require('couchbase/dist/rangeScan')
+
+    result = await collection.scan(new PrefixScan('alice::'))
+    result.forEach((r) => {
+      console.log(`Found result, ID=${r.id}, content=`, r.content)
+    })
+    // end::range-scan-prefix[]
+  
+    // tag::range-scan-sample[]
+    const { SamplingScan } = require('couchbase/dist/rangeScan')
+
+    result = await collection.scan(new SamplingScan(100))
+    result.forEach((r) => {
+      console.log(`Found result, ID=${r.id}, content=`, r.content)
+    })
+    // end::range-scan-sample[]
+}
+
 function usage(request, h) {
     return h.response(
         "<table>" +

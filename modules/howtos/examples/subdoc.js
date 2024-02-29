@@ -326,6 +326,44 @@ async function go() {
   // end::mutate-durability[]
    */
 
+  // tag::lookup-in-any-replica[]
+  try {
+    result = await collection.lookupInAnyReplica('customer123', [
+      couchbase.LookupInSpec.get('addresses.delivery.country'),
+    ])
+    const country = result.content[0].value //'United Kingdom'
+    console.log(`Country=${country}`)
+    console.log(`Is result replica=${result.isReplica}`)
+  } catch (err) {
+    if (err instanceof couchbase.PathNotFoundError) {
+      console.log(`The version of the document on the server node 
+      that responded quickest did not have the requested 
+      field.`)
+    } else if (err instanceof couchbase.DocumentUnretrievableError) {
+      console.log('Document not present on any server node.')
+    }
+  }
+  // end::lookup-in-any-replica[]
+
+  // tag::lookup-in-all-replicas[]
+  result = await collection.lookupInAllReplicas('customer123', [
+    couchbase.LookupInSpec.get('addresses.delivery.country'),
+  ])
+  result.forEach((res) => {
+    try {
+      const country = res.content[0].value //'United Kingdom'
+      console.log(`Country=${country}`)
+      console.log(`Is result replica=${res.isReplica}`)
+    } catch (err) {
+      if (err instanceof couchbase.PathNotFoundError) {
+        console.log(`The version of the document on one of the server nodes 
+        did not have the requested field.`)
+      }
+    }
+  })
+  // end::lookup-in-all-replicas[]
+
+
   cluster.close()
 }
 go()
