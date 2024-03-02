@@ -35,6 +35,70 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.2.11 (1 March 2024)
+
+Version 4.2.11 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.2.11
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.11/[API Reference]
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1193[JSCBC-1193]:
+Fixed mutateIn sub-document `MutateInMacro`s.
+
+* https://issues.couchbase.com/browse/JSCBC-1202[JSCBC-1202]:
+Updated `ViewQueryOptions` to include `full_set` and `raw` options.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1081[JSCBC-1081]:
+Updated Query Index Management Create Index Key Encoding.
+
+* https://issues.couchbase.com/browse/JSCBC-1233[JSCBC-1233]:
+Added support for Scoped Search Indexes.
+
+* https://issues.couchbase.com/browse/JSCBC-1195[JSCBC-1195]:
+Updated configuration logic when 0xd response is received.
+
+* https://issues.couchbase.com/browse/JSCBC-1214[JSCBC-1214]:
+Fixed `ViewRow` parsing when handling results from {cpp} core.
+
+* https://issues.couchbase.com/browse/JSCBC-1238[JSCBC-1238]:
+Updated view index management API to use {cpp} core.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-284[CXXCBC-284]:
+Updated config polling to not use session that is not bootstrapped (https://github.com/couchbaselabs/couchbase-cxx-client/pull/528[#528]).
+
+* https://issues.couchbase.com/browse/CXXCBC-345[CXXCBC-345]:
+Added range scan improvements and resolved concurrency issues (https://github.com/couchbaselabs/couchbase-cxx-client/pull/525[#525]).
+
+* https://issues.couchbase.com/browse/CXXCBC-421[CXXCBC-421]:
+Updated query operation to return `feature_not_available` if query preserve expiry is specified but is not supported on the server(https://github.com/couchbaselabs/couchbase-cxx-client/pull/510[#510]).
+
+* https://issues.couchbase.com/browse/CXXCBC-431[CXXCBC-431]:
+Added check for history retention bucket capability in collection create/update (https://github.com/couchbaselabs/couchbase-cxx-client/pull/502[#502], https://github.com/couchbaselabs/couchbase-cxx-client/pull/505[#505]).
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+Updated bootstrap logic to use addresses from the config to bootstrap bucket (https://github.com/couchbaselabs/couchbase-cxx-client/pull/516[#516]).
+
+* https://issues.couchbase.com/browse/CXXCBC-450[CXXCBC-450]:
+Updated bootstrap logic to reset bootstrap handler before re-bootstrap (https://github.com/couchbaselabs/couchbase-cxx-client/pull/524[#524]).
+** We do not want any actions from old bootstrap handler once the session decided to re-bootstrap. For example, bucket could not be selected, but we might still get configuration responses before socket reset.
+
+* https://issues.couchbase.com/browse/CXXCBC-452[CXXCBC-452]:
+Updated capabilities and fail fast when selected feature is not available. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/522[#522], https://github.com/couchbaselabs/couchbase-cxx-client/pull/513[#513]).
+
+* https://issues.couchbase.com/browse/CXXCBC-456[CXXCBC-456]:
+Updated configuration logic when 0x0d (`EConfigOnly`) status code is received to have the SDK request new configuration and send current operation to retry orchestrator (https://github.com/couchbaselabs/couchbase-cxx-client/pull/523[#523]).
+
+
 === Version 4.2.10 (2 February 2024)
 
 Version 4.2.10 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
