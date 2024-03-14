@@ -18,11 +18,11 @@ For release notes, download links, and installation methods for 2.6 and earlier 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 4.2.0:
+For example, to install version 4.2.11:
 
 [source,console]
 ----
-$ npm install couchbase@4.2.0
+$ npm install couchbase@4.2.11
 ----
 
 
@@ -39,7 +39,7 @@ any changes to expected behavior are noted in the release notes that follow.
 === Version 4.3.0 (14 March 2024)
 
 Version 4.3.0 is third minor release of the fourth generation Node.js SDK, bringing a number of improvements.
-Most notably the 4.3.0 release adds support for Vector Search, KV Range Scans and faster failover when using the SDK with Couchbase Server 7.6.0.
+Most notably the 4.3.0 release adds support for Vector Search, KV Range Scans, and faster failover when using the SDK with Couchbase Server 7.6.0.
 
 [source,bash]
 ----
