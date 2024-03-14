@@ -1,9 +1,9 @@
-= Couchbase Node.js SDK 4.2
+= Couchbase Node.js SDK 4.3
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
 :!sectids:
 
-= Couchbase Node.js SDK 4.2
+= Couchbase Node.js SDK 4.3
 
 [source,javascript]
 ----
