@@ -203,8 +203,6 @@ include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
 == SDK API Stability
 
 
-=== Interface Stability
-
 include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
 
 
