@@ -15,7 +15,7 @@ The Couchbase Node.js Client aims to run on any https://github.com/nodejs/Releas
 == Platform Compatibility
 
 
-== Node.js Version Compatibility
+=== Node.js Version Compatibility
 
 The Couchbase Node.js SDK aims to support https://github.com/nodejs/Release[LTS] versions of Node.js.
 The table below indicates the Node.js SDK version where support of an LTS version of Node.js was added.
@@ -83,7 +83,7 @@ AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+ (from 
 // Network Requirements
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
-
+////
 [NOTE]
 .Binary Size
 ====
@@ -99,14 +99,14 @@ You can also safely remove the `src/` and `deps/` folders (under `node_modules/c
 The 4.2.5 version of the SDK can provide recommendations on further reducing the size of the deployment package.
 See https://github.com/couchbase/couchnode#aws-lambda[README] for details.
 ====
-
+////
 
 
 
 == Couchbase Server Compatibility
 
-
 Couchbase SDKs are tested against a variety of different environments to ensure both backward and forward compatibility with different versions of Couchbase Server.
+
 
 === Couchbase Version/SDK Version Matrix
 
@@ -134,6 +134,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 
 Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
 See the notes there for Support details.
+
 
 === Capella Compatibility
 
