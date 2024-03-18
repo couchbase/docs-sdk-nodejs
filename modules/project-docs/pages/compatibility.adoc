@@ -43,10 +43,9 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 
 === OS Compatibility
 
-In general, the JVM eliminates concerns about underlying OS compatibility, 
-and Couchbase JVM SDKs can be expected to run on all of the Operating Systems supported by xref:{version-server}@server:install:install-platforms.adoc[Couchbase Server].
+In general, the SDK can be expected to run on all of the Operating Systems supported by xref:{version-server}@server:install:install-platforms.adoc[Couchbase Server].
 
-The {name-sdk} is tested and supported on the following OSs and platforms:
+However, the {name-sdk} is tested and supported specifically on the following OSs and platforms:
 
 ****
 [discrete]
