@@ -115,6 +115,8 @@ Core IO logging is not forwarded through to Node.js.
 * http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
 Distributed tracing is not yet supported.
 
+* http://jira.issues.couchbase.com/browse/JSCBC-1311[JSCBC-1311]:
+`PromiseHelper` utility can trigger uncaught exception.
 
 ==== Underlying {cpp} SDK Core Changes
 
