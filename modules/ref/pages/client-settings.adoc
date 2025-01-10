@@ -52,36 +52,5 @@ A `wanDevelopment` configuration profile can be used to modify client settings f
 This profile changes the default timeouts.
 
 
-.Profile Settings
-[cols="1,1"]
-|===
-| Setting | Value
-
-// Doesn't seem to be available in Node.js?
-//https://github.com/couchbase/couchnode/blob/1ccbf734fda2b9e87d414894c131b13ce0cec852/lib/configProfile.ts#L34-L43
-//| `connectTimeout`
-//| 20s
-
-| `kvTimeout`
-| 20s
-
-| `kvDurableTimeout`
-| 20s
-
-| `viewTimeout`
-| 120s
-
-| `queryTimeout`
-| 120s
-
-| `analyticsTimeout`
-| 120s
-
-| `searchTimeout`
-| 120s
-
-| `managementTimeout`
-| 120s
-|===
-
-*Do not* set `kvDurableTimeout` above 65s, which is the maximum possible `SyncWrite` timeout on the Server side.
+// table - WAN profile timeouts
+include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
