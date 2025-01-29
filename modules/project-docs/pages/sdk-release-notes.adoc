@@ -35,6 +35,67 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.4.5 (28 January 2025)
+
+Version 4.4.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ npm install couchbase@4.4.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.4.5/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1308[JSCBC-1308],
+https://jira.issues.couchbase.com/browse/JSCBC-1309[JSCBC-1309],
+https://jira.issues.couchbase.com/browse/JSCBC-1310[JSCBC-1310],
+https://jira.issues.couchbase.com/browse/JSCBC-1313[JSCBC-1313],
+https://jira.issues.couchbase.com/browse/JSCBC-1314[JSCBC-1314],
+https://jira.issues.couchbase.com/browse/JSCBC-1315[JSCBC-1315]:
+Added improvments to CI integration tests.
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1258[JSCBC-1258]:
+Fixed cluster string representation to prevent printing out username and password.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1307[JSCBC-1307]:
+Fixed SubDoc `MutateIn.decrement` to decrement instead of increment.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1311[JSCBC-1311],
+https://jira.issues.couchbase.com/browse/JSCBC-1312[JSCBC-1312]:
+Fixed `PromiseHelper` utility to prevent uncaught exception.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1318[JSCBC-1318]:
+Fixed `LookupIn` replica methods to have correct option type and return type.
+
+==== Known Issues
+
+* http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+===== Enhancements
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-638[CXXCBC-638]:
+Switched SDK to use bundled `fmtlib` for `spdlog` (https://github.com/couchbase/couchbase-cxx-client/pull/705[#705]).
+* https://jira.issues.couchbase.com/browse/CXXCBC-640[CXXCBC-640]:
+Debug symbols are no longer forced for release builds (https://github.com/couchbase/couchbase-cxx-client/pull/708[#708]).
+
+===== Fixes
+
+https://jira.issues.couchbase.com/browse/CXXCBC-633[CXXCBC-633]:
+In a case of timeout, when the total deadline of the DNS-SRV request has been reached, the library will now report a timeout error code, and not the latest abort as it was doing.
+
+
 === Version 4.4.4 (25 November 2024)
 
 Version 4.4.4 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
