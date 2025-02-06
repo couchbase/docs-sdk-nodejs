@@ -1,4 +1,5 @@
 = Using Couchbase Transactions
+:reftext: Distributed ACID Transactions from the Node.js SDK
 :description: A practical guide on using Couchbase Distributed ACID transactions, via the Node.js API.
 :page-partial:
 :page-topic-type: howto
