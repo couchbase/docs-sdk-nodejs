@@ -12,6 +12,10 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+
+
+// do not update here - add to source of latest from https://docs.couchbase.com/nodejs-sdk/current/project-docs/ottoman-release-notes.html
+
 == Version 2.5.1 (22 November 2024)
 
 Version 2.5.1 is a patch release of the Ottoman ODM.
