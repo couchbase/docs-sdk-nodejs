@@ -1,7 +1,7 @@
 = Ottoman ODM Release Notes and Archives
 :description: Release notes, installation instructions, and download archive for the Ottoman ODM.
-:navtitle: Release Notes
-:page-topic-type: project-doc
+.:navtitle: Release Notes
+
 
 // tag::all[]
 [abstract]
@@ -12,10 +12,50 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+== Version 2.5.1 (22 November 2024)
+
+Version 2.5.1 is a patch release of the Ottoman ODM.
+This release adds asynchronous batch processing to ensure performant batch writes.
+
+[source,console]
+----
+$ npm install ottoman@2.5.1
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* Replaced synchronous batch processing with asynchronous batch processing: https://github.com/couchbaselabs/node-ottoman/issues/790[#790].
+
+
+== Version 2.5.0 (10 June 2024)
+
+Version 2.5.0 is a minor release of the Ottoman ODM.
+This release adds support for Transactions, fixes the issues listed below, and upgrades several underlying dependencies including the Couchbase SDK.
+
+[source,console]
+----
+$ npm install ottoman@2.5.0
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== New Features
+
+* Adds Ottoman support for xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Couchbase Transactions].
+
+=== Fixed Issues
+
+* Bumped `couchbase` dependency to `v4.3.1`.
+* https://github.com/couchbaselabs/node-ottoman/issues/748[#748], https://github.com/couchbaselabs/node-ottoman/issues/754[#754], https://github.com/couchbaselabs/node-ottoman/issues/755[#755], https://github.com/couchbaselabs/node-ottoman/issues/760[#760]:
+Minor documentation fixes.
+
+
 == Version 2.4.0 (23 January 2024)
 
 Version 2.4.0 is a minor release of the Ottoman ODM.
-This release adds support for Full Text Search, fixes an issues listed below, and upgrades several underlying dependencies.
+This release adds support for Full Text Search, fixes an issue listed below, and upgrades several underlying dependencies.
 
 [source,console]
 ----
