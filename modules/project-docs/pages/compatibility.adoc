@@ -26,23 +26,16 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 |===
 | Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
 
-| 18
-| until 2025-04-30
-| from 4.2.5
-
 | 20
 | until 2026-04-30
 | from 4.2.5
 
-|===
-
-////
 | 22
 | until 2027-04-30
 | from 4.4.0
 
 |===
-////
+
 
 
 
