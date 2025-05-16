@@ -35,6 +35,55 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.4.6 (15 May 2025)
+
+Version 4.4.6 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.4.6
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.4.6/
+
+
+==== Enhancements
+
+https://jira.issues.couchbase.com/browse/JSCBC-1347[JSCBC-1347]:
+Added experimental use of the Electron runtime
+
+https://jira.issues.couchbase.com/browse/JSCBC-1348[JSCBC-1348]:
+Updated transaction errors to provide more information in error message
+
+==== Fixes
+
+https://jira.issues.couchbase.com/browse/JSCBC-1335[JSCBC-1335]:
+CAS is no longer ignored for append/prepend operations
+
+https://jira.issues.couchbase.com/browse/JSCBC-1341[JSCBC-1341]:
+Console logger is now disabled when the file logger specified
+
+https://jira.issues.couchbase.com/browse/JSCBC-1344[JSCBC-1344]:
+Fixed collection management `createCollection` operation to omit `maxExpiry` if not set
+
+==== Known Issues
+
+http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js
+
+http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Fixes
+
+https://jira.issues.couchbase.com/browse/CXXCBC-666[CXXCBC-666]: Fix pkg-config file (https://github.com/couchbase/couchbase-cxx-client/pull/736[#736])
+https://jira.issues.couchbase.com/browse/CXXCBC-667[CXXCBC-667]: Core implementation of prepend/append should encode CAS value (https://github.com/couchbase/couchbase-cxx-client/pull/738[#738])
+https://jira.issues.couchbase.com/browse/CXXCBC-671[CXXCBC-671]: update snappy to support CMake 4.0 (https://github.com/couchbase/couchbase-cxx-client/pull/745[#745])
+
+
 === Version 4.4.5 (28 January 2025)
 
 Version 4.4.5 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
