@@ -32,7 +32,7 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 
 | 22
 | until 2027-04-30
-| from 4.4.0
+| from 4.5.0
 
 |===
 
