@@ -18,23 +18,175 @@ For release notes, download links, and installation methods for 2.6 and earlier 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 4.3.1:
+For example, to install version 4.4.6:
 
 [source,console]
 ----
-$ npm install couchbase@4.3.1
+$ npm install couchbase@4.4.6
 ----
 
 
 
 [#latest-release]
-== Node.js SDK 4.4 Releases
+== Node.js SDK 4.5 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+=== Version 4.5.0 (02 June 2025)
 
+Version 4.5.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+Most notably the 4.5.0 release adds support for transactional Zone Aware Replica Reads and transactional GetMulti.
+
+[source,bash]
+----
+$ npm install couchbase@4.5.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.5.0/
+
+
+==== Enhancements
+
+https://jira.issues.couchbase.com/browse/JSCBC-1273[JSCBC-1273]:
+Added support for Node.js v22.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1300[JSCBC-1300],
+https://jira.issues.couchbase.com/browse/JSCBC-1324[JSCBC-1324]:
+Added support for SDK Telemetry Collection in Server.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1316[JSCBC-1316],
+https://jira.issues.couchbase.com/browse/JSCBC-1317[JSCBC-1317]:
+Added support for Transactional Zone Aware Read from Replica.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1327[JSCBC-1327],
+https://jira.issues.couchbase.com/browse/JSCBC-1347[JSCBC-1351]:
+Added support for transactions ExtGetMulti (aka Enhanced Read Committed Isolation).
+
+https://jira.issues.couchbase.com/browse/JSCBC-1331[JSCBC-1331]:
+Improved SDK error messages for account lock/unlock feature.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1340[JSCBC-1340]:
+Converted `retry_reasons` representation in error to human-readable strings.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1343[JSCBC-1343]:
+Fixed error context types to include missing fields specified in the RFC.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1347[JSCBC-1347]:
+Added experimental use of the Electron runtime.
+
+==== Fixes
+
+https://jira.issues.couchbase.com/browse/JSCBC-1301[JSCBC-1301],
+https://jira.issues.couchbase.com/browse/JSCBC-1303[JSCBC-1303],
+https://jira.issues.couchbase.com/browse/JSCBC-1334[JSCBC-1334],
+https://jira.issues.couchbase.com/browse/JSCBC-1339[JSCBC-1339]:
+Fixed StreamablePromise API to allow the returned promise to be awaited after a delay.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1322[JSCBC-1322],
+https://jira.issues.couchbase.com/browse/JSCBC-1332[JSCBC-1332]:
+Fixed subdoc operations from crashing if no specs are provided.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1325[JSCBC-1325]:
+Fixed prebuild script to allow space-delimited options.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1333[JSCBC-1333]:
+Fixed typo in ServerGroup test suite.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1335[JSCBC-1335]:
+CAS is no longer ignored for append/prepend operations.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1341[JSCBC-1341]:
+Console logger is now disabled when the file logger specified.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1344[JSCBC-1344]:
+Fixed collection management `createCollection` operation to omit `maxExpiry` if not set.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1350[JSCBC-1350]:
+Fixed transactional errors raised to application to be in line with the transactions RFC.
+
+==== Known Issues
+
+http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+===== New Features
+
+https://jira.issues.couchbase.com/browse/CXXCBC-605[CXXCBC-605]:
+Added custom log callback functionality (https://github.com/couchbase/couchbase-cxx-client/pull/743[#743]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-626[CXXCBC-626]:
+Application Service Telemetry, for future Server releases
+(https://github.com/couchbase/couchbase-cxx-client/pull/712[#712], https://github.com/couchbase/couchbase-cxx-client/pull/719[#719], https://github.com/couchbase/couchbase-cxx-client/pull/739[#739], https://github.com/couchbase/couchbase-cxx-client/pull/750[#750]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-654[CXXCBC-654]:
+Added `num_vbuckets` to `bucket_settings` (https://github.com/couchbase/couchbase-cxx-client/pull/746[#746]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-665[CXXCBC-665]:
+The SDK will now always return partial results for `*_all_replica` operations if some `get_replica` requests succeeded (https://github.com/couchbase/couchbase-cxx-client/pull/742[#742]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-672[CXXCBC-672]:
+Added `add_named_parameter` and `add_positional_parameter` to query/analytics options (https://github.com/couchbase/couchbase-cxx-client/pull/762[#762]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-684[CXXCBC-684]:
+The SDK now allows the setting of both named and positional parameters for queries --
+previously named parameters would be cleared if positional parameters were set (https://github.com/couchbase/couchbase-cxx-client/pull/759[#759]).
+
+===== Fixes and Enhancements
+
+https://jira.issues.couchbase.com/browse/CXXCBC-646[CXXCBC-646]:
+For performance reasons, the bucket configuration is now stored as shared pointer, and this is copied into the handler instead of the entire configuration 
+(https://github.com/couchbase/couchbase-cxx-client/pull/715[#715], https://github.com/couchbase/couchbase-cxx-client/pull/720[#720]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-657[CXXCBC-657]:
+For subdoc operations, if no specs are provided then an `invalid_argument` error is raised instead of crashing on an assert
+(https://github.com/couchbase/couchbase-cxx-client/pull/727[#727]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-660[CXXCBC-660]:
+Fixed potential race condition in the logger (https://github.com/couchbase/couchbase-cxx-client/pull/722[#722]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-661[CXXCBC-661]:
+Reconnect cluster object on fork (https://github.com/couchbase/couchbase-cxx-client/pull/724[#724]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-694[CXXCBC-694]:
+Handle case where requestID is missing from query response payload (https://github.com/couchbase/couchbase-cxx-client/pull/768[#768]).
+
+===== Transactions
+
+https://jira.issues.couchbase.com/browse/CXXCBC-645[CXXCBC-645],
+https://jira.issues.couchbase.com/browse/CXXCBC-687[CXXCBC-687],
+https://jira.issues.couchbase.com/browse/CXXCBC-689[CXXCBC-689]:
+Implemented `get_multi_*` APIs for transactions
+(https://github.com/couchbase/couchbase-cxx-client/pull/761[#761], https://github.com/couchbase/couchbase-cxx-client/pull/764[#764], https://github.com/couchbase/couchbase-cxx-client/pull/766[#766]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-649[CXXCBC-649]:
+Implemented `ExtReplaceBodyWithXattr` (https://github.com/couchbase/couchbase-cxx-client/pull/752[#752]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-681[CXXCBC-681]:
+No longer storing entire `transaction_get_result` in staged mutations, reducing memory use (https://github.com/couchbase/couchbase-cxx-client/pull/757[#757]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-682[CXXCBC-682]:
+Transaction replace/insert result now includes post-op content (https://github.com/couchbase/couchbase-cxx-client/pull/756[#756]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-683[CXXCBC-683]:
+Transactions replace now uses CAS from given `TransactionsGetResult` when the document is a staged insert (https://github.com/couchbase/couchbase-cxx-client/pull/763[#763]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-688[CXXCBC-688]:
+Don't convert Public API TOF from lambda to Core API's TOF, rely on internal state (https://github.com/couchbase/couchbase-cxx-client/pull/765[#765]).
+
+https://jira.issues.couchbase.com/browse/CXXCBC-690[CXXCBC-690]:
+Don't move `staged_mutation` item when capturing it in `commit_doc` lambdas (https://github.com/couchbase/couchbase-cxx-client/pull/767[#767]).
+
+
+
+== Node.js SDK 4.4 Releases
 
 === Version 4.4.6 (15 May 2025)
 
@@ -76,7 +228,7 @@ Core IO logging is not forwarded through to Node.js.
 Distributed tracing is not yet supported.
 
 
-==== Underlying C++ SDK Core Changes
+==== Underlying {cpp} SDK Core Changes
 
 ===== Fixes
 
