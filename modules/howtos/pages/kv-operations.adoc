@@ -172,12 +172,38 @@ include::devguide:example$nodejs/kv-operations.js[tag=remove,indent=0]
 == Expiration / TTL
 
 By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents.
-Using `touch()`, you can set expiration values on documents to handle transient data:
+Using `touch()`, or setting the `expiry` option for certain mutation operations, you can set expiration values on documents to handle transient data.
 
+You can set an expiry value as relative seconds from now by passing in a number. A relative expiry should only be used when the expiry value is less than 50 years.  For expiry values greater than 50 years, use an absolute expiry value (see below).
+
+IMPORTANT: Using a Unix timestamp (e.g. `Math.floor(Date.now() / 1000) + 100 // 100 seconds`) as an absolute value is not supported.  As of v4.6.0 absolute values should be specified as a `Date`.  Prior to v4.6.0 expiry should only be specifed as a relative number of seconds.
+
+Using `touch()`:
 [source,javascript]
 ----
-include::devguide:example$nodejs/kv-operations.js[tag=touch,indent=0]
+include::devguide:example$nodejs/kv-operations.js[tag=touch-relative,indent=0]
 ----
+
+Using `insert()`:
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=insert-relative,indent=0]
+----
+
+From version 4.6.0 on, expiry can be expressed as an absolute value by passing in a `Date`.
+
+Using `touch()`:
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=touch-absolute,indent=0]
+----
+
+Using `insert()`:
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=insert-absolute,indent=0]
+----
+
 
 A network timeout can be set with the options, in the same fashion as earlier examples on this page:
 
@@ -185,8 +211,6 @@ A network timeout can be set with the options, in the same fashion as earlier ex
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 ----
-
-include::{version-common}@sdk:shared:partial$documents.adoc[tag=exp-note]
 
 
 == Atomic Counters
