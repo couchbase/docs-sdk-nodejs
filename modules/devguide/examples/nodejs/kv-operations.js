@@ -168,6 +168,45 @@ async function insertwithoptionsHandler(request, h) {
     }
 }
 
+async function insertRelativeHandler(request, h) {
+    const key = request.query.k ? request.query.k : docKey;
+    [document.type, document.id] = key.split("_");
+    try {
+        // #tag::insert-relative[]
+        const result = await collection.insert(key, document,
+            { expiry: 100 } // 100 seconds
+        );
+        // #end::insert-relative[]
+        cas = result.cas; // JSCBC-669?
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString() + " - try 'remove' first if document exists");
+    }
+}
+
+async function insertAbsoluteHandler(request, h) {
+    const key = request.query.k ? request.query.k : docKey;
+    [document.type, document.id] = key.split("_");
+    try {
+        // #tag::insert-absolute[]
+        const expiryAsAbsoluteDate = (seconds) => {
+            const now = new Date()
+            return new Date(now.getTime() + seconds * 1000)
+        }
+        const expiryDate = expiryAsAbsoluteDate(60 * 24 * 60 * 60);  // 60 days
+        const result = await collection.insert(key, document,
+            { expiry: expiryDate }
+        );
+        // #end::insert-absolute[]
+        cas = result.cas; // JSCBC-669?
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString() + " - try 'remove' first if document exists");
+    }
+}
+
 async function replaceHandler(request, h) {
     const key = request.query.k ? request.query.k : docKey;
     try {
@@ -272,6 +311,37 @@ async function touchwithoptionsHandler(request, h) {
             { timeout: 5000 } // 5 seconds
         );
         // #end::touchwithoptions[]
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString());
+    }
+}
+
+async function touchRelativeHandler(request, h) {
+    const key = request.query.k ? request.query.k : docKey;
+    try {
+        // #tag::touch-relative[]
+        const result = await collection.touch(key, 100); // 100 seconds
+        // #end::touch-relative[]
+        return h.response(result);
+    } catch (e) {
+        console.log(e);
+        return h.response(e.toString());
+    }
+}
+
+async function touchAbsoluteHandler(request, h) {
+    const key = request.query.k ? request.query.k : docKey;
+    try {
+        // #tag::touch-absolute[]
+        const expiryAsAbsoluteDate = (seconds) => {
+            const now = new Date()
+            return new Date(now.getTime() + seconds * 1000)
+        }
+        const expiryDate = expiryAsAbsoluteDate(60 * 24 * 60 * 60);  // 60 days
+        const result = await collection.touch(key, expiryDate);
+        // #end::touch-absolute[]
         return h.response(result);
     } catch (e) {
         console.log(e);
@@ -734,6 +804,22 @@ server.route({
 
 server.route({
     method: "GET",
+    path: "/insertrelative",
+    handler: async (request, h) => {
+        return await insertRelativeHandler(request, h);
+    }
+});
+
+server.route({
+    method: "GET",
+    path: "/insertabsolute",
+    handler: async (request, h) => {
+        return await insertAbsoluteHandler(request, h);
+    }
+});
+
+server.route({
+    method: "GET",
     path: "/replace",
     handler: async (request, h) => {
         return await replaceHandler(request, h);
@@ -777,6 +863,22 @@ server.route({
     path: "/touchwithoptions",
     handler: async (request, h) => {
         return await touchwithoptionsHandler(request, h);
+    }
+});
+
+server.route({
+    method: "GET",
+    path: "/touchrelative",
+    handler: async (request, h) => {
+        return await touchRelativeHandler(request, h);
+    }
+});
+
+server.route({
+    method: "GET",
+    path: "/touchabsolute",
+    handler: async (request, h) => {
+        return await touchAbsoluteHandler(request, h);
     }
 });
 
