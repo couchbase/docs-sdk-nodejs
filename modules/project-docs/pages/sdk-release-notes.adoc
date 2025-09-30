@@ -71,7 +71,7 @@ Added support for Vector Search pre-filters.
 Updated operational SDK prevent connection to Analytics 2.0 Cluster.
 
 * https://jira.issues.couchbase.com/browse/JSCBC-1354[JSCBC-1354]:
-Updated bucket management tests to handle new numVBuckets setting.
+Updated bucket management tests to handle new `numVBuckets` setting.
 
 * https://jira.issues.couchbase.com/browse/JSCBC-1358[JSCBC-1358]:
 Updated SDK build setup to include {cpp} core changes.
@@ -185,7 +185,7 @@ Distributed tracing is not yet supported.
 ===== New Features
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-699[CXXCBC-699]:
-Allow to randomize list of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/778[#778]).
+Added support of randomization of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/778[#778]).
 
 ===== Fixes and Enhancements
 
@@ -199,7 +199,7 @@ Do not return an error if/when `indexDefs` are empty/null. Instead return w/ an 
 Fix `exists()` in transactions `get_multi` result (https://github.com/couchbase/couchbase-cxx-client/pull/787[#787]).
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-715[CXXCBC-715]:
-Fix intermittent crash during hard failover in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/817[[#817]).
+Fixed intermittent crash during hard failover in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/817[[#817]).
 
 
 === Version 4.5.0 (02 June 2025)
