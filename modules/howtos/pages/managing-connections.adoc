@@ -21,7 +21,7 @@ include::example$auth.js[tag=rbac-auth,indent=0]
 ----
 
 
-For a , substitute the `localhost` line with:
+For a non-local cluster, substitute the `localhost` line with:
 
 .Connceting to a Capella cluster
 [source,javascript]
