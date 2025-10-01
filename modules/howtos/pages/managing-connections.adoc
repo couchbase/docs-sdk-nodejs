@@ -23,7 +23,7 @@ include::example$auth.js[tag=rbac-auth,indent=0]
 
 For a non-local cluster, substitute the `localhost` line with:
 
-.Connceting to a Capella cluster
+.Connecting to a Capella cluster
 [source,javascript]
 ----
 const clusterConnStr = 'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
