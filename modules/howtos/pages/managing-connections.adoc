@@ -33,6 +33,8 @@ const clusterConnStr = 'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
 `couchbases://` -- note the final `s` -- is needed for SSL.
 The Capella client certificate is included with the SDK.
 
+For a self-managed cluster:
+
 .Connecting to a self-managed Couchbase cluster
 [source,javascript]
 ----
