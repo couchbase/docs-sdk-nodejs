@@ -1,0 +1,3 @@
+sources:
+  docs-sdk-nodejs:
+    branches: [DOC-13566-Feedback-on-Managing-Connections--Couchbase-Docs]
