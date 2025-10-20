@@ -9,7 +9,19 @@
 
 For a high-level overview of this feature, see our xref:concept-docs:encryption.adoc[Encryption] page.
 
+
+[TIP]
+.Native Encryption at Rest
+====
+Server 8.x (and new Capella Operational clusters) offer xref:server:learn:security/native-encryption-at-rest-overview.adoc[encryption at rest].
+It's a comprehensive way of encrypting all data in a non-ephemeral bucket,
+as well as logs, configuration data, and audit data.
+However, you may prefer the relative simplicity of key management in Field Level Encryption for use cases where there are a limited number of data to be encrypted.
+====
+
+
 == Packaging
+
 The Node.js SDK works together with the https://github.com/couchbase/node-couchbase-encryption[Node Couchbase Encryption^] library to provide support for encryption and decryption of JSON fields.
 This library makes use of the cryptographic algorithms available on your platform, and provides a framework for implementing your own crypto components.
 
@@ -23,7 +35,9 @@ To get started with the Node encryption library you can fetch it using:
 $ npm i cbfieldcrypt
 ----
 
+
 == Configuration
+
 The Node.js Field-Level Encryption library works on the principle of `Encrypters` and `Decrypters` which can be packaged within a `Provider`, as well as a custom xref:transcoders-nonjson.adoc[`Transcoder`].
 `Encrypters` and `Decrypters` are registered with a `CryptoManager` and are then used at serialization/deserialization time to encrypt and decrypt fields.
 
@@ -44,6 +58,7 @@ At this point we also create `CryptoManager` and register our encrypters and dec
 ----
 include::howtos:example$fle.js[tag=provider]
 ----
+
 
 == Usage
 
@@ -125,6 +140,8 @@ The output is now:
   "phone": "123456"
 }
 ----
+
+
 
 [#migrating-from-2]
 == Migrating from SDK API 2
