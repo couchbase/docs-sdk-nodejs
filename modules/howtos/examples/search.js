@@ -106,19 +106,41 @@ async function go() {
   // tag::vector-search-single[]
   let request = couchbase.SearchRequest.create(
     couchbase.VectorSearch.fromVectorQuery(
-      couchbase.VectorQuery.create('vector_field', queryVector)
+      couchbase.VectorQuery.create('vector-field', queryVector)
     )
   )
   result = await scope.search('vector-index', request)
   // end::vector-search-single[]
 
+  // tag::vector-search-prefilter[]
+  let prefilter = couchbase.SearchQuery.match('primary').field('color-wheel-pos')
+  request = couchbase.SearchRequest.create(
+    couchbase.VectorSearch.fromVectorQuery(
+      couchbase.VectorQuery.create('vector-field', queryVector)
+        .prefilter(prefilter)
+    )
+  )
+  result = await scope.search('vector-index', request)
+  // end::vector-search-prefilter[]
+
+  // tag::vector-search-prefilter-querystring[]
+  prefilter = couchbase.SearchQuery.queryString('+description:sea -color_hex:fff5ee')
+  request = couchbase.SearchRequest.create(
+    couchbase.VectorSearch.fromVectorQuery(
+      couchbase.VectorQuery.create('vector-field', queryVector)
+        .prefilter(prefilter)
+    )
+  )
+  result = await scope.search('vector-index', request)
+  // end::vector-search-prefilter-querystring[]
+
   // tag::vector-search-multi[]
   request = couchbase.SearchRequest.create(
     couchbase.VectorSearch([
-      couchbase.VectorQuery.create('vector_field', queryVector)
+      couchbase.VectorQuery.create('vector-field', queryVector)
         .numCandidates(2)
         .boost(0.3),
-      couchbase.VectorQuery.create('vector_field', anotherQueryVector)
+      couchbase.VectorQuery.create('vector-field', anotherQueryVector)
         .numCandidates(5)
         .boost(0.7),
     ])
@@ -131,7 +153,7 @@ async function go() {
     couchbase.SearchQuery.matchAll()
   ).withVectorSearch(
     couchbase.VectorSearch.fromVectorQuery(
-      couchbase.VectorQuery.create('vector_field', queryVector)
+      couchbase.VectorQuery.create('vector-field', queryVector)
     )
   )
   result = await scope.search('vector-and-fts-index', request)
