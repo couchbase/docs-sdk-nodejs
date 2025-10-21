@@ -3,4 +3,4 @@
 :navtitle: Release Notes
 :page-topic-type: project-doc
 
-include::4.4@nodejs-sdk:project-docs:page$ottoman-release-notes.adoc[tag=all]
+include::4.6@nodejs-sdk:project-docs:page$ottoman-release-notes.adoc[tag=all]
