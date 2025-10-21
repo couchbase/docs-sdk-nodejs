@@ -8,5 +8,5 @@
 include::project-docs:partial$attributes.adoc[]
 
 
-include::4.4@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::4.6@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
 
