@@ -4,7 +4,7 @@
 :page-toclevels: 2
 :page-pagination: full
 
-include::project-docs:partial$attributes.adoc[]
+// include::project-docs:partial$attributes.adoc[]
 
 ////
 The complete code sample used on this page can be downloaded from
