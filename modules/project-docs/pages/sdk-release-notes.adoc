@@ -5,6 +5,6 @@
 :page-toclevels: 2
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
 
-include::project-docs:partial$attributes.adoc[]
+// include::project-docs:partial$attributes.adoc[]
 
 include::4.6@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
