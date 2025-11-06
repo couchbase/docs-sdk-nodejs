@@ -279,6 +279,22 @@ E.....@.@.............+....Z.'yZ..#........
 ====
 
 
+////
+// Do we still need something like this any more?
+// From https://developer.couchbase.com/tutorial-nodejs-tls-connection/
+// See DOC-10182
+
+In certain situations, such as when using Capella, TLS is required. To circumvent the need to download a certificate, the parameter ?tls_verify=none can be passed with the connection string to ignore mismatched certificates.
+
+const cluster = await couchbase.connect('couchbases://'+ endpoint +'?tls_verify=none', {
+  username: 'Administrator',
+  password: 'password'
+});
+Note that this connection string begins with couchbases://, with the 's' denoting a TLS-secured connection (think https://). This is a great way of connecting for development purposes, but it's important to understand that this method is not recommended for use in production.
+////
+
+
+
 // DNS-SRV
 // == Using DNS SRV records
 
