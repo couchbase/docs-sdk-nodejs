@@ -139,11 +139,11 @@ If you intend to use `TypeScript` instead of `JavaScript`, then also do the foll
 $ npm install -g typescript ts-node
 ----
 
-// === IDE Plugins
-//
-// To make development easier, Couchbase plugins are available for VSCode and the IntelliJ family of IDEs and editors.
-// For links and more information on these and other integrations across the {name_platform} ecosystem,
-// check out the xref:project-docs:third-party-integrations.adoc[] page.
+=== IDE Plugins
+
+To make development easier, Couchbase plugins are available for VSCode and the IntelliJ family of IDEs and editors.
+For links and more information about these and other integrations across the {name_platform} ecosystem,
+check out the xref:project-docs:third-party-integrations.adoc[] page.
 
 === Grab the Code
 
@@ -178,11 +178,11 @@ Otherwise, read on as we introduce the CRUD API and connection to Capella or sel
 
 TIP: There's a *View* link to the complete sample code on GitHub above each of the snippets on these SDK pages, and a *Copy* icon to grab just the snippet shown.
 
-NOTE: The code samples on this page use ESModules, but the Node.js SDK is fully compatible with CommonJS as well. Simply adjust the import syntax as needed.
+NOTE: The code samples on this page use ESModules, but the Node.js SDK is fully compatible with CommonJS as well. Specify the import syntax as needed.
 
 == Connect to your Database
 
-Connect to your Couchbase Capella operational cluster (or your local Couchbase Cluster, if you are trying out self-managed Couchbase).
+Connect to your Couchbase Capella operational cluster (or your local Couchbase Cluster, if you're trying out self-managed Couchbase).
 
 [tabs]
 ====
@@ -194,7 +194,7 @@ Couchbase Capella (JavaScript)::
 include::devguide:example$nodejs/capella_connection_crud.js[tag=connect,indent=0]
 ----
 
-Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
+NOTE: SDK installation includes the client certificate for connecting to a Capella cluster.
 --
 
 Couchbase Capella (Typescript)::
@@ -205,7 +205,7 @@ Couchbase Capella (Typescript)::
 include::devguide:example$nodejs/capella_connection_crud.ts[tag=connect,indent=0]
 ----
 
-Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
+NOTE: SDK installation includes the client certificate for connecting to a Capella cluster.
 --
 
 Self-Managed Couchbase Server (Javascript)::
@@ -228,12 +228,12 @@ include::devguide:example$nodejs/self-managed-connection-crud.ts[tag=connect,ind
 ====
 
 
-The `ClientOptions` are covered more fully on the xref:ref:client-settings.adoc[Client Settings] page.
+The xref:ref:client-settings.adoc[Client Settings] page covers `ClientOptions` in detail. 
 
 For a deeper look at connection options, read xref:howtos:managing-connections.adoc[].
 
-TIP: The connection code for getting started uses the Administrator password that you were given during set up.
-In any production app you should create a role restricted to the permissions needed for your app
+TIP: The connection code for getting started uses the Administrator password and credentials provided during set up.
+In any production app, create a role restricted to the permissions needed for your app
 // --
 // more on this in xref:concept-docs:best-practices.adoc#roles-and-rbac[the Security documentation].
 
@@ -263,8 +263,8 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=bucket,indent=0]
 
 ====
 
-*Collections* allow documents to be grouped by purpose or theme, according to a specified *scope* -- see data modeling, <<data-modeling,below>>.
-Here we will use the `airport` collection within the `inventory` scope from `travel-sample` bucket as an example.
+*Collections* allow documents to be grouped by purpose or theme, according to a specified *scope*. For more information, see data modeling, <<data-modeling,below>>.
+The example here shows the `airport` collection, within the `inventory` scope, from the `travel-sample` bucket.
 
 [tabs]
 ====
@@ -292,11 +292,11 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=collection,inden
 == Create, Read, Update, Delete
 
 Couchbase documents are organized into buckets, scopes, and collections.
-https://en.wikipedia.org/wiki/CRUD[CRUD operations^] -- Create, Read, Update, Delete -- can be performed upon documents in a collection.
+https://en.wikipedia.org/wiki/CRUD[CRUD operations^] -- Create, Read, Update, Delete actions can be performed upon documents in a collection.
 
 === JSON
 
-We'll create a regular javascript object to start with:
+Create a regular javascript object to start with:
 
 [tabs]
 ====
@@ -323,12 +323,12 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=json,indent=0]
 
 === Insert (Create) and Upsert
 
-`insert` and `upsert` will both create a new document.
-The difference between the two is that if a document with that key already exists, the `insert` operation will fail,
+`insert` and `upsert` both create a new document.
+The difference is, if a document with a key exists already, the `insert` operation fails 
 // throwing `DocumentExistsException` --
-while the `upsert` operation will succeed, replacing the content.
+and the `upsert` operation replaces the content and succeeds.
 
-We need to provide a unique ID as the key, and we'll use a UUID here:
+Provide a unique ID as the key, and use a UUID here:
 
 .Creating a new document
 [tabs]
@@ -356,7 +356,8 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=upsert,indent=0]
 
 === Get (Read)
 
-The `get` method reads a document from a collection. If the collection does not have a document with this ID, the `get` method also throws `DocumentNotFoundError`.
+The `get` method reads a document from a collection. 
+The `get` method also throws `DocumentNotFoundError`, if the collection does not have a document with this ID.
 
 [tabs]
 ====
@@ -407,8 +408,8 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=replace,indent=0
 
 ====
 
-CAUTION: When you replace a document, it's usually good practice to use xref:howtos:concurrent-document-mutations.adoc[optimistic locking].
-Otherwise, changes might get lost if two people change the same document at the same time.
+CAUTION: Always practice to use xref:howtos:concurrent-document-mutations.adoc[optimistic locking] when you replace a document. 
+Else, changes might get lost if 2 people change the same document at the same time.
 
 === Remove (Delete)
 
@@ -440,23 +441,22 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=remove,indent=0]
 
 == Data Modeling
 
-Documents are organized into collections -- collections of documents that belong together.
-You get to decide what it means to "belong."
-Developers usually put documents of the same type in the same collection.
+Documents that belong together are organized into collections.
+You decide what it means to "belong."
+Developers group documents of the same type in a collection.
 
-For example, imagine you have two types of documents: customers and invoices.
-You could put the customer documents in a collection called `customers`, and the invoice documents in a collection called `invoices`.
+For example, there are two types of documents: customers and invoices.
+You can organize the customer documents in a collection named `customers` and the invoice documents in a collection named `invoices`.
 
-Each document belongs to exactly one collection.
-A document's ID is unique _within_ the collection.
+Every document belongs to a collection.
+A document's ID is unique `within` the collection.
 
 Different scopes can hold collections with different names.
-There is no relationship between collections in different scopes.
-Each collection belongs to just one scope and
-a collection's name is unique within the scope.
+There's no relationship between collections in different scopes.
+Each collection belongs to 1 scope and a collection's name is unique within the scope.
 
 
-More details can be found on the xref:concept-docs:data-model.adoc[Data Model page].
+You can find more details on the xref:concept-docs:data-model.adoc[Data Model page].
 // The xref:student-record-developer-tutorial.adoc[Student Records Tutorial] gives an introduction to data modeling in a document database alongside using the {name-sdk}.
 
 
@@ -491,18 +491,19 @@ both
 
 Now you're up and running, try one of the following:
 
-* Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
-* Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
-* Or xref:howtos:sqlpp-queries-with-sdk.adoc[Query] with our SQL-based {sqlpp} query language;
-* Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
-* A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know.
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database.
+* Or xref:howtos:sqlpp-queries-with-sdk.adoc[Query] with our SQL-based {sqlpp} query language.
+* Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service].
+* A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search].
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
 
 === Additional Resources
 
 The Scala SDK includes three APIs.
-The examples above show the simple blocking API, for simplicity, but you can also perform all operations in an async style using Scala `Future`, and a reactive style using Project Reactor `SMono` and `SFlux`.
-Please see xref:howtos:concurrent-async-apis.adoc[Choosing an API] for more details.
+The examples above show the simple blocking API. 
+You can also perform all the operations in an async style using Scala `Future` and a reactive style using Project Reactor `SMono` and `SFlux`.
+For more information, see xref:howtos:concurrent-async-apis.adoc[Choosing an API].
 
 The API reference is generated for each release and the latest can be found https://docs.couchbase.com/sdk-api/couchbase-scala-client/com/couchbase/client/scala/index.html[here].
 
@@ -515,6 +516,6 @@ The SDK source code is available on https://github.com/couchbase/couchbase-jvm-c
 If you're running the SDK on your laptop against a Capella cluster, see further information on:
 ** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 ** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
-** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
-* Our https://forums.couchbase.com/c/scala-sdk/37[community forum] is a great source of help.
+** If you have a consumer-grade router that has problems with DNS-SRV records, review xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+* The https://forums.couchbase.com/c/scala-sdk/37[community forum] is a great source of help.
 ////
