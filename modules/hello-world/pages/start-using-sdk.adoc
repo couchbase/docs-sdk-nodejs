@@ -139,11 +139,12 @@ If you intend to use `TypeScript` instead of `JavaScript`, then also do the foll
 $ npm install -g typescript ts-node
 ----
 
-// === IDE Plugins
-//
-// To make development easier, Couchbase plugins are available for VSCode and the IntelliJ family of IDEs and editors.
-// For links and more information on these and other integrations across the {name_platform} ecosystem,
-// check out the xref:project-docs:third-party-integrations.adoc[] page.
+=== IDE Plugins
+
+To make development easier, Couchbase plugins are available for VSCode and the IntelliJ family of IDEs and editors.
+For links and more information on these and other integrations across the {name_platform} ecosystem,
+check out the xref:project-docs:third-party-integrations.adoc[] page.
+
 
 === Grab the Code
 
