@@ -1,0 +1,36 @@
+= 3^rd^ Party Integrations
+:description: The Couchbase Node.js SDK is often used with unofficial and third party tools and applications to integrate into broader language and platform ecosystems, and across data lakes in heterogeneous environments.
+
+
+[abstract]
+{description}
+
+
+include::{version-common}@sdk:shared:partial$integrations.adoc[tag=intro]
+
+
+include::{version-common}@sdk:shared:partial$integrations.adoc[tag=official]
+
+https://ottomanjs.com/[Ottoman] is an Object Data Modeler (ODM) for Couchbase’s Node.js SDK, providing JSON schema and validation for NoSQL.
+As an abstraction layer overthe SDK it significantly reduces the level of boilerplate needed during application development.
+See the https://ottomanjs.com/docs/faq[FAQ] for a summary of benefits.
+
+
+// include::{version-common}@sdk:shared:partial$integrations.adoc[tag=important]
+
+== Across the Ecosystem
+
+Couchbase Node.js SDK integrates with many parts of the JavaScript ecosystem.
+For practical examples, see the following link:++https://developer.couchbase.com/tutorials/?languages=nodejs++[Developer Tutorials]:
+
+* *Express*: https://developer.couchbase.com/learn/nodejs/[Quickstart Node JS and Express]
+* *Express & Ottoman.js*: https://developer.couchbase.com/tutorial-quickstart-ottomanjs/[Ottoman.js and Express]
+* *Express & TypeScript*: https://developer.couchbase.com/tutorial-quickstart-typescript/[Using TypeScript with Node.js & Express]
+* *Langchain*: https://developer.couchbase.com/tutorial-nodejs-langchain-pdf-chat/[Build a PDF Chat App With the Couchbase Node.js SDK and LangChain]
+* *Netlify*: https://developer.couchbase.com/tutorial-quickstart-netlify/[Quickstart using Couchbase Capella and Netlify Serverless Functions]
+* *Next.js*: https://developer.couchbase.com/tutorial-quickstart-nextjs-capella/[Using Next.js with Couchbase NodeJS SDK]
+
+
+
+
+// include::{version-common}@sdk:shared:partial$integrations.adoc[tag=other]
