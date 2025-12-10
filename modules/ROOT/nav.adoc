@@ -76,6 +76,7 @@
 * xref:project-docs:sdk-release-notes.adoc[]
 * xref:project-docs:ottoman-release-notes.adoc[Ottoman Release Notes]
 * xref:project-docs:compatibility.adoc[]
+** xref:project-docs:third-party-integrations.adoc[]
 ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[]
 *** xref:howtos:working-with-collections.adoc[Working with Collections]
 * xref:project-docs:sdk-full-installation.adoc[]
