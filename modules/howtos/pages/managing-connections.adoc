@@ -118,32 +118,14 @@ If the external ports are not the default, you can specify custom ports by expli
 include::example$auth.js[tag=alt-addresses,indent=0]
 ----
 
-To verify how the connection string is being deconstructed by the library, our C SDK's [.cmd]`cbc connstr` may also be used:
-
-====
-[source,console]
-----
-$ cbc connstr 'couchbase://localhost:1234,localhost:2345=http?network=external&timeout=10.0'
-----
-
-[source,console]
-----
-Bucket:
-Implicit port: 11210
-SSL: DISABLED
-Boostrap Protocols: CCCP,HTTP
-Hosts:
-  [memcached]         localhost:1234
-  [restapi]           localhost:2345
-Options:
-  network=external
-  timeout=10.0
-----
-====
-
 In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
 
 If the detection heuristic fails in your environment, you can override it by setting the `network` client setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
+
+[source,javascript]
+----
+include::example$auth.js[tag=alt-addresses-external,indent=0]
+----
 
 NOTE: Any TLS certificates must be set up at the point where the connections are being made.
 

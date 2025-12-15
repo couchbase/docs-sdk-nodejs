@@ -26,7 +26,7 @@ async function go() {
   try {
     // tag::alt-addresses[]
     cluster = await couchbase.connect(
-      'couchbase://localhost:1234?network=external',
+      'couchbase://192.168.56.101:1234,192.168.56.102:5678',
       {
         username: 'Administrator',
         password: 'password',
@@ -35,6 +35,20 @@ async function go() {
     // end::alt-addresses[]
   } catch (e) {
     console.log('[alt-addresses] requires an alternate address\n')
+  }
+
+  try {
+    // tag::alt-addresses-external[]
+    cluster = await couchbase.connect(
+      'couchbase://localhost?network=external',
+      {
+        username: 'Administrator',
+        password: 'password',
+      }
+    )
+    // end::alt-addresses-external[]
+  } catch (e) {
+    console.log('[alt-addresses-external] requires an alternate address\n')
   }
 
   try {
