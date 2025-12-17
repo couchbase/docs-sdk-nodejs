@@ -1,8 +1,7 @@
 = Hello World
 :page-aliases: ROOT:getting-started.adoc,ROOT:start-using.adoc,ROOT:hello-couchbase.adoc,ROOT:start-using-sdk.adoc
 :page-toclevels: 3
-:description: Install, connect, try. 
-A quick start guide to get you up and running with Couchbase and the {name-sdk}.
+:description: Install, connect, try. A quick start guide to get you up and running with Couchbase and the {name-sdk}.
 :forum-link: https://www.couchbase.com/forums/c/node-js-sdk/12
 :page-partial:
 
