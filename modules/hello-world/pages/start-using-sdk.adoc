@@ -1,7 +1,8 @@
 = Hello World
 :page-aliases: ROOT:getting-started.adoc,ROOT:start-using.adoc,ROOT:hello-couchbase.adoc,ROOT:start-using-sdk.adoc
 :page-toclevels: 3
-:description: Install, connect, try. A quick start guide to get you up and running with Couchbase and the {name-sdk}.
+:description: Install, connect, try. 
+A quick start guide to get you up and running with Couchbase and the {name-sdk}.
 :forum-link: https://www.couchbase.com/forums/c/node-js-sdk/12
 :page-partial:
 
@@ -39,7 +40,7 @@ after walking through a quick installation.
 
 == Before You Start
 
-Couchbase Capella, our Database-as-a-Service, lets you get on with what matters, while we take care of the administration for you.
+Couchbase Capella, the Database-as-a-Service, lets you get on with what matters, while it takes care of the administration for you.
 Alternately, if you need to control every aspect of deployment --
 or just want to run the Server in a VM on your laptop --
 there are several self-managed options available:
@@ -49,7 +50,7 @@ there are several self-managed options available:
 Couchbase Capella::
 +
 --
-If you haven't already got a cluster set up, the easiest route is to https://cloud.couchbase.com/sign-up[sign up to Couchbase Capella and deploy a free tier cluster^],
+If you have not already got a cluster set up, the easiest route is to https://cloud.couchbase.com/sign-up[sign up to Couchbase Capella and deploy a free tier cluster^],
 then come back to this page.
 Make a note of the xref:cloud:get-started:connect.adoc[endpoint] to connect to,
 and remember the credentials for the user that you set up.
@@ -479,12 +480,12 @@ both
 * Read the xref:howtos:error-handling.adoc[error handling page].
 * xref:cloud:get-started:capella-iq/get-started-with-iq.adoc#generate-sdk-code-preview[Get help from Couchbase iQ].
 
-// === Next Steps
+=== Next Steps
 
 // * Take a look at the xref:hello-world:sample-application.adoc[].
-// * xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
-// * xref:concept-docs:querying-your-data.adoc[Discover SQL++] -- our SQL-family querying language.
-// * Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
+* xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
+* xref:concept-docs:querying-your-data.adoc[Discover SQL++] -- our SQL-family querying language.
+* Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
 
 
 ////
