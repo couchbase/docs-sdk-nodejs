@@ -49,7 +49,7 @@ there are several self-managed options available:
 Couchbase Capella::
 +
 --
-If you haven't already got a cluster set up, the easiest route is to https://cloud.couchbase.com/sign-up[sign up to Couchbase Capella and deploy a free tier cluster^],
+If you have not already got a cluster set up, the easiest route is to https://cloud.couchbase.com/sign-up[sign up to Couchbase Capella and deploy a free tier cluster^],
 then come back to this page.
 Make a note of the xref:cloud:get-started:connect.adoc[endpoint] to connect to,
 and remember the credentials for the user that you set up.
@@ -479,12 +479,12 @@ both
 * Read the xref:howtos:error-handling.adoc[error handling page].
 * xref:cloud:get-started:capella-iq/get-started-with-iq.adoc#generate-sdk-code-preview[Get help from Couchbase iQ].
 
-// === Next Steps
+=== Next Steps
 
 // * Take a look at the xref:hello-world:sample-application.adoc[].
-// * xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
-// * xref:concept-docs:querying-your-data.adoc[Discover SQL++] -- our SQL-family querying language.
-// * Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
+* xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
+* xref:concept-docs:querying-your-data.adoc[Discover {sqlpp}] -- our SQL-family querying language.
+* Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
 
 
 ////
