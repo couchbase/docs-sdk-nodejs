@@ -39,7 +39,7 @@ after walking through a quick installation.
 
 == Before You Start
 
-Couchbase Capella, the Database-as-a-Service, lets you get on with what matters, while it takes care of the administration for you.
+Couchbase Capella, our Database-as-a-Service, lets you get on with what matters, while we take care of the administration for you.
 Alternately, if you need to control every aspect of deployment --
 or just want to run the Server in a VM on your laptop --
 there are several self-managed options available:
@@ -483,7 +483,7 @@ both
 
 // * Take a look at the xref:hello-world:sample-application.adoc[].
 * xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
-* xref:concept-docs:querying-your-data.adoc[Discover SQL++] -- our SQL-family querying language.
+* xref:concept-docs:querying-your-data.adoc[Discover {sqlpp}] -- our SQL-family querying language.
 * Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
 
 
