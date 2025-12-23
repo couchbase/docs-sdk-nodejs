@@ -60,6 +60,19 @@ For a discussion of item (Document) _vs_ Bucket expiration, see the
 xref:{version-server}@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
 
+=== Handling Errors & Exceptions
+
+To illustrate exception handling, here is an example of a `get` method, wrapped in `try / catch` exception handling.
+The `get` method reads a document from a collection.
+If the collection does not have a document with this ID, the `get` method also throws `DocumentNotFoundError`.
+
+[source,javascript]
+----
+include::devguide:example$nodejs/capella_connection_crud.js[tag=get,indent=0]
+----
+
+
+
 == Durability
 
 [source,javascript]
