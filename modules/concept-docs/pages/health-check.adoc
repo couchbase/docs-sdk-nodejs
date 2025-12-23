@@ -95,8 +95,11 @@ If you want the _current_ status, then use xref:#ping[Ping].
 
 [source,javascript]
 ----
-const result = await bucket.diagnostics();
-console.log(result)
+const result = await cluster.diagnostics(
+    options?: DiagnosticsOptions,
+    callback?: NodeCallback<DiagnosticsResult>,
+): Promise<DiagnosticsResult>
+console.log(DiagnosticsResult)
 /*
 {
     "id":"0x10290d100","kv":[
@@ -127,6 +130,8 @@ console.log(result)
 }
 */
 ----
+
+// https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#diagnostics
 
 
 // Once ping() is implemented, replace above with:
