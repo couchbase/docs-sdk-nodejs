@@ -3,7 +3,6 @@
 :page-topic-type: concept
 :page-aliases: ROOT:health-check
 
-include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -95,38 +94,78 @@ If you want the _current_ status, then use xref:#ping[Ping].
 
 [source,javascript]
 ----
-const result = await bucket.diagnostics();
-console.log(result)
-/*
-{
-    "id":"0x10290d100","kv":[
-        {
-            "id":"0000000072b21d66",
-            "last_activity_us":2363294,
-            "local":"10.112.195.1:51473",
-            "remote":"10.112.195.101:11210",
-            "status":"connected"
-        },
-        {
-            "id":"000000000ba84e5e",
-            "last_activity_us":7369021,
-            "local":"10.112.195.1:51486",
-            "remote":"10.112.195.102:11210",
-            "status":"connected"
-        },
-        {
-            "id":"0000000077689398",
-            "last_activity_us":4855640,
-            "local":"10.112.195.1:51409",
-            "remote":"10.112.195.103:11210",
-            "status":"connected"
-        }
-    ],
-    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
-    "version":1
-}
-*/
+const result = await cluster.diagnostics()
 ----
+
+Typically, you'd pass the result through `JSON.stringify(diagResult.toJSON())` and get something like:
+
+[source,json]
+----
+{
+  "version": 2,
+  "id": "19a90f-256e-7d48-d2d3-8e1aaaf1e47456",
+  "sdk": "cxx/1.2.0/b2a579c;Darwin/arm64",
+  "services": {
+    "kv": [
+      {
+        "last_activity_us": 5000000,
+        "remote": "192.168.107.128:11210",
+        "local": "192.168.107.1:57594",
+        "id": "9fb695-28a8-6a40-8930-1d946d62b113b5",
+        "state": 2
+      }
+    ],
+    "query": [
+      {
+        "last_activity_us": 4000000,
+        "remote": "192.168.107.128:8093",
+        "local": "192.168.107.1:57595",
+        "id": "9d2875-338d-0c4d-3dfb-58a074fc25599f",
+        "state": 2
+      },
+      {
+        "last_activity_us": 3000000,
+        "remote": "192.168.107.129:8093",
+        "local": "192.168.107.1:57598",
+        "id": "3daded-fc26-4345-676b-850ccd205af9ae",
+        "state": 2
+      },
+      {
+        "last_activity_us": 1000000,
+        "remote": "192.168.107.130:8093",
+        "local": "192.168.107.1:57601",
+        "id": "e2aedf-2a71-734a-1380-a74eb44a79801c",
+        "state": 2
+      }
+    ],
+    "mgmt": [
+      {
+        "last_activity_us": 3000000,
+        "remote": "192.168.107.128:8091",
+        "local": "192.168.107.1:57597",
+        "id": "894c93-8e44-3a4f-76a3-72d02be22826fd",
+        "state": 2
+      },
+      {
+        "last_activity_us": 2000000,
+        "remote": "192.168.107.129:8091",
+        "local": "192.168.107.1:57600",
+        "id": "7b0943-0a09-084f-0ec7-27849c68d9c5d7",
+        "state": 2
+      },
+      {
+        "last_activity_us": 0,
+        "remote": "192.168.107.130:8091",
+        "local": "192.168.107.1:57603",
+        "id": "65d68e-bf66-6d4c-b28a-220007fed194ff",
+        "state": 2
+      }
+    ]
+  }
+}
+----
+
+For more information see https://docs.couchbase.com/sdk-api/couchbase-node-client/classes/Cluster.html#diagnostics[the API reference].
 
 
 // Once ping() is implemented, replace above with:
