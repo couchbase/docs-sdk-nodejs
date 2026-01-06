@@ -4,55 +4,106 @@
 :page-toclevels: 2
 :page-pagination: full
 
+:description: Data service offers the simplest way to retrieve or mutate data where the key is known.
+////
 // include::project-docs:partial$attributes.adoc[]
 
-////
-The complete code sample used on this page can be downloaded from
-  xref::example$document.cs[here]
-- from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
+// Once we create the document-operations.adoc, like in Java SDK, we can uncomment these lines to share aliases across multiple pages 
+// :page-aliases: ROOT:document-operations.adoc,ROOT:documents-creating.adoc,ROOT:documents-updating.adoc,ROOT:documents-retrieving.adoc,ROOT:documents-deleting.adoc
+// :example-source: 3.8@java-sdk:devguide:example$java/Queries.java -- may be Queries.js? 
+// :page-toclevels: 3
+// :page-pagination: full
 ////
 
-== Documents
+[abstract]
+{description}
+Here we cover CRUD operations, document expiration, and optimistic locking with CAS -- as well as KV Range scan, for querying without an index.
+
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-nodejs/blob/release/{sdk_dot_minor}/modules/devguide/examples/nodejs/KvOperations.js[here].
+
+At its heart Couchbase Server is a high-performance key-value store, and the key-value interface outlined below is the fastest and best method to perform operations involving single documents. 
 
 A _document_ refers to an entry in the database (other databases may refer to the same concept as a _row_).
 A document has an ID (_primary key_ in other databases), which is unique to the document and by which it can be located.
 The document also has a value which contains the actual application data.
 See xref:concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
+
+Before proceeding, make sure you're familiar with the basics of authorization and connecting to a Cluster from the xref:hello-world:start-using-sdk.adoc[Start Using the SDK] section.
 Or read on, for a hands-on introduction to working with documents from the Node.js SDK.
 
-== CRUD Operations
+// Check if we need to add some code samples and the Tip paragraph here, like in Java SDK "Data Operations" doc. There is also a section on JSON - guess it is only applicable to Java SDK and not Node.js SDK.
+
+== CRUD
 
 The core interface to Couchbase Server is simple KV operations on full documents.
-Make sure you're familiar with the basics of authorization and connecting to a Cluster from the xref:hello-world:start-using-sdk.adoc[Start Using the SDK section].
-We're going to expand on the short _Upsert_ example we used there, adding options as we move through the various CRUD operations.
-Here is the _Insert_ operation at its simplest:
 
-.Insert
+// In Java SDK there a Tip paragraph that has a link to another document namely, Sub-Document Operations. Check if we need to add it here too.
+
+=== Upsert 
+
+Here is a simple upsert operation, which will insert the document if it does not exist, or replace it if it does.
+// Is this required for Node.js SDK? If yes, should we add the following too? and add a Javascript example code snippet here? 
+
+// We’ll use the built-in JSON types for simplicity, but you can use different types if you want.
+// javascript example here
+
+=== Insert 
+Insert works almost similarly to upsert. 
+However, Insert fails if the document already exists with a DocumentExistsException. 
+
+Here is the `Insert` operation at its simplest:
+
 [source,javascript]
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=insert,indent=0]
 ----
 
-Options may be added to operations:
+=== Insert (with options)
+Options can be added to Insert operations.
 
-.Insert (with options)
+Following is an example for `Insert` operation with options.
+
 [source,javascript]
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=insertwithoptions,indent=0]
 ----
 
-Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
-Here we just note that the CAS is a value representing the current state of an item; each time the item is modified, its CAS changes.
-The CAS value is returned as part of a document’s metadata whenever a document is accessed.
+// Some sections like Retrieving documents, Replace - under which there are sections like what is CAS?, Retrying on CAS failures, Removing that are present in Java SDK "Data Operations" doc are missing in the Node.js SDK "Data Operations" doc. Do we need to add those sections here too? 
 
-_timeout_ is an optional parameter which is represented in milliseconds.
-Timeout sets the timeout value for the operation. We will add to these options
-for the _Replace_ example:
+=== Retrieving documents
+We've tried upserting and inserting documents into Couchbase Server, let's get them back. 
+
+For this, use the `get()` method with the document key.
+
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
+----
+
+You can also set the Timeout as in the earlier `Insert` example:
+
+.Get (with options)
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=getwithoptions,indent=0]
+----
+
+// Some sections like Retrieving documents, Replace - under which there are sections like what is CAS?, Retrying on CAS failures, Removing that are present in Java SDK "Data Operations" doc are missing in the Node.js SDK "Data Operations" doc. Do we need to add those sections here too? Currently I have modified some of the sections and moved them as per the Java docs. But I am not sure if I am doing it correctly. Please check and let me know. 
+
+=== Replace
+A very common sequence of operations is to get a document, modify its contents, and replace it.
+
+_timeout_ is an optional parameter that's represented in milliseconds.
+Timeout sets the timeout value for the operation. 
+We add these options for the _Replace_ example:
 
 [source,javascript]
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=replace,indent=0]
 ----
+
+// We upsert an initial version of the document. We don’t care about the exact details of the result, just whether it succeeded or not, so do not assign a return value. Then we get it back into doc and pull out the document’s content as a JsonObject using contentAs. Afterwards, we update a field in the JsonObject with put. JsonObject is mutable, we don't need to store the result of the put. Finally, we replace the document with the updated content, and a CAS value, storing the final result as result.
+// check if we need to put the above section/sentences regarding JsonObjects here! 
 
 Expiration sets an explicit time to live (TTL) for a document.
 We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
@@ -72,30 +123,63 @@ include::devguide:example$nodejs/capella_connection_crud.js[tag=get,indent=0]
 ----
 
 
+==== What is CAS? 
+CAS, or Compare And Swap, is a form of optimistic locking. 
+Every document in Couchbase has a CAS value, and it's changed on every mutation. 
+When you get a document you also get the document's CAS, and then when it's time to write the document, you send the same CAS back. 
+If another thread or program has modified that document in the meantime, the Couchbase Server can detect you have provided a now-outdated CAS, and return an error. 
+This provides cheap, safe concurrency. 
+See this detailed description of CAS for further details.
+
+In general, you'll want to provide a CAS value whenever you replace a document, to prevent overwriting another agent's mutations.
+
+Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
+
+NOTE: CAS is a value representing the current state of an item. 
+Each time the item is modified, its CAS changes.
+The CAS value is returned as part of a document's metadata whenever a document is accessed.
+
+=== Removing
+
+When removing a document, you'll have the same concern for durability as with any additive modification to the Bucket:
+
+.Remove (with options)
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=remove,indent=0]
+----
 
 == Durability
+Writes in Couchbase are written to a single node, and from there the Couchbase Server will take care of sending that mutation to any configured replicas.
+
+The optional `durability` parameter, which all mutating operations accept, allows the application to wait until this replication (or persistence) is successful before proceeding.
+
+It can be used like this: 
 
 [source,javascript]
 ----
 include::devguide:example$nodejs/kv-operations.js[tag=durability,indent=0]
 ----
 
-Here, we have added _Durability_ options, namely `persistTo` and `replicateTo`.
+Here, the `Durability` options, namely `persistTo` and `replicateTo` are added.
+
 In Couchbase Server releases before 6.5, Durability was set with these two options
 -- see the xref:2.6@nodejs-sdk::durability.adoc[6.0 Durability documentation]
--- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
+-- covering the number of replicas the operation that must be propagated to and the number of persisted copies of the modified record that must exist.
 If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to this xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability].
 
 If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature,
 in which Couchbase Server will only return success to the SDK after the requested replication level has been achieved.
 The three replication levels are:
 
- * `Majority` - The server will ensure that the change is available in memory on the majority of configured replicas.
- * `MajorityAndPersistToActive` - Majority level, plus persisted to disk on the active node.
- * `PersistToMajority` - Majority level, plus persisted to disk on the majority of configured replicas.
+ * `Majority`--The server will ensure that the change is available in memory on the majority of configured replicas.
+ * `MajorityAndPersistToActive`--Majority level, plus persisted to disk on the active node.
+ * `PersistToMajority`--Majority level, plus persisted to disk on the majority of configured replicas.
 
 The options are in increasing levels of safety.
-Note that nothing comes for free - for a given node, waiting for writes to storage is considerably slower than waiting for it to be available in-memory.
+
+NOTE: Nothing comes for free. 
+For a given node, waiting for writes to storage is considerably slower than waiting for it to be available in-memory. 
 These trade offs, as well as which settings may be tuned, are discussed in the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[durability page].
 
 The following example demonstrates using the newer durability features available in Couchbase server 6.5 onwards.
@@ -111,8 +195,8 @@ and the default level of safety provided by Couchbase will be reasonable for the
 [TIP]
 .Sub-Document Operations
 ====
-All of these operations involve fetching the complete document from the Cluster.
-Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Document Operations].
+All of these operations involve fetching the complete document from the Cluster. 
+Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific `path` of the document with xref:subdocument-operations.adoc[Sub-Document Operations].
 ====
 
 
@@ -121,19 +205,17 @@ Where the number of operations or other circumstances make bandwidth a significa
 IMPORTANT: Preferred Server Group Replica Reads are only accessible with the {name-sdk} working with Couchbase Server 7.6.2 or newer (Capella or self-managed), from SDK version 4.5.0.
 
 xref:server:learn:clusters-and-availability/groups.adoc#understanding-server-group-awareness[Server Groups]
-can be used to define subsets of nodes within a Couchbase cluster, which contain a complete set of vbuckets (active or replica).
-As well as high availability use cases, Servre Groups can also be used to keep much traffic within the same cloud Availability Zone.
+can be used to define subsets of nodes within a Couchbase cluster, which contain a complete set of vbuckets that includes active or replica.
+As well as high availability use cases, Server Groups are also used to keep much traffic within the same cloud Availability Zone.
 
-For Capella users with high data volumes, egress charges for reads from other Availability Zones (AZ) in AWS can be a significant cost.
-The {name-sdk}, when making read replica requests, can make a request to a preferred Server Group --
-in this case the local AZ --
-and set to always read from a copy of the document in this local zone.
+For Capella users with high data volumes, egress charges for reads from other Availability Zones(AZ) in AWS can be a significant cost.
+The {name-sdk}, when making read replica requests, makes a request to a preferred Server Group -- in this case the local AZ -- and sets to always read from a copy of the document in this local zone.
 This is done by putting cluster nodes in the same AZ into the same 
 xref:server:learn:clusters-and-availability/groups.adoc#server-groups-and-vbuckets[Server Group], too.
 
 This may mean the application has to be tolerant of slight inconsistencies,
 until the local replica catches up.
-Alternatively, it may demand a stronger level of durability, to ensure that all copies of a document are consistent before they are accessible --
+Alternatively, it may demand a stronger level of durability, to make sure that all copies of a document are consistent before they're accessible --
 provided that this is `persistToMajority` with xref:server:learn:data/durability.adoc#majority[no more than one replica].
 
 Couchbase does not recommend this feature where read consistency is critical,
@@ -144,55 +226,32 @@ but with the appropriate durability settings consistency can be favored ahead of
 ====
 Implicit in the rules for durability, and the process of setting up Server Groups, is the following information -- which we mention here explicitly to ensure it is all noted:
 
-* Moving servers between Server Groups updates the `clustermap` immediately, but to move the data, an administrator *must* perform rebalance. Until the rebalance is complete, the SDK will see and be able to 'use' the new server groups, but the `vBucketMap` may still refer to data in the previous locations.
+* Moving servers between Server Groups updates the `clustermap` immediately, but to move the data, an administrator *must* perform rebalance. 
+Until the rebalance is complete, the SDK is able to 'use' the new server groups, but the `vBucketMap` may still refer to data in the previous locations.
 
-* The cluster should have enough nodes and group to make sure that copies of the same document are not stored on the same node, and each group has nodes that cover all 1024 vbuckets (in other words, the number of the groups does not exceeds number of the copies: `active+num_replicas`). The Admin UI should emit small yellow warning if the configuration is considered unbalanced.
+* The cluster must have enough nodes and group to make sure that copies of the same document are not stored on the same node, and each group has nodes that cover all 1024 vbuckets. 
+In other words, the number of the groups does not exceed the number of the copies: `active+num_replicas`. 
+The Admin UI should emit small yellow warning if the configuration is considered unbalanced.
 
 * Setting *three* replicas for the bucket xref:server:learn:data/durability.adoc#majority[disables durability for sync writes], also precluding the use of
 xref:concept-docs:transactions.adoc[multi-document ACID transactions].
 ====
 
 
+== Document Expiration
 
-== Retrieving full documents
-
-Using the `get()` method with the document key can be done in a similar fashion to the other operations:
-
-[source,javascript]
-----
-include::devguide:example$nodejs/kv-operations.js[tag=get,indent=0]
-----
-
-Timeout can also be set - as in the earlier `Insert` example:
-
-.Get (with options)
-[source,javascript]
-----
-include::devguide:example$nodejs/kv-operations.js[tag=getwithoptions,indent=0]
-----
-
-
-== Removing
-
-When removing a document, you will have the same concern for durability as with any additive modification to the Bucket:
-
-.Remove (with options)
-[source,javascript]
-----
-include::devguide:example$nodejs/kv-operations.js[tag=remove,indent=0]
-----
-
-== Expiration / TTL
-
+Couchbase Server includes an option to have particular documents automatically expire after a set time. 
+This can be useful for some use-cases, such as user sessions, caches, or other temporary documents.
 By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents.
-Using `touch()`, or setting the `expiry` option for certain mutation operations, you can set expiration values on documents to handle transient data.
+Using the `touch()` or setting the `expiry` option for certain mutation operations, you can set expiration values on documents to handle transient data.
 
 You can set an expiry value as relative seconds from now by passing in a number.
 A relative expiry should only be used when the expiry value is less than 50 years.
 For expiry values greater than 50 years, use an absolute expiry value (see below).
 
-IMPORTANT: Using a Unix timestamp (e.g. `Math.floor(Date.now() / 1000) + 100 // 100 seconds`) as an absolute value is not supported. 
-As of v4.6.0 absolute values should be specified as a `Date`.  Prior to v4.6.0 expiry should only be specifed as a relative number of seconds.
+IMPORTANT: Using a Unix timestamp (for example, `Math.floor(Date.now() / 1000) + 100 // 100 seconds`) as an absolute value is not supported. 
+As of v4.6.0 absolute values should be specified as a `Date`. 
+Prior to v4.6.0 expiry should only be specifed as a relative number of seconds.
 
 Using `touch()`:
 [source,javascript]
@@ -230,10 +289,9 @@ include::devguide:example$nodejs/kv-operations.js[tag=touchwithoptions,indent=0]
 
 
 == Atomic Counters
-
 The value of a document can be increased or decreased atomically using `binary().increment()` and `binary().decrement()`.
 
-NOTE: Increment & Decrement are considered part of the ‘binary’ API and as such may still be subject to change
+NOTE: Increment & Decrement are considered part of the 'binary' API and as such may still be subject to change
 
 .Increment
 [source,javascript]
@@ -259,11 +317,29 @@ include::devguide:example$nodejs/kv-operations.js[tag=decrement,indent=0]
 include::devguide:example$nodejs/kv-operations.js[tag=decrementwithoptions,indent=0]
 ----
 
+NOTE: Increment & Decrement are considered part of the 'binary' API and as such may still be subject to change
+
+See the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/kv/Increment.html[API Reference] for full details.
+// what is the path where we can find the Node.js SDK API reference? Need to update the above link accordingly. 
+
 TIP: Setting the document expiry time only works when a document is created, and it is not possible to update the expiry time of an existing counter document with the Increment method -- to do this during an increment, use with the `Touch()` method.
 
-// Atomicity Across Data Centers
+=== Atomicity Across Data Centers
 
 include::{version-common}@sdk:shared:partial$atomic.adoc[tag=xdcr]
+
+== Scoped KV Operations
+
+It is possible to perform scoped key-value operations on named xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.x_.
+
+Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:
+
+[source,javascript]
+----
+include::devguide:example$nodejs/kv-operations.js[tag=userscollection, indent=0]
+
+include::devguide:example$nodejs/kv-operations.js[tag=namedcollectionupsert, indent=0]
+----
 
 
 == KV Range Scan
@@ -286,8 +362,9 @@ include::devguide:example$nodejs/kv-operations.js[tag=range-scan-all-documents,i
 ----
 
 <1> The `RangeScan` class has two optional parameters: `start` and `end`.
-If you omit them like in this example, you'll get all documents in the collection.
-These parameters are for advanced use cases; you probably won't need to specify them.
+If you omit them, like in this example, you'll get all documents in the collection.
+These parameters are for advanced use cases. 
+You probably won't need to specify them.
 Instead, it's more common to use the "prefix" scan type shown in the next example.
 
 
@@ -295,7 +372,7 @@ Instead, it's more common to use the "prefix" scan type shown in the next exampl
 === Prefix scan
 
 KV range scan can also give you all documents whose IDs start with the same prefix.
-Imagine you have a collection where documents are named like this: `<username>::<uuid>`.
+Imagine you have a collection where documents are named like this: `<username>::<uuid>`. 
 In other words, the document ID starts with the name of the user associated with the document, followed by a delimiter, and then a UUID.
 If you use this document naming scheme, you can use a prefix range scan to get all documents associated with a user.
 For example, to get all documents associated with user "alice", you would write:
@@ -318,7 +395,7 @@ include::devguide:example$nodejs/kv-operations.js[tag=range-scan-sample,indent=0
 ----
 
 [#kv-range-scan-only-ids]
-=== Get IDs instead of full documents
+=== Get IDs instead of full document
 
 If you only want the document IDs, set the `idsOnly` field of `ScanOptions` to `true`, like this:
 
@@ -329,25 +406,15 @@ include::devguide:example$nodejs/kv-operations.js[tag=range-scan-all-document-id
 ----
 
 
-== Scoped KV Operations
-
-It is possible to perform scoped key value operations on named xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release, 7.0_.
-
-Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:
-
-[source,javascript]
-----
-include::devguide:example$nodejs/kv-operations.js[tag=userscollection, indent=0]
-
-include::devguide:example$nodejs/kv-operations.js[tag=namedcollectionupsert, indent=0]
-----
-
 == Additional Resources
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 
-Another way of increasing network performance is to _pipeline_ operations with xref:concurrent-async-apis.adoc#batching[Batching Operations].
+// We need to add the Node JS SDK/Best Practices/Async and Reactive APIs doc and the link to it here when it's ready. Tried looking for it but couldn't find it. 
+// For a significant performance speed up with large volumes of data, reference our xref:concurrent-async-apis.adoc[asynchronous programming options].
+
+Another way of increasing network performance is to `pipeline` operations with xref:concurrent-async-apis.adoc#batching[Batching Operations].
 
 As well as various xref:concept-docs:data-model.adoc[Formats] of JSON, Couchbase can work directly with xref:concept-docs:nonjson.adoc[arbitary bytes, or binary format].
 
-Our xref:n1ql-queries-with-sdk.adoc[Query Engine] enables retrieval using {sqlpp} (formerly N1QL).
+Our xref:n1ql-queries-with-sdk.adoc[Query Engine] enables retrieval of information using the SQL-like syntax of {sqlpp} (formerly N1QL).
