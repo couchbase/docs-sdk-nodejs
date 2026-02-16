@@ -29,7 +29,7 @@ Keep in mind these key repository features:
 
 * Component name, version, and start page are configured in each branch's _antora.yml_ file.
 * The navigation for all of the modules is stored in the ROOT module's _nav.adoc_ file.
-* Production branches use the *release/X.Y* naming pattern (e.g., release/5.5, release/6.0).
+* Production branches use the *release/X.Y* naming pattern (e.g., release/5.5, release/6.0) -- or *temp/4.5* for SDK docs awaiting a move to the new SDK docs Information Architecture.
  ** The {url-playbook}[docs site playbook] instructs Antora to automatically aggregate any branch names that start with *release/*.
 
 == Documentation Site Toolchain
@@ -41,4 +41,5 @@ See the contributing guide to learn more.
 
 == Docs License
 
-©2025 Couchbase, Inc. This work is licensed under CC BY-NC-SA 4.0.
+©2026 Couchbase, Inc. 
+This work is licensed under CC BY-NC-SA 4.0.

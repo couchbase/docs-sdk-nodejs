@@ -18,22 +18,29 @@ For release notes, download links, and installation methods for 2.6 and earlier 
 The Couchbase Node.js Client will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 To install an older version, specify the version directly with npm. 
-For example, to install version 4.5.0:
+For example, to install version 4.6.0:
 
 [source,console]
 ----
-$ npm install couchbase@4.5.0
+$ npm install couchbase@4.6.0
 ----
 
 
 
 [#latest-release]
-== Node.js SDK 4.6 Releases
+== Node.js SDK 4.7 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+
+=== Version 4.7.0 (???? March?? 2026)
+
+
+
+
+== Node.js SDK 4.6 Releases
 
 === Version 4.6.0 (29 September 2025)
 
