@@ -35,6 +35,45 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.6.1 (20 February 2026)
+
+Version 4.6.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.6.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.6.1/
+
+
+==== Enhancements
+
+https://jira.issues.couchbase.com/browse/JSCBC-1345[JSCBC-1345]:
+Move to ESLint > v9.0
+
+https://jira.issues.couchbase.com/browse/JSCBC-1382[JSCBC-1382]:
+Improve build scripts
+
+https://jira.issues.couchbase.com/browse/JSCBC-1387[JSCBC-1387]:
+Upgrade to cmake-js v8.0
+
+==== Known Issues
+
+http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js
+
+http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported
+
+
+==== Underlying {cpp} SDK Core Changes
+
+
+https://jira.issues.couchbase.com/browse/CXXCBC-768[CXXCBC-768]:
+bucket_not_found during bootstrap triggers DNS-SRV refresh loop (https://github.com/couchbase/couchbase-cxx-client/pull/897[#897])
+
+
 === Version 4.6.0 (29 September 2025)
 
 Version 4.6.0 is the next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
