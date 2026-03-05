@@ -12,6 +12,19 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+== Version 2.5.5 (4 March 2026)
+
+Version 2.5.5 is a patch release of the Ottoman ODM.
+This release adds telemetry for tracking installs. It does not change the package's codebase or any functionality.
+
+[source,console]
+----
+$ npm install ottoman@2.5.5
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+
 == Version 2.5.4 (23 February 2026)
 
 Version 2.5.4 is a patch release of the Ottoman ODM.
