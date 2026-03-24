@@ -38,7 +38,11 @@
 * xref:howtos:error-handling.adoc[]
 * xref:howtos:collecting-information-and-logging.adoc[]
 // * xref:howtos:health-check.adoc[Health Check]
-* xref:howtos:slow-operations-logging.adoc[]
+* xref:concept-docs:response-time-observability.adoc[Observability]
+** xref:howtos:slow-operations-logging.adoc[]
+** xref:howtos:observability-metrics.adoc[]
+** xref:howtos:observability-orphan-logger.adoc[]
+** xref:howtos:observability-tracing.adoc[]
 
 .Learn
 * xref:concept-docs:concepts.adoc[]
