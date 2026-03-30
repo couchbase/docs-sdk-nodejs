@@ -35,8 +35,93 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
-=== Version 4.7.0 (???? March?? 2026)
+=== Version 4.7.0 (31 March 2026)
 
+Version 4.7.0 is a minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+Most notably the 4.7.0 release adds observability support (with the ability to integrate with OpenTelemetry).
+
+[source,bash]
+----
+$ npm install couchbase@4.7.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.7.0/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040],
+https://jira.issues.couchbase.com/browse/JSCBC-1373[JSCBC-1373],
+https://jira.issues.couchbase.com/browse/JSCBC-1374[JSCBC-1374],
+https://jira.issues.couchbase.com/browse/JSCBC-1375[JSCBC-1375],
+https://jira.issues.couchbase.com/browse/JSCBC-1381[JSCBC-1381],
+https://jira.issues.couchbase.com/browse/JSCBC-1385[JSCBC-1385],
+https://jira.issues.couchbase.com/browse/JSCBC-1386[JSCBC-1386],
+https://jira.issues.couchbase.com/browse/JSCBC-1388[JSCBC-1388]:
+Added Observability Support. SDK natively supports Tracing, Metrics and OTel Integration
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1345[JSCBC-1345]:
+Upgraded ESLint to version that uses v9.0 major release
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1364[JSCBC-1364]:
+Updated OrphanReporterConfig.enableReporting to set C++ core orphan config
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1365[JSCBC-1365]:
+Added support mTLS Certs Refresh (without restart)
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1366[JSCBC-1366]:
+Added support JWT based authentication in Operational SDKs
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1377[JSCBC-1377]:
+Removed `Transcoder` class from bindings
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1380[JSCBC-1380]:
+Deprecated support for MapReduce Views Since Server Deprecated
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1382[JSCBC-1382]:
+Improved build scripts
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1384[JSCBC-1384]:
+Added Logging Interface
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1387[JSCBC-1387]:
+Upgraded cmake-js to version that uses v8.0 major release
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1367[JSCBC-1367]:
+Fixed `createBucket` and `updateBucket` are sending unspecified fields to server
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1368[JSCBC-1368]:
+Fixed scope query and analytics query to surrounding bucket/scope name with backticks
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1369[JSCBC-1369]:
+Fixed `mutateIn` `replace` with empty path to do a full doc replace
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1372[JSCBC-1372]:
+Fixed bucket management `getBucket` test for against server 8.0
+
+==== Known Issues
+
+* http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js
+
+
+==== Underlying C++ SDK Core Changes
+
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-732[CXXCBC-732]: Fixed memory leaks in concurrent fixed queue reporting.
+* https://jira.issues.couchbase.com/browse/CXXCBC-739[CXXCBC-739]: **mTLS Certificate Refresh** - Added support for refreshing TLS certificates without restarting the application. Certificates can now be updated via `cluster::update_credentials()` and new TLS sessions will use the updated certificates.
+* https://jira.issues.couchbase.com/browse/CXXCBC-740[CXXCBC-740]: **JWT Authentication** - Added JWT-based authentication support via jwt_authenticator. The authenticator can refresh tokens automatically and supports reauthentication when tokens become stale.
+* https://jira.issues.couchbase.com/browse/CXXCBC-745[CXXCBC-745]: **Lazy Connections Mode** - Added new `enable_lazy_connections` option that delays opening KV connections until the first operation is executed, reducing initial connection overhead.
+* https://jira.issues.couchbase.com/browse/CXXCBC-750[CXXCBC-750]: **Internal Tracer for Wrapper SDKs** - Added internal tracer interface (`tracer_wrapper::wrapped()`) for use by wrapper SDKs that want to integrate with the SDK's tracing.
+* https://jira.issues.couchbase.com/browse/CXXCBC-752[CXXCBC-752]: MapReduce Views are now deprecated. Use Query with SQL++ instead.
+* https://jira.issues.couchbase.com/browse/CXXCBC-763[CXXCBC-763]: Fixed `set_authenticator` not applying updated cert/key pairs to new TLS sessions.
+* https://jira.issues.couchbase.com/browse/CXXCBC-766[CXXCBC-766]: Fixed OpenSSL headers priority in BoringSSL builds.
+* https://jira.issues.couchbase.com/browse/CXXCBC-767[CXXCBC-767]: Implemented AuthStale handling and JWT reauthentication support.
+* https://jira.issues.couchbase.com/browse/CXXCBC-768[CXXCBC-768]: **DNS-SRV Refresh Fix** - Fixed an issue where `bucket_not_found` errors during bootstrap would trigger unnecessary DNS-SRV record refresh loops.
+* https://jira.issues.couchbase.com/browse/CXXCBC-771[CXXCBC-771]: **Credentials Update Restrictions** - `cluster::update_credentials()` now prevents switching between authenticator types (e.g., password to certificate) to avoid unexpected behavior.
+* **Mozilla Certificate Parsing** -- Updated the regex for parsing the header date of Mozilla certificates from curl.se to ensure correct certificate handling and added a warning if the header date is not found.
 
 
 
@@ -56,21 +141,21 @@ $ npm install couchbase@4.6.1
 
 ==== Enhancements
 
-https://jira.issues.couchbase.com/browse/JSCBC-1345[JSCBC-1345]:
+* https://jira.issues.couchbase.com/browse/JSCBC-1345[JSCBC-1345]:
 Updated ESLint to `9.39.2`.
 
-https://jira.issues.couchbase.com/browse/JSCBC-1382[JSCBC-1382]:
+* https://jira.issues.couchbase.com/browse/JSCBC-1382[JSCBC-1382]:
 Improved build scripts.
 
-https://jira.issues.couchbase.com/browse/JSCBC-1387[JSCBC-1387]:
+* https://jira.issues.couchbase.com/browse/JSCBC-1387[JSCBC-1387]:
 Upgrade to `cmake-js` to `8.0`.
 
 ==== Known Issues
 
-http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+* http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
 Core IO logging is not forwarded through to Node.js.
 
-http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+* http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
 Distributed tracing is not yet supported.
 
 
