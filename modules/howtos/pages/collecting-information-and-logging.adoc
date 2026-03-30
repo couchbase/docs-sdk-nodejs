@@ -6,9 +6,62 @@
 {description}
 
 
-IMPORTANT: the Logging implementation has changed substantially in 4.x.
-Customized logging is not yet implemented, this will be resolved in a future 4.x release.
-Use of the console logger (detailed below) is currently recommended.
+== Node.js Logging
+
+With the release of v4.7.0, the SDK now features a native logging abstraction. This interface is the primary mechanism for capturing and exporting the native Threshold Logging and Metrics data also introduced in v4.7.0.
+
+IMPORTANT:  Logging on the Node.js side is still separate from the underlying {cpp} core logging.  Integration with the {cpp} core logging is planned for a future release.
+
+[source,typescript]
+----
+interface Logger {
+  trace?(message: string, ...args: any[]): void
+  debug?(message: string, ...args: any[]): void
+  info?(message: string, ...args: any[]): void
+  warn?(message: string, ...args: any[]): void
+  error?(message: string, ...args: any[]): void
+}
+----
+
+A console logger can be created programmatically using the `createConsoleLogger()` function.
+
+[source,typescript]
+----
+import { connect, createConsoleLogger, LogLevel } from 'couchbase'
+
+const cluster = await connect('couchbase://localhost', {
+  username: 'Administrator',
+  password: 'password',
+  logger: createConsoleLogger(LogLevel.INFO)
+})
+----
+
+=== Environmental Settings
+
+In the command line environment, the `CNLOGLEVEL` variable is set as follows:
+
+.GNU/Linux and Mac
+[source,console]
+----
+export CNLOGLEVEL=<log-level>
+----
+
+.Windows
+[source,console]
+----
+set CNLOGLEVEL=<log-level>
+----
+
+The following values are accepted (case-insensitive):
+
+* error -- error messages.
+* warn -- error notifications.
+* info -- useful notices, not often.
+* debug -- diagnostic information, minimum level required to investigate problems.
+* trace -- detailed diagnostic information, often required to investigate problems.
+
+Invalid values will be ignored, and the SDK will default to no logging.
+
 
 == Library logging
 
