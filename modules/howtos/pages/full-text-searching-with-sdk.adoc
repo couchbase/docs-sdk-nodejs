@@ -1,5 +1,5 @@
 = Search
-:description: You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
+:description: You can use the Search Service to create queryable Search indexes in Couchbase Server.
 :page-topic-type: howto
 :page-pagination: full
 
@@ -8,33 +8,34 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-FTS allows you to create, manage, and query full-text indexes on JSON documents stored in Couchbase buckets.
+The Search Service allows you to create, manage, and query Search indexes on JSON documents stored in Couchbase buckets.
 
 It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
 
 Supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
 
-The Node.js SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
+The Node.js SDK exposes an API for performing Search queries which abstracts some of the complexity of using the underlying REST API.
 
-The Full Text Search service also supports vector search from Couchbase Server 7.6 onwards.
+The Search Service also supports vector search from Couchbase Server 7.6 onwards.
 
-// As of Couchbase Server 6.5, FTS...
+// As of Couchbase Server 6.5, Search Service...
 
 
 There are two APIs for querying search: `cluster.searchQuery()`, and `cluster.search()`.
 Both are also available at the Scope level.
 
-The former API supports FTS queries (`SearchQuery`), while the latter additionally supports the `VectorSearch` added in 7.6.
+The former API supports Search queries (`SearchQuery`), while the latter additionally supports the `VectorSearch` added in 7.6.
 Most of this documentation will focus on the former API, as the latter is in `@Stability.Volatile` status.
 
 
 == Examples
 
-Search queries are executed at the cluster level (not bucket or collection). All examples below will console log our returned documents along with their metadata and rows, each returned document has an index, id, score and sort value.
+Search queries are executed at the cluster level (not bucket or collection). 
+All examples below will console log our returned documents along with their metadata and rows, each returned document has an index, id, score and sort value.
 
 .Match
 
-Using the `travel-sample` xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define an FTS SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
+Using the `travel-sample` xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc[Sample Bucket], we define a Search Service SearchQuery using the `match()` method to search for the specified term: `"five-star"`.
 
 [source,javascript,indent=0]
 ----
@@ -44,7 +45,7 @@ include::../examples/search.js[tag=search-query-match]
 
 .Match Phrase
 
-An FTS SearchQuery using the `matchPhrase()` method to find a specified phrase: `"10-minute walk from the"`.
+A Search Service SearchQuery using the `matchPhrase()` method to find a specified phrase: `"10-minute walk from the"`.
 
 [source,javascript,indent=0]
 ----
@@ -52,7 +53,8 @@ include::../examples/search.js[tag=search-query-matchPhrase]
 ----
 
 
-When searching for a phrase we get some additional benefits outside of the `match()` method. The match phrase query for ``"10-minute walk from the"`` will produce the following hits from our travel-sample dataset:
+When searching for a phrase we get some additional benefits outside of the `match()` method. 
+The match phrase query for ``"10-minute walk from the"`` will produce the following hits from our travel-sample dataset:
 
 [source,bash]
 ----
@@ -68,7 +70,7 @@ If you run this code, notice that we matched `"10-minute"` with three additional
 
 .Date Range
 
-Here we define an FTS SearchQuery that uses the `dateRange()` method to search for hotels where the updated field (`datetime`) falls within a specified date range.
+Here we define a Search Service SearchQuery that uses the `dateRange()` method to search for hotels where the updated field (`datetime`) falls within a specified date range.
 
 [source,javascript,indent=0]
 ----
@@ -85,12 +87,15 @@ A query satisfying multiple child queries. The example below will only return tw
 include::../examples/search-conjuncts-disjuncts.js[tag=search-query-conjuncts]
 ----
 
-Note: Our match for `"five-star"` was not exact, but still produced a result because a similar term was found `"Five star"`, we could have potentially matched `"5 star"` or the word `"five"`. When you work with any full-text search the number of hits you get and their score are variable.
+Note: Our match for `"five-star"` was not exact, but still produced a result because a similar term was found `"Five star"`, we could have potentially matched `"5 star"` or the word `"five"`. 
+When you work with any Search query the number of hits you get and their score are variable.
 
 
 .Disjunction
 
-A query satisfying (by default) one query or another. If a conjunction query can be thought of like using an `AND` operator, a disjunction would be like using an `OR` operator. The example below will return seven documents hitting on the term `"Louvre"` and five hits on the term `"Eiffel"` returning a total of 12 rows together as part of a disjunction query.
+A query satisfying (by default) one query or another. 
+If a conjunction query can be thought of like using an `AND` operator, a disjunction would be like using an `OR` operator. 
+The example below will return seven documents hitting on the term `"Louvre"` and five hits on the term `"Eiffel"` returning a total of 12 rows together as part of a disjunction query.
 
 [source,javascript,indent=0]
 ----
@@ -111,7 +116,8 @@ For information about pagination in Search responses, see xref:server:fts:fts-se
 
 == Working with Results
 
-As with all query result types in the Node.js SDK, the search query results object contains two properties. The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.
+As with all query result types in the Node.js SDK, the search query results object contains two properties. 
+The hits reflecting the documents that matched your query, emitted as rows. Along with the metadata available in the meta property.
 
 Metadata holds additional information not directly related to your query, such as success total hits and how long the query took to execute in the cluster.
 
@@ -132,9 +138,9 @@ include::../examples/search-conjuncts-disjuncts.js[tag=handle-facets]
 
 == Scoped vs Global Indexes
 
-The FTS APIs exist at both the `Cluster` and `Scope` levels.
+The Search APIs exist at both the `Cluster` and `Scope` levels.
 
-This is because FTS supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
+This is because the Search Service supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
 
 It's important to use the `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
 
@@ -162,7 +168,7 @@ The way to make sure that recently written documents show up in the search works
 include::../examples/search.js[tag=ryow-query]
 ----
 
-.ConsistentWith consistency example:
+.ConsistentWith Consistency Example:
 [source,javascript,indent=0]
 ----
 include::../examples/search.js[tag=search-query-dateRange]
