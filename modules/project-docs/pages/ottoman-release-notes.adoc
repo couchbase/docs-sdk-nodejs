@@ -12,6 +12,50 @@ These pages cover the 2._x_ versions of the Ottoman ODM.
 The Ottoman ODM will run on any https://github.com/nodejs/Release[supported LTS version of Node.js].
 
 
+== Version 2.5.6 (7 April 2026)
+
+Version 2.5.6 is a patch release of the Ottoman ODM.
+This release bumps the underlying Couchbase SDK to `v4.7.0` as well as other dependencies.
+
+[source,console]
+----
+$ npm install ottoman@2.5.6
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+
+== Version 2.5.5 (4 March 2026)
+
+Version 2.5.5 is a patch release of the Ottoman ODM.
+This release adds telemetry for tracking installs. It does not change the package's codebase or any functionality.
+
+[source,console]
+----
+$ npm install ottoman@2.5.5
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+
+== Version 2.5.4 (23 February 2026)
+
+Version 2.5.4 is a patch release of the Ottoman ODM.
+This release bumps the underlying Couchbase SDK to `v4.6.1`, and updates vulnurable dependencies.
+
+[source,console]
+----
+$ npm install ottoman@2.5.4
+----
+
+https://ottomanjs.com/#installation[Ottoman installation]
+
+=== Fixed Issues
+
+* Bumped underlying Couchbase SDK version to latest (4.6.1).
+* Bumped other project dependencies with reported vulnurabilities.
+
+
 == Version 2.5.3 (20 October 2025)
 
 Version 2.5.3 is a patch release of the Ottoman ODM.
