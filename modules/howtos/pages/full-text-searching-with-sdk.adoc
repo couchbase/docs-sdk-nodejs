@@ -140,7 +140,7 @@ include::../examples/search-conjuncts-disjuncts.js[tag=handle-facets]
 
 The Search APIs exist at both the `Cluster` and `Scope` levels.
 
-This is because Search Servicels -l supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
+This is because the Search Service supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
 
 It's important to use the `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
 
