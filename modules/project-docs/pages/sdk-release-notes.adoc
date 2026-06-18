@@ -33,6 +33,66 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.7.1 (17 June 2026)
+
+Version 4.7.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ npm install couchbase@4.7.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.7.1/
+
+
+==== Enhancements
+
+https://jira.issues.couchbase.com/browse/JSCBC-1321[JSCBC-1321]:
+Added support for `waitUntilReady`.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1370[JSCBC-1370]:
+Added support for building the binary with sanitizers.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1394[JSCBC-1394]:
+Improved client observability infrastructure for KV operations.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1395[JSCBC-1395]:
+Added checks for span recording for ,OTel, Integration.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1402[JSCBC-1402]:
+Added `error` as allowed value for `CBPPLOGLEVEL`.
+
+==== Fixes
+
+https://jira.issues.couchbase.com/browse/JSCBC-1397[JSCBC-1397]:
+Fixed `CollectionQueryIndexManager` to throw `InvalidArgument` when `scope` or `collection` name provided in options.
+
+==== Known Issues
+
+http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Fixes and Enhancements
+
+https://jira.issues.couchbase.com/browse/CXXCBC-785[CXXCBC-785]:
+Projected get requesting more than 16 paths no longer fails when one of the requested paths does not exist in the document and missing paths are now skipped rather than aborting the whole projection.
+
+https://jira.issues.couchbase.com/browse/CXXCBC-823[CXXCBC-823]:
+Fixed http_session manager `check_in()` to remove sessions from the pending/idle session maps when a session is not connected, and updated each session's `on_stop()` to remove itself from all session maps.
+
+https://jira.issues.couchbase.com/browse/CXXCBC-828[CXXCBC-828]:
+Replaced inline `std::regex` construction with `std::string::find()` when building errors from server response text in collection and scope management operations.
+
+https://jira.issues.couchbase.com/browse/CXXCBC-829[CXXCBC-829]:
+Added `utils::contains_string(input, substr, ignore_case = false)`, a substring match with optional ASCII-only case folding and no `std::locale` dependency, and replaced the remaining `std::regex_search` calls with it.
+
+https://jira.issues.couchbase.com/browse/CXXCBC-839[CXXCBC-839]:
+Push configuration notifications are now filtered strictly by session bucket binding.
+
+
 === Version 4.7.0 (31 March 2026)
 
 Version 4.7.0 is a minor release of the fourth generation Node.js SDK, bringing a number of improvements.
