@@ -4,12 +4,17 @@
 :page-topic-type: project-doc
 :page-toclevels: 2
 :page-aliases: ROOT:relnotes-nodejs-sdk,ROOT:release-notes,ROOT:sdk-release-notes
+:name_platform_lc: nodejs
 
 include::project-docs:partial$attributes.adoc[]
+
 
 // tag::all[]
 [abstract]
 {description}
+
+include::6.5@sdk:shared:partial$use-latest.adoc[tag=latest]
+
 
 These pages cover the 4._x_ and 3._x_ versions of the Couchbase Node.js SDK  (both matching the 3.x SDK API, see the xref:compatibility.adoc#api-version[compatibility page]).
 
