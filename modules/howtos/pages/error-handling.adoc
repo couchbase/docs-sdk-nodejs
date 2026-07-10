@@ -18,7 +18,7 @@ Depending on the type of the exception you catch, there are a number of properti
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=catch]
+include::devguide:example$nodejs/error-handling.js[tag=catch]
 ----
 
 == Key-Value Errors
@@ -30,14 +30,14 @@ If a particular key cannot be found it is return as a `DocumentNotFoundError`:
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=notfound]
+include::devguide:example$nodejs/error-handling.js[tag=notfound]
 ----
 
 On the other hand if the key already exists and should not (e.g. on an insert) then it is returned as a `DocumentExistsError`:
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=exists]
+include::devguide:example$nodejs/error-handling.js[tag=exists]
 ----
 
 === Concurrency
@@ -48,7 +48,7 @@ If it has, it returns `CasMismatchError`, and the most appropriate response is t
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=cas]
+include::devguide:example$nodejs/error-handling.js[tag=cas]
 ----
 
 === Ambiguity
@@ -69,7 +69,7 @@ For instance, for inserts, they can simply be retried to see if they fail on `Do
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=insert]
+include::devguide:example$nodejs/error-handling.js[tag=insert]
 ----
 
 That example is much closer to what an application will want to be doing. 
@@ -94,7 +94,7 @@ A {sqlpp} (formerly N1QL) query either returns results or will throw an error wi
 
 [source,javascript,indent=0]
 ----
-include::example$error-handling.js[tag=query]
+include::devguide:example$nodejs/error-handling.js[tag=query]
 ----
 
 Analytics works in an identical fashion, potentially raising an analytics specific error and having an `AnalyticsErrorContext`.

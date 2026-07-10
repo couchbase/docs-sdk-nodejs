@@ -17,7 +17,7 @@ The simplest way to create a `Cluster` object is to `const cluster = couchbase.c
 
 [source,javascript]
 ----
-include::example$auth.js[tag=rbac-auth,indent=0]
+include::devguide:example$nodejs/auth.js[tag=rbac-auth,indent=0]
 ----
 
 
@@ -56,7 +56,7 @@ Multiple addresses may be specified in a connection string by delimiting them wi
 
 [source,javascript]
 ----
-include::example$auth.js[tag=many-hosts,indent=0]
+include::devguide:example$nodejs/auth.js[tag=many-hosts,indent=0]
 ----
 
 TIP: You don't need to include the address of every node in the cluster.
@@ -116,7 +116,7 @@ If the external ports are not the default, you can specify custom ports by expli
 
 [source,javascript]
 ----
-include::example$auth.js[tag=alt-addresses,indent=0]
+include::devguide:example$nodejs/auth.js[tag=alt-addresses,indent=0]
 ----
 
 In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
@@ -125,7 +125,7 @@ If the detection heuristic fails in your environment, you can override it by set
 
 [source,javascript]
 ----
-include::example$auth.js[tag=alt-addresses-external,indent=0]
+include::devguide:example$nodejs/auth.js[tag=alt-addresses-external,indent=0]
 ----
 
 NOTE: Any TLS certificates must be set up at the point where the connections are being made.
@@ -239,7 +239,7 @@ Additionally, you need to provide your `username` and `password`:
 
 [source,javascript]
 ----
-include::example$auth.js[tag=tls-cacert,indent=0]
+include::devguide:example$nodejs/auth.js[tag=tls-cacert,indent=0]
 ----
 
 If you want to verify it's actually working, you can use a tool like [.cmd]`tcpdump`.

@@ -29,7 +29,7 @@ Intentionally, the API for analytics is very similar to that of the query servic
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=basic-query]
+include::devguide:example$nodejs/analytics.js[tag=basic-query]
 ----
 
 
@@ -40,21 +40,21 @@ Here is one example of each:
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=simple-query]
+include::devguide:example$nodejs/analytics.js[tag=simple-query]
 ----
 
 The query may be performed with positional parameters:
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=posparam-query]
+include::devguide:example$nodejs/analytics.js[tag=posparam-query]
 ----
 
 Alternatively, the query may be performed with named parameters:
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=namedparam-query]
+include::devguide:example$nodejs/analytics.js[tag=namedparam-query]
 ----
 
 NOTE: As timeouts are propagated to the server by the client, a timeout set on the client side may be used to stop the processing of a request, in order to save system resources.
@@ -80,7 +80,7 @@ Here, we give the request priority over others, and set a custom, server-side ti
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=priority-query]
+include::devguide:example$nodejs/analytics.js[tag=priority-query]
 ----
 
 
@@ -96,7 +96,7 @@ as you will have seen when working through our xref:{version-server}@server:anal
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=handle-rows]
+include::devguide:example$nodejs/analytics.js[tag=handle-rows]
 ----
 
 
@@ -108,7 +108,7 @@ Here is a snippet printing out some metrics from a query:
 
 [source,javascript,indent=0]
 ----
-include::../examples/analytics.js[tag=handle-meta]
+include::devguide:example$nodejs/analytics.js[tag=handle-meta]
 ----
 
 // For listing of available properties in the meta-data (and sub structures)
@@ -132,7 +132,7 @@ You can run a query as follows:
 
 [source,javascript]
 ----
-include::../examples/analytics.js[tag=handle-collection]
+include::devguide:example$nodejs/analytics.js[tag=handle-collection]
 ----
 ////
 // The following is pending a query JSCBC-846
@@ -140,7 +140,7 @@ In addition to running a query via the `Cluster` object, you can run one via the
 
 [source,javascript]
 ----
-include::../examples/analytics.js[tag=handle-scope]
+include::devguide:example$nodejs/analytics.js[tag=handle-scope]
 ----
 ////
 

@@ -20,7 +20,7 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
 
 [source,typescript]
 ----
-include::howtos:example$transactions-example.ts[tag=create-simple,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=create-simple,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
@@ -37,7 +37,7 @@ The application can use this to signal why it triggered a rollback, as so:
 
 [source,typescript]
 ----
-include::howtos:example$transactions-example.ts[tag=rollback-cause,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=rollback-cause,indent=0]
 ----
 
 After a transaction is rolled back, it cannot be committed, no further operations are allowed on it, and the system will not try to automatically commit it at the end of the code block.
