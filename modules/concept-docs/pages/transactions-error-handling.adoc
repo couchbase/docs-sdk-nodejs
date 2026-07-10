@@ -32,5 +32,5 @@ Pulling all of the above together, this is the suggested best practice for error
 
 [source,typescript]
 ----
-include::howtos:example$transactions-example.ts[tag=full-error-handling,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=full-error-handling,indent=0]
 ----
