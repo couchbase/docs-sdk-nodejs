@@ -5,3 +5,9 @@ start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
 server_version: '7.1.2'
+ext:
+  preview:
+    HEAD:
+      sources:
+        docs-sdk-common:
+          branches: release/7.1.2
