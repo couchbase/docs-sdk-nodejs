@@ -165,7 +165,7 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 [.table-merge-cells]
 [cols="7,6,6,6"]
 |===
-| | Server 7.0 & 7.1 | Server 7.2 | Server 7.6
+| | Server 7.2 | Server 7.6  | Server 8.0
 
 | Enhanced Durability
 3+| All SDK versions
@@ -192,8 +192,8 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 3+| Not Yet Supported
 
 | Vector Search
-2+| N/A
-| From SDK 4.3.0
+| N/A
+2+| From SDK 4.3.0
 |===
 
 
