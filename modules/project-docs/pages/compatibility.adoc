@@ -132,18 +132,21 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
 |===
-| | 4.3 - 4.4 | 4.5 - 4.6
+| | 4.3 - 4.4 | 4.5 - 4.6 | 4.7
 
 | *Server 7.0 - 7.2* ①
+| *✔*
 | *✔*
 | *✔*
 
 | *Server 7.6*
 | *✔*
 | *✔*
+| *✔*
 
 | *Server 8.0*
 | *◎*
+| *✔*
 | *✔*
 |===
 
