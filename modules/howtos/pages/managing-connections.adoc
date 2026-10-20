@@ -131,6 +131,22 @@ include::devguide:example$nodejs/auth.js[tag=alt-addresses-external,indent=0]
 NOTE: Any TLS certificates must be set up at the point where the connections are being made.
 
 
+
+////
+// Uncomment once supported:
+
+== Cloud Native Gateway
+
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cng]
+
+
+=== Limitations
+
+
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cng-limitations]
+////
+
+
 [#ssl]
 == Secure Connections
 
