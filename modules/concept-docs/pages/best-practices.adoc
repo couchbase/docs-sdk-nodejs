@@ -1,0 +1,191 @@
+= Best Practices
+:description: Speed up your application development, with some best practices for using Couchbase SDKs.
+:page-toclevels: 2
+:page-aliases: concept-docs:errors.adoc,concept-docs:rbac.adoc
+
+
+
+// Note to editors
+// 
+// This page pulls in content from -sdk-common-
+// and code samples from -example-dir-
+// 
+// It can be seen built at wwww.
+
+
+[abstract]
+{description}
+
+
+
+// From async and reactive APIs, to unit tests and handling errors.
+There's plenty that can be done to remove bottlenecks in development and in performance, and this page can be your checklist of areas not to neglect as you develop your app.
+
+
+
+== Security
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=security]
+
+
+// === Roles and RBAC
+ 
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=rbac]
+
+
+
+== Performance
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=performance]
+
+
+
+=== Dealing with Timeout Errors
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=timeout-debug]
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=timeout-wait]
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=timeout-more]
+
+
+
+=== Concurrency and Async APIs
+
+// ....this paragraph different for each SDK.
+
+The choice between the Promises, Callback API, and even using batching can depend upon use case and also wider considerations.
+See the xref:howtos:concurrent-async-apis.adoc[Async & Reactive APIs page] for further discussion and practical examples.
+
+=== Batching
+
+As Node.js inherently performs all operations in an asynchronous manner, no special implementation is required in order to enable batching.
+Simply perform a number of operations simultaenously and they will be batched on the network.
+This happens internally and is highly efficient.
+
+
+
+
+== Error Handling
+
+Best practices for error handling in Scala depend somewhat upon your choice of API: 
+blocking, asynchronous, or reactive, as covered in the xref:concurrent-async-apis.adoc[async and reactive API guide].
+That guide also covers how errors are actually returned (e.g. via `Try`, `Future`, or `Mono`) and handled.
+See also the xref:howtos:error-handling.adoc[error handling guide],
+which covers specific errors, along with a broader look at error handling strategies.
+
+
+
+
+
+// Slow Operations Logging
+include::{version-common}@sdk:shared:partial$errors.adoc[tag=observability]
+
+// until opentelemetry release for link below, could add note on API to expose own tracing features?
+// include::{version-common}@sdk:shared:partial$errors.adoc[tag=rto]
+
+[#rto-vs-performance]
+
+[TIP]
+.Observability & SDK Performance
+====
+In version 4.6.0 of the {name-sdk},
+fully featured Observability (switched on by default) replaced the limited information from the underlying {cpp} core.
+This slighty reduced overall performance of the SDK,
+
+If absolute performance is critical to your application, then observability features can be turned off
+(see `ClusterOptions` in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#clusteroptions[API reference]).
+But be sure that your performance need is strong --
+observability information is invaluable in diagnosing network bottlenecks and problems.
+====
+
+
+
+// Missing APIs
+// For anything that is not covered by the SDK, 
+// for example
+// a raw FTS query from the SDK...
+// use the HTTP client: 
+
+////
+public class CouchbaseHttpClient
+extends Object
+A specialized HTTP client for making requests to Couchbase Server.
+Get an instance by calling Cluster.httpClient().
+
+Example usage:
+
+ public static String getAutoFailoverSettings(Cluster cluster) {
+   HttpResponse response = cluster.httpClient().get(
+       HttpTarget.manager(),
+       HttpPath.of("/settings/autoFailover"));
+
+   if (!response.success()) {
+     throw new RuntimeException(
+         "Failed to get auto-failover settings. HTTP status code " +
+             response.statusCode() + "; " + response.contentAsString());
+   }
+
+   return response.contentAsString();
+ }
+
+ public static void disableAutoFailover(Cluster cluster) {
+   HttpResponse response = cluster.httpClient().post(
+       HttpTarget.manager(),
+       HttpPath.of("/settings/autoFailover"),
+       HttpPostOptions.httpPostOptions()
+           .body(HttpBody.form(Map.of("enabled", "false"))));
+
+   if (!response.success()) {
+     throw new RuntimeException(
+         "Failed to disable auto-failover. HTTP status code " +
+             response.statusCode() + "; " + response.contentAsString());
+   }
+ }
+ 
+////
+// https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/http/CouchbaseHttpClient.html
+
+
+== Testing
+
+Integrate developing with the {name-sdk} into your accustomed test framework.
+
+
+
+== Additional Information
+
+include::{version-common}@sdk:shared:partial$best-practices.adoc[tag=additional]
+
+
+
+
+////
+SDKs are client to Couchbase Server -- whether Capella Database-As-A-Service, or self-managed -- and in some areas it would be wise to take a fully rounded approach.
+Read up on security and performance considerations relevant to your use case.
+
+=== Couchbase Security Best Practices
+
+* xref:cloud:security:security.adoc[Security Best Practices in Capella]
+* xref:server:learn:security/security-overview.adoc[Security for self-managed Couchbase Server]
+
+=== Role-Based Access Control
+
+// *TODO* add Capella info
+
+All aspects of the Couchbase RBAC system are covered in the section xref:{version-server}@server:learn:security/authorization-overview.adoc[Authorization].
+Specifically, for information on:
+
+* Adding _Users_ and assigning _roles_, by means of the Couchbase Web Console, see xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users and Roles].
+* _Roles_ required for resource-access, and the privileges they entail, see xref:{version-server}@server:learn:security/roles.adoc[Roles].
+* _Resources_ controlled by Couchbase RBAC, see xref:{version-server}@server:learn:security/resources-under-access-control.adoc[Resources Under Access Control].
+////
+
+
+
+// other SDK's docs
+//
+// add in Python
+// https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/parallelism.html
+//
+// 

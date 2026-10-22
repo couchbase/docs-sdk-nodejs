@@ -26,10 +26,6 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 |===
 | Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
 
-| 20
-| until 2026-04-30
-| from 4.2.5
-
 | 22
 | until 2027-04-30
 | from 4.5.0
@@ -52,66 +48,33 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 The {name-sdk} will run on, and is supported on, the following OSs and platforms.
 The SDK has been tested on a representative subset of the platforms listed below.
 
-****
-[discrete]
-=== GNU/Linux
 
-* Amazon Linux 2 & AL2023.
-* Red Hat Enterprise Linux 8, 9, & 10.
-* Oracle Linux 8, 9, & 10.
-
-* Ubuntu (LTS) 22.04 (_Jammy_) & 24.04 (_Noble_).
-* Debian 11 (_Bullseye_), Debian 12 (_Bookworm_), & Debian 13 (_Trixie_).
-* SUSE Enterprise Linux 12 & 15.
-* Alpine Linux 3.21 - 3.23.
-
-
-[discrete]
-=== Microsoft Windows
-
-* Microsoft Windows 10 & 11;
-* Windows Server 2019, 2022, & 2025.
-
-[discrete]
-=== Mac OS X
-
-* The current and previous two releases of OS X.
-At time of writing (March 2026): 26 (Tahoe), 15 (Sequoia), and 14 (Sonoma).
-****
-
-
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=os-compat]
 
 
 // Platforms, Chipsets, and Virtual Environments.
-include::{version-common}@sdk:shared:partial$platform.adoc[tag=virtual]
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=virtual]
+
+
 
 
 
 // Network Requirements
-include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=network-requirements]
 
-////
-[NOTE]
-.Binary Size
-====
-You may find the binary of the SDK from version 4.0.0 to 4.2.4 too large to run in some environments.
-If you cannot upgrade to 4.2.5 onwards for your app, 
-the size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
-[source,console]
-----
-strip --strip-debug
-----
-See the `strip` manpage for further details.
-You can also safely remove the `src/` and `deps/` folders (under `node_modules/couchbase/`).
-The 4.2.5 version of the SDK can provide recommendations on further reducing the size of the deployment package.
-See https://github.com/couchbase/couchnode#aws-lambda[README] for details.
-====
-////
+
+
+// Serverless Environments
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=serverless]
+
+
 
 === SSL Library
 
 The Node.js SDK binaries are statically link against `BoringSSL`,
 and there is no need to separately install any SSL library.
+
+
 
 
 == Couchbase Server Compatibility
@@ -121,13 +84,9 @@ Couchbase SDKs are tested against a variety of different environments to ensure 
 
 === Couchbase Version/SDK Version Matrix
 
-The matrix below denotes the version of Couchbase Server, the version of the Node.js SDK and whether the SDK is:
 
-* ✖ *Unsupported*: This combination is not tested, and is not within the scope of technical support if you have purchased a support agreement.
-* ◎ *Compatible*: This combination has been tested previously, and should be compatible.
-This combination is not recommended by our technical support organization.
-It is best to upgrade either the SDK or the Couchbase version you are using.
-* ✔ *Supported*: This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=matrix-notes1]
+
 
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
@@ -150,18 +109,16 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 |===
 
-① Earlier versions of Server, back to 7.0, should be compatible with newer releases of the SDK (unless the release notes mention specific deprecations), but these older Server versions are EOL and no longer supported.
 
-Note the https://www.couchbase.com/support-policy/EOL/[End of Life dates^] for Couchbase Server and SDK versions.
-See the notes there for Support details.
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=matrix-notes2]
+
+
 
 
 === Capella Compatibility
 
-The Couchbase Node.js SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
-To make development easier, the SDK includes the Capella client certificate ready installed.
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=cloud]
 
-include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 
 === Couchbase New Feature Availability Matrix
@@ -172,51 +129,39 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 |===
 | | Server 7.2 | Server 7.6  | Server 8.0
 
-| Enhanced Durability
-3+| All SDK versions
-
-| Durable Writes
-3+| Since 3.0
-
-| Analytics
-3+| Since 2.6
-
-| Collections
-3+| Since 3.0.7
-
-| Scope-Level {sqlpp} (formerly N1QL) Queries & all Collections features
-3+| Since SDK 3.2.0
-
-| Request Tracing
-3+| Since SDK 3.2.0
-
-| Distributed ACID Transactions
-3+| Since SDK 4.0
-
-| Cloud Native Gateway
-3+| Not Yet Supported
+| KV Range Scan
+| N/A
+2+| All supported SDK versions
 
 | Vector Search
 | N/A
-2+| From SDK 4.3.0
+2+| From SDK 4.3.0 (base64 encoded vectors from 4.4.0)
+
+| Preferred Server Group Replica Reads
+| N/A
+2+| From SDK 4.5.0 (with Server 7.6.2 onwards)
+
+| Vector Query using GSI
+2+| N/A
+| From SDK 4.6.0 ①
 |===
 
+
+
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=feature-notes]
 
 
 
 === Ottoman ODM Compatiblity
 
 https://ottomanjs.com/#introduction[Ottoman.js] version 2.3.0 and above are compatible with Couchbase Node.js SDK 4.2.0 and above.
-Earlier versions of Ottoman ODM 2.x are only compatible with the 3.2 Node.js SDK.
-
-
 
 
 
 
 === API Version
 
-include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=api-version]
 
 
 
@@ -224,9 +169,13 @@ include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
 == SDK API Stability
 
 
-include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+=== Interface Stability
+
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=interface-stability-section]
 
 
 === Older SDK Versions
 
-include::{version-common}@sdk:shared:partial$archive.adoc[tag=link]
+
+include::{version-common}@sdk:shared:partial$compat.adoc[tag=archive-link]
+
