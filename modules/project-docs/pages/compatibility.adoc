@@ -172,6 +172,11 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 |===
 | | Server 7.2 | Server 7.6  | Server 8.0
 
+
+| KV Range Scan
+| N/A
+2+| From SDK 4.3.0
+
 | Enhanced Durability
 3+| All SDK versions
 
