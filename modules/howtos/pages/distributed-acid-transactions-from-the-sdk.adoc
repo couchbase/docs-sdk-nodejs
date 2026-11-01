@@ -53,7 +53,7 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=creating
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=examples,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=examples,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
@@ -106,7 +106,7 @@ To insert a document within a transaction {lambda}, simply call `ctx.insert()`.
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=insert,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=insert,indent=0]
 ----
 
 === Get
@@ -115,7 +115,7 @@ To retrieve a document from the database you can call `ctx.get()`.
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=get,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=get,indent=0]
 ----
 
 As you can see, `ctx.get()` will return a `TransactionGetResult` object, which is very similar to the `GetResult` you are used to.
@@ -124,7 +124,7 @@ Gets will "Read Your Own Writes", e.g. this will succeed:
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=getReadOwnWrites,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=getReadOwnWrites,indent=0]
 ----
 
 Of course, no other transaction will be able to read that inserted document, until this transaction reaches the commit point.
@@ -136,7 +136,7 @@ This is necessary so the SDK can check that the document is not involved in anot
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=replace,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=replace,indent=0]
 ----
 
 === Remove
@@ -145,7 +145,7 @@ As with replaces, removing a document requires a `ctx.get()` call first.
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=remove,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=remove,indent=0]
 ----
 
 == {sqlpp} Queries
@@ -162,21 +162,21 @@ Here is an example of selecting some rows from the `travel-sample` bucket:
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryExamplesSelectScope,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryExamplesSelectScope,indent=0]
 ----
 
-An example using a `Scope` for an `UPDATE`:
+An example of an `UPDATE`:
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryExamplesUpdate,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryExamplesUpdate,indent=0]
 ----
 
 And an example combining `SELECT` and an `UPDATE`.
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryExamplesComplex,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryExamplesComplex,indent=0]
 ----
 
 As you can see from the snippet above, it is possible to call regular Node.js methods from the {lambda}, permitting complex logic to be performed.
@@ -187,7 +187,7 @@ This example shows inserting a document and then selecting it again:
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryInsert,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryInsert,indent=0]
 ----
 
 <1> The inserted document is only staged at this point. as the transaction has not yet committed. +
@@ -200,7 +200,7 @@ Query options can be provided via `TransactionQueryOptions`, which provides a su
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryOptions,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryOptions,indent=0]
 ----
 
 .Supported Transaction Query Options
@@ -216,6 +216,7 @@ include::example$transactions-example.ts[tag=queryOptions,indent=0]
 | `pipelineBatch(number)` | Sets the batch size for the query pipeline.
 | `pipelineCap(number)` | Sets the cap for the query pipeline.
 | `profile(QueryProfileMode)` | Allows you to enable additional query profiling as part of the response.
+| `metrics(boolean)` | Specifies whether metrics should be returned as part of the response (for example, `mutationCount`).
 | `readOnly(boolean)` | Tells the client and server that this query is readonly.
 | `adhoc(boolean)` | If set to false will prepare the query and later execute the prepared statement.
 | `raw({ [key: string]: any })` | Escape hatch to add arguments that are not covered by these options.
@@ -228,7 +229,7 @@ In this example we insert a document with a key-value operation, and read it wit
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=queryRyow,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=queryRyow,indent=0]
 ----
 
 <1> The key-value insert operation is only staged, and so it is not visible to other transactions or non-transactional actors.
@@ -279,7 +280,7 @@ For example, if you want to change the level of durability which must be attaine
 
 [source,typescript]
 ----
-include::example$transactions-example.ts[tag=config,indent=0]
+include::devguide:example$nodejs/transactions-example.ts[tag=config,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=config]

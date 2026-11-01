@@ -59,7 +59,7 @@ async function main() {
 
   try {
     await cluster.transactions().run(async (attempt) => {
-      await attempt.insert(collection, testDoc, 'hello')
+      await attempt.insert(collection, testDoc, { hello: 'world' })
     })
   } catch (error) {
     console.log('failed to insert %s\n', testDoc, error)
@@ -86,7 +86,7 @@ async function main() {
 
   // tag::create-simple[]
   await cluster.transactions().run(async (ctx) => {
-    ctx.insert(collection, 'doc1', { hello: 'world' })
+    await ctx.insert(collection, 'doc1', { hello: 'world' })
 
     const doc2 = await ctx.get(collection, "doc2")
     await ctx.replace(doc2, { foo: "bar" })
@@ -94,8 +94,6 @@ async function main() {
   // end::create-simple[]
 
   // tag::examples[]
-  const inventory = cluster.bucket('travel-sample').scope('inventory')
-
   try {
     await cluster.transactions().run(async (ctx) => {
       // Inserting a doc:
@@ -118,17 +116,17 @@ async function main() {
       await ctx.remove(docC)
 
       // Performing a SELECT SQL++ (N1QL) query against a scope:
-      const qr = await ctx.query('SELECT * FROM hotel WHERE country = $1', {
-        scope: inventory,
-        parameters: ['United Kingdom'],
-      })
+      const qr = await ctx.query(
+        'SELECT * FROM `travel-sample`.inventory.hotel WHERE country = $1',
+        { parameters: ['United Kingdom'] }
+      )
       // ...qr.rows
       qr.rows
 
-      await ctx.query('UPDATE route SET airlineid = $1 WHERE airline = $2', {
-        scope: inventory,
-        parameters: ['airline_137', 'AF'],
-      })
+      await ctx.query(
+        'UPDATE `travel-sample`.inventory.route SET airlineid = $1 WHERE airline = $2',
+        { parameters: ['airline_137', 'AF'] }
+      )
 
     })
   } catch (error) {
@@ -148,6 +146,7 @@ async function main() {
     await getReadOwnWrites() ; console.log("getReadOwnWrites…")
     await replace() ; console.log("replace…")
     await remove() ; console.log("remove…")
+    await removeOrWarn('docId')
     await insert() ; console.log("insert…")
     await queryExamples() ; console.log("queryExamples…")
     // remove seems to not be working, verify here…
@@ -193,7 +192,7 @@ async function replace() {
   let cluster: Cluster = await getCluster()
   let collection: Collection = await getCollection()
   // tag::replace[]
-  cluster.transactions().run(async ctx => {
+  await cluster.transactions().run(async (ctx) => {
     const doc: TransactionGetResult = await ctx.get(collection, "doc-id")
     const content: any = doc.content
     const newContent: any = {
@@ -209,7 +208,7 @@ async function remove() {
   let cluster: Cluster = await getCluster()
   let collection: Collection = await getCollection()
   // tag::remove[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     const doc: TransactionGetResult = await ctx.get(collection, 'doc-id')
     await ctx.remove(doc)
   })
@@ -220,7 +219,7 @@ async function insert() {
   let cluster: Cluster = await getCluster()
   let collection: Collection = await getCollection()
   // tag::insert[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     await ctx.insert(collection, 'docId', {})
   })
   // end::insert[]
@@ -253,29 +252,28 @@ async function getReadOwnWrites() {
 
 async function queryExamples() {
   let cluster = await getCluster()
-  let inventory = await getScope()
 
   // tag::queryExamplesSelect[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     const st =
       'SELECT * FROM `travel-sample`.inventory.hotel WHERE country = $1'
     const qr = await ctx.query(st, {
       parameters: ['United Kingdom'],
     })
-    for (let row in qr.rows) {
+    for (const row of qr.rows) {
       // do something
     }
   })
   // end::queryExamplesSelect[]
 
   // tag::queryExamplesSelectScope[]
-  cluster.transactions().run(async (ctx) => {
-    const st: string = 'SELECT * FROM hotel WHERE country = $1'
+  await cluster.transactions().run(async (ctx) => {
+    const st: string =
+      'SELECT * FROM `travel-sample`.inventory.hotel WHERE country = $1'
     const qr: TransactionQueryResult = await ctx.query(st, {
-      scope: inventory,
       parameters: ['United Kingdom'],
     })
-    for (let row in qr.rows) {
+    for (const row of qr.rows) {
       // do something
     }
   })
@@ -284,12 +282,12 @@ async function queryExamples() {
   // tag::queryExamplesUpdate[]
   const hotelChain: string = 'http://marriot%'
   const country: string = 'United States'
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     const qr: TransactionQueryResult = await ctx.query(
-      'UPDATE hotel SET price = $1 WHERE url LIKE $2 AND country = $3',
+      'UPDATE `travel-sample`.inventory.hotel SET price = $1 WHERE url LIKE $2 AND country = $3',
       {
-        scope: inventory,
         parameters: [99.99, hotelChain, country],
+        metrics: true,
       }
     )
     if (qr.meta.metrics?.mutationCount != 1) {
@@ -299,13 +297,12 @@ async function queryExamples() {
   // end::queryExamplesUpdate[]
 
   // tag::queryExamplesComplex[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     // Find all hotels of the chain
     const qr: TransactionQueryResult = await ctx.query(
-      'SELECT reviews FROM hotel WHERE url LIKE $1 AND country = $2',
+      'SELECT reviews FROM `travel-sample`.inventory.hotel WHERE url LIKE $1 AND country = $2',
       {
         parameters: [hotelChain, country],
-        scope: inventory,
       }
     )
 
@@ -315,10 +312,9 @@ async function queryExamples() {
 
     // Set the price of all hotels in the chain
     await ctx.query(
-      'UPDATE hotel SET price = $1 WHERE url LIKE $2 AND country = $3',
+      'UPDATE `travel-sample`.inventory.hotel SET price = $1 WHERE url LIKE $2 AND country = $3',
       {
         parameters: [updatedPrice, hotelChain, country],
-        scope: inventory,
       }
     )
   })
@@ -328,8 +324,8 @@ async function queryExamples() {
 async function queryInsert() {
   let cluster: Cluster = await getCluster()
   // tag::queryInsert[]
-  cluster.transactions().run(async (ctx) => {
-    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})") // <1>
+  await cluster.transactions().run(async (ctx) => {
+    await ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})") // <1>
     const st: string = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
     const qr: TransactionQueryResult = await ctx.query(st)
   })
@@ -339,18 +335,17 @@ async function queryInsert() {
 async function queryRyow() {
   let cluster: Cluster = await getCluster()
   let collection: Collection = await getCollection()
-  let inventory: Scope = await getScope()
 
   // tag::queryRyow[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     await ctx.insert(collection, 'doc', { hello: 'world' }) // <1>
 
     // Performing a 'Read Your Own Write'
     const qr = await ctx.query(
-      "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" // <2>
+      "SELECT * FROM `travel-sample`.inventory.airline WHERE META().id = 'doc'" // <2>
     )
-    if (qr.meta.metrics?.resultCount != 1) {
-      throw new Error('Mutation count not the expected amount.')
+    if (qr.rows.length !== 1) {
+      throw new Error('Result count not the expected amount.')
     }
   })
   // end::queryRyow[]
@@ -360,8 +355,8 @@ async function queryOptions() {
   let cluster: Cluster = await getCluster()
   // tag::queryOptions[]
   const txQo: TransactionQueryOptions = { profile: QueryProfileMode.Timings }
-  cluster.transactions().run(async (ctx) => {
-    ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})", txQo)
+  await cluster.transactions().run(async (ctx) => {
+    await ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})", txQo)
   })
   // end::queryOptions[]
 }
@@ -371,8 +366,8 @@ async function querySingle() {
   // tag::querySingle[]
   let bulkLoadStatement: string // a bulk-loading SQL++ (N1QL) statement not provided here
   try {
-    cluster.transactions().run(async (ctx) => {
-      ctx.query(bulkLoadStatement)
+    await cluster.transactions().run(async (ctx) => {
+      await ctx.query(bulkLoadStatement)
     })
   } catch (error) {
     if (error instanceof TransactionFailedError) {
@@ -444,7 +439,7 @@ async function querySingleConfigured() {
 
 
       try {
-        cluster.transactions().run(async (ctx) => {
+        await cluster.transactions().run(async (ctx) => {
           let monsterDoc = (await ctx.get(collection, monsterId)).content
           let playerDoc = (await ctx.get(collection, playerId)).content
 
@@ -502,7 +497,7 @@ async function querySingleConfigured() {
     const costOfItem = 10;
 
   // tag::rollback[]
-  cluster.transactions().run(async (ctx) => {
+  await cluster.transactions().run(async (ctx) => {
     const customer = await ctx.get(collection, 'customer-name')
 
     if (customer.content.balance < costOfItem) {
@@ -525,7 +520,7 @@ async function rollbackCause() {
 
   // tag::rollback-cause[]
   try {
-    cluster.transactions().run(async (ctx) => {
+    await cluster.transactions().run(async (ctx) => {
       const customer = await ctx.get(collection, 'customer-name')
 
       if (customer.content.balance < costOfItem) {
@@ -553,26 +548,26 @@ async function completeErrorHandling() {
   try {
     const result = await cluster.transactions().run(async (ctx) => {
       // ... transactional code here ...
-      });
+    })
 
-      // The transaction definitely reached the commit point. Unstaging
-      // the individual documents may or may not have completed
+    // The transaction definitely reached the commit point. Unstaging
+    // the individual documents may or may not have completed
 
-      if (!result.unstagingComplete) {
-          // In rare cases, the application may require the commit to have
-          // completed.  (Recall that the asynchronous cleanup process is
-          // still working to complete the commit.)
-          // The next step is application-dependent.
-      }
-    } catch (error) {
-      if (error instanceof TransactionCommitAmbiguousError) {
-        // The transaction may or may not have reached commit point
-        console.error("Transaction returned TransactionCommitAmbiguous and may have succeeded.", error)
-      } else if (error instanceof TransactionFailedError) {
-        // The transaction definitely did not reach commit point
-        console.error("Transaction failed with TransactionFailed", error)
-      }
+    if (!result.unstagingComplete) {
+      // In rare cases, the application may require the commit to have
+      // completed.  (Recall that the asynchronous cleanup process is
+      // still working to complete the commit.)
+      // The next step is application-dependent.
     }
+  } catch (error) {
+    if (error instanceof TransactionCommitAmbiguousError) {
+      // The transaction may or may not have reached commit point
+      console.error('Transaction returned TransactionCommitAmbiguous and may have succeeded.', error)
+    } else if (error instanceof TransactionFailedError) {
+      // The transaction definitely did not reach commit point
+      console.error('Transaction failed with TransactionFailed', error)
+    }
+  }
   // end::full-error-handling[]
 }
 
