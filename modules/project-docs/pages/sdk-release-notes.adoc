@@ -33,6 +33,62 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.7.2 (30 October 2026)
+
+Version 4.7.2 is the next patch release of the fourth generation Node.js SDK, bringing a number of fixes.
+
+[source,bash]
+----
+$ npm install couchbase@4.7.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.7.2/
+
+
+==== Fixes
+
+https://jira.issues.couchbase.com/browse/JSCBC-1404[JSCBC-1404]:
+Fixed range scan returning incomplete results due to an incorrect `consistentWith` seqno and/or `batchItemLimit`.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1406[JSCBC-1406]:
+Fixed `get` with projections potentially returning `null` content, and non-existent paths are now handled.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1421[JSCBC-1421]:
+Fixed the process aborting while building an error when a callback runs during worker termination.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1422[JSCBC-1422]:
+Fixed a memory leak when a callback could not be queued to the JavaScript thread.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1446[JSCBC-1446]:
+`KeyValueErrorContext` now populates `key`, `bucket`, `scope`, and `collection` (previously `undefined`), and sub-document errors now carry an error context.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1459[JSCBC-1459]:
+`scan`, `connectLink`, and `disconnectLink` now invoke a callback passed in the options position, rather than silently discarding it.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1460[JSCBC-1460]:
+`Collection.get` and the `Cluster` constructor no longer modify the options object passed in by the caller.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1480[JSCBC-1480]:
+A key-value error raised by a `TransactionAttemptContext` operation now carries a `KeyValueErrorContext`, matching the same error raised outside a transaction.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1498[JSCBC-1498]:
+Key-value reads now end the span when decoding the document fails.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1499[JSCBC-1499]:
+Fixed streaming operations mishandling a failure while processing the response.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1505[JSCBC-1505]:
+Binary collection operations now use `kvDurableTimeout` when a durability level is set.
+
+https://jira.issues.couchbase.com/browse/JSCBC-1521[JSCBC-1521]:
+Fixed a resource leak where an operation's thread-safe function was released only when its callback ran.
+
+==== Known Issues
+
+http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js
+
+
 === Version 4.7.1 (17 June 2026)
 
 Version 4.7.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
