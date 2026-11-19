@@ -1,6 +1,7 @@
 = SDK Release Notes
 :description: Release notes, installation instructions, and download archive for the Couchbase Node.js Client.
 :navtitle: Release Notes
+:page-partial:
 :page-toclevels: 2
 :page-aliases: ROOT:relnotes-nodejs-sdk.adoc,ROOT:release-notes.adoc,ROOT:sdk-release-notes.adoc
 
@@ -26,6 +27,151 @@ $ npm install couchbase@4.6.0
 
 
 [#latest-release]
+== Node.js SDK 4.8 Releases
+
+We always recommend using the latest version of the SDK, as it contains all of the latest security patches and support for new and upcoming features.
+All patch releases for each dot minor release should be API compatible, and safe to upgrade;
+any changes to expected behavior are noted in the release notes that follow.
+
+
+=== Version 4.8.0 (20 November 2026)
+
+Version 4.8.0 is a minor release of the fourth generation Node.js SDK.
+Most notably, this release adds support for the Couchbase Cloud Native Gateway through the `couchbase2://` scheme, lets an `AbortSignal` cancel a running query, and deprecates node-style callbacks.
+Node.js 20.17 is now the minimum supported version.
+
+[source,bash]
+----
+$ npm install couchbase@4.8.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-node-client-4.8.0/
+
+
+==== Behavioral Changes
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1525[JSCBC-1525]:
+The minimum supported Node.js version is now 20.17 (`engines.node` is `^20.17.0 || >=22.9.0`), matching what the SDK's build dependencies support.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1538[JSCBC-1538]:
+Importing the SDK no longer loads the native addon, so an install whose addon cannot load fails with a `CouchbaseError` on first use instead of at `require`.
+
+
+==== Deprecations
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1462[JSCBC-1462]:
+Node-style callbacks are deprecated and will be removed in the next major version; every operation returns a `Promise`, and the first callback in a process emits a `DeprecationWarning` with code `CBJS_DEP_CALLBACK`.
+
+
+==== New Features
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1537[JSCBC-1537]:
+Added support for the Couchbase Cloud Native Gateway through `couchbase2://` connection strings, covering key-value, sub-document, {sqlpp} and search operations and bucket, collection, query index and search index management.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1536[JSCBC-1536]:
+Added the `signal` query option, so an `AbortSignal` can cancel a running query, which then fails with `RequestCanceledError`.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1475[JSCBC-1475]:
+Added `Collection.getReplica()`, to read a document from a specific replica.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1423[JSCBC-1423]:
+Added score fusion for hybrid search through the `scoring` search option and `SearchScoring.relativeScoreFusion()`.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1535[JSCBC-1535]:
+Added log redaction, enabled with the `logRedaction` connect option or `log_redaction` in the connection string, which tags sensitive data in the SDK's own log output as well as the {cpp} core's.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1405[JSCBC-1405]:
+Binary and sub-document counters accept a `bigint` delta and initial value, and `CounterResult.value64` returns the exact 64-bit result.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1319[JSCBC-1319]:
+Added `LookupInResult.exists()`.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1393[JSCBC-1393]:
+Added the `Resuming` eventing function status.
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1488[JSCBC-1488]:
+Ad hoc queries stream their rows from the Query service instead of buffering the whole response first.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1550[JSCBC-1550]:
+The observability and error context types used in public signatures are exported, so a custom `RequestTracer` or `RequestSpan` can import them by name.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1470[JSCBC-1470],
+https://jira.issues.couchbase.com/browse/JSCBC-1472[JSCBC-1472],
+https://jira.issues.couchbase.com/browse/JSCBC-1477[JSCBC-1477],
+https://jira.issues.couchbase.com/browse/JSCBC-1478[JSCBC-1478]:
+Corrected the TypeScript declarations of `ISearchIndex`, `ViewResult`, `Role`, `updateBucket()`, `upsertFunction()` and `UserAndMetadata`, so their documented usage typechecks.
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1520[JSCBC-1520]:
+Terminating a worker thread or closing a cluster no longer aborts the process, hangs, or blocks the event loop while transactions close, and an operation whose callback would never run now fails with `RequestCanceledError`.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1471[JSCBC-1471],
+https://jira.issues.couchbase.com/browse/JSCBC-1486[JSCBC-1486]:
+A failed operation called with a node-style callback no longer terminates the process with an unhandled promise rejection after the callback has run.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1482[JSCBC-1482]:
+`lookupInAllReplicas()` and `lookupInAnyReplica()` no longer hang when a replica returns a document-level failure.
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1487[JSCBC-1487]:
+Management operations whose response fails to decode are recorded as failures in tracing and metrics instead of as successes.
+
+
+==== Known Issues
+
+* https://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+The Couchbase {cpp} SDK core is updated to the 1.5.x branch.
+
+===== Behavioral Changes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-838[CXXCBC-838]:
+TLS connections now verify the server's hostname against its certificate, so connecting to a host the certificate does not name fails the handshake.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-882[CXXCBC-882], https://jira.issues.couchbase.com/browse/JSCBC-1419[JSCBC-1419]:
+An HTTP 400 response the SDK does not otherwise recognise now raises `InvalidArgumentError`, and query error 2120 raises `AuthenticationFailureError`.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1002[CXXCBC-1002]:
+Application telemetry now reports the `_sum` of the HTTP service latency histograms in milliseconds, so dashboards and alerts built on the previous, too-low values need review.
+
+===== Security Fixes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1072[CXXCBC-1072], https://jira.issues.couchbase.com/browse/CXXCBC-1106[CXXCBC-1106], https://jira.issues.couchbase.com/browse/CXXCBC-836[CXXCBC-836]:
+Names and values passed to management operations, including analytics management statements, are encoded and escaped, so they can no longer change the meaning of the request.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-837[CXXCBC-837], https://jira.issues.couchbase.com/browse/CXXCBC-981[CXXCBC-981]:
+Fixed out-of-bounds reads on a malformed key-value response frame, and in replica reads after replicas are added to a bucket.
+
+===== Fixes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-984[CXXCBC-984], https://jira.issues.couchbase.com/browse/CXXCBC-1090[CXXCBC-1090], https://jira.issues.couchbase.com/browse/CXXCBC-1093[CXXCBC-1093], https://jira.issues.couchbase.com/browse/CXXCBC-846[CXXCBC-846], https://jira.issues.couchbase.com/browse/CXXCBC-852[CXXCBC-852], https://jira.issues.couchbase.com/browse/CXXCBC-853[CXXCBC-853]:
+Key-value operations no longer wait out their timeout when a retry is refused, a node cannot bootstrap, or the cluster closes, including while a bucket is still opening.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1032[CXXCBC-1032], https://jira.issues.couchbase.com/browse/CXXCBC-1034[CXXCBC-1034], https://jira.issues.couchbase.com/browse/CXXCBC-1046[CXXCBC-1046], https://jira.issues.couchbase.com/browse/CXXCBC-1057[CXXCBC-1057], https://jira.issues.couchbase.com/browse/CXXCBC-876[CXXCBC-876]:
+Fixed HTTP connection shutdown and reuse, so a pooled connection the server closed is not reused and a certificate set with `Cluster.updateCredentials()` applies to the next request.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-865[CXXCBC-865], https://jira.issues.couchbase.com/browse/CXXCBC-874[CXXCBC-874], https://jira.issues.couchbase.com/browse/CXXCBC-847[CXXCBC-847], https://jira.issues.couchbase.com/browse/CXXCBC-868[CXXCBC-868], https://jira.issues.couchbase.com/browse/CXXCBC-873[CXXCBC-873], https://jira.issues.couchbase.com/browse/CXXCBC-1052[CXXCBC-1052], https://jira.issues.couchbase.com/browse/CXXCBC-1054[CXXCBC-1054], https://jira.issues.couchbase.com/browse/CXXCBC-1086[CXXCBC-1086], https://jira.issues.couchbase.com/browse/CXXCBC-863[CXXCBC-863]:
+Fixed transaction defects, including read skew in `getMulti()`, documents stored with non-JSON flags, and lost-attempt cleanup on a loaded node.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-841[CXXCBC-841], https://jira.issues.couchbase.com/browse/CXXCBC-1049[CXXCBC-1049], https://jira.issues.couchbase.com/browse/CXXCBC-1059[CXXCBC-1059], https://jira.issues.couchbase.com/browse/CXXCBC-1109[CXXCBC-1109]:
+Creating and updating a bucket works against Couchbase Server 8.1, dropping a missing query index raises `IndexNotFoundError`, and a missing eventing function raises `EventingFunctionNotFoundError`.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-788[CXXCBC-788], https://jira.issues.couchbase.com/browse/CXXCBC-797[CXXCBC-797], https://jira.issues.couchbase.com/browse/CXXCBC-862[CXXCBC-862], https://jira.issues.couchbase.com/browse/CXXCBC-872[CXXCBC-872]:
+Fixed error reporting in `lookupIn()` and `lookupInAllReplicas()`, a memory leak in replica reads, and an unknown-collection response failing the operation instead of re-resolving the collection.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1112[CXXCBC-1112]:
+The embedded Mozilla CA bundle carries every certificate of the current curl.se bundle.
+
+
+
 == Node.js SDK 4.7 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
