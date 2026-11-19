@@ -140,7 +140,7 @@ Then it executes the vector query on the intermediate result to get the final re
 
 [source,javascript]
 ----
-include::howtos:example$search.js[tag=vector-search-prefilter]
+include::devguide:example$nodejs/search.js[tag=vector-search-prefilter]
 ----
 
 If no prefilter is specified, the server executes the vector query on all indexed documents.
@@ -159,7 +159,7 @@ from a simple match, as above, to a string query:
 .String Query
 [source,javascript]
 ----
-include::howtos:example$search.js[tag=vector-search-prefilter-querystring]
+include::devguide:example$nodejs/search.js[tag=vector-search-prefilter-querystring]
 ----
 
 See the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_search.html#couchbase.vector_search.VectorQuery.prefilter[API reference].

@@ -47,7 +47,7 @@ To begin we need to create a couple of keys, you should *not* use the `InsecureK
 
 [source,javascript,indent=0]
 ----
-include::example$fle.js[tag=keys]
+include::devguide:example$nodejs/fle.js[tag=keys]
 ----
 
 Now that we have keys we can create a `Provider` (here we use the `AeadAes256CbcHmacSha512` algorithm which is the default supplied by the library).
@@ -56,7 +56,7 @@ At this point we also create `CryptoManager` and register our encrypters and dec
 
 [source,javascript,indent=0]
 ----
-include::howtos:example$fle.js[tag=provider]
+include::devguide:example$nodejs/fle.js[tag=provider]
 ----
 
 
@@ -66,21 +66,21 @@ Sensitive fields in your data classes can be encrypted by using a `CryptoSchema`
 
 [source,javascript,indent=0]
 ----
-include::howtos:example$fle.js[tag=crypto-schema]
+include::devguide:example$nodejs/fle.js[tag=crypto-schema]
 ----
 
 Now let's create a person document and save it to Couchbase:
 
 [source,javascript,indent=0]
 ----
-include::howtos:example$fle.js[tag=upsert]
+include::devguide:example$nodejs/fle.js[tag=upsert]
 ----
 
 You can get the document to verify the fields were encrypted:
 
 [source,javascript,indent=0]
 ----
-include::howtos:example$fle.js[tag=get]
+include::devguide:example$nodejs/fle.js[tag=get]
 ----
 
 The expected output is something like:
@@ -112,7 +112,7 @@ Now let's decrypt the person document and output the result.
 
 [source,javascript,indent=0]
 ----
-include::howtos:example$fle.js[tag=decrypt]
+include::devguide:example$nodejs/fle.js[tag=decrypt]
 ----
 
 The output is now:
