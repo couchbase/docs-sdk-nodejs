@@ -5,4 +5,4 @@
 :page-aliases: ROOT:relnotes-nodejs-sdk.adoc,ROOT:release-notes.adoc,ROOT:sdk-release-notes.adoc
 
 
-include::4.7@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::4.8@nodejs-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
