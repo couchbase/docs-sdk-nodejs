@@ -57,7 +57,7 @@ Should you wish to make changes in future you can simply edit the file:
 
 [source,json,indent=0]
 ----
-include::project-docs:example$example-tsconfig.json[]
+include::devguide:example$nodejs/example-tsconfig.json[]
 ----
 
 Note that the example above does not include the generated comments for readability.
